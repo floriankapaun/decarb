@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+    
+    ew_db:
+        image: postgres:13.2
+        container_name: ew_postgres
+        environment:
+          - POSTGRES_DB=ew
+          - POSTGRES_USER=api
+          - POSTGRES_PASSWORD=!ChangeMe!
+        restart: "unless-stopped"
+        volumes:
+          - postgres:/var/lib/postgresql/eco-web/data
+        ports:
+          - "5432:5432"
+
+    ew_db_admin:
+        image: adminer:4
+        container_name: ew_adminer
+        restart: "unless-stopped"
+        depends_on:
+          - ew_db
+        ports:
+          - 5080:8080
+volumes:
+    postgres:
+

@@ -7,6 +7,8 @@ My bachelors thesis project
 ### Client
 
 ```bash
+cd client
+
 # install dependencies
 $ yarn install
 
@@ -23,6 +25,8 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ### API
 
 ```bash
+cd api
+
 # install dependencies
 $ yarn install
 
@@ -31,4 +35,13 @@ $ yarn dev
 
 # build for production and launch server
 $ yarn build
+```
+
+### Database
+
+```bash
+cd db
+
+# Start docker containers (in background)
+$ docker-compose up -d
 ```
