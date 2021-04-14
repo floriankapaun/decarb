@@ -6,9 +6,10 @@ import router from './router/index.js';
 
 const app = express();
 
-app.use(cors())
+app.use(express.json())
+    .use(cors())
     .use(API_PREFIX, router);
 
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
-})
+});
