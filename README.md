@@ -1,1 +1,3 @@
-# eco-web
+# Eco-Web
+
+My bachelors thesis project
