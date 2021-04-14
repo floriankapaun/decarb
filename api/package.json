@@ -1,0 +1,21 @@
+{
+  "name": "eco-web-api",
+  "version": "1.0.0",
+  "author": "Florian Kapaun <hello@florian-kapaun.de>",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon -r esm main.js",
+    "prod": "node -r esm main.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "node": "^15.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
