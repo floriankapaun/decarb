@@ -9,3 +9,145 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model User {
+  id               String        @id @default(uuid()) @db.Uuid
+  email            String        @unique @db.VarChar(50)
+  password         String        @db.VarChar(255)
+  telephone        String        @db.VarChar(16)
+  confirmationCode Int
+  createdAt        DateTime      @default(now())
+  confirmedAt      DateTime?
+  deletedAt        DateTime?
+  domains          DomainUsers[]
+
+  @@map(name: "users")
+}
+
+model Domain {
+  id                     String                  @id @default(uuid()) @db.Uuid
+  url                    String                  @unique @db.VarChar(50)
+  createdAt              DateTime                @default(now())
+  verifiedAt             DateTime?
+  deletedAt              DateTime?
+  users                  DomainUsers[]
+  domainHostingEmissions DomainHostingEmission[]
+  pages                  Page[]
+  badge                  Badge?
+  compensations          Compensation[]
+  subscriptions          Subscription[]
+}
+
+model DomainUsers {
+  domain    Domain    @relation(fields: [domainId], references: [id])
+  domainId  String    @db.Uuid
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String    @db.Uuid
+  role      Role      @default(MANAGER)
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  @@id([domainId, userId])
+}
+
+model DomainHostingEmission {
+  id           String   @id @default(uuid()) @db.Uuid
+  domain       Domain   @relation(fields: [domainId], references: [id])
+  domainId     String   @db.Uuid
+  greenHosting Boolean
+  createdAt    DateTime @default(now())
+}
+
+model Page {
+  id                String             @id @default(uuid()) @db.Uuid
+  domain            Domain             @relation(fields: [domainId], references: [id])
+  domainId          String             @db.Uuid
+  url               String             @unique @db.VarChar(500)
+  createdAt         DateTime           @default(now())
+  pageViewEmissions PageViewEmission[]
+  pageViews         PageViews[]
+}
+
+model PageViewEmission {
+  id               String      @id @default(uuid()) @db.Uuid
+  Page             Page        @relation(fields: [pageId], references: [id])
+  pageId           String      @db.Uuid
+  // FIXME: The following 4 lines are bullshit... refactor and check out ecoping therefore
+  emissionAmount   Int
+  fileSize         Int
+  internalRequests Int
+  externalRequests Int
+  createdAt        DateTime    @default(now())
+  pageViews        PageViews[]
+}
+
+model PageViews {
+  page               Page             @relation(fields: [pageId], references: [id])
+  pageId             String           @db.Uuid
+  pageViewEmission   PageViewEmission @relation(fields: [pageViewEmissionId], references: [id])
+  pageViewEmissionId String           @db.Uuid
+  createdAt          DateTime         @default(now())
+
+  @@id([pageId, pageViewEmissionId])
+}
+
+model Badge {
+  id          String           @id @default(uuid()) @db.Uuid
+  domain      Domain           @relation(fields: [domainId], references: [id])
+  domainId    String           @db.Uuid
+  colorscheme BadgeColorscheme @default(COLOR)
+  type        BadgeType        @default(HORIZONTAL)
+}
+
+model Compensation {
+  id               String           @id @default(uuid()) @db.Uuid
+  domain           Domain           @relation(fields: [domainId], references: [id])
+  domainId         String           @db.Uuid
+  subscription     Subscription     @relation(fields: [subscriptionId], references: [id])
+  subscriptionId   String           @db.Uuid
+  compensationType CompensationType
+  emissionAmount   Int
+  price            Int
+  createdAt        DateTime         @default(now())
+}
+
+model Subscription {
+  id                   String          @id @default(uuid()) @db.Uuid
+  domain               Domain          @relation(fields: [domainId], references: [id])
+  domainId             String          @db.Uuid
+  paymentInterval      PaymentInterval @default(MONTHLY)
+  stripeCustomerId     String          @db.VarChar(50)
+  stripePriceId        String          @db.VarChar(50)
+  stripeSubscriptionId String          @db.VarChar(50)
+  createdAt            DateTime        @default(now())
+  validTo              DateTime // @default(now() + month or year)
+  deletedAt            DateTime?
+  Compensation         Compensation[]
+}
+
+enum Role {
+  OWNER
+  MANAGER
+}
+
+enum CompensationType {
+  TREE
+  OFFSET
+}
+
+enum BadgeType {
+  HORIZONTAL
+  VERTICAL
+}
+
+enum BadgeColorscheme {
+  COLOR
+  COLOR_INVERTED
+  SW
+  SW_INVERTED
+}
+
+enum PaymentInterval {
+  MONTHLY
+  YEARLY
+}
