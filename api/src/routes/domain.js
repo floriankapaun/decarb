@@ -1,46 +1,28 @@
 import { Router } from 'express';
-import prisma from '../services/prisma';
+import PrismaService from '../services/prisma.js';
 
 const router = Router();
 
-export default (app, prisma) => {
+export default (app) => {
     app.use('/domains', router);
 
+    // Get all domains
     router.get('/', async (req, res) => {
-        try {
-            const domains = await prisma.domain.findMany();
-            return res.json(domains).status(200);
-        }
-        catch (e) {
-            console.error(e);
-            // return next(e);
-        }
-        finally {
-            return await prisma.$disconnect();
-        }
+        const allDomains = await PrismaService.findMany('domain');
+        return res.json(allDomains);
     });
 
-    router.post('/', async (req, res) => {
-        try {
-            const newDomain = await prisma.domain.create({
-                data: { ...req.body },
-            });
-            return res.json(newDomain).status(200);
-        }
-        catch (e) {
-            console.error(e);
-            // return next(e);
-        }
-        finally {
-            return await prisma.$disconnect();
-        }
-    });
-
+    // Get a specific domain
     router.get('/:id', async (req, res) => {
         const { id } = req.params;
-        const domain = await prisma.domain.findUnique({
-            where: { id },
-        });
-        res.json(domain).status(200);
+        const uniqueDomain = await PrismaService.findUnique('domain', id);
+        res.json(uniqueDomain).status(200);
+    });
+
+    // Create a new domain
+    router.post('/', async (req, res) => {
+        const domainData = req.body;
+        const newDomain = await PrismaService.create('domain', domainData);
+        return res.json(newDomain);
     });
 };
