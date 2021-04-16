@@ -45,3 +45,30 @@ cd db
 # Start docker containers (in background)
 $ docker-compose up -d
 ```
+
+## Create a Database Migration with Prisma
+
+```bash
+$ cd api
+$ yarn prisma migrate dev --name "MIGRATION_NAME"
+```
+
+## About
+
+### API
+
+#### The folder structure
+
+```
+src
+│   main.js      # API entry point
+└───config       # Environment variables and configuration related stuff
+└───jobs         # Job definitions for agenda.js (node version of cronjobs)
+└───middlewares  # Middlewares
+└───prisma       # Prisma Schema aka database models and migrations
+└───routes       # Express route controllers for all the APIs endpoints
+└───services     # All the business logic
+└───subscribers  # Event handlers for async tasks
+```
+
+Inspired by [this blog article](https://softwareontheroad.com/ideal-nodejs-project-structure/?utm_source=github&utm_medium=readme)
