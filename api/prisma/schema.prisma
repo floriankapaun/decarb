@@ -20,13 +20,12 @@ model User {
   confirmedAt      DateTime?
   deletedAt        DateTime?
   domains          DomainUsers[]
-
-  @@map(name: "users")
 }
 
 model Domain {
   id                     String                  @id @default(uuid()) @db.Uuid
   url                    String                  @unique @db.VarChar(50)
+  companyName            String?                 @unique @db.VarChar(100)
   createdAt              DateTime                @default(now())
   verifiedAt             DateTime?
   deletedAt              DateTime?
@@ -34,7 +33,7 @@ model Domain {
   domainHostingEmissions DomainHostingEmission[]
   pages                  Page[]
   badge                  Badge?
-  compensations          Compensation[]
+  offsets                Offset[]
   subscriptions          Subscription[]
 }
 
@@ -99,16 +98,16 @@ model Badge {
   type        BadgeType        @default(HORIZONTAL)
 }
 
-model Compensation {
-  id               String           @id @default(uuid()) @db.Uuid
-  domain           Domain           @relation(fields: [domainId], references: [id])
-  domainId         String           @db.Uuid
-  subscription     Subscription     @relation(fields: [subscriptionId], references: [id])
-  subscriptionId   String           @db.Uuid
-  compensationType CompensationType
-  emissionAmount   Int
-  price            Int
-  createdAt        DateTime         @default(now())
+model Offset {
+  id             String       @id @default(uuid()) @db.Uuid
+  domain         Domain       @relation(fields: [domainId], references: [id])
+  domainId       String       @db.Uuid
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String       @db.Uuid
+  offsetType     OffsetType
+  emissionAmount Int
+  price          Int
+  createdAt      DateTime     @default(now())
 }
 
 model Subscription {
@@ -122,7 +121,7 @@ model Subscription {
   createdAt            DateTime        @default(now())
   validTo              DateTime // @default(now() + month or year)
   deletedAt            DateTime?
-  Compensation         Compensation[]
+  offsets              Offset[]
 }
 
 enum Role {
@@ -130,7 +129,7 @@ enum Role {
   MANAGER
 }
 
-enum CompensationType {
+enum OffsetType {
   TREE
   OFFSET
 }
