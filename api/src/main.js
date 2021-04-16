@@ -3,6 +3,7 @@ import cors from 'cors';
 
 import { PORT, API_PREFIX } from './config/index.js';
 import routes from './routes/index.js';
+import subscribers from './subscribers/index.js';
 
 const app = express();
 

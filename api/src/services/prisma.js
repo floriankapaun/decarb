@@ -1,4 +1,6 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
+import { EVENTS } from '../config/index.js';
+import EventEmitter from '../utils/eventEmitter.js';
 
 const prisma = new PrismaClient();
 
@@ -8,6 +10,7 @@ class PrismaService {
             const newModel = await prisma[modelName].create({
                 data: { ...data },
             });
+            EventEmitter.emit(EVENTS.CREATE.DOMAIN, newModel);
             return newModel;
         };
         return await this.runQuery(query);
