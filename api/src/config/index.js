@@ -6,6 +6,7 @@ export const API_PREFIX = process.env.API_PREFIX;
 export const EVENTS = {
     create: {
         domain: 'createDomain',
+        page: 'createPage',
     },
     update: {
         domain: 'updateDomain',
