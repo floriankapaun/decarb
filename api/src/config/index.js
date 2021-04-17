@@ -8,6 +8,9 @@ export const EVENTS = {
         domain: 'createDomain',
         page: 'createPage',
     },
+    createMany: {
+        page: 'createManyPages',
+    },
     update: {
         domain: 'updateDomain',
     },

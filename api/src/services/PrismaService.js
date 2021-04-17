@@ -16,11 +16,24 @@ class PrismaService {
         return await this.runQuery(query);
     }
 
-    async update(modelName, id, data) {
+    async createMany(modelName, data) {
+        const query = async () => {
+            const newModels = await prisma[modelName].createMany({
+                data,
+                skipDuplicates: true,
+            })
+            EventEmitter.emit(EVENTS.createMany[modelName], newModels);
+            return newModels;
+        };
+        return await this.runQuery(query);
+    }
+
+    async update(modelName, id, data, options) {
         const query = async () => {
             const updatedModel = await prisma[modelName].update({
                 where: { id },
                 data: { ...data },
+                ...options,
             });
             EventEmitter.emit(EVENTS.update[modelName], updatedModel);
             return updatedModel;
@@ -49,10 +62,11 @@ class PrismaService {
         return await this.runQuery(query);
     }
 
-    async findUnique(modelName, id) {
+    async findUnique(modelName, id, options) {
         const query = async () => {
             const uniqueModel = await prisma[modelName].findUnique({
                 where: { id },
+                ...options,
             });
             return uniqueModel
         };

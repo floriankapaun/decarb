@@ -1,10 +1,16 @@
 import { Router } from 'express';
-import PrismaService from '../services/prisma.js';
+
+import DomainService from '../services/DomainService.js';
+import PrismaService from '../services/PrismaService.js';
 
 const router = Router();
 
 export default (app) => {
     app.use('/domains', router);
+
+    /**
+     * Domain routes
+     */
 
     // Create a new domain
     router.post('/', async (req, res) => {
@@ -39,5 +45,25 @@ export default (app) => {
         const { id } = req.params;
         const deletedDomain = await PrismaService.delete('domain', id);
         return res.json(deletedDomain).status(200);
+    });
+
+    /**
+     * Domain -> Pages Routes
+     */
+
+    // Get a domain and all of its pages
+    router.get('/:id/pages', async (req, res) => {
+        const { id } = req.params;
+        const options = { include: { pages: true } };
+        const uniqueDomain = await PrismaService.findUnique('domain', id, options);
+        res.json(uniqueDomain).status(200);
+    });
+
+    // TODO: Remove this route in production
+    router.get('/:id/pages/re-index', async(req, res) => {
+        const { id } = req.params;
+        const uniqueDomain = await PrismaService.findUnique('domain', id);
+        const indexedPages = await DomainService.indexPages(uniqueDomain);
+        res.json(indexedPages).status(200);
     });
 };
