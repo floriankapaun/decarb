@@ -23,6 +23,13 @@ export default (app) => {
     router.post('/', async (req, res) => {
         const domainData = req.body;
         const newDomain = await PrismaService.create('domain', domainData);
-        return res.json(newDomain);
+        return res.json(newDomain).status(200);
     });
+
+    // Delete a domain
+    router.delete('/:id', async (req, res) => {
+        const { id } = req.params;
+        const deletedDomain = await PrismaService.delete('domain', id);
+        return res.json(deletedDomain).status(200);
+    })
 };

@@ -10,9 +10,22 @@ class PrismaService {
             const newModel = await prisma[modelName].create({
                 data: { ...data },
             });
-            EventEmitter.emit(EVENTS.CREATE.DOMAIN, newModel);
+            EventEmitter.emit(EVENTS.create[modelName], newModel);
             return newModel;
         };
+        return await this.runQuery(query);
+    }
+
+    async delete(modelName, id) {
+        const query = async () => {
+            const now = new Date();
+            const deletedModel = await prisma[modelName].update({
+                where: { id },
+                data: { deletedAt: now },
+            });
+            EventEmitter.emit(EVENTS.delete[modelName], deletedModel);
+            return deletedModel;
+        }
         return await this.runQuery(query);
     }
 
