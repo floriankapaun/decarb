@@ -16,6 +16,18 @@ class PrismaService {
         return await this.runQuery(query);
     }
 
+    async update(modelName, id, data) {
+        const query = async () => {
+            const updatedModel = await prisma[modelName].update({
+                where: { id },
+                data: { ...data },
+            });
+            EventEmitter.emit(EVENTS.update[modelName], updatedModel);
+            return updatedModel;
+        };
+        return await this.runQuery(query);
+    }
+
     async delete(modelName, id) {
         const query = async () => {
             const now = new Date();

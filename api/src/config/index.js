@@ -7,6 +7,9 @@ export const EVENTS = {
     create: {
         domain: 'createDomain',
     },
+    update: {
+        domain: 'updateDomain',
+    },
     delete: {
         domain: 'deleteDomain',
     },
