@@ -20,6 +20,8 @@ model User {
   confirmedAt      DateTime?
   deletedAt        DateTime?
   domains          DomainUsers[]
+
+  @@map("users")
 }
 
 model Domain {
@@ -35,6 +37,8 @@ model Domain {
   badge                  Badge?
   offsets                Offset[]
   subscriptions          Subscription[]
+
+  @@map("domains")
 }
 
 model DomainUsers {
@@ -47,6 +51,7 @@ model DomainUsers {
   deletedAt DateTime?
 
   @@id([domainId, userId])
+  @@map("domain_users")
 }
 
 model DomainHostingEmission {
@@ -55,6 +60,8 @@ model DomainHostingEmission {
   domainId     String   @db.Uuid
   greenHosting Boolean
   createdAt    DateTime @default(now())
+
+  @@map("domain_hosting_emissions")
 }
 
 model Page {
@@ -65,6 +72,8 @@ model Page {
   createdAt         DateTime           @default(now())
   pageViewEmissions PageViewEmission[]
   pageViews         PageViews[]
+
+  @@map("pages")
 }
 
 model PageViewEmission {
@@ -78,6 +87,8 @@ model PageViewEmission {
   externalRequests Int
   createdAt        DateTime    @default(now())
   pageViews        PageViews[]
+
+  @@map("page_view_emissions")
 }
 
 model PageViews {
@@ -88,6 +99,7 @@ model PageViews {
   createdAt          DateTime         @default(now())
 
   @@id([pageId, pageViewEmissionId])
+  @@map("page_views")
 }
 
 model Badge {
@@ -96,6 +108,8 @@ model Badge {
   domainId    String           @db.Uuid
   colorscheme BadgeColorscheme @default(COLOR)
   type        BadgeType        @default(HORIZONTAL)
+
+  @@map("badges")
 }
 
 model Offset {
@@ -108,6 +122,8 @@ model Offset {
   emissionAmount Int
   price          Int
   createdAt      DateTime     @default(now())
+
+  @@map("offsets")
 }
 
 model Subscription {
@@ -122,6 +138,8 @@ model Subscription {
   validTo              DateTime // @default(now() + month or year)
   deletedAt            DateTime?
   offsets              Offset[]
+
+  @@map("subscriptions")
 }
 
 enum Role {
