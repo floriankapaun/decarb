@@ -2,7 +2,8 @@ import DomainService from '../services/DomainService.js';
 
 export const createDomainSubscriber = async (domain) => {
     console.log('🗃️ Created Domain', domain);
-    DomainService.indexPages(domain);
+    DomainService.createDomainHostingEmission(domain);
+    DomainService.createInitialPageIndex(domain);
 };
 
 export const updateDomainSubscriber = (newDomain) => {

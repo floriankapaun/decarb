@@ -1,10 +1,24 @@
 import Sitemapper from 'sitemapper';
+import fetch from 'node-fetch';
 
 import PrismaService from './PrismaService.js';
+import EventEmitter from '../utils/eventEmitter.js';
+import { EVENTS } from '../config/index.js';
 
 class DomainService {
     constructor() {
         this.sitemapper = new Sitemapper();
+    }
+
+    async createDomainHostingEmission(domain) {
+        const prettyDomainUrl = domain.url.replace(/^(https?:|)\/\//, '');
+        const tgwfResponse = await fetch(`http://api.thegreenwebfoundation.org/greencheck/${prettyDomainUrl}`)
+            .then((response) => response.json());
+        const domainHostingEmissionData = {
+            domainId: domain.id,
+            greenHosting: tgwfResponse.green,
+        };
+        return await PrismaService.create('domainHostingEmission', domainHostingEmissionData);
     }
 
     async fetchPages(url) {
@@ -13,7 +27,15 @@ class DomainService {
             .catch((error) => console.error(error));
     }
 
-    async indexPages(domain) {
+    /**
+     * Searches for a domains pages and persists them to the database.
+     * Only fired on domain creation.
+     * 
+     * @param {Object} domain
+     * 
+     * @returns {Object} - number of pages added to database
+     */
+    async createInitialPageIndex(domain) {
         // Crawl sitemap and index pages
         const pages = await this.fetchPages(domain.url);
 
@@ -39,7 +61,9 @@ class DomainService {
             });
         }
 
-        return await PrismaService.createMany('page', newPages);
+        const result = await PrismaService.createMany('page', newPages);
+        EventEmitter.emit(EVENTS.create.initialPageIndex, domain.id);
+        return result;
     }
 };
 
