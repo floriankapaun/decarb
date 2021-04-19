@@ -27,7 +27,7 @@ export default (app) => {
     // Get a domain
     router.get('/:id', async (req, res) => {
         const { id } = req.params;
-        const uniqueDomain = await PrismaService.findUnique('domain', id);
+        const uniqueDomain = await PrismaService.findUnique('domain', { id });
         res.json(uniqueDomain).status(200);
     });
 
@@ -54,7 +54,7 @@ export default (app) => {
     router.get('/:id/pages', async (req, res) => {
         const { id } = req.params;
         const options = { include: { pages: true } };
-        const uniqueDomain = await PrismaService.findUnique('domain', id, options);
+        const uniqueDomain = await PrismaService.findUnique('domain', { id }, options);
         res.json(uniqueDomain).status(200);
     });
 };

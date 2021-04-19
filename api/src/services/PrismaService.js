@@ -54,21 +54,34 @@ class PrismaService {
         return await this.runQuery(query);
     }
 
-    async findMany(modelName) {
+    async findMany(modelName, options) {
         const query = async () => {
-            const models = await prisma[modelName].findMany();
+            const models = await prisma[modelName].findMany({
+                ...options,
+            });
             return models;
         };
         return await this.runQuery(query);
     }
 
-    async findUnique(modelName, id, options) {
+    async findUnique(modelName, parameters, options) {
         const query = async () => {
             const uniqueModel = await prisma[modelName].findUnique({
-                where: { id },
+                where: { ...parameters },
                 ...options,
             });
             return uniqueModel
+        };
+        return await this.runQuery(query);
+    }
+
+    async findFirst(modelName, parameters, options) {
+        const query = async () => {
+            const firstModel = await prisma[modelName].findFirst({
+                where: { ...parameters },
+                ...options,
+            });
+            return firstModel;
         };
         return await this.runQuery(query);
     }
@@ -79,6 +92,8 @@ class PrismaService {
         } catch(error) {
             console.error(error);
         } finally {
+            // FIXME: This line causes errors when there are a lot of requests at the same time
+            // Think about a debounce function for it or sth else
             await prisma.$disconnect();
         }
     }
