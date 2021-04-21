@@ -16,7 +16,7 @@ class DomainService {
             .then((response) => response.json());
         const domainHostingEmissionData = {
             domainId: domain.id,
-            greenHosting: tgwfResponse.green,
+            renewableEnergy: tgwfResponse.green,
         };
         return await PrismaService.create('domainHostingEmission', domainHostingEmissionData);
     }

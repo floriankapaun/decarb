@@ -86,6 +86,26 @@ class PrismaService {
         return await this.runQuery(query);
     }
 
+    async aggregateDomainEmissions(domainId, start, end) {
+        const query = async () => {
+            const domainEmissions = await prisma.$queryRaw(`
+                SELECT
+                    SUM(page_view_emissions.emission_amount) AS "domain_emissions"
+                FROM
+                    domains
+                    JOIN pages ON domains.id = pages.domain_id
+                    JOIN page_views ON pages.id = page_views.page_id
+                    JOIN page_view_emissions ON page_view_emissions.id = page_views.page_view_emission_id
+                WHERE
+                    domains.id = '${domainId}'
+                    AND page_views.created_at >= TO_DATE('${start}', 'YYYY-MM-DD')
+                    AND page_views.created_at <= TO_DATE('${end}', 'YYYY-MM-DD')
+            `);
+            return domainEmissions[0].domain_emissions;
+        };
+        return await this.runQuery(query);
+    }
+
     async runQuery(query) {
         try {
             return await query();

@@ -22,8 +22,8 @@ class PageViewEmissionService {
     }
 
     async initialCalculations(domainId) {
-        const options = { include: { pages: true } };
-        const domainPages = await PrismaService.findMany('page', domainId, options);
+        // const options = { include: { pages: true } };
+        const domainPages = await PrismaService.findMany('page', { where: { domainId } });
         // TODO: Only calculate pageViewEmissions for max 100 random pages
         // const newPageViewEmissions = [];
         for (const page of domainPages) {
