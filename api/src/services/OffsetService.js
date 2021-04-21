@@ -1,8 +1,7 @@
 import fetch from 'node-fetch';
 
-import { ECOLOGI_API_ENTRYPOINT, ECOLOGI_API_KEY, ENUMS, EVENTS, MODE } from '../config/index.js';
+import { ECOLOGI_API_ENTRYPOINT, ECOLOGI_API_KEY, ENUMS, MODE } from '../config/index.js';
 import { addDaysToDate, copyDate, getDateString } from '../utils/date.js';
-import EventEmitter from '../utils/eventEmitter.js';
 import DomainService from './DomainService.js';
 import PrismaService from './PrismaService.js';
 
@@ -56,6 +55,36 @@ class OffsetService {
         // 7. Return
     }
 
+    async handleFailedPurchase(offsetId, response) {
+        // TODO: Send E-Mail to admin to handle the problem
+        console.error(`⚠️ Failed to buy offset for id: ${offsetId}. Response: `, response);
+        const updatedOffsetData = { purchaseStatus: ENUMS.purchaseStatus[2] }; // 'FAILED'
+        const updatedOffset = await PrismaService.update('offset', offsetId, updatedOffsetData);
+        return updatedOffset;
+    }
+
+    async handleSuccessfulPurchase(offsetId, amount, currency) {
+        const updatedOffsetData = {
+            price: amount,
+            currency: currency,
+            purchaseStatus: ENUMS.purchaseStatus[1], // 'SUCCESSFULL'
+        };
+        const updatedOffset = await PrismaService.update('offset', offsetId, updatedOffsetData);
+        return updatedOffset;
+    }
+
+    async setupPurchase(offset) {
+        const { id, offsetKilograms } = offset;
+        // Purchase offsets from ecologi
+        const response = await this.purchaseCarbonOffsets(id, offsetKilograms);
+        if (!response || !response.amount || !response.currency) {
+            return await this.handleFailedPurchase(id, response);
+        }
+        const updatedOffset = await this.handleSuccessfulPurchase(id, response.amount, response.currency);
+        // TODO: Handle Stripe payment
+        return updatedOffset;
+    }
+
     /**
      * Purchase Carbon Offsets from Ecologi
      * 
@@ -68,7 +97,7 @@ class OffsetService {
      * 
      * @return {Object} - ecologi api response
      */
-    async purchaseCarbonOffsets(offsetId, number, units = 'KG', test = false) {
+    async purchaseCarbonOffsets(offsetId, number, test = false, units = 'KG') {
         if (typeof number !== 'number') throw('🚫 You have to provide a number. Provided: ', number);
         if ((units === 'KG' && number < 1) || (units === 'Tonnes' && number < 0.001)) {
             throw('🚫 Number of carbon offsets must be at least 1 KG or 0.001 Tonnes. Provided: ', number, units);
@@ -85,44 +114,9 @@ class OffsetService {
                 units,
                 test: MODE !== 'production' || test ? true : false,
             }),
-        });
-    }
-
-    /**
-     * Purchase Trees from Ecologi
-     * 
-     * Reference: https://docs.ecologi.com/docs/public-api-docs/API/Impact-API.v1.yaml/paths/~1impact~1trees/post
-     * 
-     * @param {UUID} offsetId - from database used as Idempotency-Key
-     * @param {Number} number - the number of trees to purchase
-     * @param {String} name - the "funded by" name for these trees
-     * @param {Boolean} test - whether this is a test or not
-     * 
-     * @returns {Object} - ecologi api response
-     */
-    async purchaseTrees(offsetId, number, name = null, test = false) {
-        // Validate inputs before making a request
-        if (typeof number !== 'number') throw('🚫 You have to provide a number. Provided: ', number);
-        if (number <= 0 || number >= 250000) throw('🚫 Number of trees must be between 1 and 250.000. Provided: ', number);
-        if (typeof name !== 'string' || name === undefined || name === null) {
-            throw('🚫 You have to provide a string or \'null\' for \'name\'. Provided: ', name);
-        }
-        // Undefined is not allowed in the request
-        if (name === undefined) name = null;
-
-        return await fetch(`${ECOLOGI_API_ENTRYPOINT}/impact/trees`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${ECOLOGI_API_KEY}`,
-                'Content-Type': 'application/json',
-                'Idempotency-Key': offsetId,
-            },
-            body: JSON.stringify({
-                number,
-                name,
-                test: MODE !== 'production' || test ? true : false,
-            }),
-        });
+        })
+            .then((response) => response.json())
+            .catch((error) => console.error(error));
     }
 };
 

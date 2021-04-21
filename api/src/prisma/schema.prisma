@@ -120,11 +120,10 @@ model Offset {
   subscriptionId  String         @map("subscription_id") @db.Uuid
   from            DateTime
   until           DateTime
-  offsetType      OffsetType     @map("offset_type")
+  offsetType      OffsetType     @default(CARBON_OFFSET) @map("offset_type")
   offsetKilograms Int            @map("offset_kilograms")
-  numberOfTrees   Int?           @map("number_of_trees") // only relevant if offsetType === 'TREE'
-  companyName     String?        @map("company_name") // only relevant if offsetType === 'TREE'
   price           Int?
+  currency        Currency       @default(EUR)
   purchaseStatus  PurchaseStatus @default(PENDING) @map("purchase_status")
   createdAt       DateTime       @default(now()) @map("created_at")
 
@@ -140,6 +139,7 @@ model Subscription {
   stripeCustomerId     String?         @map("stripe_customer_id") @db.VarChar(50)
   stripePriceId        String?         @map("stripe_price_id") @db.VarChar(50)
   stripeSubscriptionId String?         @map("stripe_subscription_id") @db.VarChar(50)
+  currency             Currency        @default(EUR)
   createdAt            DateTime        @default(now()) @map("created_at")
   validTo              DateTime        @map("valid_to") // @default(now() + month or year)
   deletedAt            DateTime?       @map("deleted_at")
@@ -154,8 +154,7 @@ enum Role {
 }
 
 enum OffsetType {
-  TREE
-  OFFSET
+  CARBON_OFFSET
 }
 
 enum BadgeType {
@@ -168,6 +167,14 @@ enum BadgeColorscheme {
   COLOR_INVERTED
   SW
   SW_INVERTED
+}
+
+enum Currency {
+  EUR
+  USD
+  GBP
+  AUD
+  CAD
 }
 
 enum PaymentInterval {

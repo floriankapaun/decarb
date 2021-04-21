@@ -8,8 +8,10 @@ export const ECOLOGI_API_KEY = process.env.ECOLOGI_API_KEY;
 export const ENUMS = {
     badgeType: ['HORIZONTAL', 'VERTICAL'],
     badgeColorscheme: ['COLOR', 'COLOR_INVERTED', 'SW', 'SW_INVERTED'],
-    offsetType: ['TREE', 'OFFSET'],
+    currency: ['EUR', 'USD', 'GBP', 'AUD', 'CAD'],
+    offsetType: ['CARBON_OFFSET'],
     paymentInterval: ['MONTHLY', 'YEARLY'],
+    purchaseStatus: ['PENDING', 'SUCCESSFULL', 'FAILED'],
     role: ['OWNER', 'MANAGER'],
 };
 export const EVENTS = {
