@@ -65,6 +65,24 @@ class DomainService {
         EventEmitter.emit(EVENTS.create.initialPageIndex, domain.id);
         return result;
     }
+
+    async aggregateDomainEmissions(domainId, start, end) {
+        const query = `
+            SELECT
+                SUM(page_view_emissions.emission_amount) AS "domain_emissions"
+            FROM
+                domains
+                JOIN pages ON domains.id = pages.domain_id
+                JOIN page_views ON pages.id = page_views.page_id
+                JOIN page_view_emissions ON page_view_emissions.id = page_views.page_view_emission_id
+            WHERE
+                domains.id = '${domainId}'
+                AND page_views.created_at >= TO_DATE('${start}', 'YYYY-MM-DD')
+                AND page_views.created_at <= TO_DATE('${end}', 'YYYY-MM-DD')
+        `;
+        const domainEmissions = await PrismaService.queryRaw(query);
+        return domainEmissions[0].domain_emissions;
+    }
 };
 
 export default new DomainService();

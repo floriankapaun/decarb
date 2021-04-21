@@ -6,18 +6,18 @@ const prisma = new PrismaClient();
 
 class PrismaService {
     async create(modelName, data) {
-        const query = async () => {
+        const prismaQuery = async () => {
             const newModel = await prisma[modelName].create({
                 data: { ...data },
             });
             EventEmitter.emit(EVENTS.create[modelName], newModel);
             return newModel;
         };
-        return await this.runQuery(query);
+        return await this.runPrismaQuery(prismaQuery);
     }
 
     async createMany(modelName, data) {
-        const query = async () => {
+        const prismaQuery = async () => {
             const newModels = await prisma[modelName].createMany({
                 data,
                 skipDuplicates: true,
@@ -25,11 +25,11 @@ class PrismaService {
             EventEmitter.emit(EVENTS.createMany[modelName], newModels);
             return newModels;
         };
-        return await this.runQuery(query);
+        return await this.runPrismaQuery(prismaQuery);
     }
 
     async update(modelName, id, data, options) {
-        const query = async () => {
+        const prismaQuery = async () => {
             const updatedModel = await prisma[modelName].update({
                 where: { id },
                 data: { ...data },
@@ -38,11 +38,11 @@ class PrismaService {
             EventEmitter.emit(EVENTS.update[modelName], updatedModel);
             return updatedModel;
         };
-        return await this.runQuery(query);
+        return await this.runPrismaQuery(prismaQuery);
     }
 
     async delete(modelName, id) {
-        const query = async () => {
+        const prismaQuery = async () => {
             const now = new Date();
             const deletedModel = await prisma[modelName].update({
                 where: { id },
@@ -51,64 +51,49 @@ class PrismaService {
             EventEmitter.emit(EVENTS.delete[modelName], deletedModel);
             return deletedModel;
         }
-        return await this.runQuery(query);
+        return await this.runPrismaQuery(prismaQuery);
     }
 
     async findMany(modelName, options) {
-        const query = async () => {
+        const prismaQuery = async () => {
             const models = await prisma[modelName].findMany({
                 ...options,
             });
             return models;
         };
-        return await this.runQuery(query);
+        return await this.runPrismaQuery(prismaQuery);
     }
 
     async findUnique(modelName, parameters, options) {
-        const query = async () => {
+        const prismaQuery = async () => {
             const uniqueModel = await prisma[modelName].findUnique({
                 where: { ...parameters },
                 ...options,
             });
             return uniqueModel
         };
-        return await this.runQuery(query);
+        return await this.runPrismaQuery(prismaQuery);
     }
 
     async findFirst(modelName, parameters, options) {
-        const query = async () => {
+        const prismaQuery = async () => {
             const firstModel = await prisma[modelName].findFirst({
                 where: { ...parameters },
                 ...options,
             });
             return firstModel;
         };
-        return await this.runQuery(query);
+        return await this.runPrismaQuery(prismaQuery);
     }
 
-    async aggregateDomainEmissions(domainId, start, end) {
-        const query = async () => {
-            const domainEmissions = await prisma.$queryRaw(`
-                SELECT
-                    SUM(page_view_emissions.emission_amount) AS "domain_emissions"
-                FROM
-                    domains
-                    JOIN pages ON domains.id = pages.domain_id
-                    JOIN page_views ON pages.id = page_views.page_id
-                    JOIN page_view_emissions ON page_view_emissions.id = page_views.page_view_emission_id
-                WHERE
-                    domains.id = '${domainId}'
-                    AND page_views.created_at >= TO_DATE('${start}', 'YYYY-MM-DD')
-                    AND page_views.created_at <= TO_DATE('${end}', 'YYYY-MM-DD')
-            `);
-            return domainEmissions[0].domain_emissions;
-        };
-        return await this.runQuery(query);
+    async queryRaw(rawQuery) {
+        const prismaQuery = async () => await prisma.$queryRaw(rawQuery);
+        return await this.runPrismaQuery(prismaQuery);
     }
 
-    async runQuery(query) {
+    async runPrismaQuery(prismaQuery) {
         try {
-            return await query();
+            return await prismaQuery();
         } catch(error) {
             console.error(error);
         } finally {

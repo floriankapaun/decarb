@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import PrismaService from '../services/PrismaService.js';
+import DomainService from '../services/DomainService.js';
 
 const router = Router();
 
@@ -65,8 +66,7 @@ export default (app) => {
     // Get a domains aggregated pageViewEmissions
     router.get('/:id/emissions', async (req, res) => {
         const { id } = req.params;
-        const domain = await PrismaService.aggregateDomainEmissions(id, '2021-04-01', '2021-04-30');
-        console.log(domain);
-        res.json(domain).status(200);
+        const domainEmissions = await DomainService.aggregateDomainEmissions(id, '2021-04-01', '2021-04-30');
+        res.json(domainEmissions).status(200);
     });
 };
