@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
 
-import { ECOLOGI_API_ENTRYPOINT, ECOLOGI_API_KEY, ENUMS, MODE } from '../config/index.js';
+import { ECOLOGI_API_ENTRYPOINT, ECOLOGI_API_KEY, ENUMS, EVENTS, MODE } from '../config/index.js';
 import { addDaysToDate, copyDate, getDateString } from '../utils/date.js';
+import EventEmitter from '../utils/eventEmitter.js';
 import DomainService from './DomainService.js';
 import PrismaService from './PrismaService.js';
 
@@ -34,7 +35,7 @@ class OffsetService {
         const until = copyDate(currentSubscription.validTo);
         const from = this.getFrom(until, currentSubscription.paymentInterval);
         // Get domain offsets in time range in kilograms
-        const emissionKilograms = await this.getEmissionKilograms(domainId, from, until);
+        const offsetKilograms = await this.getEmissionKilograms(domainId, from, until);
         // Create Offset
         const offsetData = {
             domainId,
@@ -42,10 +43,9 @@ class OffsetService {
             offsetType: currentSubscription.offsetType,
             from,
             until,
-            offsetAmount: emissionKilograms,
+            offsetKilograms,
         };
         const newOffset = await PrismaService.create('offset', offsetData);
-
         return newOffset;
         // 1. Decide on offsetType
         // 2. Create Offset (in DB)

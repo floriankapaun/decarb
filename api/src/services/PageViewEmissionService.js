@@ -12,7 +12,7 @@ class PageViewEmissionService {
         const milligramsRounded = Math.round(grams * 1000);
         const pageViewEmissionData = {
             pageId: page.id,
-            emissionAmount: milligramsRounded,
+            emissionMilligrams: milligramsRounded,
             fileSize: emissions.bytes,
             internalRequests: 0,
             externalRequests: 0,

@@ -69,7 +69,7 @@ class DomainService {
     async aggregateDomainEmissions(domainId, start, end) {
         const query = `
             SELECT
-                SUM(page_view_emissions.emission_amount) AS "domain_emissions"
+                SUM(page_view_emissions.emission_milligrams) AS "domain_emissions"
             FROM
                 domains
                 JOIN pages ON domains.id = pages.domain_id

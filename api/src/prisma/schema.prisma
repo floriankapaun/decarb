@@ -77,16 +77,16 @@ model Page {
 }
 
 model PageViewEmission {
-  id               String     @id @default(uuid()) @db.Uuid
-  Page             Page       @relation(fields: [pageId], references: [id])
-  pageId           String     @map("page_id") @db.Uuid
+  id                 String     @id @default(uuid()) @db.Uuid
+  Page               Page       @relation(fields: [pageId], references: [id])
+  pageId             String     @map("page_id") @db.Uuid
   // FIXME: The following 4 lines are bullshit... refactor and check out ecoping therefore
-  emissionAmount   Int        @map("emission_amount")
-  fileSize         Int        @map("file_size")
-  internalRequests Int        @map("internal_requests")
-  externalRequests Int        @map("external_requests")
-  createdAt        DateTime   @default(now()) @map("created_at")
-  pageViews        PageView[]
+  emissionMilligrams Int        @map("emission_milligrams")
+  fileSize           Int        @map("file_size")
+  internalRequests   Int        @map("internal_requests")
+  externalRequests   Int        @map("external_requests")
+  createdAt          DateTime   @default(now()) @map("created_at")
+  pageViews          PageView[]
 
   @@map("page_view_emissions")
 }

@@ -16,6 +16,7 @@ export const EVENTS = {
     create: {
         domain: 'createDomain',
         initialPageIndex: 'createInitialPageIndex',
+        offset: 'createOffset',
         page: 'createPage',
     },
     createMany: {
