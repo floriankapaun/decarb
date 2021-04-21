@@ -1,20 +1,59 @@
 import fetch from 'node-fetch';
-import { ECOLOGI_API_ENTRYPOINT, ECOLOGI_API_KEY, MODE } from '../config/index.js';
+
+import { ECOLOGI_API_ENTRYPOINT, ECOLOGI_API_KEY, ENUMS, MODE } from '../config/index.js';
+import { addDaysToDate, copyDate, getDateString } from '../utils/date.js';
+import DomainService from './DomainService.js';
 import PrismaService from './PrismaService.js';
 
 class OffsetService {
-    
+    async getCurrentSubscription(domainId) {
+        const options = {
+            orderBy: { createdAt: 'desc' },
+            where: { deletedAt: null },
+        };
+        return await PrismaService.findFirst('subscription', { domainId }, options);
+    }
 
-    async createOffset(domainId) {
-        
-        const options = { orderBy: { createdAt: 'desc' } };
-        const subscription = await PrismaService.findFirst('subscription', { domainId }, options);
+    async getEmissionKilograms(domainId, from, until) {
+        const sqlFrom = getDateString(from);
+        const sqlUntil = getDateString(until);
+        const domainEmissionMilligrams = await DomainService.aggregateDomainEmissions(domainId, sqlFrom, sqlUntil);
+        return Math.ceil(domainEmissionMilligrams / 1000000);
+    }
+
+    getFrom(until, paymentInterval) {
+        const end = copyDate(until);
+        const numberOfDays = paymentInterval === ENUMS.paymentInterval[0] ? -30 : -365;
+        return addDaysToDate(end, numberOfDays);
+    }
+
+    async create(domainId) {
+        // Get current subscription
+        const currentSubscription = await this.getCurrentSubscription(domainId);
+        // Get time range
+        const until = copyDate(currentSubscription.validTo);
+        const from = this.getFrom(until, currentSubscription.paymentInterval);
+        // Get domain offsets in time range in kilograms
+        const emissionKilograms = await this.getEmissionKilograms(domainId, from, until);
+        // Create Offset
+        const offsetData = {
+            domainId,
+            subscriptionId: currentSubscription.id,
+            offsetType: currentSubscription.offsetType,
+            from,
+            until,
+            offsetAmount: emissionKilograms,
+        };
+        const newOffset = await PrismaService.create('offset', offsetData);
+
+        return newOffset;
         // 1. Decide on offsetType
         // 2. Create Offset (in DB)
         // 3. Get data needed
         // 4. Purchase offset
         // 5. Update Offset (in DB)
-        // 6. Return
+        // 6. Increase subscription validTo and therefore verlänger kündigungsfrist
+        // 7. Return
     }
 
     /**

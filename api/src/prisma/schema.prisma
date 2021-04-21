@@ -113,20 +113,20 @@ model Badge {
 }
 
 model Offset {
-  id             String         @id @default(uuid()) @db.Uuid
-  domain         Domain         @relation(fields: [domainId], references: [id])
-  domainId       String         @map("domain_id") @db.Uuid
-  subscription   Subscription   @relation(fields: [subscriptionId], references: [id])
-  subscriptionId String         @map("subscription_id") @db.Uuid
-  from           DateTime
-  until          DateTime
-  offsetType     OffsetType     @map("offset_type")
-  offsetAmount   Int            @map("offset_amount") // In Kilogramm
-  numberOfTrees  Int?           @map("number_of_trees") // only relevant if offsetType === 'TREE'
-  companyName    String?        @map("company_name") // only relevant if offsetType === 'TREE'
-  price          Int?
-  purchaseStatus PurchaseStatus @default(PENDING) @map("purchase_status")
-  createdAt      DateTime       @default(now()) @map("created_at")
+  id              String         @id @default(uuid()) @db.Uuid
+  domain          Domain         @relation(fields: [domainId], references: [id])
+  domainId        String         @map("domain_id") @db.Uuid
+  subscription    Subscription   @relation(fields: [subscriptionId], references: [id])
+  subscriptionId  String         @map("subscription_id") @db.Uuid
+  from            DateTime
+  until           DateTime
+  offsetType      OffsetType     @map("offset_type")
+  offsetKilograms Int            @map("offset_kilograms")
+  numberOfTrees   Int?           @map("number_of_trees") // only relevant if offsetType === 'TREE'
+  companyName     String?        @map("company_name") // only relevant if offsetType === 'TREE'
+  price           Int?
+  purchaseStatus  PurchaseStatus @default(PENDING) @map("purchase_status")
+  createdAt       DateTime       @default(now()) @map("created_at")
 
   @@map("offsets")
 }
@@ -136,6 +136,7 @@ model Subscription {
   domain               Domain          @relation(fields: [domainId], references: [id])
   domainId             String          @map("domain_id") @db.Uuid
   paymentInterval      PaymentInterval @default(MONTHLY) @map("payment_interval")
+  offsetType           OffsetType      @map("offset_type")
   stripeCustomerId     String?         @map("stripe_customer_id") @db.VarChar(50)
   stripePriceId        String?         @map("stripe_price_id") @db.VarChar(50)
   stripeSubscriptionId String?         @map("stripe_subscription_id") @db.VarChar(50)
