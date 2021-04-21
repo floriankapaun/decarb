@@ -15,10 +15,10 @@ model User {
   email            String        @unique @db.VarChar(50)
   password         String        @db.VarChar(255)
   telephone        String        @db.VarChar(16)
-  confirmationCode Int
-  createdAt        DateTime      @default(now())
-  confirmedAt      DateTime?
-  deletedAt        DateTime?
+  verificationCode Int           @map("verification_code")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  verifiedAt       DateTime?     @map("verified_at")
+  deletedAt        DateTime?     @map("deleted_at")
   domains          DomainUsers[]
 
   @@map("users")
@@ -27,10 +27,10 @@ model User {
 model Domain {
   id                     String                  @id @default(uuid()) @db.Uuid
   url                    String                  @unique @db.VarChar(50)
-  companyName            String?                 @unique @db.VarChar(100)
-  createdAt              DateTime                @default(now())
-  verifiedAt             DateTime?
-  deletedAt              DateTime?
+  companyName            String?                 @unique @map("company_name") @db.VarChar(100)
+  createdAt              DateTime                @default(now()) @map("created_at")
+  verifiedAt             DateTime?               @map("verified_at")
+  deletedAt              DateTime?               @map("deleted_at")
   users                  DomainUsers[]
   domainHostingEmissions DomainHostingEmission[]
   pages                  Page[]
@@ -43,23 +43,23 @@ model Domain {
 
 model DomainUsers {
   domain    Domain    @relation(fields: [domainId], references: [id])
-  domainId  String    @db.Uuid
+  domainId  String    @map("domain_id") @db.Uuid
   user      User      @relation(fields: [userId], references: [id])
-  userId    String    @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
   role      Role      @default(MANAGER)
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
+  createdAt DateTime  @default(now()) @map("created_at")
+  deletedAt DateTime? @map("deleted_at")
 
   @@id([domainId, userId])
   @@map("domain_users")
 }
 
 model DomainHostingEmission {
-  id           String   @id @default(uuid()) @db.Uuid
-  domain       Domain   @relation(fields: [domainId], references: [id])
-  domainId     String   @db.Uuid
-  greenHosting Boolean
-  createdAt    DateTime @default(now())
+  id              String   @id @default(uuid()) @db.Uuid
+  domain          Domain   @relation(fields: [domainId], references: [id])
+  domainId        String   @map("domain_id") @db.Uuid
+  renewableEnergy Boolean  @map("renewable_energy")
+  createdAt       DateTime @default(now()) @map("created_at")
 
   @@map("domain_hosting_emissions")
 }
@@ -67,9 +67,9 @@ model DomainHostingEmission {
 model Page {
   id                String             @id @default(uuid()) @db.Uuid
   domain            Domain             @relation(fields: [domainId], references: [id])
-  domainId          String             @db.Uuid
+  domainId          String             @map("domain_id") @db.Uuid
   url               String             @unique @db.VarChar(500)
-  createdAt         DateTime           @default(now())
+  createdAt         DateTime           @default(now()) @map("created_at")
   pageViewEmissions PageViewEmission[]
   pageViews         PageView[]
 
@@ -79,13 +79,13 @@ model Page {
 model PageViewEmission {
   id               String     @id @default(uuid()) @db.Uuid
   Page             Page       @relation(fields: [pageId], references: [id])
-  pageId           String     @db.Uuid
+  pageId           String     @map("page_id") @db.Uuid
   // FIXME: The following 4 lines are bullshit... refactor and check out ecoping therefore
-  emissionAmount   Int
-  fileSize         Int
-  internalRequests Int
-  externalRequests Int
-  createdAt        DateTime   @default(now())
+  emissionAmount   Int        @map("emission_amount")
+  fileSize         Int        @map("file_size")
+  internalRequests Int        @map("internal_requests")
+  externalRequests Int        @map("external_requests")
+  createdAt        DateTime   @default(now()) @map("created_at")
   pageViews        PageView[]
 
   @@map("page_view_emissions")
@@ -94,10 +94,10 @@ model PageViewEmission {
 model PageView {
   id                 String           @id @default(uuid()) @db.Uuid
   page               Page             @relation(fields: [pageId], references: [id])
-  pageId             String           @db.Uuid
+  pageId             String           @map("page_id") @db.Uuid
   pageViewEmission   PageViewEmission @relation(fields: [pageViewEmissionId], references: [id])
-  pageViewEmissionId String           @db.Uuid
-  createdAt          DateTime         @default(now())
+  pageViewEmissionId String           @map("page_view_emission_id") @db.Uuid
+  createdAt          DateTime         @default(now()) @map("created_at")
 
   @@map("page_views")
 }
@@ -105,7 +105,7 @@ model PageView {
 model Badge {
   id          String           @id @default(uuid()) @db.Uuid
   domain      Domain           @relation(fields: [domainId], references: [id])
-  domainId    String           @db.Uuid
+  domainId    String           @map("domain_id") @db.Uuid
   colorscheme BadgeColorscheme @default(COLOR)
   type        BadgeType        @default(HORIZONTAL)
 
@@ -115,13 +115,13 @@ model Badge {
 model Offset {
   id             String       @id @default(uuid()) @db.Uuid
   domain         Domain       @relation(fields: [domainId], references: [id])
-  domainId       String       @db.Uuid
+  domainId       String       @map("domain_id") @db.Uuid
   subscription   Subscription @relation(fields: [subscriptionId], references: [id])
-  subscriptionId String       @db.Uuid
-  offsetType     OffsetType
-  emissionAmount Int
+  subscriptionId String       @map("subscription_id") @db.Uuid
+  offsetType     OffsetType   @map("offset_type")
+  emissionAmount Int          @map("emission_amount")
   price          Int
-  createdAt      DateTime     @default(now())
+  createdAt      DateTime     @default(now()) @map("created_at")
 
   @@map("offsets")
 }
@@ -129,14 +129,14 @@ model Offset {
 model Subscription {
   id                   String          @id @default(uuid()) @db.Uuid
   domain               Domain          @relation(fields: [domainId], references: [id])
-  domainId             String          @db.Uuid
-  paymentInterval      PaymentInterval @default(MONTHLY)
-  stripeCustomerId     String          @db.VarChar(50)
-  stripePriceId        String          @db.VarChar(50)
-  stripeSubscriptionId String          @db.VarChar(50)
-  createdAt            DateTime        @default(now())
-  validTo              DateTime // @default(now() + month or year)
-  deletedAt            DateTime?
+  domainId             String          @map("domain_id") @db.Uuid
+  paymentInterval      PaymentInterval @default(MONTHLY) @map("payment_interval")
+  stripeCustomerId     String          @map("stripe_customer_id") @db.VarChar(50)
+  stripePriceId        String          @map("stripe_price_id") @db.VarChar(50)
+  stripeSubscriptionId String          @map("stripe_subscription_id") @db.VarChar(50)
+  createdAt            DateTime        @default(now()) @map("created_at")
+  validTo              DateTime        @map("valid_to") // @default(now() + month or year)
+  deletedAt            DateTime?       @map("deleted_at")
   offsets              Offset[]
 
   @@map("subscriptions")
