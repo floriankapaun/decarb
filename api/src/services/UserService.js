@@ -1,5 +1,5 @@
+import * as argon2 from 'argon2';
 
-import AuthService from './AuthService';
 import MailService from './MailService';
 import PrismaService from './PrismaService';
 
@@ -94,10 +94,14 @@ class UserService {
     async setUserPassword(id, password) {
         const options = { select: { verifiedAt: true } };
         const userData = await PrismaService.findUnique('user', { id }, options);
+        // Make sure user email is already verified
         if (!userData.verifiedAt) {
             return 'User email isn\'t verified yet.';
         }
-        const updatedUser = await AuthService.setPassword(id, password, this.publicReturnValues);
+        // Hash password with argon2
+        const updatedUserData = { password: await argon2.hash(password) };
+        // Set users password
+        const updatedUser = await PrismaService.update('user', id, updatedUserData, this.publicReturnValues);
         return updatedUser;
     }
 }

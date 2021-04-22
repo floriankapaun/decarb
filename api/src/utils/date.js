@@ -10,6 +10,17 @@ export const addDaysToDate = (date, days) => new Date(date.setDate(date.getDate(
 
 
 /**
+ * Adds a number of minutes to a JavaScript Date Object
+ * 
+ * @param {Date} date - JavaScript Date
+ * @param {Number} minutes 
+ * 
+ * @returns {Date}
+ */
+ export const addMinutesToDate = (date, minutes) => new Date(date.setMinutes(date.getMinutes() + minutes));
+
+
+/**
  * Returns a copy of a JavaScript Date Object
  * 
  * @param {Date} date - JavaScript Date
