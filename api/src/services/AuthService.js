@@ -14,7 +14,7 @@ class AuthService {
             'x-eco-web-user-email': user.email,
             'x-eco-web-allowed-role': user.role, 
         };
-        const options = { expiresIn };
+        const options = { expiresIn: `${expiresIn}m` };
         return jwt.sign(payload, JWT_SECRET_KEY, options);
     }
 

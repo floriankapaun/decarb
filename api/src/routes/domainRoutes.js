@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import isAuth from '../middlewares/isAuth';
 import PrismaService from '../services/PrismaService.js';
 import DomainService from '../services/DomainService.js';
 
@@ -33,7 +34,7 @@ export default (app) => {
     });
 
     // Update a domain
-    router.put('/:id', async (req, res) => {
+    router.put('/:id', isAuth, async (req, res) => {
         const { id } = req.params;
         const { companyName } = req.body;
         const updatedDomain = await PrismaService.update('domain', id, { companyName });
