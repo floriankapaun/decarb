@@ -1,9 +1,11 @@
 import { Router } from 'express';
 
+import attachCurrentUser from '../middlewares/attachCurrentUser';
 import isAuth from '../middlewares/isAuth';
-import isAllowed from '../middlewares/isAllowed';
+import requireRole from '../middlewares/requireRole';
 import PrismaService from '../services/PrismaService.js';
 import DomainService from '../services/DomainService.js';
+import { ENUMS } from '../config';
 
 const router = Router();
 
@@ -15,7 +17,9 @@ export default (app) => {
      */
 
     // Create a new domain
-    router.post('/', async (req, res) => {
+    router.post('/', isAuth, attachCurrentUser, async (req, res) => {
+        // TODO: Allways wrap async route functions in try/catch statements
+        // See: https://www.acuriousanimal.com/blog/2018/03/15/express-async-middleware
         const domainData = req.body;
         const newDomain = await DomainService.create(domainData);
         return res.json(newDomain).status(200);
@@ -35,7 +39,7 @@ export default (app) => {
     });
 
     // Update a domain
-    router.put('/:id', isAuth, isAllowed, async (req, res) => {
+    router.put('/:id', isAuth, attachCurrentUser, requireRole(ENUMS.role[0]), async (req, res) => {
         const { id } = req.params;
         const { companyName } = req.body;
         const updatedDomain = await PrismaService.update('domain', id, { companyName });

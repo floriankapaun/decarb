@@ -12,8 +12,8 @@ export default (req, res, next) => {
     const token = getTokenFromHeader(req);
     if (!token) res.status(401).send('Unauthorized: No accessToken provided');
     try {
-        req.body.auth = jwt.verify(token, JWT_SECRET_KEY);
-        if (!req.body.auth) res.status(401).send('Unauthorized: accessToken validation failed');
+        req.authData = jwt.verify(token, JWT_SECRET_KEY);
+        if (!req.authData) res.status(401).send('Unauthorized: accessToken validation failed');
         next();
     } catch(error) {
         res.status(401).send(error);

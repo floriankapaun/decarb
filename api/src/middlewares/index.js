@@ -1,7 +1,9 @@
-import isAllowed from './isAllowed.js';
+import attachCurrentUser from './attachCurrentUser';
 import isAuth from './isAuth.js';
+import requireRole from './requireRole.js';
 
 export default {
-    isAllowed,
+    attachCurrentUser,
     isAuth,
+    requireRole,
 };
