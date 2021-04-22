@@ -20,6 +20,7 @@ export const EVENTS = {
         initialPageIndex: 'createInitialPageIndex',
         offset: 'createOffset',
         page: 'createPage',
+        user: 'createUser',
     },
     createMany: {
         page: 'createManyPages',
@@ -32,4 +33,9 @@ export const EVENTS = {
     },
 };
 export const MODE = process.env.MODE || 'development';
+export const PLATFORM_EMAIL_HOST = process.env.PLATFORM_EMAIL_HOST;
+export const PLATFORM_EMAIL_PASSWORD = process.env.PLATFORM_EMAIL_PASSWORD;
+export const PLATFORM_EMAIL_PORT = process.env.PLATFORM_EMAIL_PORT;
+export const PLATFORM_EMAIL_SENDER = process.env.PLATFORM_EMAIL_SENDER;
+export const PLATFORM_EMAIL_USER = process.env.PLATFORM_EMAIL_USER;
 export const PORT = process.env.PORT;

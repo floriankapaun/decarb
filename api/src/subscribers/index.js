@@ -7,6 +7,7 @@ import {
 } from './domainSubscribers.js';
 import { createOffsetSubscriber } from './offsetSubscriber.js';
 import { createManyPagesSubscriber, createInitialPageIndexSubscriber } from './pageSubscribers.js';
+import { createUserSubscriber } from './userSubscribers.js';
 
 EventEmitter.on(EVENTS.create.domain, createDomainSubscriber);
 EventEmitter.on(EVENTS.update.domain, updateDomainSubscriber);
@@ -17,5 +18,7 @@ EventEmitter.on(EVENTS.create.offset, createOffsetSubscriber);
 EventEmitter.on(EVENTS.createMany.page, createManyPagesSubscriber);
 
 EventEmitter.on(EVENTS.create.initialPageIndex, createInitialPageIndexSubscriber);
+
+EventEmitter.on(EVENTS.create.user, createUserSubscriber);
 
 export default EventEmitter;

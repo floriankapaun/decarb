@@ -13,9 +13,9 @@ generator client {
 model User {
   id               String        @id @default(uuid()) @db.Uuid
   email            String        @unique @db.VarChar(50)
-  password         String        @db.VarChar(255)
-  telephone        String        @db.VarChar(16)
   verificationCode Int           @map("verification_code")
+  password         String?       @db.VarChar(255)
+  telephone        String?       @db.VarChar(35)
   createdAt        DateTime      @default(now()) @map("created_at")
   verifiedAt       DateTime?     @map("verified_at")
   deletedAt        DateTime?     @map("deleted_at")
