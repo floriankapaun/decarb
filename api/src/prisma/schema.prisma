@@ -27,18 +27,19 @@ model User {
 }
 
 model Domain {
-  id                     String                  @id @default(uuid()) @db.Uuid
-  url                    String                  @unique @db.VarChar(50)
-  companyName            String?                 @unique @map("company_name") @db.VarChar(100)
-  createdAt              DateTime                @default(now()) @map("created_at")
-  verifiedAt             DateTime?               @map("verified_at")
-  deletedAt              DateTime?               @map("deleted_at")
-  users                  DomainUsers[]
-  domainHostingEmissions DomainHostingEmission[]
-  pages                  Page[]
-  badge                  Badge?
-  offsets                Offset[]
-  subscriptions          Subscription[]
+  id                        String                  @id @default(uuid()) @db.Uuid
+  url                       String                  @unique @db.VarChar(50)
+  companyName               String?                 @unique @map("company_name") @db.VarChar(100)
+  estimatedMonthlyPageViews Int                     @default(10000) @map("estimated_monthly_page_views")
+  createdAt                 DateTime                @default(now()) @map("created_at")
+  verifiedAt                DateTime?               @map("verified_at")
+  deletedAt                 DateTime?               @map("deleted_at")
+  users                     DomainUsers[]
+  domainHostingEmissions    DomainHostingEmission[]
+  pages                     Page[]
+  badge                     Badge?
+  offsets                   Offset[]
+  subscriptions             Subscription[]
 
   @@map("domains")
 }
