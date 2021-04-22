@@ -17,7 +17,7 @@ export default (app) => {
     // Create a new domain
     router.post('/', async (req, res) => {
         const domainData = req.body;
-        const newDomain = await PrismaService.create('domain', domainData);
+        const newDomain = await DomainService.create(domainData);
         return res.json(newDomain).status(200);
     });
 

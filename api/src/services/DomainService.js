@@ -4,10 +4,17 @@ import fetch from 'node-fetch';
 import PrismaService from './PrismaService.js';
 import EventEmitter from '../utils/eventEmitter.js';
 import { EVENTS } from '../config/index.js';
+import { cleanUrl } from '../utils/url.js';
 
 class DomainService {
     constructor() {
         this.sitemapper = new Sitemapper();
+    }
+
+    async create(domainData) {
+        domainData.url = cleanUrl(domainData.url);
+        const newDomain = await PrismaService.create('domain', domainData);
+        return newDomain;
     }
 
     async createDomainHostingEmission(domain) {
