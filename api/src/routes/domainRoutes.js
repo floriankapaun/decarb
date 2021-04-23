@@ -21,7 +21,7 @@ export default (app) => {
         // TODO: Allways wrap async route functions in try/catch statements
         // See: https://www.acuriousanimal.com/blog/2018/03/15/express-async-middleware
         const domainData = req.body;
-        const newDomain = await DomainService.create(domainData);
+        const newDomain = await DomainService.create(domainData, req.currentUser);
         return res.json(newDomain).status(200);
     });
 

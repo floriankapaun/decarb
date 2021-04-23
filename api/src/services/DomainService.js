@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 import PrismaService from './PrismaService.js';
 import EventEmitter from '../utils/eventEmitter.js';
-import { EVENTS } from '../config/index.js';
+import { ENUMS, EVENTS } from '../config/index.js';
 import { cleanUrl } from '../utils/url.js';
 
 class DomainService {
@@ -11,8 +11,17 @@ class DomainService {
         this.sitemapper = new Sitemapper();
     }
 
-    async create(domainData) {
+    async create(domainData, owner) {
         domainData.url = cleanUrl(domainData.url);
+        // Create domainUser relation as well
+        domainData.users = {
+            create: [
+                {
+                    userId: owner.id,
+                    role: ENUMS.role[0],
+                },
+            ],
+        };
         const newDomain = await PrismaService.create('domain', domainData);
         return newDomain;
     }
@@ -29,7 +38,7 @@ class DomainService {
     }
 
     async fetchPages(url) {
-        return this.sitemapper.fetch(`${url}/sitemap.xml`)
+        return this.sitemapper.fetch(`https://${url}/sitemap.xml`)
             .then(({ sites }) => sites)
             .catch((error) => console.error(error));
     }
@@ -56,7 +65,7 @@ class DomainService {
 
         for (const page of pages) {
             // TODO: Look for http https www differences
-            if (!page.startsWith(domain.url)) {
+            if (!cleanUrl(page).startsWith(domain.url)) {
                 console.error(`⚠️ Page "${page}" is propably no part of "${domain.url}"`);
                 continue; // skips this iteration
             }
