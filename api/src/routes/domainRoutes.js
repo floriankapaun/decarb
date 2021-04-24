@@ -19,6 +19,7 @@ export default (app) => {
     router.post('/', isAuth, attachCurrentUser, async (req, res) => {
         // TODO: Allways wrap async route functions in try/catch statements
         // See: https://www.acuriousanimal.com/blog/2018/03/15/express-async-middleware
+        // This one goes into even more detail: https://softwareontheroad.com/error-handling-nodejs/
         const domainData = req.body;
         const newDomain = await DomainService.create(domainData, req.currentUser);
         return res.json(newDomain).status(200);
