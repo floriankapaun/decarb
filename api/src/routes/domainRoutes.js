@@ -2,10 +2,9 @@ import { Router } from 'express';
 
 import attachCurrentUser from '../middlewares/attachCurrentUser';
 import isAuth from '../middlewares/isAuth';
-import requireRole from '../middlewares/requireRole';
+import requireDomainRole from '../middlewares/requireDomainRole';
 import PrismaService from '../services/PrismaService.js';
 import DomainService from '../services/DomainService.js';
-import { ENUMS } from '../config';
 
 const router = Router();
 
@@ -39,7 +38,7 @@ export default (app) => {
     });
 
     // Update a domain
-    router.put('/:id', isAuth, attachCurrentUser, requireRole(ENUMS.role[0]), async (req, res) => {
+    router.put('/:id', isAuth, attachCurrentUser, requireDomainRole(0), async (req, res) => {
         const { id } = req.params;
         const { companyName } = req.body;
         const updatedDomain = await PrismaService.update('domain', id, { companyName });
