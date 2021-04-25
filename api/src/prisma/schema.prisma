@@ -100,6 +100,9 @@ model PageView {
   pageId             String           @map("page_id") @db.Uuid
   pageViewEmission   PageViewEmission @relation(fields: [pageViewEmissionId], references: [id])
   pageViewEmissionId String           @map("page_view_emission_id") @db.Uuid
+  windowWidth        Int              @map("window_width")
+  windowHeight       Int              @map("window_height")
+  connectionType     String           @map("connection_type") @db.VarChar(20)
   createdAt          DateTime         @default(now()) @map("created_at")
 
   @@map("page_views")
