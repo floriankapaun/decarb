@@ -59,6 +59,7 @@ class DomainService {
 
         const newPages = [];
 
+        // TODO: Remove this timestamp --> is handled by default value
         // Milliseconds or even seconds are not important hence
         // we create only one date outside the for loop.
         const now = new Date();
