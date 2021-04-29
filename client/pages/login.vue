@@ -30,12 +30,6 @@
             Don't have an account yet?
             <NuxtLink to="register">Register now</NuxtLink>.
         </p>
-        <section v-if="getIsLoggedIn">
-            <h2>Congrats, you're logged in.</h2>
-            <button type="button" @click="handleLogout">Logout</button>
-        </section>
-
-        <NuxtLink to="users/register-domain">Move on</NuxtLink>
     </main>
 </template>
 
@@ -44,6 +38,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
     layout: 'minimal',
+    middleware: ['guest'],
     data() {
         return {
             email: '',
@@ -67,11 +62,7 @@ export default {
         async handleSubmit() {
             await this.login({ email: this.email, password: this.password })
             await this.fetchUser(this.getAccessToken)
-            // if (this.getUser) {
-            //     return this.$router.push({
-            //         path: `/users/${this.getUser.id}/verify-email`,
-            //     })
-            // }
+            if (this.getIsLoggedIn) return this.$router.push('/')
             // OPTIMIZE: Maybe apply some error styling
         },
         async handleLogout() {

@@ -29,24 +29,3 @@ export const saveFetch = (url, options) =>
             return response.json()
         })
         .catch((error) => handleError(error))
-
-/**
- * Returns if a and b are the same url
- *
- * @param {String} a - url string
- * @param {String} b - url string
- * @returns {Boolean} - are a and b the same url?
- */
-export const isSameURL = (a, b) => a.split('?')[0] === b.split('?')[0]
-
-/**
- * Redirect users and prevent redirect loops
- *
- * @param {string} to - path to redirect to
- * @param {Nuxt} context
- */
-export const saveRedirect = (to, context) => {
-    // Prevent redirect loop
-    if (process.client && isSameURL(to, context.from.path)) return
-    return context.redirect(to)
-}
