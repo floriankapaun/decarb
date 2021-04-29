@@ -43,11 +43,7 @@
                                     <div
                                         class="bx--col-md-4 bx--offset-lg-1 bx--col-lg-8"
                                     >
-                                        <img
-                                            class="landing-page__illo"
-                                            src="@/assets/img/tab-illo.png"
-                                            alt="Carbon illustration"
-                                        />
+                                        Image...
                                     </div>
                                 </div>
                             </div>

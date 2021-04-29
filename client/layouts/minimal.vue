@@ -1,8 +1,6 @@
 <template>
     <div>
-        <header>
-            <Logo />
-        </header>
+        <HeaderMinimal />
         <Nuxt />
         <Footer />
     </div>
