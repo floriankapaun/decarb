@@ -1,15 +1,19 @@
 <template>
     <main>
         <h1>Create your eco-Web Account</h1>
-        <form action="">
+        <form name="register" @submit.prevent="handleSubmit">
             <label for="email">E-Mail Address</label>
             <input
                 id="email"
+                v-model="email"
                 type="email"
-                ref="email"
+                autocomplete="email"
                 placeholder="your@email.com"
+                required
             />
-            <button type="submit" @click="submit">Create Account</button>
+            <button type="submit" :disabled="getIsLoading">
+                {{ getIsLoading ? 'Loading...' : 'Create Account' }}
+            </button>
         </form>
         <p>
             Already have an account?
@@ -19,25 +23,33 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
     layout: 'minimal',
-    // data() {
-    //     return { mountains: [] }
-    // },
-    // async fetch() {
-    //     this.mountains = await fetch(
-    //         'http://localhost:4000/api/v1/domains'
-    //     ).then((res) => res.text())
-    // },
+    data() {
+        return {
+            email: '',
+        }
+    },
+    computed: {
+        ...mapGetters({
+            getIsLoading: 'users/isLoading',
+            getUser: 'users/user',
+        }),
+    },
     methods: {
-        async submit() {
-            const email = this.$refs.email.value
-            const response = await fetch('http://localhost:4000/api/v1/users', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email }),
-            })
-            return response
+        ...mapActions({
+            register: 'users/register',
+        }),
+        async handleSubmit() {
+            await this.register({ email: this.email })
+            if (this.getUser) {
+                return this.$router.push({
+                    path: `/users/${this.getUser.id}/verify-email`,
+                })
+            }
+            // OPTIMIZE: Maybe apply some error styling
         },
     },
 }

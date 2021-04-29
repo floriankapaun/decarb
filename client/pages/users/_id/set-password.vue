@@ -1,0 +1,83 @@
+<template>
+    <main>
+        <h1>Set up a password</h1>
+        <p>
+            To verify your email we have sent a code to
+            {{ getUser && getUser.email ? getUser.email : 'your email' }}.
+        </p>
+        <form name="set-password" @submit.prevent="handleSubmit">
+            <label for="password">Password</label>
+            <input
+                id="password"
+                v-model="password"
+                type="password"
+                autocomplete="new-password"
+                minlength="8"
+                placeholder="minimum 8 characters"
+                required
+                @change="validatePassword"
+            />
+            <label for="confirmPassword">Repeat Password</label>
+            <input
+                id="confirmPassword"
+                ref="confirmPassword"
+                v-model="confirmPassword"
+                type="password"
+                autocomplete="new-password"
+                minlength="8"
+                placeholder="minimum 8 characters"
+                required
+                @keyup="validatePassword"
+            />
+            <button type="submit" :disabled="getIsLoading">
+                {{ getIsLoading ? 'Loading...' : 'Set Password' }}
+            </button>
+        </form>
+    </main>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+
+export default {
+    layout: 'minimal',
+    asyncData({ params }) {
+        return {
+            id: params.id,
+        }
+    },
+    data() {
+        return {
+            password: '',
+            confirmPassword: '',
+        }
+    },
+    computed: {
+        ...mapGetters({
+            getIsLoading: 'users/isLoading',
+            getUser: 'users/user',
+        }),
+    },
+    methods: {
+        ...mapActions({
+            setPassword: 'users/setPassword',
+        }),
+        validatePassword() {
+            const elem = this.$refs.confirmPassword
+            if (this.password === this.confirmPassword) {
+                elem.setCustomValidity('')
+            } else {
+                elem.setCustomValidity(`Passwords don't Match`)
+            }
+        },
+        async handleSubmit() {
+            // if (!this.isValid()) return false
+            await this.setPassword({ userId: this.id, password: this.password })
+            if (this.getUser) {
+                return this.$router.push({ path: `/users/register-domain` })
+            }
+            // OPTIMIZE: Maybe apply some error styling
+        },
+    },
+}
+</script>
