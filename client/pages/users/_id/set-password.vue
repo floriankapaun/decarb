@@ -70,13 +70,14 @@ export default {
                 elem.setCustomValidity(`Passwords don't Match`)
             }
         },
+        // OPTIMIZE: Make sure this link isn't used twice. Probably on the API side.
         async handleSubmit() {
-            // if (!this.isValid()) return false
             await this.setPassword({ userId: this.id, password: this.password })
-            if (this.getUser) {
-                return this.$router.push({ path: `/users/register-domain` })
-            }
             // OPTIMIZE: Maybe apply some error styling
+            if (!this.getUser) return false
+            // Login
+            // Change to next route
+            return this.$router.push({ path: `/users/register-domain` })
         },
     },
 }

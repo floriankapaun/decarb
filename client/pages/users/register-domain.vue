@@ -7,11 +7,12 @@
 <script>
 export default {
     layout: 'minimal',
-    middleware({ store, redirect }) {
-        // const isAuthenticated = store.state.authenticated
-        // if (!isAuthenticated) {
-        //     return redirect('/login')
-        // }
-    },
+    // middleware({ store, redirect }) {
+    //     // const isAuthenticated = store.state.authenticated
+    //     // if (!isAuthenticated) {
+    //     //     return redirect('/login')
+    //     // }
+    // },
+    middleware: ['auth'],
 }
 </script>

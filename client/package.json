@@ -24,8 +24,11 @@
   "dependencies": {
     "@carbon/grid": "^10.25.0",
     "@nuxtjs/pwa": "^3.3.5",
+    "cookie": "^0.4.1",
     "core-js": "^3.9.1",
-    "nuxt": "^2.15.3"
+    "js-cookie": "^2.2.1",
+    "nuxt": "^2.15.3",
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "@carbon/icons-vue": "^10.30.0",

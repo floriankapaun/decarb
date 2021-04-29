@@ -64,7 +64,6 @@ export default {
                 verificationCode: this.verificationCode,
             })
             if (this.getUser) {
-                console.log(this.getUser)
                 return this.$router.push({
                     path: `/users/${this.getUser.id}/set-password`,
                 })

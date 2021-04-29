@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { REFRESH_TOKEN_EXPIRES } from '../config';
 
+import attachCurrentUser from '../middlewares/attachCurrentUser';
+import isAuth from '../middlewares/isAuth';
 import AuthService from '../services/AuthService';
 
 const router = Router();
@@ -36,7 +38,7 @@ export default (app) => {
             httpOnly: true,
             expires: new Date(0),
         });
-        res.send(auth).status(200);
+        res.send({message: auth}).status(200);
     });
 
     // Refresh a users access token
@@ -46,4 +48,16 @@ export default (app) => {
         const refreshedToken = await AuthService.refreshToken(email, refreshToken);
         res.json(refreshedToken).status(200);
     });
+
+    // Get the authenticated users profile
+    router.get('/user', isAuth, attachCurrentUser, async (req, res) => {
+        delete req.currentUser.createdAt;
+        delete req.currentUser.deletedAt;
+        delete req.currentUser.password;
+        delete req.currentUser.refreshToken;
+        delete req.currentUser.refreshTokenExpiry;
+        delete req.currentUser.verificationCode;
+        delete req.currentUser.verifiedAt;
+        res.json(req.currentUser).status(200);
+    })
 }
