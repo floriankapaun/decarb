@@ -28,10 +28,7 @@ export default {
         commit('setIsLoading', true)
         const requestOptions = {
             method: 'GET',
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                'Content-Type': 'application/json',
-            },
+            headers: { Authorization: `Bearer ${accessToken}` },
         }
         const data = await saveFetch(
             `http://localhost:4000/api/v1/auth/user`,

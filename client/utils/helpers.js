@@ -1,6 +1,7 @@
 // import store from '@/store/alerts'
 
-const handleError = (error) => {
+const handleError = async (error) => {
+    error = await error.json()
     // const errorStatus = error && error.status ? error.status : error
     const errorMessage = error && error.message ? error.message : error
     console.error(errorMessage)
