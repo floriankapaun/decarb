@@ -56,11 +56,14 @@ export default {
         ...mapGetters({
             getIsLoading: 'users/isLoading',
             getUser: 'users/user',
+            getAccessToken: 'auth/getAccessToken',
         }),
     },
     methods: {
         ...mapActions({
             setPassword: 'users/setPassword',
+            login: 'auth/login',
+            fetchUser: 'auth/fetchUser',
         }),
         validatePassword() {
             const elem = this.$refs.confirmPassword
@@ -76,7 +79,13 @@ export default {
             // OPTIMIZE: Maybe apply some error styling
             if (!this.getUser) return false
             // Login
-            // Change to next route
+            await this.login({
+                email: this.getUser.email,
+                password: this.password,
+            })
+            await this.fetchUser(this.getAccessToken)
+            // Change to next route. If this is not working, the user will be
+            // redirected to '/login' because of this pages middleware.
             return this.$router.push({ path: `/users/register-domain` })
         },
     },
