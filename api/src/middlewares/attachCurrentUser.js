@@ -6,7 +6,8 @@ export default async (req, res, next) => {
     const options = { include: { domains: true } };
     const user = await PrismaService.findUnique('user', parameters, options);
     if (!user) {
-        res.status(401).send(`Can't find user with id: ${userId}`).end();
+        const message = `Can't find user with id: ${userId}`;
+        return res.status(401).json({ message });
     }
     req.currentUser = user;
     return next();
