@@ -1,7 +1,7 @@
 <template>
     <footer class="bx--row">
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p class="copyright">© {{ year }} Eco Web</p>
+            <p>© {{ year }} Eco Web</p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
             <p><CvLink to="imprint">Imprint</CvLink></p>
@@ -30,15 +30,15 @@ export default {
 @import '@/assets/scss/carbon-utils';
 
 footer {
-    margin-top: $spacing-10;
+    margin-top: $spacing-13;
+}
+
+p {
+    @include carbon--type-style('body-short-01');
 }
 
 .bx--link {
     margin-bottom: $spacing-03;
-}
-
-.copyright {
-    font-size: 0.875rem;
 }
 
 @media (min-width: 1056px) {

@@ -1,17 +1,30 @@
 <template>
-    <section>
-        <h1>Login</h1>
-        <Form
-            :button-label="getIsLoading ? 'Loading...' : 'Login'"
-            :button-disbaled="getIsLoading"
-            :inputs="inputs"
-            @submit="handleSubmit"
-        />
-        <p>
-            Don't have an account yet?
-            <NuxtLink to="register">Register now</NuxtLink>.
-        </p>
-    </section>
+    <div>
+        <section class="bx--row login">
+            <div
+                class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 login__wrapper"
+            >
+                <h1 class="login__heading">Login</h1>
+                <Form
+                    class="login__form"
+                    :button-label="getIsLoading ? 'Loading...' : 'Login'"
+                    :button-disbaled="getIsLoading"
+                    :inputs="inputs"
+                    @submit="handleSubmit"
+                />
+            </div>
+        </section>
+        <section class="bx--row">
+            <div
+                class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4"
+            >
+                <p class="login__register-paragraph">
+                    Don't have an account yet?
+                    <NuxtLink to="register">Register now</NuxtLink>.
+                </p>
+            </div>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -36,25 +49,42 @@ export default {
             getIsLoading: 'auth/getIsLoading',
             getIsLoggedIn: 'auth/getIsLoggedIn',
             getAccessToken: 'auth/getAccessToken',
-            getUser: 'auth/getUser',
         }),
     },
     methods: {
         ...mapActions({
             login: 'auth/login',
             fetchUser: 'auth/fetchUser',
-            logout: 'auth/logout',
         }),
-        handleSubmit(obj) {
-            console.log(obj)
-            // await this.login({ email: this.email, password: this.password })
-            // await this.fetchUser(this.getAccessToken)
-            // if (this.getIsLoggedIn) return this.$router.push('/')
+        async handleSubmit(eventData) {
+            const { email, password } = eventData
+            if (!email || !password) return false
+            await this.login({ email, password })
+            await this.fetchUser(this.getAccessToken)
+            if (this.getIsLoggedIn) return this.$router.push('/')
             // OPTIMIZE: Maybe apply some error styling
         },
-        // async handleLogout() {
-        //     await this.logout(this.getUser.email)
-        // },
     },
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/scss/carbon-utils';
+
+.login {
+    &__wrapper {
+        // background-color: $decorative-01;
+        padding-top: $spacing-05;
+        padding-bottom: $spacing-05;
+        margin-bottom: $spacing-10;
+    }
+
+    &__heading {
+        margin-bottom: $spacing-06;
+        @include carbon--type-style('expressive-heading-06');
+    }
+    &__register-paragraph {
+        @include carbon--type-style('helper-text-01');
+    }
+}
+</style>
