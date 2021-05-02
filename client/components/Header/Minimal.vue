@@ -8,12 +8,6 @@
     </CvHeader>
 </template>
 
-<script>
-export default {
-    name: 'Navigation',
-}
-</script>
-
 <style lang="scss" scoped>
 @import '@/assets/scss/carbon-utils';
 
