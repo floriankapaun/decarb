@@ -3,7 +3,7 @@
         <HeaderMinimal />
         <CvContent id="#main-content" class="bx--grid">
             <Nuxt />
-            <Footer />
+            <FooterMinimal />
         </CvContent>
     </div>
 </template>

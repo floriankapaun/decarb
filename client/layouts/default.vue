@@ -5,6 +5,7 @@
         <CvContent id="#main-content">
             <Logo />
             <Nuxt />
+            <FooterPublic />
         </CvContent>
     </div>
 </template>
