@@ -1,7 +1,9 @@
 <template>
     <div>
         <HeaderMinimal />
-        <Nuxt />
-        <Footer />
+        <CvContent id="#main-content" class="bx--grid">
+            <Nuxt />
+            <Footer />
+        </CvContent>
     </div>
 </template>

@@ -15,13 +15,8 @@
 
 <style scoped>
 .logo {
-    animation: 1s appear;
-    margin: auto;
-}
-
-@keyframes appear {
-    0% {
-        opacity: 0;
-    }
+    display: block;
+    width: auto;
+    height: 100%;
 }
 </style>
