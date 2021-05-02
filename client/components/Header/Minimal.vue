@@ -1,9 +1,9 @@
 <template>
     <CvHeader aria-label="Eco Web header">
         <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
-        <CvHeaderName href="javascript:void(0)">
+        <!-- Negative Tab-Index, because there is no link -->
+        <CvHeaderName href="javascript:void(0)" tabindex="-1">
             <Logo />
-            Text
         </CvHeaderName>
     </CvHeader>
 </template>
@@ -15,25 +15,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bx--header {
-    background-color: transparent;
-    border-bottom: 1px solid transparent;
+@import '@/assets/scss/carbon-utils';
 
-    &__name svg {
-        fill: #004335;
-        max-height: 3rem;
+.bx--header {
+    // background-color: transparent;
+    background-color: #004335;
+    // border-bottom: 1px solid transparent;
+    border-bottom: 1px solid #016752;
+    justify-content: center;
+
+    &__name {
+        padding-left: 0;
+        padding-right: 0;
+        cursor: auto; // no pointer
+
+        svg {
+            // fill: #004335;
+            fill: white;
+            max-height: $spacing-07;
+        }
     }
 }
-
-// @import '@/assets/scss/carbon-utils';
-
-// header {
-//     text-align: center;
-
-//     svg {
-//         width: 100%;
-//         max-width: $spacing-12;
-//         height: auto;
-//     }
-// }
 </style>
