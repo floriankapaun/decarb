@@ -1,8 +1,7 @@
 <template>
     <CvHeader aria-label="Eco Web header">
         <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
-        <!-- Negative Tab-Index, because there is no link -->
-        <CvHeaderName href="javascript:void(0)" tabindex="-1">
+        <CvHeaderName href="/">
             <Logo />
         </CvHeaderName>
     </CvHeader>
@@ -19,14 +18,8 @@
     justify-content: center;
 
     &__name {
-        padding-left: 0;
-        padding-right: 0;
-        cursor: auto; // no pointer
-
-        &:focus {
-            border: none;
-            border-color: transparent;
-        }
+        padding-left: $spacing-05;
+        padding-right: $spacing-05;
 
         svg {
             // fill: #004335;
