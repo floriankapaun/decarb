@@ -23,6 +23,11 @@
         padding-right: 0;
         cursor: auto; // no pointer
 
+        &:focus {
+            border: none;
+            border-color: transparent;
+        }
+
         svg {
             // fill: #004335;
             fill: white;
