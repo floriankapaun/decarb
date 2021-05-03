@@ -1,7 +1,6 @@
 <template>
     <div>
         <HeaderPublic />
-        <Navigation />
         <CvContent id="#main-content">
             <Logo />
             <Nuxt />

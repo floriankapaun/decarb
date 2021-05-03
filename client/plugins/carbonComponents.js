@@ -6,8 +6,12 @@ Vue.use(CarbonComponentsVue, [
     'CvContent',
     'CvForm',
     'CvHeader',
+    'CvHeaderGlobalAction',
+    'CvHeaderMenuItem',
     'CvHeaderName',
+    'CvHeaderNav',
     'CvLink',
     'CvSkipToContent',
+    'CvTag',
     'CvTextInput',
 ])

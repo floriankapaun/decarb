@@ -6,6 +6,7 @@
 <script>
 export default {
     layout: 'dashboard',
+    middleware: ['isAuth'],
     // page component definitions
 }
 </script>
