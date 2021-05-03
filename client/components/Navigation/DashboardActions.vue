@@ -38,7 +38,6 @@ export default {
     computed: {
         ...mapGetters({
             getIsLoggedIn: 'auth/getIsLoggedIn',
-            getUser: 'auth/getUser',
         }),
     },
     methods: {
@@ -49,7 +48,7 @@ export default {
             this.$router.push('/')
         },
         handleLogoutAction() {
-            this.logout(this.getUser.email)
+            this.logout()
         },
     },
 }

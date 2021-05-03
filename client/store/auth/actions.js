@@ -39,21 +39,24 @@ export default {
         }
         commit('setIsLoading', false)
     },
-    logout: async ({ commit }, email) => {
+    logout: async ({ commit, rootGetters }) => {
         commit('setIsLoading', true)
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
-        }
-        const data = await saveFetch(
-            `http://localhost:4000/api/v1/auth/logout`,
-            requestOptions
-        )
-        if (data) {
-            commit('setIsLoggedIn', false)
-            commit('setAccessToken', null)
-            commit('setAccessTokenExpiry', null)
+        const user = rootGetters['auth/getUser']
+        if (user && user.email) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: user.email }),
+            }
+            const data = await saveFetch(
+                `http://localhost:4000/api/v1/auth/logout`,
+                requestOptions
+            )
+            if (data) {
+                commit('setIsLoggedIn', false)
+                commit('setAccessToken', null)
+                commit('setAccessTokenExpiry', null)
+            }
         }
         commit('setIsLoading', false)
     },
