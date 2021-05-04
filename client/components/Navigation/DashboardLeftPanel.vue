@@ -6,68 +6,68 @@
                     <!-- Include: Domains Favicon if possible -->
                     <Badge16 />
                 </template>
-                <CvHeaderMenuItem href="javascript:void(0)"
+                <CvHeaderMenuItem to="javascript:void(0)"
                     >www.another-domain.de</CvHeaderMenuItem
                 >
-                <CvHeaderMenuItem href="javascript:void(0)"
+                <CvHeaderMenuItem to="javascript:void(0)"
                     >www.florian-kapaun.de</CvHeaderMenuItem
                 >
             </CvSideNavMenu>
         </CvHeaderSideNavItems>
 
-        <CvSideNavLink href="/achievements-offsettings">
+        <CvSideNavLink to="achievements-offsettings">
             <template slot="nav-icon"><Sprout16 /></template>
             Achievements/Offsettings
         </CvSideNavLink>
 
-        <CvSideNavLink href="/traffic">
+        <CvSideNavLink to="traffic">
             <template slot="nav-icon"><Analytics16 /></template>
             Traffic
         </CvSideNavLink>
 
-        <CvSideNavLink href="/emissions">
+        <CvSideNavLink to="emissions">
             <template slot="nav-icon"><Activity16 /></template>
             <!-- ChartBubblePacked, ChartBubble, ChartCandlestick, Meter -->
             Emissions
         </CvSideNavLink>
 
-        <CvSideNavLink href="/index">
+        <CvSideNavLink to="page-index">
             <template slot="nav-icon"><ListBulleted16 /></template>
             Index
         </CvSideNavLink>
 
         <div class="divider"></div>
 
-        <CvSideNavLink href="/badge">
+        <CvSideNavLink to="badge">
             <template slot="nav-icon"><Badge16 /></template>
             <!-- Certificate -->
             Badge
         </CvSideNavLink>
 
-        <CvSideNavLink href="/gdpr-info">
+        <CvSideNavLink to="gdpr-info">
             <template slot="nav-icon"><Information16 /></template>
             <!-- Rule, Security -->
             GDPR Info
         </CvSideNavLink>
 
-        <CvSideNavLink href="/tracking-code">
+        <CvSideNavLink to="tracking-code">
             <template slot="nav-icon"><Code16 /></template>
             Tracking Code
         </CvSideNavLink>
 
         <div class="divider"></div>
 
-        <CvSideNavLink href="/subscription">
+        <CvSideNavLink to="subscription">
             <template slot="nav-icon"><Repeat16 /></template>
             Subscription
         </CvSideNavLink>
 
-        <CvSideNavLink href="/payment-and-bills">
+        <CvSideNavLink to="payment-and-bills">
             <template slot="nav-icon"><Receipt16 /></template>
             Payment & Bills
         </CvSideNavLink>
 
-        <CvSideNavLink href="/account-settings">
+        <CvSideNavLink to="account-settings">
             <template slot="nav-icon"><Settings16 /></template>
             Account Settings
         </CvSideNavLink>

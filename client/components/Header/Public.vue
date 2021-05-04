@@ -1,7 +1,7 @@
 <template>
     <CvHeader aria-label="Eco Web header">
         <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
-        <CvHeaderName href="/"><Logo /></CvHeaderName>
+        <CvHeaderName to="/"><Logo /></CvHeaderName>
         <NavigationPublic />
         <template slot="header-global">
             <NavigationPublicActions />

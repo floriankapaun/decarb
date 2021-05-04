@@ -5,13 +5,12 @@
             aria-controls="side-nav-left"
         />
         <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
-        <CvHeaderName href="/"><Logo /></CvHeaderName>
-        <NavigationDashboard />
+        <CvHeaderName to="dashboard"><Logo /></CvHeaderName>
         <template slot="header-global">
             <NavigationDashboardActions />
         </template>
         <template slot="left-panels">
-            <CvSideNav id="side-nav-left" rail>
+            <CvSideNav id="side-nav-left">
                 <NavigationDashboardLeftPanel />
             </CvSideNav>
         </template>
