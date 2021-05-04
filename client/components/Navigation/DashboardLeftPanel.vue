@@ -36,7 +36,7 @@
             Index
         </CvSideNavLink>
 
-        <div class="divider"></div>
+        <Divider />
 
         <CvSideNavLink to="badge">
             <template slot="nav-icon"><Badge16 /></template>
@@ -55,7 +55,7 @@
             Tracking Code
         </CvSideNavLink>
 
-        <div class="divider"></div>
+        <Divider />
 
         <CvSideNavLink to="subscription">
             <template slot="nav-icon"><Repeat16 /></template>
@@ -101,21 +101,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-.divider {
-    position: relative;
-    display: block;
-    margin-bottom: 2rem;
-
-    &::after {
-        position: absolute;
-        bottom: -1rem;
-        left: 1rem;
-        width: calc(100% - 32px);
-        height: 0.0625rem;
-        background: #e0e0e0;
-        content: '';
-    }
-}
-</style>
