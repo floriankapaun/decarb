@@ -12,6 +12,12 @@
 </template>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/carbon-utils';
+
+.bx--content {
+    background-color: $ui-02;
+}
+
 // Add padding to body if left-panel is expanded
 @media (min-width: 65.99rem) {
     .dashboard {

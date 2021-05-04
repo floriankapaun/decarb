@@ -33,7 +33,7 @@
 }
 
 .bx--side-nav__navigation {
-    border-right: 1px solid #e0e0e0;
+    background-color: $ui-01;
 }
 
 .bx--header__nav::before {

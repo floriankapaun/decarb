@@ -23,7 +23,10 @@
   },
   "dependencies": {
     "@carbon/grid": "^10.25.0",
+    "@carbon/icons-vue": "^10.31.0",
+    "@carbon/vue": "^2.37.1",
     "@nuxtjs/pwa": "^3.3.5",
+    "carbon-components": "^10.34.0",
     "cookie": "^0.4.1",
     "core-js": "^3.9.1",
     "js-cookie": "^2.2.1",
@@ -31,13 +34,10 @@
     "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
-    "@carbon/icons-vue": "^10.30.0",
-    "@carbon/vue": "^2.37.1",
     "@nuxtjs/eslint-config": "^6.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/stylelint-module": "^4.0.0",
     "babel-eslint": "^10.1.0",
-    "carbon-components": "^10.33.0",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-nuxt": "^2.0.0",
