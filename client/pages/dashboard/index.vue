@@ -1,13 +1,14 @@
 <template>
-    <div>
-        <h1>Overview</h1>
-        <CvAspectRatio ratio="16x9">
-            <CvTile kind="clickable" to="dashboard/page">
-                <h2>Content</h2>
-                <p>test</p>
-            </CvTile>
-        </CvAspectRatio>
-    </div>
+    <section class="bx--row">
+        <div class="bx--col-lg-16">
+            <h1>Overview</h1>
+        </div>
+        <div class="bx--col-lg-8">
+            <Card headline="Pageviews">
+                <p>Wow ey!</p>
+            </Card>
+        </div>
+    </section>
 </template>
 
 <script>
@@ -16,3 +17,11 @@ export default {
     middleware: ['auth'],
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/scss/carbon-utils';
+
+h1 {
+    margin-bottom: $spacing-07;
+}
+</style>

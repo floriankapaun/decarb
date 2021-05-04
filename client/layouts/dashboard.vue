@@ -1,10 +1,7 @@
 <template>
     <div>
         <HeaderDashboard />
-        <CvContent
-            id="#main-content"
-            class="bx--grid bx--grid--full-width dashboard"
-        >
+        <CvContent id="#main-content" class="bx--grid dashboard">
             <Nuxt />
             <FooterMinimal />
         </CvContent>
@@ -16,6 +13,10 @@
 
 .bx--content {
     background-color: $ui-02;
+}
+
+.dashboard {
+    margin-left: 0;
 }
 
 // Add padding to body if left-panel is expanded
