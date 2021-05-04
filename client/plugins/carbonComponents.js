@@ -3,6 +3,8 @@ import CarbonComponentsVue from '@carbon/vue'
 
 Vue.use(CarbonComponentsVue, [
     'CvButton',
+    'CvCodeSnippet',
+    'CvCodeSnippetSkeleton',
     'CvContent',
     'CvForm',
     'CvHeader',

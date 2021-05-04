@@ -50,6 +50,7 @@
             GDPR Info
         </CvSideNavLink>
 
+        <!-- TODO: If verification wasn't successfull yet, highlight this tab with a pill or something -->
         <CvSideNavLink to="dashboard/tracking-code">
             <template slot="nav-icon"><Code16 /></template>
             Tracking Code

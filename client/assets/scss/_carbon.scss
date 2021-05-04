@@ -77,9 +77,22 @@ $ui-background: #004335;
 
 // Carbon components
 @import 'carbon-components/scss/components/button/button';
+@import 'carbon-components/scss/components/copy-button/copy-button';
+@import 'carbon-components/scss/components/code-snippet/code-snippet';
 // @import 'carbon-components/scss/components/data-table/data-table';
 @import 'carbon-components/scss/components/link/link';
 // @import 'carbon-components/scss/components/pagination/pagination';
 @import 'carbon-components/scss/components/ui-shell/ui-shell';
 @import 'carbon-components/scss/components/tag/tag';
 @import 'carbon-components/scss/components/text-input/text-input';
+
+/**
+ * Global Carbon Style Overwrite
+ */
+.bx--snippet-container pre {
+    white-space: pre-line;
+
+    code {
+        white-space: pre;
+    }
+}
