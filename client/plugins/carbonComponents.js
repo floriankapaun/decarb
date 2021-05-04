@@ -20,5 +20,6 @@ Vue.use(CarbonComponentsVue, [
     'CvSideNavMenu',
     'CvSideNavMenuItem',
     'CvTag',
+    'CvTile',
     'CvTextInput',
 ])
