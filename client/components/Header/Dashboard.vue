@@ -1,10 +1,19 @@
 <template>
     <CvHeader aria-label="Eco Web Dashboard header">
+        <CvHeaderMenuButton
+            aria-label="Header navigation"
+            aria-controls="side-nav-left"
+        />
         <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
         <CvHeaderName href="/"><Logo /></CvHeaderName>
         <NavigationDashboard />
         <template slot="header-global">
             <NavigationDashboardActions />
+        </template>
+        <template slot="left-panels">
+            <CvSideNav id="side-nav-left" rail>
+                <NavigationDashboardLeftPanel />
+            </CvSideNav>
         </template>
     </CvHeader>
 </template>
