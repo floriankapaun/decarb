@@ -8,6 +8,12 @@
     </div>
 </template>
 
+<script>
+export default {
+    middleware: ['auth'],
+}
+</script>
+
 <style lang="scss" scoped>
 @import '@/assets/scss/carbon-utils';
 

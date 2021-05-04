@@ -61,7 +61,7 @@ export default {
             if (!email || !password) return false
             await this.login({ email, password })
             await this.fetchUser(this.getAccessToken)
-            if (this.getIsLoggedIn) return this.$router.push('/')
+            if (this.getIsLoggedIn) return this.$router.push('dashboard')
             // OPTIMIZE: Maybe apply some error styling
         },
     },
@@ -83,6 +83,7 @@ export default {
         margin-bottom: $spacing-06;
         @include carbon--type-style('expressive-heading-06');
     }
+
     &__register-paragraph {
         @include carbon--type-style('helper-text-01');
     }

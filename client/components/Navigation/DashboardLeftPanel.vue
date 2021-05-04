@@ -15,59 +15,59 @@
             </CvSideNavMenu>
         </CvHeaderSideNavItems>
 
-        <CvSideNavLink to="achievements-offsettings">
+        <CvSideNavLink to="dashboard/achievements-offsettings">
             <template slot="nav-icon"><Sprout16 /></template>
             Achievements/Offsettings
         </CvSideNavLink>
 
-        <CvSideNavLink to="traffic">
+        <CvSideNavLink to="dashboard/traffic">
             <template slot="nav-icon"><Analytics16 /></template>
             Traffic
         </CvSideNavLink>
 
-        <CvSideNavLink to="emissions">
+        <CvSideNavLink to="dashboard/emissions">
             <template slot="nav-icon"><Activity16 /></template>
             <!-- ChartBubblePacked, ChartBubble, ChartCandlestick, Meter -->
             Emissions
         </CvSideNavLink>
 
-        <CvSideNavLink to="page-index">
+        <CvSideNavLink to="dashboard/page-index">
             <template slot="nav-icon"><ListBulleted16 /></template>
             Index
         </CvSideNavLink>
 
         <Divider />
 
-        <CvSideNavLink to="badge">
+        <CvSideNavLink to="dashboard/badge">
             <template slot="nav-icon"><Badge16 /></template>
             <!-- Certificate -->
             Badge
         </CvSideNavLink>
 
-        <CvSideNavLink to="gdpr-info">
+        <CvSideNavLink to="dashboard/gdpr-info">
             <template slot="nav-icon"><Information16 /></template>
             <!-- Rule, Security -->
             GDPR Info
         </CvSideNavLink>
 
-        <CvSideNavLink to="tracking-code">
+        <CvSideNavLink to="dashboard/tracking-code">
             <template slot="nav-icon"><Code16 /></template>
             Tracking Code
         </CvSideNavLink>
 
         <Divider />
 
-        <CvSideNavLink to="subscription">
+        <CvSideNavLink to="dashboard/subscription">
             <template slot="nav-icon"><Repeat16 /></template>
             Subscription
         </CvSideNavLink>
 
-        <CvSideNavLink to="payment-and-bills">
+        <CvSideNavLink to="dashboard/payment-and-bills">
             <template slot="nav-icon"><Receipt16 /></template>
             Payment & Bills
         </CvSideNavLink>
 
-        <CvSideNavLink to="account-settings">
+        <CvSideNavLink to="dashboard/account-settings">
             <template slot="nav-icon"><Settings16 /></template>
             Account Settings
         </CvSideNavLink>
