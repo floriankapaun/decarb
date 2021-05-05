@@ -99,6 +99,8 @@ class PrismaService {
         } finally {
             // FIXME: This line causes errors when there are a lot of requests at the same time
             // Think about a debounce function for it or sth else
+            // CHECK: Connection Pooling
+            // https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/connection-pool
             await prisma.$disconnect();
         }
     }
