@@ -1,43 +1,43 @@
 import { saveFetch } from '@/utils/helpers'
 
 export default {
-    register: async ({ commit }, userData) => {
+    register: async ({ commit, rootGetters }, userData) => {
         commit('isLoading', true)
+        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData),
         }
-        const data = await saveFetch(
-            'http://localhost:4000/api/v1/users',
-            requestOptions
-        )
+        const data = await saveFetch(`${apiBaseUrl}/users`, requestOptions)
         if (data) commit('user', data)
         commit('isLoading', false)
     },
-    verify: async ({ commit }, { userId, verificationCode }) => {
+    verify: async ({ commit, rootGetters }, { userId, verificationCode }) => {
         commit('isLoading', true)
+        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ verificationCode }),
         }
         const data = await saveFetch(
-            `http://localhost:4000/api/v1/users/${userId}/verification`,
+            `${apiBaseUrl}/users/${userId}/verification`,
             requestOptions
         )
         if (data) commit('user', data)
         commit('isLoading', false)
     },
-    setPassword: async ({ commit }, { userId, password }) => {
+    setPassword: async ({ commit, rootGetters }, { userId, password }) => {
         commit('isLoading', true)
+        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password }),
         }
         const data = await saveFetch(
-            `http://localhost:4000/api/v1/users/${userId}/password`,
+            `${apiBaseUrl}/users/${userId}/password`,
             requestOptions
         )
         if (data) commit('user', data)

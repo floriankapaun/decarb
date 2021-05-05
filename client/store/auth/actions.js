@@ -1,17 +1,15 @@
 import { saveFetch } from '@/utils/helpers'
 
 export default {
-    login: async ({ commit }, loginCredentials) => {
+    login: async ({ commit, rootGetters }, loginCredentials) => {
         commit('setIsLoading', true)
+        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginCredentials),
         }
-        const data = await saveFetch(
-            `http://localhost:4000/api/v1/auth/login`,
-            requestOptions
-        )
+        const data = await saveFetch(`${apiBaseUrl}/auth/login`, requestOptions)
         const isLoggedIn = !!(
             data &&
             data.accessToken &&
@@ -24,16 +22,14 @@ export default {
         }
         commit('setIsLoading', false)
     },
-    fetchUser: async ({ commit }, accessToken) => {
+    fetchUser: async ({ commit, rootGetters }, accessToken) => {
         commit('setIsLoading', true)
+        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
         const requestOptions = {
             method: 'GET',
             headers: { Authorization: `Bearer ${accessToken}` },
         }
-        const data = await saveFetch(
-            `http://localhost:4000/api/v1/auth/user`,
-            requestOptions
-        )
+        const data = await saveFetch(`${apiBaseUrl}/auth/user`, requestOptions)
         if (data) {
             commit('setUser', data)
         }
@@ -41,6 +37,7 @@ export default {
     },
     logout: async ({ commit, rootGetters }) => {
         commit('setIsLoading', true)
+        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
         const user = rootGetters['auth/getUser']
         if (user && user.email) {
             const requestOptions = {
@@ -49,7 +46,7 @@ export default {
                 body: JSON.stringify({ email: user.email }),
             }
             const data = await saveFetch(
-                `http://localhost:4000/api/v1/auth/logout`,
+                `${apiBaseUrl}/auth/logout`,
                 requestOptions
             )
             if (data) {

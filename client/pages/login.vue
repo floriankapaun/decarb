@@ -30,7 +30,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
-import { email, password } from '@/config/inputs'
+import { email, password } from '@/config/public/inputs'
 import Form from '@/components/Form'
 
 export default {

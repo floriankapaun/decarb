@@ -1,3 +1,6 @@
+import * as publicConfig from './config/public'
+import * as privateConfig from './config/private'
+
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
@@ -12,6 +15,17 @@ export default {
         ],
         link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
+
+    // Server configuration
+    server: {
+        port: privateConfig.PORT,
+    },
+
+    // Holds all env variables that are public as these will be exposed on the frontend
+    publicRuntimeConfig: { ...publicConfig },
+
+    // Holds all env variables that are private and that shouldn't be exposed on the frontend
+    privateRuntimeConfig: { ...privateConfig },
 
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: [],
