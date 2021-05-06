@@ -17,7 +17,7 @@ export default {
             data.data.accessTokenExpiry
         )
         commit('setIsLoggedIn', isLoggedIn)
-        if (data) {
+        if (data && data.data) {
             commit('setAccessToken', data.data.accessToken)
             commit('setAccessTokenExpiry', data.data.accessTokenExpiry)
         }
@@ -50,7 +50,7 @@ export default {
                 `${apiBaseUrl}/auth/logout`,
                 requestOptions
             )
-            if (data) {
+            if (data && data.data) {
                 commit('setIsLoggedIn', false)
                 commit('setAccessToken', null)
                 commit('setAccessTokenExpiry', null)

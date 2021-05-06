@@ -25,7 +25,7 @@ export default {
             headers: { Authorization: `Bearer ${accessToken}` },
         }
         const data = await saveFetch(`${apiBaseUrl}/domains`, requestOptions)
-        if (data) commit('setDomains', data)
+        if (data && data.data) commit('setDomains', data.data)
         commit('setIsLoading', false)
     },
     fetchUserDomains: async ({ commit, rootGetters }, userId) => {

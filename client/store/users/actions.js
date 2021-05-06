@@ -10,7 +10,7 @@ export default {
             body: JSON.stringify(userData),
         }
         const data = await saveFetch(`${apiBaseUrl}/users`, requestOptions)
-        if (data) commit('user', data)
+        if (data && data.data) commit('user', data.data)
         commit('isLoading', false)
     },
     verify: async ({ commit, rootGetters }, { userId, verificationCode }) => {
@@ -25,7 +25,7 @@ export default {
             `${apiBaseUrl}/users/${userId}/verification`,
             requestOptions
         )
-        if (data) commit('user', data)
+        if (data && data.data) commit('user', data.data)
         commit('isLoading', false)
     },
     setPassword: async ({ commit, rootGetters }, { userId, password }) => {
@@ -40,7 +40,7 @@ export default {
             `${apiBaseUrl}/users/${userId}/password`,
             requestOptions
         )
-        if (data) commit('user', data)
+        if (data && data.data) commit('user', data.data)
         commit('isLoading', false)
     },
 }

@@ -86,7 +86,7 @@ export default {
             await this.fetchUser(this.getAccessToken)
             // Change to next route. If this is not working, the user will be
             // redirected to '/login' because of this pages middleware.
-            return this.$router.push({ path: `/users/register-domain` })
+            return this.$router.push({ path: '/dashboard/register-domain' })
         },
     },
 }

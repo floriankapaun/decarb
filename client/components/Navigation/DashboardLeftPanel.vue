@@ -23,7 +23,7 @@
                 {{ domain.url }}
             </CvSideNavMenuItem>
             <CvSideNavMenuItem
-                to="users/register-domain"
+                to="dashboard/register-domain"
                 class="icon-positioning--add"
             >
                 <Add16 /> Add new Domain
