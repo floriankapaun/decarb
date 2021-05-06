@@ -21,20 +21,20 @@ export default (app) => {
     router.post('/', isAuth, attachCurrentUser, asyncHandler(async (req, res) => {
         const domainData = req.body;
         const newDomain = await DomainService.create(domainData, req.currentUser);
-        return sendResponse(newDomain);
+        return sendResponse(res, newDomain);
     }));
 
     // Get all domains
     router.get('/', asyncHandler(async (req, res) => {
         const allDomains = await PrismaService.findMany('domain');
-        return sendResponse(allDomains);
+        return sendResponse(res, allDomains);
     }));
 
     // Get a domain
     router.get('/:id', asyncHandler(async (req, res) => {
         const { id } = req.params;
         const uniqueDomain = await PrismaService.findUnique('domain', { id });
-        return sendResponse(uniqueDomain);
+        return sendResponse(res, uniqueDomain);
     }));
 
     // Update a domain
@@ -42,14 +42,14 @@ export default (app) => {
         const { id } = req.params;
         const { companyName } = req.body;
         const updatedDomain = await PrismaService.update('domain', id, { companyName });
-        return sendResponse(updatedDomain);
+        return sendResponse(res, updatedDomain);
     }));
 
     // Delete a domain
     router.delete('/:id', asyncHandler(async (req, res) => {
         const { id } = req.params;
         const deletedDomain = await PrismaService.delete('domain', id);
-        return sendResponse(deletedDomain);
+        return sendResponse(res, deletedDomain);
     }));
 
     /**
@@ -61,7 +61,7 @@ export default (app) => {
         const { id } = req.params;
         const options = { include: { pages: true } };
         const uniqueDomain = await PrismaService.findUnique('domain', { id }, options);
-        return sendResponse(uniqueDomain);
+        return sendResponse(res, uniqueDomain);
     }));
 
     /**
@@ -72,6 +72,6 @@ export default (app) => {
     router.get('/:id/emissions', asyncHandler(async (req, res) => {
         const { id } = req.params;
         const domainEmissions = await DomainService.aggregateDomainEmissions(id, '2021-04-01', '2021-04-30');
-        return sendResponse(domainEmissions);
+        return sendResponse(res, domainEmissions);
     }));
 };
