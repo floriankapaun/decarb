@@ -4,6 +4,7 @@ import isAuth from '../middlewares/isAuth';
 import PrismaService from '../services/PrismaService';
 
 import UserService from '../services/UserService';
+import AppError from '../utils/AppError';
 import asyncHandler from '../utils/asyncHandler';
 import sendResponse from '../utils/sendResponse';
 
@@ -53,7 +54,9 @@ export default (app) => {
 
     // Get all domains a user has access to
     router.get('/:id/domains', isAuth, attachCurrentUser, asyncHandler(async (req, res) => {
+        const { id } = req.params;
         const userId = req.currentUser.id;
+        if (id !== userId) throw new AppError(`User ID "${id}" not matching API Token User`, 400);
         // Seems like this the right way to do this... 
         // See: https://github.com/prisma/prisma/discussions/2429#discussioncomment-14132
         const options = { where: { users: { every: { userId: { equals: userId }}}}};

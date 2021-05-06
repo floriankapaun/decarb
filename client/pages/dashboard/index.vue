@@ -22,8 +22,24 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
     layout: 'dashboard',
+    computed: {
+        ...mapGetters({
+            getUser: 'auth/getUser',
+            getSelectedDomain: 'domains/getSelectedDomain',
+        }),
+    },
+    async mounted() {
+        await this.fetchUserDomains(this.getUser.id)
+    },
+    methods: {
+        ...mapActions({
+            fetchUserDomains: 'domains/fetchUserDomains',
+        }),
+    },
 }
 </script>
 

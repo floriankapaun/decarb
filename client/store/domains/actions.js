@@ -28,23 +28,25 @@ export default {
         if (data) commit('setDomains', data)
         commit('setIsLoading', false)
     },
-    fetchUserDomains: async ({ commit, rootGetters }) => {
+    fetchUserDomains: async ({ commit, rootGetters }, userId) => {
         commit('setIsLoading', true)
         const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
         const accessToken = rootGetters['auth/getAccessToken']
         const requestOptions = {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             },
         }
         const data = await saveFetch(
-            // TODO: No working api path yet -> build it
-            `${apiBaseUrl}/domains`,
+            `${apiBaseUrl}/users/${userId}/domains`,
             requestOptions
         )
-        if (data) commit('setUserDomains', data)
+        if (data && data.data) commit('setUserDomains', data.data)
         commit('setIsLoading', false)
+    },
+    setSelectedDomain: ({ commit }, domain) => {
+        commit('setSelectedDomain', domain)
     },
 }
