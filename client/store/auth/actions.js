@@ -12,13 +12,14 @@ export default {
         const data = await saveFetch(`${apiBaseUrl}/auth/login`, requestOptions)
         const isLoggedIn = !!(
             data &&
-            data.accessToken &&
-            data.accessTokenExpiry
+            data.data &&
+            data.data.accessToken &&
+            data.data.accessTokenExpiry
         )
         commit('setIsLoggedIn', isLoggedIn)
         if (data) {
-            commit('setAccessToken', data.accessToken)
-            commit('setAccessTokenExpiry', data.accessTokenExpiry)
+            commit('setAccessToken', data.data.accessToken)
+            commit('setAccessTokenExpiry', data.data.accessTokenExpiry)
         }
         commit('setIsLoading', false)
     },
@@ -30,8 +31,8 @@ export default {
             headers: { Authorization: `Bearer ${accessToken}` },
         }
         const data = await saveFetch(`${apiBaseUrl}/auth/user`, requestOptions)
-        if (data) {
-            commit('setUser', data)
+        if (data && data.data) {
+            commit('setUser', data.data)
         }
         commit('setIsLoading', false)
     },
