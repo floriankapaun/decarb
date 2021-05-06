@@ -1,4 +1,7 @@
 import { Router } from 'express';
+import attachCurrentUser from '../middlewares/attachCurrentUser';
+import isAuth from '../middlewares/isAuth';
+import PrismaService from '../services/PrismaService';
 
 import UserService from '../services/UserService';
 import asyncHandler from '../utils/asyncHandler';
@@ -42,5 +45,19 @@ export default (app) => {
         const { password } = req.body;
         const set = await UserService.setUserPassword(id, password);
         return sendResponse(res, set);
+    }));
+
+    /**
+     * User -> Domain
+     */
+
+    // Get all domains a user has access to
+    router.get('/:id/domains', isAuth, attachCurrentUser, asyncHandler(async (req, res) => {
+        const userId = req.currentUser.id;
+        // Seems like this the right way to do this... 
+        // See: https://github.com/prisma/prisma/discussions/2429#discussioncomment-14132
+        const options = { where: { users: { every: { userId: { equals: userId }}}}};
+        const domains = await PrismaService.findMany('domain', options);
+        return sendResponse(res, domains);
     }));
 };
