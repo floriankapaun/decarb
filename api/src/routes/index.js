@@ -7,6 +7,8 @@ import sandboxRoutes from './sandboxRoutes.js';
 import subscriptionRoutes from './subscriptionRoutes.js';
 import userRoutes from './userRoutes.js';
 
+import error from '../middlewares/error.js';
+
 export default () => {
     const app = Router();
 
@@ -16,6 +18,9 @@ export default () => {
     sandboxRoutes(app);
     subscriptionRoutes(app);
     userRoutes(app);
+
+    // Error handler must be defined last
+    app.use(error)
 
     return app;
 };

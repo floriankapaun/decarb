@@ -11,6 +11,8 @@ export default () => {
 
     app.use(express.json())
         .use(cors())
+        // Routes must be defined last, to make sure the error handler (defined inside)
+        // is included in the last use() call.
         .use(API_PREFIX, routes());
     
     app.listen(PORT, () => {
