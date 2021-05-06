@@ -1,3 +1,5 @@
+import AppError from './AppError.js';
+
 /**
  * Converts JWT TokenExpiredError to AppError
  * 
@@ -25,6 +27,6 @@ export default (err) => {
         return jwtHandleError(err);
     }
     // FIXME: This creates potential for server killing experiences
-    console.error('CAUTION: Non-Formatted Error', error);
+    console.error('CAUTION: Non-Formatted Error', err);
     return err;
 }

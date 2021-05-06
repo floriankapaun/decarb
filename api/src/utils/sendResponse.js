@@ -46,5 +46,5 @@ export default (res, payload, code = 200) => {
         return res.status(statusCode).json(formatAppError(payload))
     }
     // Response for Non-Errors
-    res.status(code).json(formatResponse(payload));
+    return res.status(code).json(formatResponse(payload));
 };
