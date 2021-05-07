@@ -45,14 +45,18 @@ export default {
     },
     computed: {
         ...mapGetters({
-            getIsLoading: 'domains/getIsLoading',
             getAccessTokenExpiry: 'auth/getAccessTokenExpiry',
+            getIsLoading: 'domains/getIsLoading',
+            getSelectedDomain: 'domains/getSelectedDomain',
+            getUser: 'auth/getUser',
+            getUserDomains: 'domains/getUserDomains',
         }),
     },
     methods: {
         ...mapActions({
+            fetchUserDomains: 'domains/fetchUserDomains',
             registerDomain: 'domains/register',
-            // fetchUserDomains: 'domains/fetchUserDomains',
+            setSelectedDomain: 'domains/setSelectedDomain',
         }),
         async handleSubmit() {
             if (this.getAccessTokenExpiry <= new Date()) {
@@ -64,13 +68,31 @@ export default {
                 url: this.siteUrl,
                 estimatedMonthlyPageViews: pageViews,
             })
-            // TODO: Implement this one
-            // await this.fetchUserDomains()
-            // TODO: Redirect to next page
-            // if (this.getUserDomains) {
-            //     const result = this.getUserDomains.find((x) => x.)
-            // }
-
+            await this.fetchUserDomains(this.getUser.id)
+            if (!this.getUserDomains) {
+                // TODO: Add Error Handling
+                console.warn('Seems like domain registry failed')
+                return false
+            }
+            // Find registered domain in userDomains by siteUrl
+            const sortedDomains = this.getUserDomains
+                .map((x) => {
+                    x.searchIndex = x.url.search(this.siteUrl)
+                    return x
+                })
+                .sort((a, b) => {
+                    // Handles subdomains and partial fits
+                    if (a.searchIndex < 0) return 1
+                    if (b.searchIndex < 0) return -1
+                    return a.searchIndex - b.searchIndex
+                })
+            const registeredDomain = sortedDomains[0]
+            // Remove the unnecessary searchIndex property before dispatching an action
+            delete registeredDomain.searchIndex
+            await this.setSelectedDomain(registeredDomain)
+            if (this.getSelectedDomain) {
+                this.$router.push({ path: `/dashboard` })
+            }
             // OPTIMIZE: Maybe apply some error styling
         },
     },
