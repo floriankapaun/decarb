@@ -3,6 +3,7 @@ import CarbonComponentsVue from '@carbon/vue'
 
 Vue.use(CarbonComponentsVue, [
     'CvButton',
+    'CvButtonSkeleton',
     'CvCodeSnippet',
     'CvCodeSnippetSkeleton',
     'CvContent',
@@ -14,6 +15,7 @@ Vue.use(CarbonComponentsVue, [
     'CvHeaderName',
     'CvHeaderNav',
     'CvHeaderSideNavItems',
+    'CvInlineNotification',
     'CvSkipToContent',
     'CvSideNav',
     'CvSideNavItems',

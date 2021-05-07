@@ -5,7 +5,7 @@ import cookie from 'cookie'
 export default ({ store, req, isDev }) => {
     createPersistedState({
         key: '_EcoWeb',
-        paths: ['auth', 'domains', 'users'],
+        paths: ['auth', 'domains', 'users', 'notifications'],
         storage: {
             getItem: (key) => {
                 // See https://nuxtjs.org/guide/plugins/#using-process-flags
