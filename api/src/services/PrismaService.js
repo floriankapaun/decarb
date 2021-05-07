@@ -1,9 +1,11 @@
 import { PrismaClient } from '@prisma/client';
-import { EVENTS } from '../config/index.js';
+import { EVENTS, MODE } from '../config/index.js';
 import AppError from '../utils/AppError.js';
 import EventEmitter from '../utils/eventEmitter.js';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+    errorFormat: MODE === 'development' ? 'pretty' : 'minimal',
+});
 
 class PrismaService {
     async create(modelName, data) {
