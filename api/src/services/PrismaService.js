@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { EVENTS } from '../config/index.js';
+import AppError from '../utils/AppError.js';
 import EventEmitter from '../utils/eventEmitter.js';
 
 const prisma = new PrismaClient();
@@ -91,17 +92,27 @@ class PrismaService {
         return await this.runPrismaQuery(prismaQuery);
     }
 
+    /**
+     * Runs a prisma Query
+     * 
+     * Prisma manages a connection pool of database connections. The pool is created when
+     * Prisma Client opens the first connection to the database which happens when running
+     * the first query, which calls $connect() under the hood.
+     * 
+     * There is no need to close database connections in this applications use case.
+     * 
+     * Reference:
+     * - https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/connection-management
+     * - https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/connection-pool
+     * 
+     * @param {Function} prismaQuery
+     * @returns {Promise}
+     */
     async runPrismaQuery(prismaQuery) {
         try {
             return await prismaQuery();
-        } catch(error) {
-            console.error(error);
-        } finally {
-            // FIXME: This line causes errors when there are a lot of requests at the same time
-            // Think about a debounce function for it or sth else
-            // CHECK: Connection Pooling
-            // https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/connection-pool
-            await prisma.$disconnect();
+        } catch(err) {
+            throw new AppError(error);
         }
     }
 }
