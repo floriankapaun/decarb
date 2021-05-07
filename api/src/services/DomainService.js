@@ -5,6 +5,7 @@ import PrismaService from './PrismaService.js';
 import EventEmitter from '../utils/eventEmitter.js';
 import { ENUMS, EVENTS } from '../config/index.js';
 import { cleanUrl } from '../utils/url.js';
+import AppError from '../utils/AppError.js';
 
 class DomainService {
     constructor() {
@@ -81,6 +82,17 @@ class DomainService {
         const result = await PrismaService.createMany('page', newPages);
         EventEmitter.emit(EVENTS.create.initialPageIndex, domain.id);
         return result;
+    }
+
+    async verifyOwnership(domainId) {
+        // TODO: Implement Script implementation validation via Puppeteer
+        const validImplementation = true;
+        if (!validImplementation) {
+            throw new AppError('Invalid Script Implementation', 401);
+        }
+        const data = { verifiedAt: new Date() };
+        const verifiedDomain = await PrismaService.update('domain', domainId, data);
+        return verifiedDomain;
     }
 
     async aggregateDomainEmissions(domainId, start, end) {

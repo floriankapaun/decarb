@@ -91,7 +91,9 @@ export default {
             delete registeredDomain.searchIndex
             await this.setSelectedDomain(registeredDomain)
             if (this.getSelectedDomain) {
-                this.$router.push({ path: `/dashboard` })
+                this.$router.push({
+                    path: `/dashboard/verify-domain-ownership`,
+                })
             }
             // OPTIMIZE: Maybe apply some error styling
         },

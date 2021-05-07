@@ -33,8 +33,8 @@ export default (req, res, next) => {
             const message = 'Unauthorized: accessToken validation failed';
             throw new AppError(message, 401);
         }
-        next();
+        return next();
     } catch(err) {
-        next(err)
+        return next(err)
     }
 }

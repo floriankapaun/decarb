@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import attachCurrentUser from '../middlewares/attachCurrentUser';
 import isAuth from '../middlewares/isAuth';
-import requireDomainRole from '../middlewares/requireDomainRole';
+import requireDomainRole from '../middlewares/requireDomainRole.js';
 import PrismaService from '../services/PrismaService.js';
 import DomainService from '../services/DomainService.js';
 import asyncHandler from '../utils/asyncHandler';
@@ -51,6 +51,19 @@ export default (app) => {
         const deletedDomain = await PrismaService.delete('domain', id);
         return sendResponse(res, deletedDomain);
     }));
+
+    // Verify domain ownership
+    router.post(
+        '/:id/ownership-verification',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            const verifiedDomain = await DomainService.verifyOwnership(id);
+            return sendResponse(res, verifiedDomain);
+        })
+    );
 
     /**
      * Domain -> Pages Routes

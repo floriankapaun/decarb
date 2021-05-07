@@ -1,0 +1,47 @@
+<template>
+    <section class="bx--row">
+        <div
+            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 mb-07"
+        >
+            <h1>Tracking Code</h1>
+            <p>
+                Copy the eco web tag and paste it into the
+                <code>&lt;head&gt;</code> section of the HTML code. If you are
+                using a website builder like Wordpress or Shopify, copy the tag
+                and paste it into the appropriate custom HTML code field.
+            </p>
+        </div>
+        <div
+            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 mb-07"
+        >
+            <TrackingCode />
+        </div>
+        <div
+            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4"
+        >
+            <p class="mb-05">
+                Make sure to verify if your implementation was successfull.
+            </p>
+            <CvButton>Verify Implementation</CvButton>
+        </div>
+    </section>
+</template>
+
+<script>
+export default {
+    layout: 'minimal',
+    middleware: ['auth'],
+}
+</script>
+
+<style lang="scss" scoped>
+@import '@/assets/scss/carbon-utils';
+
+.mb-05 {
+    margin-bottom: $spacing-05;
+}
+
+.mb-07 {
+    margin-bottom: $spacing-07;
+}
+</style>

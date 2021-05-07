@@ -49,4 +49,21 @@ export default {
     setSelectedDomain: ({ commit }, domain) => {
         commit('setSelectedDomain', domain)
     },
+    verifyDomainOwnership: async ({ commit, rootGetters }, domainId) => {
+        commit('setIsLoading', true)
+        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
+        const accessToken = rootGetters['auth/getAccessToken']
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+        }
+        await saveFetch(
+            `${apiBaseUrl}/domains/${domainId}/ownership-verification`,
+            requestOptions
+        )
+        commit('setIsLoading', false)
+    },
 }
