@@ -22,7 +22,7 @@
             <p class="mb-05">
                 Make sure to verify if your implementation was successfull.
             </p>
-            <CvButton>Verify Implementation</CvButton>
+            <VerifyDomainOwnershipButton @verified="handleVerified" />
         </div>
     </section>
 </template>
@@ -31,6 +31,11 @@
 export default {
     layout: 'minimal',
     middleware: ['auth'],
+    methods: {
+        handleVerified() {
+            this.$router.push({ path: `/dashboard` })
+        },
+    },
 }
 </script>
 
