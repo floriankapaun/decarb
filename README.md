@@ -50,7 +50,7 @@ $ docker-compose up -d
 
 ```bash
 $ cd api
-$ yarn prisma migrate dev --schema "src/prisma/schema.prisma" --name "MIGRATION_NAME"
+$ yarn migrate "MIGRATION_NAME"
 ```
 
 ## About
