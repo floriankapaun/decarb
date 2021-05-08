@@ -11,17 +11,17 @@ generator client {
 }
 
 model User {
-  id                 String        @id @default(uuid()) @db.Uuid
-  email              String        @unique @db.VarChar(50)
-  verificationCode   Int           @map("verification_code")
-  password           String?       @db.VarChar(255)
-  telephone          String?       @db.VarChar(35)
-  refreshToken       String?       @unique @map("refresh_token") @db.Uuid
-  refreshTokenExpiry DateTime?     @map("refresh_token_expiry")
-  createdAt          DateTime      @default(now()) @map("created_at")
-  verifiedAt         DateTime?     @map("verified_at")
-  deletedAt          DateTime?     @map("deleted_at")
-  domains            DomainUsers[]
+  id                 String       @id @default(uuid()) @db.Uuid
+  email              String       @unique @db.VarChar(50)
+  verificationCode   Int          @map("verification_code")
+  password           String?      @db.VarChar(255)
+  telephone          String?      @db.VarChar(35)
+  refreshToken       String?      @unique @map("refresh_token") @db.Uuid
+  refreshTokenExpiry DateTime?    @map("refresh_token_expiry")
+  createdAt          DateTime     @default(now()) @map("created_at")
+  verifiedAt         DateTime?    @map("verified_at")
+  deletedAt          DateTime?    @map("deleted_at")
+  domains            DomainUser[]
 
   @@map("users")
 }
@@ -34,7 +34,7 @@ model Domain {
   createdAt                 DateTime                @default(now()) @map("created_at")
   verifiedAt                DateTime?               @map("verified_at")
   deletedAt                 DateTime?               @map("deleted_at")
-  users                     DomainUsers[]
+  users                     DomainUser[]
   domainHostingEmissions    DomainHostingEmission[]
   pages                     Page[]
   badge                     Badge?
@@ -44,7 +44,7 @@ model Domain {
   @@map("domains")
 }
 
-model DomainUsers {
+model DomainUser {
   domain    Domain    @relation(fields: [domainId], references: [id])
   domainId  String    @map("domain_id") @db.Uuid
   user      User      @relation(fields: [userId], references: [id])
