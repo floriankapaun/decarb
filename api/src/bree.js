@@ -8,3 +8,5 @@ const bree = new Bree({
 });
 
 bree.start();
+
+export default bree;

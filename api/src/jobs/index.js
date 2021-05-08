@@ -7,7 +7,7 @@ const jobs = [
     {
         name: 'offset',
         path: './src/jobs/offset.js',
-        interval: '5s'
+        interval: '3600s'
     },
 ];
 

@@ -6,9 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -r esm src/index.js",
-    "dev-jobs": "nodemon -r esm src/bree.js",
     "prod": "node -r esm src/index.js",
-    "prod-jobs": "node -r esm src/bree.js",
     "migrate": "yarn prisma migrate dev --schema src/prisma/schema.prisma --name",
     "seed": "yarn prisma db seed --schema src/prisma/schema.prisma --preview-feature"
   },
