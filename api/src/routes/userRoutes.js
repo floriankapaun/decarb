@@ -59,7 +59,7 @@ export default (app) => {
         if (id !== userId) throw new AppError(`User ID "${id}" not matching API Token User`, 400);
         // Seems like this the right way to do this... 
         // See: https://github.com/prisma/prisma/discussions/2429#discussioncomment-14132
-        const options = { where: { users: { every: { userId: { equals: userId }}}}};
+        const options = { where: { users: { some: { userId: { equals: userId }}}}};
         const domains = await PrismaService.findMany('domain', options);
         return sendResponse(res, domains);
     }));
