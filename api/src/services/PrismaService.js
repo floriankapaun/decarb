@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+
 import { EVENTS, MODE } from '../config/index.js';
 import EventEmitter from '../utils/eventEmitter.js';
 
@@ -42,6 +43,13 @@ class PrismaService {
         });
         EventEmitter.emit(EVENTS.delete[modelName], deletedModel);
         return deletedModel;
+    }
+
+    async reallyDeleteMany(modelName, params) {
+        const deletedModels = await prisma[modelName].deleteMany({
+            ...params,
+        })
+        return deletedModels;
     }
 
     async findMany(modelName, options) {

@@ -1,6 +1,6 @@
 import Bree from 'bree';
 
-import jobs from './jobs.js';
+import jobs from './jobs/index.js';
 
 const bree = new Bree({
     root: false,

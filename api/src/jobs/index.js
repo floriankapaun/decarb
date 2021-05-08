@@ -1,13 +1,13 @@
 const jobs = [
     {
         name: 'remove-unverified-users',
-        interval: '1h',
-        timeout: 0
+        path: './src/jobs/remove-unverified-users.js',
+        cron: '00 03 * * *', // Every day at 03:00
     },
     {
         name: 'offset',
         path: './src/jobs/offset.js',
-        cron: '2s'
+        interval: '5s'
     },
 ];
 

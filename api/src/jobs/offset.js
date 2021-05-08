@@ -1,1 +1,1 @@
-console.log('Tried to offset');
+console.log('OFFSETTING JOB IS NOT DEFINED YET');
