@@ -10,8 +10,9 @@ const domainUsers = require('./seed-data/domainUsers.js')
 
 const prisma = new PrismaClient()
 
+
 /**
- * Reference: https://www.prisma.io/docs/guides/database/seed-database
+ * Populates your database with Fake Data, see `./README.md`
  */
 const seedDatabase = async () => {
     for (let user of await users) {
