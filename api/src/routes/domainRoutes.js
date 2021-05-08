@@ -66,7 +66,7 @@ export default (app) => {
     );
 
     /**
-     * Domain -> Pages Routes
+     * Domain -> Page Routes
      */
 
     // Get a domain and all of its pages
@@ -76,6 +76,42 @@ export default (app) => {
         const uniqueDomain = await PrismaService.findUnique('domain', { id }, options);
         return sendResponse(res, uniqueDomain);
     }));
+
+    /**
+     * Domain -> PageView Routes
+     */
+
+    // Get a domains page views in time range
+    router.get(
+        '/:id/pageviews',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            const { dateStart, dateEnd, itemLimit, itemOffset } = req.body;
+            const pageViews = await DomainService.aggregatePageViews(
+                id, dateStart, dateEnd, itemLimit, itemOffset
+            );
+            return sendResponse(res, pageViews);
+        })
+    );
+
+    // Get a domains page views per day in time range
+    router.get(
+        '/:id/pageviews/day',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            const { dateStart, dateEnd, itemLimit, itemOffset } = req.body;
+            const pageViews = await DomainService.aggregatePageViewsPerDay(
+                id, dateStart, dateEnd, itemLimit, itemOffset
+            );
+            return sendResponse(res, pageViews);
+        })
+    );
 
     /**
      * Domain -> Emission Routes

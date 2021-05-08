@@ -95,6 +95,51 @@ class DomainService {
         return verifiedDomain;
     }
 
+    async aggregatePageViews(domainId, dateStart, dateEnd, itemLimit, itemOffset) {
+        const query = `
+            SELECT
+                pages.url AS "pageUrl",
+                COUNT(pages.id) AS "pageViews"
+            FROM
+                domains
+                JOIN pages ON pages.domain_id = domains.id
+                JOIN page_views ON page_views.page_id = pages.id
+            WHERE
+                domains.id = '${domainId}'
+                AND page_views.created_at >= TO_DATE('${dateStart}', 'YYYY-MM-DD')
+                AND page_views.created_at <= TO_DATE('${dateEnd}', 'YYYY-MM-DD')
+            GROUP BY "pageUrl"
+            ORDER BY "pageViews" DESC
+            LIMIT ${itemLimit}
+            OFFSET ${itemOffset}
+        `;
+        const pageViews = await PrismaService.queryRaw(query);
+        return pageViews;
+    }
+
+    async aggregatePageViewsPerDay(domainId, dateStart, dateEnd, itemLimit, itemOffset) {
+        const query = `
+            SELECT
+                pages.url AS "pageUrl",
+                DATE_TRUNC('day', page_views.created_at) AS "day",
+                COUNT(pages.id) AS "pageViews"
+            FROM
+                domains
+                JOIN pages ON pages.domain_id = domains.id
+                JOIN page_views ON page_views.page_id = pages.id
+            WHERE
+                domains.id = '${domainId}'
+                AND page_views.created_at >= TO_DATE('${dateStart}', 'YYYY-MM-DD')
+                AND page_views.created_at <= TO_DATE('${dateEnd}', 'YYYY-MM-DD')
+            GROUP BY "pageUrl", "day"
+            ORDER BY "pageUrl"
+            LIMIT ${itemLimit}
+            OFFSET ${itemOffset}
+        `;
+        const pageViewsPerDay = await PrismaService.queryRaw(query);
+        return pageViewsPerDay;
+    }
+
     async aggregateDomainEmissions(domainId, start, end) {
         const query = `
             SELECT
