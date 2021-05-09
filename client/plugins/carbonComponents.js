@@ -16,6 +16,8 @@ Vue.use(CarbonComponentsVue, [
     'CvHeaderNav',
     'CvHeaderSideNavItems',
     'CvInlineNotification',
+    'CvRadioButton',
+    'CvRadioGroup',
     'CvSkipToContent',
     'CvSideNav',
     'CvSideNavItems',

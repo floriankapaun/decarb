@@ -42,3 +42,12 @@ export const PLATFORM_EMAIL_SENDER = process.env.PLATFORM_EMAIL_SENDER;
 export const PLATFORM_EMAIL_USER = process.env.PLATFORM_EMAIL_USER;
 export const PORT = process.env.PORT;
 export const REFRESH_TOKEN_EXPIRES = process.env.REFRESH_TOKEN_EXPIRES || (60*24*365); // expire after 365 days
+export const STRIPE_PRICE_ID = {
+    [ENUMS.paymentInterval[0]]: process.env.STRIPE_PRICE_ID_MONTHLY,
+    [ENUMS.paymentInterval[1]]: process.env.STRIPE_PRICE_ID_YEARLY,
+};
+export const STRIPE_PRODUCT_ID = process.env.STRIPE_PRODUCT_ID;
+export const STRIPE_PUBLIC_KEY = process.env.STRIPE_PUBLIC_KEY;
+export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+export const STRIPE_SUCCESS_URL = 'http://localhost:3000/dashboard/setup-success'
+export const STRIPE_CANCEL_URL = 'http://localhost:3000/dashboard/setup-cancel'

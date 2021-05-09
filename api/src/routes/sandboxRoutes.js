@@ -11,9 +11,9 @@ export default (app) => {
 
     // Create an Offset
     // TODO: Transform into agenda.js job routine
-    router.post('/', asyncHandler(async (req, res) => {
-        const domainId = 'b814324e-801e-462f-8904-9c2b57e52e8a';
-        const newOffset = await OffsetService.create(domainId);
+    router.post('/:id', asyncHandler(async (req, res) => {
+        const { id } = req.params;
+        const newOffset = await OffsetService.create(id);
         return sendResponse(res, newOffset);
     }));
 }

@@ -33,7 +33,7 @@ export default {
     middleware: ['auth'],
     methods: {
         handleVerified() {
-            this.$router.push({ path: `/dashboard` })
+            this.$router.push({ path: `/dashboard/first-estimation` })
         },
     },
 }
