@@ -10,9 +10,9 @@ class SubscriptionService {
     }
 
     async create(body) {
-        const { domainId, offsetType, paymentInterval } = body;
+        const { domainId, offsetType, paymentInterval, stripePriceId } = body;
         const validTo = this.getValidTo(paymentInterval);
-        const subscriptionData = { domainId, offsetType, paymentInterval, validTo };
+        const subscriptionData = { domainId, offsetType, paymentInterval, stripePriceId, validTo };
         const newSubscription = await PrismaService.create('subscription', subscriptionData);
         return newSubscription;
     }

@@ -114,6 +114,7 @@ export default {
                 domainId: this.getSelectedDomain.id,
                 paymentInterval: this.paymentInterval,
                 offsetType: this.$config.ENUMS.offsetType[0],
+                stripePriceId: this.priceId,
             })
             const subscriptionId = this.getSubscription.id
             if (!subscriptionId)
