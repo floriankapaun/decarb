@@ -34,7 +34,7 @@ export default (app) => {
     // Listen for Stripe Webhooks
     router.post('/webhook', asyncHandler(async (req, res) => {
         // Verify the Webhook first
-        const stripeEvent = StripeService.constructEvent(req.body, signature, STRIPE_WEBHOOK_SECRET);
+        const stripeEvent = StripeService.constructEvent(req);
         // Handle the sent Event second
         const data = await StripeService.handleEvent(stripeEvent);
         return sendResponse(res, data);

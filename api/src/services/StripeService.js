@@ -10,7 +10,6 @@ class StripeService {
     }
 
     async createCheckoutSession(data) {
-        console.log(data.email, data.priceId);
         const session = await this.stripe.checkout.sessions.create({
             client_reference_id: data.domainId,
             customer_email: data.email,
@@ -24,7 +23,6 @@ class StripeService {
             success_url: `${STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: STRIPE_CANCEL_URL,
         });
-        console.log(session);
         return session.id;
     }
 
@@ -34,7 +32,7 @@ class StripeService {
         try {
             // Retrieve the event by verifying the signature using the raw body and secret.
             const stripeEvent = this.stripe.webhooks.constructEvent(
-                req.body, signature, STRIPE_WEBHOOK_SECRET
+                req.rawBody, signature, STRIPE_WEBHOOK_SECRET
             );
             return stripeEvent;
         } catch (err) {
@@ -45,7 +43,8 @@ class StripeService {
 
     async handleEvent(stripeEvent) {
         const { data } = stripeEvent;
-        console.log('STR EVENT', stripeEvent.type, data);
+        console.log('STRIPE EVENT', stripeEvent.type);
+        let response;
         switch (stripeEvent.type) {
             case 'checkout.session.completed':
                 // Payment is successful and the subscription is created.
@@ -61,7 +60,7 @@ class StripeService {
                     stripeSubscriptionId: data.object.subscription,
                 };
                 const updatedSubscription = await PrismaService.update('subscription', subscriptionId, updatedSubscriptionData);
-                return updatedSubscription;
+                response = updatedSubscription;
                 break;
             case 'invoice.paid':
                 // Continue to provision the subscription as payments continue to be made.
@@ -76,6 +75,7 @@ class StripeService {
             default:
                 // Unhandled event type
         }
+        return response;
     }
 }
 
