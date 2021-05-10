@@ -1,7 +1,7 @@
 import { saveFetch } from '@/utils/helpers'
 
 export default {
-    createCheckoutSession: async ({ commit, rootGetters }, priceId) => {
+    createCheckoutSession: async ({ commit, rootGetters }, checkoutData) => {
         commit('setIsLoading', true)
         const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
         const accessToken = rootGetters['auth/getAccessToken']
@@ -11,7 +11,7 @@ export default {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ priceId }),
+            body: JSON.stringify(checkoutData),
         }
         const data = await saveFetch(
             `${apiBaseUrl}/subscriptions/create-checkout-session`,

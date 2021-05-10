@@ -27,8 +27,16 @@ export default (app) => {
 
     // Create Stripe Checkout Session
     router.post('/create-checkout-session', asyncHandler(async (req, res) => {
-        const { priceId } = req.body;
-        const checkoutSession = await StripeService.createCheckoutSession(priceId);
+        const checkoutSession = await StripeService.createCheckoutSession(req.body);
         return sendResponse(res, checkoutSession);
+    }));
+
+    // Listen for Stripe Webhooks
+    router.post('/webhook', asyncHandler(async (req, res) => {
+        // Verify the Webhook first
+        const stripeEvent = StripeService.constructEvent(req.body, signature, STRIPE_WEBHOOK_SECRET);
+        // Handle the sent Event second
+        const data = await StripeService.handleEvent(stripeEvent);
+        return sendResponse(res, data);
     }));
 }

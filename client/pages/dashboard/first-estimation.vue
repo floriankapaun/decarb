@@ -23,7 +23,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
     layout: 'minimal',
-    middlewares: ['auth'],
+    middleware: ['auth'],
     computed: {
         ...mapGetters({
             getAccessToken: 'auth/getAccessToken',

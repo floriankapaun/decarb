@@ -6,7 +6,7 @@
             <h1>Setup your offsetting subscription</h1>
             <CvForm>
                 <legend class="bx--label">Payment Interval</legend>
-                <CvRadioGroup :vertical="false" @change="actionChange">
+                <CvRadioGroup :vertical="false">
                     <CvRadioButton
                         v-model="paymentInterval"
                         name="paymentInterval"
@@ -42,7 +42,6 @@
                 <NuxtLink to="/terms">terms and conditions</NuxtLink>.
             </p>
         </div>
-        <script src="https://js.stripe.com/v3/"></script>
     </section>
 </template>
 
@@ -51,7 +50,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
     layout: 'minimal',
-    middlewares: ['auth'],
+    middleware: ['auth'],
     data() {
         return {
             stripe: undefined,
@@ -70,7 +69,11 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({}),
+        ...mapGetters({
+            getAccessToken: 'auth/getAccessToken',
+            getCheckoutSessionId: 'subscriptions/getCheckoutSessionId',
+            getUser: 'auth/getUser',
+        }),
         selectedDomain() {
             return this.getSelectedDomain
         },
@@ -85,10 +88,8 @@ export default {
     methods: {
         ...mapActions({
             createCheckoutSession: 'subscriptions/createCheckoutSession',
+            fetchUser: 'auth/fetchUser',
         }),
-        actionChange() {
-            console.log('change', this.paymentInterval)
-        },
         initStripe() {
             if (
                 typeof window !== 'undefined' &&
@@ -101,13 +102,29 @@ export default {
             return false
         },
         async handleSubmit() {
+            // FIXME: Doesn't make sense that way. Init should only be called once
+            // Returning doesn't make sense either
             const stripe = this.initStripe()
             if (!stripe) return console.warn('Stripe setup failed')
+            // Get data
+            if (!this.getUser) await this.fetchUser(this.getAccessToken)
             // Create Checkout Session
-            await this.createCheckoutSession(this.priceId)
+            await this.createCheckoutSession({
+                email: this.getUser.email,
+                priceId: this.priceId,
+            })
+            // Check if Checkout Session was created successfully
+            if (!this.getCheckoutSessionId) {
+                return console.warn(
+                    'Failed Creating or Storing Checkout Session'
+                )
+            }
+            // Redirect User to Stripe Checkout Session
+            // TODO: This might fail --> Add Error Handling (actually to whole file)
+            this.stripe.redirectToCheckout({
+                sessionId: this.getCheckoutSessionId,
+            })
         },
-        // 1. Init Stripe
-        // 2. Create Checkout Session
         // await fetch('/create-checkout-session', ...)
         // 2.5 Save generated Customer ID while processing the checkout.session.completed webhook.
         // 3. Redirect User to Checkout for that Session
