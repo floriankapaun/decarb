@@ -1,3 +1,5 @@
+import * as Cookies from 'js-cookie'
+
 import { saveFetch } from '@/utils/helpers'
 
 export default {
@@ -44,6 +46,10 @@ export default {
                 commit('setIsLoggedIn', false)
                 commit('setAccessToken', null)
                 commit('setAccessTokenExpiry', null)
+                // Clear Vuex Persistance Cookie as well
+                Cookies.remove(
+                    context.rootGetters.getConfig.VUEX_PERSISTANCE_KEY
+                )
             }
         }
         commit('setIsLoading', false)

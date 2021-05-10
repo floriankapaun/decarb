@@ -12,3 +12,4 @@ export const STRIPE_PRICE_ID = {
 }
 export const STRIPE_PRODUCT_ID = process.env.STRIPE_PRODUCT_ID
 export const STRIPE_PUBLIC_KEY = process.env.STRIPE_PUBLIC_KEY
+export const VUEX_PERSISTANCE_KEY = '_EcoWeb'

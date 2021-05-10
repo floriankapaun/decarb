@@ -4,7 +4,7 @@ import cookie from 'cookie'
 
 export default ({ store, req, isDev }) => {
     createPersistedState({
-        key: '_EcoWeb',
+        key: store.$config.VUEX_PERSISTANCE_KEY,
         paths: ['auth', 'domains', 'users', 'notifications'],
         storage: {
             getItem: (key) => {
