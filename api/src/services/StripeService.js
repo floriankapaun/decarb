@@ -1,6 +1,6 @@
 import stripe from 'stripe';
 
-import { STRIPE_PRICE_ID, STRIPE_SECRET_KEY, STRIPE_SUCCESS_URL, STRIPE_CANCEL_URL, STRIPE_WEBHOOK_SECRET } from '../config';
+import { STRIPE_PRICE_ID, STRIPE_SECRET_KEY, STRIPE_SUCCESS_URL, STRIPE_CANCEL_URL, STRIPE_WEBHOOK_SECRET, ENUMS } from '../config';
 import AppError from '../utils/AppError';
 import PrismaService from './PrismaService';
 
@@ -11,7 +11,7 @@ class StripeService {
 
     async createCheckoutSession(data) {
         const session = await this.stripe.checkout.sessions.create({
-            client_reference_id: data.domainId,
+            client_reference_id: data.subscriptionId,
             customer_email: data.email,
             mode: 'subscription',
             // https://stripe.com/docs/api/checkout/sessions/create#create_checkout_session-payment_method_types
@@ -55,10 +55,15 @@ class StripeService {
                     throw new AppError(`Subscription with ID ${subscriptionId} not found`, 401);
                 }
                 const updatedSubscriptionData = {
-                    currency: data.object.currency.toUpperCase(),
                     stripeCustomerId: data.object.customer,
                     stripeSubscriptionId: data.object.subscription,
                 };
+                const currency = data.object.currency.toUpperCase();
+                if (ENUMS.currency.includes(currency)) {
+                    updatedSubscriptionData.currency = currency;
+                } else {
+                    console.error(`Unknown currency ${currency}`);
+                }
                 const updatedSubscription = await PrismaService.update('subscription', subscriptionId, updatedSubscriptionData);
                 response = updatedSubscription;
                 break;

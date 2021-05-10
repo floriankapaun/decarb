@@ -73,6 +73,8 @@ export default {
             getAccessToken: 'auth/getAccessToken',
             getCheckoutSessionId: 'subscriptions/getCheckoutSessionId',
             getUser: 'auth/getUser',
+            getSelectedDomain: 'domains/getSelectedDomain',
+            getSubscription: 'subscriptions/getSubscription',
         }),
         selectedDomain() {
             return this.getSelectedDomain
@@ -88,6 +90,8 @@ export default {
     methods: {
         ...mapActions({
             createCheckoutSession: 'subscriptions/createCheckoutSession',
+            createSubscription: 'subscriptions/createSubscription',
+            fetchUserDomains: 'domains/fetchUserDomains',
             fetchUser: 'auth/fetchUser',
         }),
         initStripe() {
@@ -102,16 +106,27 @@ export default {
             return false
         },
         async handleSubmit() {
+            if (!this.getUser) await this.fetchUser(this.getAccessToken)
+            if (!this.getSelectedDomain) {
+                await this.fetchUserDomains(this.getUser.id)
+            }
+            await this.createSubscription({
+                domainId: this.getSelectedDomain.id,
+                paymentInterval: this.paymentInterval,
+                offsetType: this.$config.ENUMS.offsetType[0],
+            })
+            const subscriptionId = this.getSubscription.id
+            if (!subscriptionId)
+                console.warn('No subscription ID. This should never happen.')
             // FIXME: Doesn't make sense that way. Init should only be called once
             // Returning doesn't make sense either
             const stripe = this.initStripe()
             if (!stripe) return console.warn('Stripe setup failed')
-            // Get data
-            if (!this.getUser) await this.fetchUser(this.getAccessToken)
             // Create Checkout Session
             await this.createCheckoutSession({
                 email: this.getUser.email,
                 priceId: this.priceId,
+                subscriptionId,
             })
             // Check if Checkout Session was created successfully
             if (!this.getCheckoutSessionId) {
