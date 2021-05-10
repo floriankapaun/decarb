@@ -9,6 +9,7 @@
 export default (context) => {
     const { store } = context
     // If user is not logged in
+    // FIXME: This is not secure at all. A user could easily manipulate its store persistance cookie.
     if (!store.getters['auth/getIsLoggedIn']) {
         return context.redirect('/login')
     }

@@ -27,6 +27,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
     layout: 'minimal',
+    middleware: ['guest'],
     data() {
         return {
             email: '',
