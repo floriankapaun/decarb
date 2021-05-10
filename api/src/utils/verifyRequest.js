@@ -1,3 +1,5 @@
+import { API_PREFIX } from '../config';
+
 /**
  * Adds a raw Body to the request object if on Stripe Webhook route.
  * 
@@ -7,7 +9,7 @@
  */
 export default (req, res, buf) => {
     // Save the raw Body for signature validation if the Stripe Webhook route is hit
-    if (req.originalUrl.startsWith('/api/v1/subscriptions/webhook')) {
+    if (req.originalUrl.startsWith(`${API_PREFIX}/stripe/webhooks`)) {
         req.rawBody = buf.toString();
     }
 };

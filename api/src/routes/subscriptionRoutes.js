@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import PrismaService from '../services/PrismaService.js';
-import StripeService from '../services/StripeService.js';
 import SubscriptionService from '../services/SubscriptionService.js';
 import sendResponse from '../utils/sendResponse.js';
 import asyncHandler from '../utils/asyncHandler.js';
@@ -24,19 +23,4 @@ export default (app) => {
         const deletedSubscription = await PrismaService.delete('subscription', id);
         return sendResponse(res, deletedSubscription);
     }));
-
-    // Create Stripe Checkout Session
-    router.post('/create-checkout-session', asyncHandler(async (req, res) => {
-        const checkoutSession = await StripeService.createCheckoutSession(req.body);
-        return sendResponse(res, checkoutSession);
-    }));
-
-    // Listen for Stripe Webhooks
-    router.post('/webhook', asyncHandler(async (req, res) => {
-        // Verify the Webhook first
-        const stripeEvent = StripeService.constructEvent(req);
-        // Handle the sent Event second
-        const data = await StripeService.handleEvent(stripeEvent);
-        return sendResponse(res, data);
-    }));
-}
+};

@@ -34,7 +34,7 @@ export default {
             body: JSON.stringify(checkoutData),
         }
         const data = await saveFetch(
-            `${apiBaseUrl}/subscriptions/create-checkout-session`,
+            `${apiBaseUrl}/stripe/create-checkout-session`,
             requestOptions
         )
         if (data && data.data) commit('setCheckoutSessionId', data.data)

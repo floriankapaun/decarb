@@ -4,6 +4,7 @@ import authRoutes from './authRoutes.js';
 import domainRoutes from './domainRoutes.js';
 import pageViewRoutes from './pageViewRoutes.js';
 import sandboxRoutes from './sandboxRoutes.js';
+import stripeRoutes from './stripeRoutes.js';
 import subscriptionRoutes from './subscriptionRoutes.js';
 import userRoutes from './userRoutes.js';
 
@@ -17,6 +18,7 @@ export default () => {
     pageViewRoutes(app);
     sandboxRoutes(app);
     subscriptionRoutes(app);
+    stripeRoutes(app);
     userRoutes(app);
 
     // Error handler must be defined last
