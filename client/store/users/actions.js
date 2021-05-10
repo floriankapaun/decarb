@@ -1,44 +1,33 @@
 import { saveFetch } from '@/utils/helpers'
 
 export default {
-    register: async ({ commit, rootGetters }, userData) => {
+    register: async (context, userData) => {
+        const { commit } = context
         commit('isLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userData),
-        }
-        const data = await saveFetch(`${apiBaseUrl}/users`, requestOptions)
+        const data = await saveFetch(context, 'POST', '/users', userData)
         if (data && data.data) commit('user', data.data)
         commit('isLoading', false)
     },
-    verify: async ({ commit, rootGetters }, { userId, verificationCode }) => {
+    verify: async (context, { userId, verificationCode }) => {
+        const { commit } = context
         commit('isLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ verificationCode }),
-        }
         const data = await saveFetch(
-            `${apiBaseUrl}/users/${userId}/verification`,
-            requestOptions
+            context,
+            'POST',
+            `/users/${userId}/verification`,
+            { verificationCode }
         )
         if (data && data.data) commit('user', data.data)
         commit('isLoading', false)
     },
-    setPassword: async ({ commit, rootGetters }, { userId, password }) => {
+    setPassword: async (context, { userId, password }) => {
+        const { commit } = context
         commit('isLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password }),
-        }
         const data = await saveFetch(
-            `${apiBaseUrl}/users/${userId}/password`,
-            requestOptions
+            context,
+            'POST',
+            `/users/${userId}/password`,
+            { password }
         )
         if (data && data.data) commit('user', data.data)
         commit('isLoading', false)

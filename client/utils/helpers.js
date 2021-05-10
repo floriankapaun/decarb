@@ -1,5 +1,3 @@
-// import store from '@/store/alerts'
-
 const handleError = async (error) => {
     if (error.json && typeof error.json === 'function') {
         error = await error.json()
@@ -25,11 +23,26 @@ const handleError = async (error) => {
 //     }
 // }
 
-export const saveFetch = (url, options) =>
-    // TODO: Add refresh Token Logic
-    fetch(url, options)
+export const saveFetch = (
+    { rootGetters },
+    requestMethod = 'POST',
+    path,
+    bodyData
+) => {
+    const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
+    const accessToken = rootGetters['auth/getAccessToken']
+    const requestOptions = {
+        method: requestMethod,
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bodyData),
+    }
+    return fetch(`${apiBaseUrl}${path}`, requestOptions)
         .then((response) => {
             if (!response.ok) throw response
             return response.json()
         })
         .catch((error) => handleError(error))
+}

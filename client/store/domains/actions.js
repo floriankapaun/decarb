@@ -1,68 +1,36 @@
 import { saveFetch } from '@/utils/helpers'
 
 export default {
-    register: async ({ commit, rootGetters }, domainData) => {
+    register: async (context, domainData) => {
+        const { commit } = context
         commit('setIsLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const accessToken = rootGetters['auth/getAccessToken']
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(domainData),
-        }
-        await saveFetch(`${apiBaseUrl}/domains`, requestOptions)
+        await saveFetch(context, 'POST', '/domains', domainData)
         commit('setIsLoading', false)
     },
-    fetchDomains: async ({ commit, rootGetters }) => {
+    fetchDomains: async (context) => {
+        const { commit } = context
         commit('setIsLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const accessToken = rootGetters['auth/getAccessToken']
-        const requestOptions = {
-            method: 'GET',
-            headers: { Authorization: `Bearer ${accessToken}` },
-        }
-        const data = await saveFetch(`${apiBaseUrl}/domains`, requestOptions)
+        const data = await saveFetch(context, 'GET', '/domains')
         if (data && data.data) commit('setDomains', data.data)
         commit('setIsLoading', false)
     },
-    fetchUserDomains: async ({ commit, rootGetters }, userId) => {
+    fetchUserDomains: async (context, userId) => {
+        const { commit } = context
         commit('setIsLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const accessToken = rootGetters['auth/getAccessToken']
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                'Content-Type': 'application/json',
-            },
-        }
-        const data = await saveFetch(
-            `${apiBaseUrl}/users/${userId}/domains`,
-            requestOptions
-        )
+        const data = await saveFetch(context, 'GET', `/users/${userId}/domains`)
         if (data && data.data) commit('setUserDomains', data.data)
         commit('setIsLoading', false)
     },
     setSelectedDomain: ({ commit }, domain) => {
         commit('setSelectedDomain', domain)
     },
-    verifyDomainOwnership: async ({ commit, rootGetters }, domainId) => {
+    verifyDomainOwnership: async (context, domainId) => {
+        const { commit } = context
         commit('setIsLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const accessToken = rootGetters['auth/getAccessToken']
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                'Content-Type': 'application/json',
-            },
-        }
         await saveFetch(
-            `${apiBaseUrl}/domains/${domainId}/ownership-verification`,
-            requestOptions
+            context,
+            'POST',
+            `/domains/${domainId}/ownership-verification`
         )
         commit('setIsLoading', false)
     },

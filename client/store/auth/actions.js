@@ -1,15 +1,15 @@
 import { saveFetch } from '@/utils/helpers'
 
 export default {
-    login: async ({ commit, rootGetters }, loginCredentials) => {
+    login: async (context, loginCredentials) => {
+        const { commit } = context
         commit('setIsLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginCredentials),
-        }
-        const data = await saveFetch(`${apiBaseUrl}/auth/login`, requestOptions)
+        const data = await saveFetch(
+            context,
+            'POST',
+            '/auth/login',
+            loginCredentials
+        )
         const isLoggedIn = !!(
             data &&
             data.data &&
@@ -23,33 +23,23 @@ export default {
         }
         commit('setIsLoading', false)
     },
-    fetchUser: async ({ commit, rootGetters }, accessToken) => {
+    fetchUser: async (context) => {
+        const { commit } = context
         commit('setIsLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const requestOptions = {
-            method: 'GET',
-            headers: { Authorization: `Bearer ${accessToken}` },
-        }
-        const data = await saveFetch(`${apiBaseUrl}/auth/user`, requestOptions)
+        const data = await saveFetch(context, 'GET', '/auth/user')
         if (data && data.data) {
             commit('setUser', data.data)
         }
         commit('setIsLoading', false)
     },
-    logout: async ({ commit, rootGetters }) => {
+    logout: async (context) => {
+        const { commit } = context
         commit('setIsLoading', true)
-        const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-        const user = rootGetters['auth/getUser']
+        const user = context.rootGetters['auth/getUser']
         if (user && user.email) {
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: user.email }),
-            }
-            const data = await saveFetch(
-                `${apiBaseUrl}/auth/logout`,
-                requestOptions
-            )
+            const data = await saveFetch(context, 'POST', '/auth/logout', {
+                email: user.email,
+            })
             if (data && data.data) {
                 commit('setIsLoggedIn', false)
                 commit('setAccessToken', null)
