@@ -1,3 +1,7 @@
+// Make those actions globally available via imports
+import authActions from './auth/actions'
+import notificationActions from './notifications/actions'
+
 export const state = () => ({
     config: {},
 })
@@ -9,6 +13,8 @@ export const actions = {
         // read runtime environment everytimes and set to store
         store.commit('setConfig', context.$config)
     },
+    ...authActions,
+    ...notificationActions,
 }
 
 export const mutations = {

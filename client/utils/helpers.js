@@ -1,36 +1,33 @@
+import { actions } from '@/store/index'
+import Notification from './Notification'
+
 const handleError = async (error) => {
     if (error.json && typeof error.json === 'function') {
         error = await error.json()
     }
-    // const errorStatus = error && error.status ? error.status : error
     const errorMessage = error && error.message ? error.message : error
     console.error(errorMessage)
-    // store.dispatch('alerts/set', 'error', errorMessage)
+    const errorNotification = new Notification({
+        title: errorMessage,
+        type: 'error',
+    })
+    actions.addDashboardNotification(errorNotification)
 }
 
-// const prepareErrorMessage = (status) => {
-//     switch (status) {
-//         case 401:
-//         return 'Nope, go away'
-//     case 422:
-//         return 'Unprosomething entity'
-//     case 404:
-//         return "You're lost"
-//     case 405:
-//         return 'Read the manual'
-//         default:
-//         return 'Error, please try again later'
-//     }
-// }
-
-export const saveFetch = (
-    { rootGetters },
+export const saveFetch = async (
+    context,
     requestMethod = 'POST',
     path,
     bodyData
 ) => {
+    const { rootGetters } = context
     const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
     const accessToken = rootGetters['auth/getAccessToken']
+    const accessTokenExpiry = rootGetters['auth/getAccessTokenExpiry']
+    // If access Token is expired, refresh it first
+    if (new Date(accessTokenExpiry) < new Date()) {
+        await actions.refreshToken(context)
+    }
     const requestOptions = {
         method: requestMethod,
         headers: {

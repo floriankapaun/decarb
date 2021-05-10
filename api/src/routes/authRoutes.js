@@ -61,6 +61,7 @@ export default (app) => {
         delete req.currentUser.refreshTokenExpiry;
         delete req.currentUser.verificationCode;
         delete req.currentUser.verifiedAt;
+        delete req.currentUser.domains;
         return sendResponse(res, req.currentUser);
     }));
 }

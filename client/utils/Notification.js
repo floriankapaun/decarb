@@ -3,6 +3,7 @@ class Notification {
      * Notification constructor
      * @param {Object} params - containing params
      * @param {Date} [params.createdAt]
+     * @param {String} [params.type]
      * @param {String} [params.title]
      * @param {String} [params.subTitle]
      * @param {String} [params.actionLabel]

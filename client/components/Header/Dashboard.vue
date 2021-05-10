@@ -5,7 +5,7 @@
             aria-controls="side-nav-left"
         />
         <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
-        <CvHeaderName to="dashboard"><Logo /></CvHeaderName>
+        <CvHeaderName to="/dashboard"><Logo /></CvHeaderName>
         <template slot="header-global">
             <NavigationDashboardActions />
         </template>

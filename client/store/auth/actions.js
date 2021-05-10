@@ -34,6 +34,24 @@ export default {
         }
         commit('setIsLoading', false)
     },
+    refreshToken: async (context) => {
+        const { commit } = context
+        commit('setIsLoading', true)
+        const user = context.rootGetters['auth/getUser']
+        if (user && user.email) {
+            const data = await saveFetch(
+                context,
+                'POST',
+                '/auth/refresh-token',
+                { email: user.email }
+            )
+            if (data && data.data) {
+                commit('setAccessToken', data.data.accessToken)
+                commit('setAccessTokenExpiry', data.data.accessTokenExpiry)
+            }
+        }
+        commit('setIsLoading', false)
+    },
     logout: async (context) => {
         const { commit } = context
         commit('setIsLoading', true)
