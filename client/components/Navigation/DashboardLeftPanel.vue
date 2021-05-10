@@ -166,6 +166,9 @@ export default {
             getSelectedDomain: 'domains/getSelectedDomain',
         }),
         getOtherUserDomains() {
+            if (!this.getUserDomains || !this.getUserDomains.length) {
+                return []
+            }
             return this.getUserDomains.filter((domain) => {
                 return domain.id !== this.getSelectedDomain.id
             })
