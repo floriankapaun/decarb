@@ -5,7 +5,14 @@ import cookie from 'cookie'
 export default ({ store, req, isDev }) => {
     createPersistedState({
         key: store.$config.VUEX_PERSISTANCE_KEY,
-        paths: ['auth', 'domains', 'users', 'notifications'],
+        paths: [
+            'auth.isLoggedIn',
+            'auth.accessToken',
+            'auth.accessTokenExpiry',
+            'auth.user',
+            'domains.selectedDomain',
+            'notifications',
+        ],
         storage: {
             getItem: (key) => {
                 // See https://nuxtjs.org/guide/plugins/#using-process-flags
