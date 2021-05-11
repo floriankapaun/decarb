@@ -24,6 +24,12 @@ export default {
     setSelectedDomain: ({ commit }, domain) => {
         commit('setSelectedDomain', domain)
     },
+    updateDomain: async (context, { domainId, domainData }) => {
+        const { commit } = context
+        commit('setIsLoading', true)
+        await saveFetch(context, 'PUT', `/domains/${domainId}`, domainData)
+        commit('setIsLoading', false)
+    },
     verifyDomainOwnership: async (context, domainId) => {
         const { commit } = context
         commit('setIsLoading', true)

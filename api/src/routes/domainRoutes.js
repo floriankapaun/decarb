@@ -40,8 +40,7 @@ export default (app) => {
     // Update a domain
     router.put('/:id', isAuth, attachCurrentUser, requireDomainRole(0), asyncHandler(async (req, res) => {
         const { id } = req.params;
-        const { companyName } = req.body;
-        const updatedDomain = await PrismaService.update('domain', id, { companyName });
+        const updatedDomain = await PrismaService.update('domain', id, req.body);
         return sendResponse(res, updatedDomain);
     }));
 

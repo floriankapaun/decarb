@@ -3,17 +3,33 @@
         <div
             class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 mb-07"
         >
-            <h1>First estimation is ready!</h1>
-            <!-- TODO: Display Skeletion during loading -->
-            <p v-if="selectedDomain">
-                Based on our first estimation your website emits ~
-                {{ emission }} of CO2 each month if it gets
-                {{ selectedDomain.estimatedMonthlyPageViews }} pageviews.
+            <h1 class="heading">First estimation is ready!</h1>
+            <CvSkeletonText
+                v-if="!selectedDomain && !emissionAmount"
+                :heading="false"
+                :paragraph="true"
+                :line-count="2"
+                width="100%"
+            >
+            </CvSkeletonText>
+            <p v-else class="mb-06">
+                According to our first estimate, your website generates ~
+                {{ emissionAmount }} of CO2 every month if it receives
+                {{ selectedDomain.estimatedMonthlyPageViews }} page views.
             </p>
-            <p><CvLink to="#">Change Number of pageviews.</CvLink></p>
-            <NuxtLink to="/dashboard/setup-subscription" class="btn">
-                Start Offsetting
-            </NuxtLink>
+            <p class="mb-06">
+                <CvLink to="/dashboard/pageview-estimation">
+                    Adjust estimated monthly pageviews
+                </CvLink>
+            </p>
+            <p>
+                <NuxtLink
+                    to="/dashboard/setup-subscription"
+                    class="bx--btn bx--btn--primary"
+                >
+                    Start Offsetting
+                </NuxtLink>
+            </p>
         </div>
     </section>
 </template>
@@ -31,11 +47,11 @@ export default {
             getSelectedDomain: 'domains/getSelectedDomain',
         }),
         selectedDomain() {
-            console.log(this.getSelectedDomain)
             return this.getSelectedDomain
         },
-        emission() {
+        emissionAmount() {
             // TODO: Implement emission calculation
+            console.log(this.getSelectedDomain)
             return '7 tonnes'
         },
     },
@@ -60,3 +76,16 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/scss/carbon-utils';
+
+.heading {
+    margin-bottom: $spacing-06;
+    @include carbon--type-style('expressive-heading-06');
+}
+
+.mb-06 {
+    margin-bottom: $spacing-06;
+}
+</style>

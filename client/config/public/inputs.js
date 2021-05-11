@@ -27,3 +27,19 @@ export const password = {
     minLength: 8,
     required: true,
 }
+
+export const estimatedMonthlyPageViews = {
+    name: 'estimatedMonthlyPageViews',
+    value: '',
+    type: 'number',
+    inputmode: 'numeric',
+    autocomplete: 'off',
+    label: 'Average monthly pageviews',
+    placeholder: '13.000',
+    invalid: undefined,
+    invalidMessage: '',
+    required: true,
+    min: 1,
+    step: 1,
+    mobile: true,
+}

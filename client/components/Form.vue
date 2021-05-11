@@ -1,22 +1,40 @@
 <template>
     <CvForm @submit.prevent="handleSubmit">
-        <!-- Required and MinLenght aren't used as HTML attributes to prevent Browsers from Validating -->
-        <CvTextInput
-            v-for="input in inputs"
-            :key="input.name"
-            :ref="input.name"
-            v-model="input.value"
-            :type="input.type"
-            :inputmode="input.inputmode"
-            :autocomplete="input.autocomplete"
-            :label="input.label"
-            :placeholder="input.placeholder"
-            :invalid="input.invalid"
-            :invalid-message="input.invalidMessage"
-            :password-visible="input.passwordVisible"
-            :password-hide-label="input.passwordHideLabel"
-            :password-show-label="input.passwordShowLabel"
-        ></CvTextInput>
+        <fieldset v-for="input in inputs" :key="input.name">
+            <!-- Required and MinLenght aren't used as HTML attributes to prevent Browsers from Validating -->
+            <CvNumberInput
+                v-if="input.type === 'number'"
+                :ref="input.name"
+                v-model="input.value"
+                :type="input.type"
+                :inputmode="input.inputmode"
+                :autocomplete="input.autocomplete"
+                :label="input.label"
+                :placeholder="input.placeholder"
+                :invalid="input.invalid"
+                :invalid-message="input.invalidMessage"
+                :helper-text="input.helperText"
+                :min="input.min"
+                :max="input.max"
+                :step="input.step"
+                :mobile="input.mobile"
+            ></CvNumberInput>
+            <CvTextInput
+                v-else
+                :ref="input.name"
+                v-model="input.value"
+                :type="input.type"
+                :inputmode="input.inputmode"
+                :autocomplete="input.autocomplete"
+                :label="input.label"
+                :placeholder="input.placeholder"
+                :invalid="input.invalid"
+                :invalid-message="input.invalidMessage"
+                :password-visible="input.passwordVisible"
+                :password-hide-label="input.passwordHideLabel"
+                :password-show-label="input.passwordShowLabel"
+            ></CvTextInput>
+        </fieldset>
         <CvButton :disaled="buttonDisabled">
             {{ buttonLabel }}
         </CvButton>
