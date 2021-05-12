@@ -1,0 +1,53 @@
+name: Staging Deployment Workflow
+on:
+  push:
+    branches: [ stage ]
+
+jobs:
+  deploy:
+    name: Staging Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: deploying to staging server via ssh connection
+      uses: appleboy/ssh-action@master
+      with:
+        host: aoede.uberspace.de
+        username: kapaun
+        key: ${{ secrets.ECO_WEB_STAGING_SECRET }}
+        port: 22
+        script: |
+          shopt -s extglob
+          cd /var/www/virtual/kapaun/ew.kapaun.uber.space/_repository/eco-web/
+
+          # Enforce most-recent repository version
+          git checkout stage
+          git pull
+          git reset origin --hard
+
+          # Install dependencies and build client
+          yarn --cwd client install
+          yarn --cwd client build
+
+          # Delete old client files and copy new files into production directory
+          rm -r ../../client/!(.env|node_modules)
+          cp -R client/!(node_modules) ../../client/
+
+          # Install dependencies for nuxt server
+          yarn --cwd ../../client install
+
+          # Delete old api files and copy new files into production directory
+          rm -r ../../api/!(.env|node_modules)
+          cp -R api/!(node_modules) ../../api # don't copy node_modules!
+
+          # Install api dependencies after refreshing the files to
+          # prevent copying the node_modules folder
+          yarn --cwd ../../api install
+
+          # Apply pending database migrations
+          yarn --cwd ../../api prisma_deploy
+
+          # Restart Client Server
+          supervisorctl restart eco_web_client
+
+          # Restart API Server
+          supervisorctl restart eco_web_api
