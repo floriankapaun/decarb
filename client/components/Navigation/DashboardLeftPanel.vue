@@ -12,7 +12,7 @@
                     />
                 </div>
                 <!-- Have to use v-if because v-show is not working on component -->
-                <Http32 v-if="!faviconLoaded" />
+                <Http16 v-if="!faviconLoaded" />
             </template>
             <CvSideNavMenuItem
                 v-for="domain in getOtherUserDomains"
@@ -130,7 +130,7 @@ import Add16 from '@carbon/icons-vue/lib/add/16'
 import Analytics16 from '@carbon/icons-vue/lib/analytics/16'
 import Badge16 from '@carbon/icons-vue/lib/badge/16'
 import Code16 from '@carbon/icons-vue/lib/code/16'
-import Http32 from '@carbon/icons-vue/lib/http/16'
+import Http16 from '@carbon/icons-vue/lib/HTTP/16'
 import Information16 from '@carbon/icons-vue/lib/information/16'
 import ListBulleted16 from '@carbon/icons-vue/lib/list--bulleted/16'
 import Receipt16 from '@carbon/icons-vue/lib/receipt/16'
@@ -147,7 +147,7 @@ export default {
         Analytics16,
         Badge16,
         Code16,
-        Http32,
+        Http16,
         Information16,
         ListBulleted16,
         Receipt16,
