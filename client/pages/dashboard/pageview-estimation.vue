@@ -24,6 +24,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import { estimatedMonthlyPageViews } from '@/config/public/inputs'
+import Notification from '@/utils/Notification'
 
 export default {
     layout: 'minimal',
@@ -43,6 +44,7 @@ export default {
     },
     methods: {
         ...mapActions({
+            addNotification: 'notifications/addMinimalNotification',
             fetchUserDomains: 'domains/fetchUserDomains',
             setSelectedDomain: 'domains/setSelectedDomain',
             updateDomain: 'domains/updateDomain',
@@ -65,11 +67,12 @@ export default {
             // Set selectedDomain to updated domain
             await this.setSelectedDomain(updatedDomain)
             // TODO: Implement global notification
-            // const notification = new Notification({
-            //     type: 'success',
-            //     title: `Successfully verified Domain ${this.getSelectedDomain.url}`,
-            // })
-            // this.addNotification(notification)
+            const notification = new Notification({
+                type: 'success',
+                title: `Successfully updated ${this.getSelectedDomain.url}`,
+                subTitle: `Estimated monthly pageviews: ${estimatedMonthlyPageViews}`,
+            })
+            this.addNotification(notification)
             if (
                 this.getSelectedDomain.estimatedMonthlyPageViews ===
                 estimatedMonthlyPageViews

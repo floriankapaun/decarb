@@ -6,6 +6,7 @@ class Notification {
      * @param {String} [params.type]
      * @param {String} [params.title]
      * @param {String} [params.subTitle]
+     * @param {String} [params.caption]
      * @param {String} [params.actionLabel]
      * @param {String} [params.closeAriaLabel=Close Notification]
      * @param {Boolean} [params.lowContrast]
@@ -14,7 +15,7 @@ class Notification {
      */
     constructor(params) {
         // Set default value for `this.closeAriaLabel`
-        this.closeAriaLabel = 'Close Notification'
+        this.closeAriaLabel = 'Remove Notification'
         // Assign all params to object (overwrites closeAriaLabel if param given)
         Object.assign(this, params)
         // Make sure `createdAt` contains value which serves as identifier

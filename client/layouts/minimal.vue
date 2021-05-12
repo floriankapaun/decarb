@@ -2,6 +2,7 @@
     <div>
         <HeaderMinimal />
         <CvContent id="#main-content" class="bx--grid">
+            <NotificationsMinimal />
             <Nuxt />
             <FooterMinimal />
         </CvContent>
