@@ -17,7 +17,7 @@ jobs:
         port: 22
         script: |
           shopt -s extglob
-          cd /var/www/virtual/kapaun/ew.kapaun.uber.space/_repository/eco-web/
+          cd /var/www/virtual/kapaun/ew-stage.kapaun.uber.space/_repository/eco-web/
 
           # Enforce most-recent repository version
           git checkout stage
