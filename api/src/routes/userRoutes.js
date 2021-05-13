@@ -17,8 +17,13 @@ export default (app) => {
     router.post('/', asyncHandler(async (req, res) => {
         const newUser = await UserService.create(req.body.email, req.body.telephone);
         // Make sure neither password nor verificationCode are leaked
+        delete newUser.createdAt;
+        delete newUser.deletedAt;
         delete newUser.password;
+        delete newUser.refreshToken;
+        delete newUser.refreshTokenExpiry;
         delete newUser.verificationCode;
+        delete newUser.verifiedAt;
         return sendResponse(res, newUser);
     }));
 
