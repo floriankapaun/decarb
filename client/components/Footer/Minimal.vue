@@ -4,14 +4,14 @@
             <p>© {{ year }} Eco Web</p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="imprint">Imprint</CvLink></p>
+            <p><CvLink to="/legal/imprint">Imprint</CvLink></p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="data-privacy">Data privacy</CvLink></p>
+            <p><CvLink to="/legal/data-privacy">Data privacy</CvLink></p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
             <!-- TODO: Change link to "open cookie modal" -->
-            <p><CvLink to="data-privacy">Cookie Settings</CvLink></p>
+            <p><CvLink to="/legal/data-privacy">Cookie Settings</CvLink></p>
         </div>
     </footer>
 </template>

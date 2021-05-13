@@ -4,13 +4,18 @@
             <p class="copyright">© {{ year }} Eco Web</p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="imprint">Imprint</CvLink></p>
-            <p><CvLink to="data-privacy">Data privacy</CvLink></p>
+            <p><CvLink to="/legal/imprint">Imprint</CvLink></p>
+            <p><CvLink to="/legal/data-privacy">Data privacy</CvLink></p>
+            <p>
+                <CvLink to="/legal/terms-and-conditions">
+                    Terms and Conditions
+                </CvLink>
+            </p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="about">About</CvLink></p>
-            <p><CvLink to="why">Why</CvLink></p>
-            <p><CvLink to="how-it-works">How it works</CvLink></p>
+            <p><CvLink to="/about">About</CvLink></p>
+            <p><CvLink to="/why">Why</CvLink></p>
+            <p><CvLink to="/how-it-works">How it works</CvLink></p>
         </div>
     </footer>
 </template>
