@@ -18,7 +18,10 @@ export default {
         const { commit } = context
         commit('setIsLoading', true)
         const data = await saveFetch(context, 'GET', `/users/${userId}/domains`)
-        if (data && data.data) commit('setUserDomains', data.data)
+        if (data && data.data) {
+            commit('setUserDomains', data.data)
+            commit('setSelectedDomainIfUndefined', data.data)
+        }
         commit('setIsLoading', false)
     },
     setSelectedDomain: ({ commit }, domain) => {

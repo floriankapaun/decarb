@@ -5,4 +5,10 @@ export default {
     setSelectedDomain: (state, selectedDomain) => {
         return (state.selectedDomain = selectedDomain)
     },
+    setSelectedDomainIfUndefined: (state, userDomains) => {
+        if (!state.selectedDomain) {
+            return (state.selectedDomain = userDomains[0])
+        }
+        return state.selectedDomain
+    },
 }
