@@ -1,29 +1,37 @@
 <template>
-    <main>
-        <h1>Create your eco-Web Account</h1>
-        <form name="register" @submit.prevent="handleSubmit">
-            <label for="email">E-Mail Address</label>
-            <input
-                id="email"
-                v-model="email"
-                type="email"
-                autocomplete="email"
-                placeholder="your@email.com"
-                required
-            />
-            <button type="submit" :disabled="getIsLoading">
-                {{ getIsLoading ? 'Loading...' : 'Create Account' }}
-            </button>
-        </form>
-        <p>
-            Already have an account?
-            <NuxtLink to="login">Sign in now</NuxtLink>.
-        </p>
-    </main>
+    <div>
+        <section class="bx--row">
+            <div
+                class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07 register__wrapper"
+            >
+                <h1>Create your Eco Web Account</h1>
+                <Form
+                    :button-label="
+                        getIsLoading ? 'Loading...' : 'Create Account'
+                    "
+                    :button-disbaled="getIsLoading"
+                    :inputs="inputs"
+                    @submit="handleSubmit"
+                />
+            </div>
+        </section>
+        <section class="bx--row">
+            <div
+                class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4"
+            >
+                <p class="register__login-paragraph">
+                    Already have an account?
+                    <NuxtLink to="login">Sign in now</NuxtLink>.
+                </p>
+            </div>
+        </section>
+    </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+
+import { email } from '@/config/public/inputs'
 
 export default {
     layout: 'minimal',
@@ -31,6 +39,7 @@ export default {
     data() {
         return {
             email: '',
+            inputs: [email],
         }
     },
     computed: {
@@ -41,10 +50,13 @@ export default {
     },
     methods: {
         ...mapActions({
+            fetchUser: 'auth/fetchUser',
             register: 'users/register',
         }),
-        async handleSubmit() {
-            await this.register({ email: this.email })
+        async handleSubmit(eventData) {
+            const { email } = eventData
+            if (!email) return false
+            await this.register({ email })
             if (this.getUser) {
                 return this.$router.push({
                     path: `/users/${this.getUser.id}/verify-email`,
@@ -55,3 +67,19 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/scss/carbon-utils';
+
+.register {
+    &__wrapper {
+        padding-top: $spacing-05;
+        padding-bottom: $spacing-05;
+        margin-bottom: $spacing-10;
+    }
+
+    &__login-paragraph {
+        @include carbon--type-style('helper-text-01');
+    }
+}
+</style>
