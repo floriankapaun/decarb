@@ -101,3 +101,12 @@ $ui-background: #004335;
 //         white-space: pre;
 //     }
 // }
+
+h1 {
+    margin-bottom: $spacing-06;
+    @include carbon--type-style('expressive-heading-06')
+}
+
+.mb-06 {
+    margin-bottom: $spacing-06;
+}
