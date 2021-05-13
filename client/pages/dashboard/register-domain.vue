@@ -1,45 +1,47 @@
 <template>
-    <div>
-        <h1>Setup your first domain</h1>
-        <form name="register-domain" @submit.prevent="handleSubmit">
-            <label for="siteUrl">Site URL</label>
-            <input
-                id="siteUrl"
-                v-model="siteUrl"
-                type="text"
-                placeholder="e.g. www.sitedomain.com"
-                required
-            />
-            <p>
+    <section class="bx--row">
+        <div
+            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07 verification__wrapper"
+        >
+            <h1>
+                Setup
+                {{
+                    getUserDomains && getUserDomains.length > 0
+                        ? 'a'
+                        : 'your first'
+                }}
+                domain
+            </h1>
+            <p class="mb-06">
                 Enter a valid URL or IP address. You can add more sites later.
             </p>
-            <label for="averageMonthlyPageViews">
-                Average monthly Pageviews
-            </label>
-            <input
-                id="averageMonthlyPageViews"
-                v-model="averageMonthlyPageViews"
-                type="number"
-                placeholder="e.g. 13000"
-                required
+            <Form
+                :button-label="
+                    getIsLoading ? 'Loading...' : 'Start using Eco Web'
+                "
+                :button-disbaled="getIsLoading"
+                :inputs="inputs"
+                @submit="handleSubmit"
             />
-            <p>This number is used for an initial cost estimation.</p>
-            <button type="submit" :disabled="getIsLoading">
-                {{ getIsLoading ? 'Loading...' : 'Start using Eco-Web' }}
-            </button>
-        </form>
-    </div>
+        </div>
+    </section>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import { siteUrl, estimatedMonthlyPageViews } from '@/config/public/inputs'
+
 export default {
     layout: 'minimal',
     middleware: ['auth'],
+    asyncData() {
+        return {
+            inputs: [siteUrl, estimatedMonthlyPageViews],
+        }
+    },
     data() {
         return {
-            siteUrl: undefined,
             averageMonthlyPageViews: undefined,
         }
     },
@@ -58,14 +60,11 @@ export default {
             registerDomain: 'domains/register',
             setSelectedDomain: 'domains/setSelectedDomain',
         }),
-        async handleSubmit() {
-            if (this.getAccessTokenExpiry <= new Date()) {
-                console.log('access token expired')
-                return false
-            }
-            const pageViews = parseInt(this.averageMonthlyPageViews)
+        async handleSubmit(eventData) {
+            const { siteUrl, estimatedMonthlyPageViews } = eventData
+            const pageViews = parseInt(estimatedMonthlyPageViews)
             await this.registerDomain({
-                url: this.siteUrl,
+                url: siteUrl,
                 estimatedMonthlyPageViews: pageViews,
             })
             await this.fetchUserDomains(this.getUser.id)
@@ -77,7 +76,8 @@ export default {
             // Find registered domain in userDomains by siteUrl
             const sortedDomains = this.getUserDomains
                 .map((x) => {
-                    x.searchIndex = x.url.search(this.siteUrl)
+                    // Add searchIndex property to later sort by
+                    x.searchIndex = x.url.search(siteUrl)
                     return x
                 })
                 .sort((a, b) => {
@@ -89,6 +89,7 @@ export default {
             const registeredDomain = sortedDomains[0]
             // Remove the unnecessary searchIndex property before dispatching an action
             delete registeredDomain.searchIndex
+            // Set registeredDomain as selectedDomain
             await this.setSelectedDomain(registeredDomain)
             if (this.getSelectedDomain) {
                 this.$router.push({

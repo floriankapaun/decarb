@@ -59,6 +59,19 @@ export const confirmNewPassword = {
     required: true,
 }
 
+export const siteUrl = {
+    name: 'siteUrl',
+    value: '',
+    type: 'text',
+    inputmode: 'numeric',
+    autocomplete: 'off',
+    label: 'Website URL',
+    placeholder: 'e.g. your-domain.com',
+    invalid: undefined,
+    invalidMessage: '',
+    required: true,
+}
+
 export const password = {
     name: 'password',
     value: '',
@@ -82,6 +95,7 @@ export const estimatedMonthlyPageViews = {
     inputmode: 'numeric',
     autocomplete: 'off',
     label: 'Average monthly pageviews',
+    helperText: 'Used for initial cost estimation',
     placeholder: '13.000',
     invalid: undefined,
     invalidMessage: '',

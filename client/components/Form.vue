@@ -28,6 +28,7 @@
                 :autocomplete="input.autocomplete"
                 :label="input.label"
                 :placeholder="input.placeholder"
+                :helper-text="input.helperText"
                 :invalid="input.invalid"
                 :invalid-message="input.invalidMessage"
                 :password-visible="input.passwordVisible"
