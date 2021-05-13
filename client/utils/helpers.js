@@ -1,4 +1,3 @@
-import { actions } from '@/store/index'
 import Notification from './Notification'
 
 const handleError = async (error) => {
@@ -6,12 +5,17 @@ const handleError = async (error) => {
         error = await error.json()
     }
     const errorMessage = error && error.message ? error.message : error
-    console.error(errorMessage)
     const errorNotification = new Notification({
         title: errorMessage,
         type: 'error',
     })
-    actions.addDashboardNotification(errorNotification)
+    if (process.client) {
+        window.$nuxt.$store.dispatch(
+            'notifications/addNotification',
+            errorNotification
+        )
+    }
+    // TODO: Create Notifications for Server-Side Errors
 }
 
 export const saveFetch = async (
@@ -29,9 +33,10 @@ export const saveFetch = async (
         accessToken &&
         accessTokenExpiry &&
         new Date(accessTokenExpiry) < new Date() &&
-        path !== '/auth/refresh-token'
+        path !== '/auth/refresh-token' &&
+        path !== '/auth/logout'
     ) {
-        await actions.refreshToken(context)
+        await context.dispatch('auth/refreshToken')
     }
     const requestOptions = {
         method: requestMethod,
