@@ -33,7 +33,7 @@ export default {
             fetchUserDomains: 'domains/fetchUserDomains',
             setSelectedDomain: 'domains/setSelectedDomain',
             verifyDomainOwnership: 'domains/verifyDomainOwnership',
-            addNotification: 'notifications/addDashboardNotification',
+            addNotification: 'notifications/addNotification',
         }),
         async handleVerifyImplementation() {
             if (!this.getSelectedDomain || !this.getSelectedDomain.id) {

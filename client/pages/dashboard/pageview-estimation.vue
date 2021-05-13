@@ -44,7 +44,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            addNotification: 'notifications/addMinimalNotification',
+            addNotification: 'notifications/addNotification',
             fetchUserDomains: 'domains/fetchUserDomains',
             setSelectedDomain: 'domains/setSelectedDomain',
             updateDomain: 'domains/updateDomain',

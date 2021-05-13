@@ -1,28 +1,13 @@
 export default {
-    addMinimalNotification: (state, notification) => {
-        return state.minimalNotifications.push(notification)
+    addNotification: (state, notification) => {
+        return state.notifications.push(notification)
     },
-    addDashboardNotification: (state, notification) => {
-        return state.dashboardNotifications.push(notification)
+    removeNotification: (state, notification) => {
+        // Find notification by `createdAt`, which is unique
+        const filteredNotifications = state.notifications.filter((x) => {
+            return x.createdAt !== notification.createdAt
+        })
+        return (state.notifications = filteredNotifications)
     },
-    removeMinimalNotification: (state, notification) => {
-        // Find notification by `createdAt`
-        const filteredMinimalNotifications = state.minimalNotifications.filter(
-            (x) => {
-                return x.createdAt !== notification.createdAt
-            }
-        )
-        return (state.minimalNotifications = filteredMinimalNotifications)
-    },
-    removeDashboardNotification: (state, notification) => {
-        // Find notification by `createdAt`
-        const filteredDashboardNotifications = state.dashboardNotifications.filter(
-            (x) => {
-                return x.createdAt !== notification.createdAt
-            }
-        )
-        return (state.dashboardNotifications = filteredDashboardNotifications)
-    },
-    resetMinimalNotifications: (state) => (state.minimalNotifications = []),
-    resetDashboardNotifications: (state) => (state.dashboardNotifications = []),
+    resetNotifications: (state) => (state.notifications = []),
 }

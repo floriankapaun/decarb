@@ -20,7 +20,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     computed: {
         ...mapGetters({
-            getNotifications: 'notifications/getMinimalNotifications',
+            getNotifications: 'notifications/getNotifications',
         }),
         notifications() {
             return this.getNotifications
@@ -28,7 +28,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            removeNotification: 'notifications/removeMinimalNotification',
+            removeNotification: 'notifications/removeNotification',
         }),
         doClose(notification) {
             this.removeNotification(notification)

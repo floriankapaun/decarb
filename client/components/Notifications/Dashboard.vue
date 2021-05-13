@@ -21,7 +21,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     computed: {
         ...mapGetters({
-            getNotifications: 'notifications/getDashboardNotifications',
+            getNotifications: 'notifications/getNotifications',
         }),
         notifications() {
             return this.getNotifications
@@ -29,7 +29,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            removeNotification: 'notifications/removeDashboardNotification',
+            removeNotification: 'notifications/removeNotification',
         }),
         doAction() {
             // TODO: handle this case...
