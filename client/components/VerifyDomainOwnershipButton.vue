@@ -47,7 +47,8 @@ export default {
             await this.setSelectedDomain(verifiedDomain)
             const notification = new Notification({
                 type: 'success',
-                title: `Successfully verified Domain ${this.getSelectedDomain.url}`,
+                title: 'Successfully verified Domain',
+                subTitle: this.getSelectedDomain.url,
             })
             this.addNotification(notification)
             this.$emit('verified')
