@@ -26,6 +26,8 @@ export const saveFetch = async (
     const accessTokenExpiry = rootGetters['auth/getAccessTokenExpiry']
     // If access Token is expired, refresh it first
     if (
+        accessToken &&
+        accessTokenExpiry &&
         new Date(accessTokenExpiry) < new Date() &&
         path !== '/auth/refresh-token'
     ) {
