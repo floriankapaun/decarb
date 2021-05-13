@@ -47,8 +47,10 @@ export default {
         handleHomeAction() {
             this.$router.push('/')
         },
-        handleLogoutAction() {
-            this.logout()
+        async handleLogoutAction() {
+            await this.logout()
+            // Reload the page
+            this.$router.go()
         },
     },
 }
