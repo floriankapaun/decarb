@@ -57,12 +57,7 @@ export default {
     },
     async mounted() {
         if (!this.getUser) {
-            if (!this.getAccessToken) {
-                // TODO: Remove that stuff...
-                console.warn('No Access Token provided')
-                return false
-            }
-            await this.fetchUser(this.getAccessToken)
+            await this.fetchUser()
         }
         if (!this.getSelectedDomain) {
             await this.fetchUserDomains(this.getUser.id)
