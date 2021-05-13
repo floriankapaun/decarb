@@ -38,7 +38,6 @@ export default {
     middleware: ['guest'],
     data() {
         return {
-            email: '',
             inputs: [email],
         }
     },
