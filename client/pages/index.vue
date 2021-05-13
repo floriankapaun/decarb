@@ -6,7 +6,7 @@
             big difference with little effort.
         </p>
         <p>
-            <NuxtLink to="/register" class="bx--btn bx--btn--primary">
+            <NuxtLink :to="registerDomainLink" class="bx--btn bx--btn--primary">
                 Register your domain
             </NuxtLink>
         </p>
@@ -14,9 +14,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-    head() {
-        // Set Meta Tags for this Page
+    layout: 'default',
+    computed: {
+        ...mapGetters({
+            getIsLoggedIn: 'auth/getIsLoggedIn',
+        }),
+        registerDomainLink() {
+            if (this.getIsLoggedIn) return '/dashboard/register-domain'
+            return '/register'
+        },
     },
 }
 </script>
