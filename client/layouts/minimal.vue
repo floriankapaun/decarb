@@ -3,7 +3,7 @@
         <HeaderMinimal />
         <CvContent id="#main-content" class="bx--grid">
             <NotificationsMinimal />
-            <Nuxt />
+            <Nuxt keep-alive />
             <FooterMinimal />
         </CvContent>
     </div>

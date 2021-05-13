@@ -2,7 +2,7 @@
     <div>
         <HeaderPublic />
         <CvContent id="#main-content">
-            <Nuxt />
+            <Nuxt keep-alive />
             <FooterPublic />
         </CvContent>
     </div>
