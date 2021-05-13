@@ -1,7 +1,7 @@
 <template>
     <section class="bx--row">
         <div
-            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 mb-07"
+            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07"
         >
             <h1>Setup your offsetting subscription</h1>
             <CvForm>
