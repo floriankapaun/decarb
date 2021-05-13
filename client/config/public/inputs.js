@@ -12,6 +12,20 @@ export const email = {
     regex: /\S+@\S+\.\S+/,
 }
 
+export const verificationCode = {
+    name: 'verificationCode',
+    value: '',
+    type: 'text',
+    inputmode: 'numeric',
+    autocomplete: 'off',
+    label: 'Verification Code',
+    placeholder: 'e.g. N1K39L',
+    invalid: undefined,
+    invalidMessage: '',
+    exactLength: 6,
+    required: true,
+}
+
 export const password = {
     name: 'password',
     value: '',

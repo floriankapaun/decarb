@@ -81,6 +81,16 @@ export default {
             }
             return this.setValid(input)
         },
+        validateExactLength(input) {
+            if (
+                input.exactLength &&
+                (!input.value || input.value.length !== input.exactLength)
+            ) {
+                const invalidMessage = `Exactly ${input.exactLength} characters required`
+                return this.setInvalid(input, invalidMessage)
+            }
+            return this.setValid(input)
+        },
         validateRegex(input) {
             if (
                 input.regex &&
@@ -95,6 +105,8 @@ export default {
             this.validateRequired(input)
             if (input.invalidMessage !== '') return (input.isValid = false)
             this.validateMinLength(input)
+            if (input.invalidMessage !== '') return (input.isValid = false)
+            this.validateExactLength(input)
             if (input.invalidMessage !== '') return (input.isValid = false)
             this.validateRegex(input)
             if (input.invalidMessage !== '') return (input.isValid = false)
