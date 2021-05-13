@@ -73,15 +73,9 @@ export default {
 
 .login {
     &__wrapper {
-        // background-color: $decorative-01;
         padding-top: $spacing-05;
         padding-bottom: $spacing-05;
         margin-bottom: $spacing-10;
-    }
-
-    &__heading {
-        margin-bottom: $spacing-06;
-        @include carbon--type-style('expressive-heading-06');
     }
 
     &__register-paragraph {
