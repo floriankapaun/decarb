@@ -18,15 +18,13 @@ jobs:
         script: |
           shopt -s extglob
 
-          # Enable SSH agent
-          eval "$(ssh-agent -s)"
-
           cd /var/www/virtual/kapaun/ew-stage.kapaun.uber.space/_repository/eco-web/
 
           # Enforce most-recent repository version
           git checkout stage
-          git pull
-          git reset origin --hard
+          git fetch
+          git reset --hard HEAD
+          git merge '@{u}'
 
           # Install dependencies and build client
           yarn --cwd client install
