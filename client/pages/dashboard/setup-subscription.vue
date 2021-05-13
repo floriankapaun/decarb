@@ -39,7 +39,7 @@
             <CvButton @click="handleSubmit">Create Subscription</CvButton>
             <p>
                 When clicking on this button you accept our
-                <NuxtLink to="/terms">terms and conditions</NuxtLink>.
+                <CvLink to="/terms" size="lg">terms and conditions</CvLink>.
             </p>
         </div>
     </section>

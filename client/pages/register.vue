@@ -21,7 +21,7 @@
             >
                 <p class="register__login-paragraph">
                     Already have an account?
-                    <NuxtLink to="login">Sign in now</NuxtLink>.
+                    <CvLink to="/login" size="sm">Sign in now</CvLink>.
                 </p>
             </div>
         </section>

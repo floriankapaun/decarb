@@ -1,12 +1,14 @@
 <template>
     <div>
         <h1>Get an ecofriendly website</h1>
-        <p>
+        <p class="mb-06">
             Track and offset your websites carbon footprint. So you can make a
             big difference with little effort.
         </p>
         <p>
-            <NuxtLink to="register" class="btn">Register your domain</NuxtLink>
+            <NuxtLink to="/register" class="bx--btn bx--btn--primary">
+                Register your domain
+            </NuxtLink>
         </p>
     </div>
 </template>

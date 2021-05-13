@@ -20,7 +20,7 @@
             >
                 <p class="helper-text">
                     Don't have an account yet?
-                    <NuxtLink to="register">Register now</NuxtLink>.
+                    <CvLink to="/register" size="sm">Register now</CvLink>.
                 </p>
             </div>
         </section>

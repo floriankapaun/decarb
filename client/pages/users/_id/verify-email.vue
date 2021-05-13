@@ -24,8 +24,8 @@
                 />
                 <p>
                     With your registration you agree to our
-                    <NuxtLink to="/legal/terms-and-conditions"
-                        >terms and conditions</NuxtLink
+                    <CvLink to="/legal/terms-and-conditions" size="lg"
+                        >terms and conditions</CvLink
                     >. Please read our privacy policy and our notes on cookies.
                 </p>
             </div>
@@ -36,8 +36,8 @@
             >
                 <p class="helper-text">
                     Can’t find the email? Check your spam folder, or
-                    <NuxtLink to="/register">
-                        re-enter your email and try again </NuxtLink
+                    <CvLink to="/register" size="sm">
+                        re-enter your email and try again </CvLink
                     >.
                 </p>
             </div>
