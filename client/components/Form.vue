@@ -91,6 +91,21 @@ export default {
             }
             return this.setValid(input)
         },
+        validateExactMatch(input) {
+            if (
+                input.exactMatch &&
+                (!input.value ||
+                    !this.$refs[input.exactMatch] ||
+                    !this.$refs[input.exactMatch][0].value ||
+                    input.value !== this.$refs[input.exactMatch][0].value)
+            ) {
+                const invalidMessage = `${input.label} must match ${
+                    this.$refs[input.exactMatch][0].label
+                }`
+                return this.setInvalid(input, invalidMessage)
+            }
+            return this.setValid(input)
+        },
         validateRegex(input) {
             if (
                 input.regex &&
@@ -107,6 +122,8 @@ export default {
             this.validateMinLength(input)
             if (input.invalidMessage !== '') return (input.isValid = false)
             this.validateExactLength(input)
+            if (input.invalidMessage !== '') return (input.isValid = false)
+            this.validateExactMatch(input)
             if (input.invalidMessage !== '') return (input.isValid = false)
             this.validateRegex(input)
             if (input.invalidMessage !== '') return (input.isValid = false)

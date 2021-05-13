@@ -26,6 +26,39 @@ export const verificationCode = {
     required: true,
 }
 
+export const newPassword = {
+    name: 'newPassword',
+    value: '',
+    type: 'password',
+    autocomplete: 'new-password',
+    label: 'Password',
+    placeholder: 'Minimum 8 Characters',
+    invalid: undefined,
+    invalidMessage: '',
+    passwordVisible: false,
+    passwordHideLabel: 'Hide password',
+    passwordShowLabel: 'Show password',
+    minLength: 8,
+    required: true,
+}
+
+export const confirmNewPassword = {
+    name: 'confirmNewPassword',
+    value: '',
+    type: 'password',
+    autocomplete: 'new-password',
+    label: 'Repeat Password',
+    placeholder: 'Minimum 8 Characters',
+    invalid: undefined,
+    invalidMessage: '',
+    passwordVisible: false,
+    passwordHideLabel: 'Hide password',
+    passwordShowLabel: 'Show password',
+    minLength: 8,
+    exactMatch: 'newPassword',
+    required: true,
+}
+
 export const password = {
     name: 'password',
     value: '',
