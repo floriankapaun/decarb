@@ -35,15 +35,20 @@ import { siteUrl, estimatedMonthlyPageViews } from '@/config/public/inputs'
 export default {
     layout: 'minimal',
     middleware: ['auth'],
-    asyncData() {
+    data() {
         return {
             inputs: [siteUrl, estimatedMonthlyPageViews],
         }
     },
-    data() {
-        return {
-            averageMonthlyPageViews: undefined,
+    async fetch({ store }) {
+        if (store.getters['domains/getUserDomains']) return
+        if (!store.getters['auth/getUser']) {
+            await store.dispatch('auth/fetchUser')
         }
+        await store.dispatch(
+            'domains/fetchUserDomains',
+            store.getters['auth/getUser'].id
+        )
     },
     computed: {
         ...mapGetters({
