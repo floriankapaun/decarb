@@ -163,8 +163,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .bx--form-item {
     margin-bottom: $spacing-07;
 }

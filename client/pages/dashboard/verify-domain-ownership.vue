@@ -40,8 +40,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .mb-05 {
     margin-bottom: $spacing-05;
 }

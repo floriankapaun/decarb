@@ -9,10 +9,5 @@
 </template>
 
 <style lang="scss">
-@import '@/assets/scss/carbon';
-@import '@/assets/scss/carbon-utils';
-
-.bx--content {
-    background-color: $ui-02;
-}
+@import '@/assets/scss/index';
 </style>

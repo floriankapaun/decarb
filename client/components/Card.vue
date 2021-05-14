@@ -29,8 +29,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .card {
     background-color: $ui-01;
 

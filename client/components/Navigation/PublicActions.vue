@@ -47,8 +47,10 @@ export default {
         handleDashboardAction() {
             this.$router.push('dashboard')
         },
-        handleLogoutAction() {
-            this.logout()
+        async handleLogoutAction() {
+            await this.logout()
+            // Reload the page
+            this.$router.go()
         },
     },
 }

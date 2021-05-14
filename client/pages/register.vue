@@ -68,8 +68,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .register {
     &__wrapper {
         padding-top: $spacing-05;

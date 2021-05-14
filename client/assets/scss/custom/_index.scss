@@ -1,0 +1,16 @@
+/**
+ * Global Carbon Style Overwrite
+ */
+
+ h1 {
+    margin-bottom: $spacing-06;
+    @include carbon--type-style('expressive-heading-06');
+}
+
+.helper-text {
+    @include carbon--type-style('helper-text-01');
+}
+
+.mb-06 {
+    margin-bottom: $spacing-06;
+}

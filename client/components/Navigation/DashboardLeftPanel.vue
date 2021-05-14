@@ -217,8 +217,6 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .favicon--wrapper {
     display: flex;
     flex-direction: row;

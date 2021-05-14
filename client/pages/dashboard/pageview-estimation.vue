@@ -86,8 +86,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .heading {
     margin-bottom: $spacing-06;
     @include carbon--type-style('expressive-heading-06');
