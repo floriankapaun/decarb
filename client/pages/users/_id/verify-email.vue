@@ -87,8 +87,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .verification__wrapper {
     padding-top: $spacing-05;
     padding-bottom: $spacing-05;

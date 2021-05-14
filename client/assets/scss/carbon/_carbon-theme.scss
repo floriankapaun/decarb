@@ -1,35 +1,34 @@
-/* stylelint-disable */
-
 @import '@carbon/themes/scss/themes';
 
-$carbon--theme--red: map-merge(
+// Merge the default carbon white theme with custom values
+$eco-web--theme: map-merge(
     $carbon--theme--white,
     (
         interactive-01: #006E5F,
         interactive-02: #00333D,
         interactive-03: #006E5F,
         interactive-04: #006E5F,
-        ui-background: #ffffff,
+        ui-background: #fff,
         ui-01: #f4f4f4,
-        ui-02: #ffffff,
+        ui-02: #fff,
         ui-03: #e0e0e0,
         ui-04: #8d8d8d,
         ui-05: #161616,
         text-01: #161616,
         text-02: #525252,
         text-03: #a8a8a8,
-        text-04: #ffffff,
+        text-04: #fff,
         text-05: #6f6f6f,
         text-error: #da1e28,
         icon-01: #161616,
         icon-02: #525252,
-        icon-03: #ffffff,
+        icon-03: #fff,
         link-01: #006E5F,
         link-02: #00454A,
         inverse-link: #78a9ff,
         field-01: #f4f4f4,
-        field-02: #ffffff,
-        inverse-01: #ffffff,
+        field-02: #fff,
+        inverse-01: #fff,
         inverse-02: #00333D,
         support-01: #da1e28,
         support-02: #24a148,
@@ -43,7 +42,7 @@ $carbon--theme--red: map-merge(
         danger-01: #da1e28,
         danger-02: #da1e28,
         focus: #006E5F,
-        inverse-focus-ui: #ffffff,
+        inverse-focus-ui: #fff,
         hover-primary: #005C58,
         active-primary: #002d9c,
         hover-primary-text: #00454A,
@@ -71,7 +70,7 @@ $carbon--theme--red: map-merge(
         button-separator: #e0e0e0,
         skeleton-01: #e5e5e5,
         skeleton-02: #c6c6c6,
-        background: #ffffff,
+        background: #fff,
         layer: #f4f4f4,
         layer-accent: #e0e0e0,
         field: #f4f4f4,
@@ -86,16 +85,16 @@ $carbon--theme--red: map-merge(
         text-secondary: #525252,
         text-placeholder: #a8a8a8,
         text-helper: #6f6f6f,
-        text-on-color: #ffffff,
-        text-inverse: #ffffff,
+        text-on-color: #fff,
+        text-inverse: #fff,
         link-primary: #006E5F,
         link-secondary: #00454A,
         link-visited: #8a3ffc,
         link-inverse: #78a9ff,
         icon-primary: #161616,
         icon-secondary: #525252,
-        icon-on-color: #ffffff,
-        icon-inverse: #ffffff,
+        icon-on-color: #fff,
+        icon-inverse: #fff,
         support-error: #da1e28,
         support-success: #24a148,
         support-warning: #f1c21b,
@@ -117,8 +116,8 @@ $carbon--theme--red: map-merge(
         button-primary-active: #002d9c,
         button-secondary-active: #6f6f6f,
         button-tertiary-active: #002d9c,
-        focus-inset: #ffffff,
-        focus-inverse: #ffffff,
+        focus-inset: #fff,
+        focus-inverse: #fff,
         background-hover: #e5e5e5,
         layer-hover: #e5e5e5,
         field-hover: #e5e5e5,
@@ -154,60 +153,6 @@ $carbon--theme--red: map-merge(
     )
 ) !default;
 
-$carbon--theme: $carbon--theme--red;
-
-// Use the gray 10 theme
+// Apply the custom theme
+$carbon--theme: $eco-web--theme;
 @include carbon--theme();
-
-// Feature flags
-$feature-flags: (
-    grid-columns-16: true
-);
-$css--font-face: true;
-$css--plex: true;
-
-// $ui-background: #004335;
-
-// Global styles
-@import 'carbon-components/scss/globals/scss/css--font-face';
-@import 'carbon-components/scss/globals/grid/grid';
-
-// Carbon components
-@import 'carbon-components/scss/components/button/button';
-@import 'carbon-components/scss/components/copy-button/copy-button';
-@import 'carbon-components/scss/components/code-snippet/code-snippet';
-// @import 'carbon-components/scss/components/data-table/data-table';
-@import 'carbon-components/scss/components/notification/inline-notification';
-@import 'carbon-components/scss/components/link/link';
-@import 'carbon-components/scss/components/number-input/number-input';
-// @import 'carbon-components/scss/components/pagination/pagination';
-@import 'carbon-components/scss/components/ui-shell/ui-shell';
-@import 'carbon-components/scss/components/radio-button/radio-button';
-@import 'carbon-components/scss/components/skeleton/skeleton-text';
-@import 'carbon-components/scss/components/tag/tag';
-@import 'carbon-components/scss/components/text-input/text-input';
-@import 'carbon-components/scss/components/notification/toast-notification';
-
-/**
- * Global Carbon Style Overwrite
- */
-// .bx--snippet-container pre {
-//     white-space: pre-line;
-
-//     code {
-//         white-space: pre;
-//     }
-// }
-
-h1 {
-    margin-bottom: $spacing-06;
-    @include carbon--type-style('expressive-heading-06')
-}
-
-.helper-text {
-    @include carbon--type-style('helper-text-01');
-}
-
-.mb-06 {
-    margin-bottom: $spacing-06;
-}

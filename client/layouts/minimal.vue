@@ -10,8 +10,6 @@
 </template>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .bx--content {
     background-color: $ui-02;
 }

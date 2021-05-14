@@ -49,7 +49,18 @@ export default {
     modules: [
         // https://go.nuxtjs.dev/pwa
         '@nuxtjs/pwa',
+        // https://www.npmjs.com/package/@nuxtjs/style-resources
+        '@nuxtjs/style-resources',
     ],
+
+    // Global accessible Style Ressources – enabled by module @nuxtjs/style-resources
+    styleResources: {
+        // Make Carbon Design Variables accessible in every Vue Component
+        scss: [
+            './node_modules/carbon-components/scss/globals/scss/_vars.scss',
+            './node_modules/carbon-components/scss/globals/scss/_typography.scss',
+        ],
+    },
 
     // PWA module configuration: https://go.nuxtjs.dev/pwa
     pwa: {
@@ -59,5 +70,7 @@ export default {
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
-    build: {},
+    build: {
+        extractCSS: true,
+    },
 }

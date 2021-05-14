@@ -1,0 +1,21 @@
+/**
+ * Carbon Design System Global Flags
+ *
+ * Reference: https://github.com/carbon-design-system/carbon/blob/main/docs/guides/sass.md#global-flags
+ */
+
+// Includes the font-face mixins for the current font family (IBM Plex)
+// CHECK: Can this font be overwritten in a theme?
+$css--font-face: false;
+
+// Includes classes and utilities that are commonly used by components
+$css--helpers: false;
+
+// Sets a top-level reset, type style, and color for the <body> tag
+$css--body: true;
+
+// Enables use of box-shadow in layer() helpers
+$css--use-layer: true;
+
+// Includes a top-level CSS Reset
+$css--reset: true;

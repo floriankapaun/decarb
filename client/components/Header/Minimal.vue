@@ -8,8 +8,6 @@
 </template>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .bx--header {
     // background-color: transparent;
     background-color: #004335;

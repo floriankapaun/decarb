@@ -56,8 +56,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 h1 {
     margin-bottom: $spacing-07;
 }

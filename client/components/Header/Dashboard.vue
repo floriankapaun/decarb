@@ -18,8 +18,6 @@
 </template>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
 .bx--header {
     background-color: #004335;
     border-bottom: 1px solid #016752;

@@ -1,0 +1,10 @@
+/**
+ * Custom prefix for Carbon classes
+ *
+ * When transitioning to Carbon Design System v11 this will change to 'cds', see:
+ * https://medium.com/carbondesign/carbons-2021-release-april-update-9d23242b3dea
+ *
+ * If you change the prefix in scss, you have to change it in .js as well, which
+ * currently isn't possible – to my knowledge – in Vue so far.
+ */
+$prefix: 'bx';
