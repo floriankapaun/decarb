@@ -24,6 +24,7 @@
   "dependencies": {
     "@carbon/grid": "^10.25.0",
     "@carbon/icons-vue": "^10.31.0",
+    "@carbon/themes": "^10.33.0",
     "@carbon/vue": "^2.37.1",
     "@nuxtjs/pwa": "^3.3.5",
     "carbon-components": "^10.34.0",

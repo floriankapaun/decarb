@@ -922,6 +922,11 @@
     "@babel/helper-validator-identifier" "^7.14.0"
     to-fast-properties "^2.0.0"
 
+"@carbon/colors@^10.24.0":
+  version "10.24.0"
+  resolved "https://registry.yarnpkg.com/@carbon/colors/-/colors-10.24.0.tgz#1966a4a0181d7a9b7196ad236f1e6a15e139a807"
+  integrity sha512-8dcFsrguFYcWE6lrecB0+kqVS0a5dSknaE4yM4F/P45ilFsd6FUenW+1uB8a9m7Dk/c38rj/FzpgwQ0Hfm6fmQ==
+
 "@carbon/grid@^10.25.0":
   version "10.25.0"
   resolved "https://registry.yarnpkg.com/@carbon/grid/-/grid-10.25.0.tgz#af66ec3a954b118f45663d0ac4f7adbf730f8901"
@@ -974,6 +979,24 @@
     semver "^7.3.2"
     winston "^3.3.3"
     yargs "^16.1.1"
+
+"@carbon/themes@^10.33.0":
+  version "10.33.0"
+  resolved "https://registry.yarnpkg.com/@carbon/themes/-/themes-10.33.0.tgz#b319cf753782320a7b38bffd8c11ce1ff3956ea6"
+  integrity sha512-PZHdY1zYApitEJANQk0i52p9txRBk4szbyYCBCl8ZMjGk5MgODuIZwk9L8XuJBAyZYQG50MphaEZujlMel4LBw==
+  dependencies:
+    "@carbon/colors" "^10.24.0"
+    "@carbon/layout" "^10.23.0"
+    "@carbon/type" "^10.27.0"
+    color "^3.1.2"
+
+"@carbon/type@^10.27.0":
+  version "10.27.0"
+  resolved "https://registry.yarnpkg.com/@carbon/type/-/type-10.27.0.tgz#2cd5d0b828ea78a3cdc06fb2c56d279f5ca404f3"
+  integrity sha512-4DAgunAxgm5OVzxUdTev4ST67QH9FVGVR2ar2PavLROK1Lunfj+3lTFjkiT4OC6oG7UfpceiXWRA1vslJqQqxA==
+  dependencies:
+    "@carbon/import-once" "^10.6.0"
+    "@carbon/layout" "^10.23.0"
 
 "@carbon/vue@^2.37.1":
   version "2.37.1"
@@ -3002,7 +3025,7 @@ color@3.0.x:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
-color@^3.0.0:
+color@^3.0.0, color@^3.1.2:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/color/-/color-3.1.3.tgz#ca67fb4e7b97d611dcde39eceed422067d91596e"
   integrity sha512-xgXAcTHa2HeFCGLE9Xs/R82hujGtu9Jd9x4NW3T34+OMs7VoPsjwzRczKHvTAHeJwWFwX5j15+MgAppE8ztObQ==
