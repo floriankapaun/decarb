@@ -53,7 +53,16 @@ export default {
         '@nuxtjs/pwa',
         // https://www.npmjs.com/package/@nuxtjs/style-resources
         '@nuxtjs/style-resources',
+        // https://i18n.nuxtjs.org
+        'nuxt-i18n',
     ],
+
+    // PWA module configuration: https://go.nuxtjs.dev/pwa
+    pwa: {
+        manifest: {
+            lang: 'en',
+        },
+    },
 
     // Global accessible Style Ressources – enabled by module @nuxtjs/style-resources
     styleResources: {
@@ -64,11 +73,18 @@ export default {
         ],
     },
 
-    // PWA module configuration: https://go.nuxtjs.dev/pwa
-    pwa: {
-        manifest: {
-            lang: 'en',
-        },
+    // Multi-Language Settings
+    i18n: {
+        locales: [
+            {
+                name: 'English',
+                code: 'en',
+                iso: 'en-US',
+                file: 'en-US.js',
+            },
+        ],
+        langDir: 'lang/',
+        defaultLocale: 'en',
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
