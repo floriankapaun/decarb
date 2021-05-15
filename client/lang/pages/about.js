@@ -1,3 +1,3 @@
-export const enUS = {
+export const en = {
     h1: 'About',
 }

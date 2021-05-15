@@ -1,5 +1,5 @@
-import components from './en-US.components'
-import pages from './en-US.pages'
+import components from './components.en'
+import pages from './pages.en'
 
 export default {
     c: components,

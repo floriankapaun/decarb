@@ -1,7 +1,7 @@
 <template>
     <CvForm @submit.prevent="handleSubmit">
         <fieldset v-for="input in inputs" :key="input.name">
-            <!-- Required and MinLenght aren't used as HTML attributes to prevent Browsers from Validating -->
+            <!-- Required and MinLength aren't used as HTML attributes to prevent Browsers from Validating -->
             <CvNumberInput
                 v-if="input.type === 'number'"
                 :ref="input.name"
