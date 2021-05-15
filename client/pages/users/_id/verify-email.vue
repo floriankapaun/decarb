@@ -24,7 +24,9 @@
                 />
                 <p>
                     With your registration you agree to our
-                    <CvLink to="/legal/terms-and-conditions" size="lg"
+                    <CvLink
+                        :to="localeRoute('/legal/terms-and-conditions')"
+                        size="lg"
                         >terms and conditions</CvLink
                     >. Please read our privacy policy and our notes on cookies.
                 </p>
@@ -36,7 +38,7 @@
             >
                 <p class="helper-text">
                     Can’t find the email? Check your spam folder, or
-                    <CvLink to="/register" size="sm">
+                    <CvLink :to="localeRoute('/register')" size="sm">
                         re-enter your email and try again </CvLink
                     >.
                 </p>

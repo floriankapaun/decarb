@@ -3,7 +3,10 @@
         <h1>{{ $t('p.index.h1') }}</h1>
         <p class="mb-06">{{ $t('p.index.p1') }}</p>
         <p>
-            <NuxtLink :to="registerDomainLink" class="bx--btn bx--btn--primary">
+            <NuxtLink
+                :to="localeRoute(registerDomainLink)"
+                class="bx--btn bx--btn--primary"
+            >
                 {{ $t('p.index.ctaButton') }}
             </NuxtLink>
         </p>
@@ -20,8 +23,8 @@ export default {
             getIsLoggedIn: 'auth/getIsLoggedIn',
         }),
         registerDomainLink() {
-            if (this.getIsLoggedIn) return '/dashboard/register-domain'
-            return '/register'
+            if (this.getIsLoggedIn) return 'dashboard/register-domain'
+            return 'register'
         },
     },
 }

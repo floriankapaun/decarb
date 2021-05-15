@@ -18,13 +18,13 @@
                 {{ selectedDomain.estimatedMonthlyPageViews }} page views.
             </p>
             <p class="mb-06">
-                <CvLink to="/dashboard/pageview-estimation">
+                <CvLink :to="localeRoute('/dashboard/pageview-estimation')">
                     Adjust estimated monthly pageviews
                 </CvLink>
             </p>
             <p>
                 <NuxtLink
-                    to="/dashboard/setup-subscription"
+                    :to="localeRoute('/dashboard/setup-subscription')"
                     class="bx--btn bx--btn--primary"
                 >
                     Start Offsetting

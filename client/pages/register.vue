@@ -21,7 +21,9 @@
             >
                 <p class="register__login-paragraph">
                     Already have an account?
-                    <CvLink to="/login" size="sm">Sign in now</CvLink>.
+                    <CvLink :to="localeRoute('/login')" size="sm"
+                        >Sign in now</CvLink
+                    >.
                 </p>
             </div>
         </section>

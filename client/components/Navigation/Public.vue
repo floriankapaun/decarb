@@ -1,5 +1,5 @@
 <template>
     <CvHeaderNav aria-label="Eco Web navigation">
-        <CvHeaderMenuItem to="/about">About</CvHeaderMenuItem>
+        <CvHeaderMenuItem :to="localeRoute('/about')">About</CvHeaderMenuItem>
     </CvHeaderNav>
 </template>

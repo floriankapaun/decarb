@@ -39,7 +39,9 @@
             <CvButton @click="handleSubmit">Create Subscription</CvButton>
             <p>
                 When clicking on this button you accept our
-                <CvLink to="/terms" size="lg">terms and conditions</CvLink>.
+                <CvLink :to="localeRoute('/terms-and-conditions')" size="lg">
+                    terms and conditions</CvLink
+                >.
             </p>
         </div>
     </section>

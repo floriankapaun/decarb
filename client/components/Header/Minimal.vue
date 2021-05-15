@@ -1,7 +1,7 @@
 <template>
     <CvHeader aria-label="Eco Web header">
         <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
-        <CvHeaderName to="/">
+        <CvHeaderName :to="localeRoute('index')">
             <Logo />
         </CvHeaderName>
     </CvHeader>

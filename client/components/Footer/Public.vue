@@ -4,18 +4,24 @@
             <p class="copyright">© {{ year }} Eco Web</p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="/legal/imprint">Imprint</CvLink></p>
-            <p><CvLink to="/legal/data-privacy">Data privacy</CvLink></p>
+            <p><CvLink :to="localeRoute('/legal/imprint')">Imprint</CvLink></p>
             <p>
-                <CvLink to="/legal/terms-and-conditions">
+                <CvLink :to="localeRoute('/legal/data-privacy')">
+                    Data privacy
+                </CvLink>
+            </p>
+            <p>
+                <CvLink :to="localeRoute('/legal/terms-and-conditions')">
                     Terms and Conditions
                 </CvLink>
             </p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="/about">About</CvLink></p>
-            <p><CvLink to="/why">Why</CvLink></p>
-            <p><CvLink to="/how-it-works">How it works</CvLink></p>
+            <p><CvLink :to="localeRoute('/about')">About</CvLink></p>
+            <p><CvLink :to="localeRoute('/why')">Why</CvLink></p>
+            <p>
+                <CvLink :to="localeRoute('/how-it-works')">How it works</CvLink>
+            </p>
         </div>
     </footer>
 </template>

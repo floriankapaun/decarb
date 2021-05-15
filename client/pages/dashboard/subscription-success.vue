@@ -6,7 +6,9 @@
             <h1>Congrats! It’s official. Your Website is Eco-friendly!</h1>
             <p class="mb-06">
                 From now on you can proudly display the
-                <CvLink to="/dashboard/badge" size="lg">Eco Web Badge</CvLink>
+                <CvLink :to="localeRoute('/dashboard/badge')" size="lg"
+                    >Eco Web Badge</CvLink
+                >
                 on {{ getUrl ? getUrl : 'your website' }}.
             </p>
             <!-- <p class="mb-06">
@@ -20,7 +22,10 @@
                 Campagin about her new green website.
             </p> -->
             <p>
-                <NuxtLink to="/dashboard" class="bx--btn bx--btn--primary">
+                <NuxtLink
+                    :to="localeRoute('/dashboard')"
+                    class="bx--btn bx--btn--primary"
+                >
                     View the Dashboard
                 </NuxtLink>
             </p>

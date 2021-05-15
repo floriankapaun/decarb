@@ -1,8 +1,10 @@
 <template>
     <div>
         <CvHeaderNav v-if="!getIsLoggedIn" class="action-header">
-            <CvHeaderMenuItem to="login">Login</CvHeaderMenuItem>
-            <CvHeaderMenuItem to="register">
+            <CvHeaderMenuItem :to="localeRoute('/login')">
+                Login
+            </CvHeaderMenuItem>
+            <CvHeaderMenuItem :to="localeRoute('/register')">
                 <CvTag class="pointer" label="Register" kind="green"></CvTag>
             </CvHeaderMenuItem>
         </CvHeaderNav>

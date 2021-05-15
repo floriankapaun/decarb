@@ -20,7 +20,9 @@
             >
                 <p class="helper-text">
                     Don't have an account yet?
-                    <CvLink to="/register" size="sm">Register now</CvLink>.
+                    <CvLink :to="localeRoute('/register')" size="sm">
+                        Register now</CvLink
+                    >.
                 </p>
             </div>
         </section>
