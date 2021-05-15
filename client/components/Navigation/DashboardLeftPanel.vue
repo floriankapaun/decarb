@@ -6,7 +6,11 @@
                 <div v-show="faviconLoaded" class="favicon--wrapper">
                     <img
                         :src="`https://${getSelectedDomain.url}/favicon.ico`"
-                        :alt="`${getSelectedDomain.url} favicon`"
+                        :alt="
+                            $t('c.navigation.dashboardLeftPanel.faviconAlt', {
+                                url: getSelectedDomain.url,
+                            })
+                        "
                         class="favicon"
                         @load="onFaviconLoad"
                     />
@@ -26,7 +30,7 @@
                 :to="localeRoute('/dashboard/register-domain')"
                 class="icon-positioning--add"
             >
-                <Add16 /> Add new Domain
+                <Add16 /> {{ $t('c.navigation.dashboardLeftPanel.addDomain') }}
             </CvSideNavMenuItem>
         </CvSideNavMenu>
 
@@ -34,23 +38,23 @@
 
         <CvSideNavLink :to="localeRoute('/dashboard/achievements-offsettings')">
             <template slot="nav-icon"><Sprout16 /></template>
-            Achievements/Offsettings
+            {{ $t('c.navigation.dashboardLeftPanel.achievements') }}
         </CvSideNavLink>
 
         <CvSideNavLink :to="localeRoute('/dashboard/traffic')">
             <template slot="nav-icon"><Analytics16 /></template>
-            Traffic
+            {{ $t('c.navigation.dashboardLeftPanel.traffic') }}
         </CvSideNavLink>
 
         <CvSideNavLink :to="localeRoute('/dashboard/emissions')">
             <template slot="nav-icon"><Activity16 /></template>
             <!-- ChartBubblePacked, ChartBubble, ChartCandlestick, Meter -->
-            Emissions
+            {{ $t('c.navigation.dashboardLeftPanel.emissions') }}
         </CvSideNavLink>
 
         <CvSideNavLink :to="localeRoute('/dashboard/page-index')">
             <template slot="nav-icon"><ListBulleted16 /></template>
-            Index
+            {{ $t('c.navigation.dashboardLeftPanel.index') }}
         </CvSideNavLink>
 
         <Divider />
@@ -58,36 +62,36 @@
         <CvSideNavLink :to="localeRoute('/dashboard/badge')">
             <template slot="nav-icon"><Badge16 /></template>
             <!-- Certificate -->
-            Badge
+            {{ $t('c.navigation.dashboardLeftPanel.badge') }}
         </CvSideNavLink>
 
         <CvSideNavLink :to="localeRoute('/dashboard/gdpr-info')">
             <template slot="nav-icon"><Information16 /></template>
             <!-- Rule, Security -->
-            GDPR Info
+            {{ $t('c.navigation.dashboardLeftPanel.gdpr') }}
         </CvSideNavLink>
 
         <!-- TODO: If verification wasn't successfull yet, highlight this tab with a pill or something -->
         <CvSideNavLink :to="localeRoute('/dashboard/tracking-code')">
             <template slot="nav-icon"><Code16 /></template>
-            Tracking Code
+            {{ $t('c.navigation.dashboardLeftPanel.trackingCode') }}
         </CvSideNavLink>
 
         <Divider />
 
         <CvSideNavLink :to="localeRoute('/dashboard/subscription')">
             <template slot="nav-icon"><Repeat16 /></template>
-            Subscription
+            {{ $t('c.navigation.dashboardLeftPanel.subscription') }}
         </CvSideNavLink>
 
         <CvSideNavLink :to="localeRoute('/dashboard/payment-and-bills')">
             <template slot="nav-icon"><Receipt16 /></template>
-            Payment & Bills
+            {{ $t('c.navigation.dashboardLeftPanel.payment') }}
         </CvSideNavLink>
 
         <CvSideNavLink :to="localeRoute('/dashboard/account-settings')">
             <template slot="nav-icon"><Settings16 /></template>
-            Account Settings
+            {{ $t('c.navigation.dashboardLeftPanel.accountSettings') }}
         </CvSideNavLink>
     </CvSideNavItems>
     <CvSideNavItems v-else>

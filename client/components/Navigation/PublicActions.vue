@@ -2,23 +2,29 @@
     <div>
         <CvHeaderNav v-if="!getIsLoggedIn" class="action-header">
             <CvHeaderMenuItem :to="localeRoute('/login')">
-                Login
+                {{ $t('c.navigation.publicActions.login') }}
             </CvHeaderMenuItem>
             <CvHeaderMenuItem :to="localeRoute('/register')">
-                <CvTag class="pointer" label="Register" kind="green"></CvTag>
+                <CvTag
+                    class="pointer"
+                    :label="$t('c.navigation.publicActions.register')"
+                    kind="green"
+                ></CvTag>
             </CvHeaderMenuItem>
         </CvHeaderNav>
 
         <CvHeaderGlobalAction
             v-if="getIsLoggedIn"
-            aria-label="User settings"
+            :aria-label="
+                $t('c.navigation.publicActions.ariaLabelDashboardAction')
+            "
             @click="handleDashboardAction"
         >
             <DashboardReference20 />
         </CvHeaderGlobalAction>
         <CvHeaderGlobalAction
             v-if="getIsLoggedIn"
-            aria-label="Logout"
+            :aria-label="$t('c.navigation.publicActions.ariaLabelLogoutAction')"
             @click="handleLogoutAction"
         >
             <Logout20 />

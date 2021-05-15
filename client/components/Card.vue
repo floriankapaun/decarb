@@ -3,7 +3,7 @@
         <div class="card--header">
             <h2 class="card--header--headline">{{ headline }}</h2>
             <CvLink :to="localeRoute('/dashboard/pageviews')" size="lg">
-                open report
+                {{ $t('c.card.linkText') }}
                 <template slot="icon"><ArrowRight16 /></template>
             </CvLink>
         </div>

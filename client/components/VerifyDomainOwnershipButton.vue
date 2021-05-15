@@ -1,7 +1,7 @@
 <template>
     <CvButtonSkeleton v-if="isLoading"></CvButtonSkeleton>
     <CvButton v-else @click="handleVerifyImplementation">
-        {{ isDomainVerified ? 'Verify again' : 'Verify Implementation' }}
+        {{ buttonText }}
     </CvButton>
 </template>
 
@@ -23,6 +23,12 @@ export default {
                 return true
             }
             return false
+        },
+        buttonText() {
+            if (this.isDomainVerified) {
+                return this.$t('c.verifyDomainOwnershipButton.verify')
+            }
+            return this.$t('c.verifyDomainOwnershipButton.verifyInitial')
         },
         isLoading() {
             return this.getIsLoading
@@ -47,7 +53,7 @@ export default {
             await this.setSelectedDomain(verifiedDomain)
             const notification = new Notification({
                 type: 'success',
-                title: 'Successfully verified Domain',
+                title: this.$t('c.verifyDomainOwnershipButton.success'),
                 subTitle: this.getSelectedDomain.url,
             })
             this.addNotification(notification)

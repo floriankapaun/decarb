@@ -1,24 +1,19 @@
 <template>
     <div>
-        <CvHeaderNav v-if="!getIsLoggedIn" class="action-header">
-            <CvHeaderMenuItem :to="localeRoute('/login')">
-                Login
-            </CvHeaderMenuItem>
-            <CvHeaderMenuItem :to="localeRoute('/register')">
-                <CvTag class="pointer" label="Register" kind="green"></CvTag>
-            </CvHeaderMenuItem>
-        </CvHeaderNav>
-
         <CvHeaderGlobalAction
             v-if="getIsLoggedIn"
-            aria-label="User settings"
+            :aria-label="
+                $t('c.navigation.dashboardActions.ariaLabelHomeAction')
+            "
             @click="handleHomeAction"
         >
             <Home20 />
         </CvHeaderGlobalAction>
         <CvHeaderGlobalAction
             v-if="getIsLoggedIn"
-            aria-label="Logout"
+            :aria-label="
+                $t('c.navigation.dashboardActions.ariaLabelLogoutAction')
+            "
             @click="handleLogoutAction"
         >
             <Logout20 />
@@ -47,7 +42,7 @@ export default {
             logout: 'auth/logout',
         }),
         handleHomeAction() {
-            this.$router.push('/')
+            this.$router.push(this.localeRoute('index'))
         },
         async handleLogoutAction() {
             await this.logout()
@@ -57,12 +52,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-.action-header::before {
-    content: unset;
-}
-.pointer {
-    cursor: pointer;
-}
-</style>
