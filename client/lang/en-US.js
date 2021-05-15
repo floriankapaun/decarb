@@ -1,7 +1,5 @@
+import pages from './en-US.pages'
+
 export default {
-    hello: 'Hello World',
-    pages: {
-        home: 'Home',
-        contacts: 'Contacts',
-    },
+    p: pages,
 }
