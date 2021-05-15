@@ -1,7 +1,7 @@
 <template>
     <section class="bx--row">
         <div class="bx--col-lg-16">
-            <h1>Overview</h1>
+            <h1>{{ $t('p.dashboard.index.h1') }}</h1>
         </div>
         <div class="bx--col-lg-8 col--card">
             <Card headline="Achievements">

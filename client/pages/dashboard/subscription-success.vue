@@ -3,7 +3,7 @@
         <div
             class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07"
         >
-            <h1>Congrats! It’s official. Your Website is Eco-friendly!</h1>
+            <h1>{{ $t('p.dashboard.subscriptionSuccess.h1') }}</h1>
             <p class="mb-06">
                 From now on you can proudly display the
                 <CvLink :to="localeRoute('/dashboard/badge')" size="lg"

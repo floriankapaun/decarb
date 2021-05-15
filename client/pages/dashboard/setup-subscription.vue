@@ -3,7 +3,7 @@
         <div
             class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07"
         >
-            <h1>Setup your offsetting subscription</h1>
+            <h1>{{ $t('p.dashboard.setupSubscription.h1') }}</h1>
             <CvForm>
                 <legend class="bx--label">Payment Interval</legend>
                 <CvRadioGroup :vertical="false">
