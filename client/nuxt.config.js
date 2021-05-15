@@ -75,16 +75,19 @@ export default {
 
     // Multi-Language Settings
     i18n: {
+        defaultLocale: 'en',
+        langDir: 'lang/',
+        lazy: true,
         locales: [
             {
-                name: 'English',
                 code: 'en',
+                file: 'en.js',
                 iso: 'en-US',
-                file: 'en-US.js',
             },
         ],
-        langDir: 'lang/',
-        defaultLocale: 'en',
+        parsePages: true,
+        seo: false, // Recommended to do on layout-level: https://i18n.nuxtjs.org/seo/#improving-performance
+        strategy: 'prefix_and_default',
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
