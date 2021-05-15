@@ -4,44 +4,51 @@
             <div
                 class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07 verification__wrapper"
             >
-                <h1>Check your E-Mail For Confirmation</h1>
-                <p class="mb-06">
-                    To verify your email we have sent a code to
-                    {{
-                        getUser && getUser.email ? getUser.email : 'your email'
-                    }}.
-                </p>
+                <h1>{{ $t('p.users.id.verifyEmail.h1') }}</h1>
+                <i18n
+                    path="p.users.id.verifyEmail.explanation"
+                    tag="p"
+                    class="mb-06"
+                >
+                    <template #email>{{
+                        getUser && getUser.email
+                            ? getUser.email
+                            : $t('p.users.id.verifyEmail.emailDefault')
+                    }}</template>
+                </i18n>
                 <Form
                     class="mb-06"
-                    :button-label="
-                        getIsLoading
-                            ? 'Loading...'
-                            : 'Create your Eco Web Account'
-                    "
+                    :button-label="submitButtonLabel"
                     :button-disbaled="getIsLoading"
                     :inputs="inputs"
                     @submit="handleSubmit"
                 />
-                <p>
-                    With your registration you agree to our
-                    <CvLink
-                        :to="localeRoute('/legal/terms-and-conditions')"
-                        size="lg"
-                        >terms and conditions</CvLink
-                    >. Please read our privacy policy and our notes on cookies.
-                </p>
+                <i18n path="p.users.id.verifyEmail.tos" tag="p">
+                    <template #link>
+                        <CvLink
+                            :to="localeRoute('/legal/terms-and-conditions')"
+                            size="lg"
+                            >{{ $t('p.users.id.verifyEmail.tosLink') }}</CvLink
+                        >
+                    </template>
+                </i18n>
             </div>
         </section>
         <section class="bx--row">
             <div
                 class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4"
             >
-                <p class="helper-text">
-                    Can’t find the email? Check your spam folder, or
-                    <CvLink :to="localeRoute('/register')" size="sm">
-                        re-enter your email and try again </CvLink
-                    >.
-                </p>
+                <i18n
+                    path="p.users.id.verifyEmail.helperText"
+                    tag="p"
+                    class="helper-text"
+                >
+                    <template #link>
+                        <CvLink :to="localeRoute('/register')" size="sm">
+                            {{ $t('p.users.id.verifyEmail.helperTextLink') }}
+                        </CvLink>
+                    </template>
+                </i18n>
             </div>
         </section>
     </div>
@@ -66,6 +73,12 @@ export default {
             getIsLoading: 'users/isLoading',
             getUser: 'users/user',
         }),
+        submitButtonLabel() {
+            if (this.getIsLoading) {
+                return this.$t('p.users.id.verifyEmail.submitButtonLoading')
+            }
+            return this.$t('p.users.id.verifyEmail.submitButton')
+        },
     },
     methods: {
         ...mapActions({
@@ -79,9 +92,9 @@ export default {
                 verificationCode,
             })
             if (this.getUser) {
-                return this.$router.push({
-                    path: `/users/${this.getUser.id}/set-password`,
-                })
+                return this.$router.push(
+                    this.localRoute(`/users/${this.getUser.id}/set-password`)
+                )
             }
         },
     },

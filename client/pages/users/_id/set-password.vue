@@ -3,13 +3,20 @@
         <div
             class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07 verification__wrapper"
         >
-            <h1>Set up a password</h1>
-            <p class="mb-06">
-                To verify your email we have sent a code to
-                {{ getUser && getUser.email ? getUser.email : 'your email' }}.
-            </p>
+            <h1>{{ $t('p.users.id.setPassword.h1') }}</h1>
+            <i18n
+                path="p.users.id.setPassword.explanation"
+                tag="p"
+                class="mb-06"
+            >
+                <template #email>{{
+                    getUser && getUser.email
+                        ? getUser.email
+                        : $t('p.users.id.setPassword.emailDefault')
+                }}</template>
+            </i18n>
             <Form
-                :button-label="getIsLoading ? 'Loading...' : 'Set Password'"
+                :button-label="submitButtonLabel"
                 :button-disbaled="getIsLoading"
                 :inputs="inputs"
                 @submit="handleSubmit"
@@ -37,6 +44,12 @@ export default {
             getUser: 'users/user',
             getAccessToken: 'auth/getAccessToken',
         }),
+        submitButtonLabel() {
+            if (this.getIsLoading) {
+                return this.$t('p.users.id.setPassword.submitButtonLoading')
+            }
+            return this.$t('p.users.id.setPassword.submitButton')
+        },
     },
     methods: {
         ...mapActions({
@@ -59,7 +72,9 @@ export default {
             await this.fetchUser(this.getAccessToken)
             // Change to next route. If this is not working, the user will be
             // redirected to '/login' because of this pages middleware.
-            return this.$router.push({ path: '/dashboard/register-domain' })
+            return this.$router.push(
+                this.localeRoute('/dashboard/register-domain')
+            )
         },
     },
 }
