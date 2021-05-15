@@ -1,3 +1,4 @@
+import { actions } from '@/store/index'
 import Notification from './Notification'
 
 const handleError = async (error) => {
@@ -36,7 +37,8 @@ export const saveFetch = async (
         path !== '/auth/refresh-token' &&
         path !== '/auth/logout'
     ) {
-        await context.dispatch('auth/refreshToken')
+        await actions.refreshToken(context)
+        // await context.dispatch('auth/refreshToken')
     }
     const requestOptions = {
         method: requestMethod,
