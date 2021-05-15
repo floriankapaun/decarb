@@ -1,3 +1,5 @@
+// TODO: Internationalize Labels
+
 export const email = {
     name: 'email',
     value: '',

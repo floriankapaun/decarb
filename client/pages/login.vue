@@ -4,10 +4,10 @@
             <div
                 class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 login__wrapper"
             >
-                <h1 class="login__heading">Login</h1>
+                <h1 class="login__heading">{{ $t('p.login.h1') }}</h1>
                 <Form
                     class="login__form"
-                    :button-label="getIsLoading ? 'Loading...' : 'Login'"
+                    :button-label="submitButtonLabel"
                     :button-disbaled="getIsLoading"
                     :inputs="inputs"
                     @submit="handleSubmit"
@@ -18,12 +18,13 @@
             <div
                 class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4"
             >
-                <p class="helper-text">
-                    Don't have an account yet?
-                    <CvLink :to="localeRoute('/register')" size="sm">
-                        Register now</CvLink
-                    >.
-                </p>
+                <i18n path="p.login.helperText" tag="p" class="helper-text">
+                    <template #link>
+                        <CvLink :to="localeRoute('/register')" size="sm">
+                            {{ $t('p.login.helperTextLink') }}
+                        </CvLink>
+                    </template>
+                </i18n>
             </div>
         </section>
     </div>
@@ -52,6 +53,12 @@ export default {
             getIsLoggedIn: 'auth/getIsLoggedIn',
             getAccessToken: 'auth/getAccessToken',
         }),
+        submitButtonLabel() {
+            if (this.getIsLoading) {
+                return this.$t('p.login.submitButtonLoading')
+            }
+            return this.$t('p.login.submitButton')
+        },
     },
     methods: {
         ...mapActions({
@@ -63,7 +70,9 @@ export default {
             if (!email || !password) return false
             await this.login({ email, password })
             await this.fetchUser(this.getAccessToken)
-            if (this.getIsLoggedIn) return this.$router.push('dashboard')
+            if (this.getIsLoggedIn) {
+                return this.$router.push(this.localeRoute('/dashboard'))
+            }
             // OPTIMIZE: Maybe apply some error styling
         },
     },
