@@ -12,6 +12,9 @@
 <script>
 export default {
     middleware: ['auth'],
+    head() {
+        return this.$nuxtI18nHead({ addSeoAttributes: true })
+    },
 }
 </script>
 

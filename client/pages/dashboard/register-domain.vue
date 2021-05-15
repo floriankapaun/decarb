@@ -4,13 +4,12 @@
             class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07 verification__wrapper"
         >
             <h1>
-                Setup
                 {{
-                    getUserDomains && getUserDomains.length > 0
-                        ? 'a'
-                        : 'your first'
+                    $tc(
+                        'p.dashboard.registerDomain.h1',
+                        numberOfRegisteredDomains
+                    )
                 }}
-                domain
             </h1>
             <p class="mb-06">
                 Enter a valid URL or IP address. You can add more sites later.
@@ -58,6 +57,10 @@ export default {
             getUser: 'auth/getUser',
             getUserDomains: 'domains/getUserDomains',
         }),
+        numberOfRegisteredDomains() {
+            if (!this.getUserDomains || this.getUserDomains.length) return 0
+            return this.getUserDomains.length
+        },
     },
     methods: {
         ...mapActions({
@@ -97,9 +100,9 @@ export default {
             // Set registeredDomain as selectedDomain
             await this.setSelectedDomain(registeredDomain)
             if (this.getSelectedDomain) {
-                this.$router.push({
-                    path: `/dashboard/verify-domain-ownership`,
-                })
+                this.$router.push(
+                    this.localeRoute(`/dashboard/verify-domain-ownership`)
+                )
             }
             // OPTIMIZE: Maybe apply some error styling
         },

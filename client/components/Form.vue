@@ -1,7 +1,7 @@
 <template>
     <CvForm @submit.prevent="handleSubmit">
         <fieldset v-for="input in inputs" :key="input.name">
-            <!-- Required and MinLenght aren't used as HTML attributes to prevent Browsers from Validating -->
+            <!-- Required and MinLength aren't used as HTML attributes to prevent Browsers from Validating -->
             <CvNumberInput
                 v-if="input.type === 'number'"
                 :ref="input.name"
@@ -56,7 +56,9 @@ export default {
         },
         buttonLabel: {
             type: String,
-            default: 'Submit',
+            default() {
+                return this.$t('c.form.submitButtonDefault')
+            },
         },
     },
     methods: {
@@ -64,11 +66,17 @@ export default {
             input.invalidMessage = ''
         },
         setInvalid(input, message) {
-            input.invalidMessage = message || `${input.label} invalid`
+            const i18nMessage = this.$t('c.form.invalid.default', {
+                label: input.label,
+            })
+            input.invalidMessage = message || i18nMessage
         },
         validateRequired(input) {
             if (input.required && !input.value) {
-                return this.setInvalid(input, `${input.label} required`)
+                const i18nMessage = this.$t('c.form.invalid.required', {
+                    label: input.label,
+                })
+                return this.setInvalid(input, i18nMessage)
             }
             return this.setValid(input)
         },
@@ -77,8 +85,10 @@ export default {
                 input.minLength &&
                 (!input.value || input.value.length < input.minLength)
             ) {
-                const invalidMessage = `Minimum ${input.minLength} characters required`
-                return this.setInvalid(input, invalidMessage)
+                const i18nMessage = this.$t('c.form.invalid.minLength', {
+                    minLength: input.minLength,
+                })
+                return this.setInvalid(input, i18nMessage)
             }
             return this.setValid(input)
         },
@@ -87,8 +97,10 @@ export default {
                 input.exactLength &&
                 (!input.value || input.value.length !== input.exactLength)
             ) {
-                const invalidMessage = `Exactly ${input.exactLength} characters required`
-                return this.setInvalid(input, invalidMessage)
+                const i18nMessage = this.$t('c.form.invalid.exactLength', {
+                    exactLength: input.exactLength,
+                })
+                return this.setInvalid(input, i18nMessage)
             }
             return this.setValid(input)
         },
@@ -100,10 +112,11 @@ export default {
                     !this.$refs[input.exactMatch][0].value ||
                     input.value !== this.$refs[input.exactMatch][0].value)
             ) {
-                const invalidMessage = `${input.label} must match ${
-                    this.$refs[input.exactMatch][0].label
-                }`
-                return this.setInvalid(input, invalidMessage)
+                const i18nMessage = this.$t('c.form.invalid.exactMatch', {
+                    label: input.label,
+                    matchLabel: this.$refs[input.exactMatch][0].label,
+                })
+                return this.setInvalid(input, i18nMessage)
             }
             return this.setValid(input)
         },
@@ -112,8 +125,10 @@ export default {
                 input.regex &&
                 (!input.value || !input.regex.test(input.value))
             ) {
-                const invalidMessage = `Provide correct format for ${input.label}`
-                return this.setInvalid(input, invalidMessage)
+                const i18nMessage = this.$t('c.form.invalid.regex', {
+                    label: input.label,
+                })
+                return this.setInvalid(input, i18nMessage)
             }
             return this.setValid(input)
         },

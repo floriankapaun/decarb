@@ -6,9 +6,9 @@
     <CvCodeSnippet
         v-else
         kind="multiline"
-        copy-feedback="Content copied!"
-        less-text="Show less"
-        more-text="Show more"
+        :copy-feedback="$t('c.trackingCode.copyFeedback')"
+        :less-text="$t('c.trackingCode.showLess')"
+        :more-text="$t('c.trackingCode.showMore')"
         :wrap-text="true"
         >{{ code }}</CvCodeSnippet
     >

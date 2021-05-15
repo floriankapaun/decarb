@@ -1,13 +1,13 @@
 <template>
     <div>
-        <h1>Get an ecofriendly website</h1>
-        <p class="mb-06">
-            Track and offset your websites carbon footprint. So you can make a
-            big difference with little effort.
-        </p>
+        <h1>{{ $t('p.index.h1') }}</h1>
+        <p class="mb-06">{{ $t('p.index.p1') }}</p>
         <p>
-            <NuxtLink :to="registerDomainLink" class="bx--btn bx--btn--primary">
-                Register your domain
+            <NuxtLink
+                :to="localeRoute(registerDomainLink)"
+                class="bx--btn bx--btn--primary"
+            >
+                {{ $t('p.index.ctaButton') }}
             </NuxtLink>
         </p>
     </div>
@@ -23,8 +23,8 @@ export default {
             getIsLoggedIn: 'auth/getIsLoggedIn',
         }),
         registerDomainLink() {
-            if (this.getIsLoggedIn) return '/dashboard/register-domain'
-            return '/register'
+            if (this.getIsLoggedIn) return 'dashboard/register-domain'
+            return 'register'
         },
     },
 }

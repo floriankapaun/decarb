@@ -4,11 +4,9 @@
             <div
                 class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07 register__wrapper"
             >
-                <h1>Create your Eco Web Account</h1>
+                <h1>{{ $t('p.register.h1') }}</h1>
                 <Form
-                    :button-label="
-                        getIsLoading ? 'Loading...' : 'Create Account'
-                    "
+                    :button-label="submitButtonLabel"
                     :button-disbaled="getIsLoading"
                     :inputs="inputs"
                     @submit="handleSubmit"
@@ -19,10 +17,17 @@
             <div
                 class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4"
             >
-                <p class="register__login-paragraph">
-                    Already have an account?
-                    <CvLink to="/login" size="sm">Sign in now</CvLink>.
-                </p>
+                <i18n
+                    path="p.register.helperText"
+                    tag="p"
+                    class="register__login-paragraph"
+                >
+                    <template #link>
+                        <CvLink :to="localeRoute('/login')" size="sm">
+                            {{ $t('p.register.helperTextLink') }}
+                        </CvLink>
+                    </template>
+                </i18n>
             </div>
         </section>
     </div>
@@ -46,6 +51,12 @@ export default {
             getIsLoading: 'users/isLoading',
             getUser: 'users/user',
         }),
+        submitButtonLabel() {
+            if (this.getIsLoading) {
+                return this.$t('p.register.submitButtonLoading')
+            }
+            return this.$t('p.register.submitButton')
+        },
     },
     methods: {
         ...mapActions({
@@ -57,9 +68,9 @@ export default {
             if (!email) return false
             await this.register({ email })
             if (this.getUser) {
-                return this.$router.push({
-                    path: `/users/${this.getUser.id}/verify-email`,
-                })
+                return this.$router.push(
+                    this.localeRoute(`/users/${this.getUser.id}/verify-email`)
+                )
             }
             // OPTIMIZE: Maybe apply some error styling
         },

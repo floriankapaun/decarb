@@ -1,17 +1,29 @@
 <template>
     <footer class="bx--row">
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p>© {{ year }} Eco Web</p>
+            <p>{{ $t('c.footer.minimal.copyright', { year }) }}</p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="/legal/imprint">Imprint</CvLink></p>
+            <p>
+                <CvLink :to="localeRoute('/legal/imprint')">
+                    {{ $t('c.footer.minimal.imprint') }}
+                </CvLink>
+            </p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="/legal/data-privacy">Data privacy</CvLink></p>
+            <p>
+                <CvLink :to="localeRoute('/legal/data-privacy')">
+                    {{ $t('c.footer.minimal.dataPrivacy') }}
+                </CvLink>
+            </p>
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
             <!-- TODO: Change link to "open cookie modal" -->
-            <p><CvLink to="/legal/data-privacy">Cookie Settings</CvLink></p>
+            <p>
+                <CvLink :to="localeRoute('/legal/data-privacy')">
+                    {{ $t('c.footer.minimal.cookieSettings') }}
+                </CvLink>
+            </p>
         </div>
     </footer>
 </template>

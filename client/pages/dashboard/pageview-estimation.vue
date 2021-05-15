@@ -3,7 +3,7 @@
         <div
             class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07"
         >
-            <h1 class="heading">Adjust your estimated monthly pageviews</h1>
+            <h1>{{ $t('p.dashboard.pageviewEstimation.h1') }}</h1>
             <p class="mb-06">
                 Keep in mind, page views are not the same as page visits. One
                 visit can cause multiple page views. This number is used for our
@@ -84,14 +84,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-.heading {
-    margin-bottom: $spacing-06;
-    @include carbon--type-style('expressive-heading-06');
-}
-
-.mb-06 {
-    margin-bottom: $spacing-06;
-}
-</style>

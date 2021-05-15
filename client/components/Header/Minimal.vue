@@ -1,7 +1,9 @@
 <template>
-    <CvHeader aria-label="Eco Web header">
-        <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
-        <CvHeaderName to="/">
+    <CvHeader :aria-label="$t('c.header.minimal.ariaLabel')">
+        <CvSkipToContent href="#main-content">
+            {{ $t('c.header.minimal.skipToContent') }}
+        </CvSkipToContent>
+        <CvHeaderName :to="localeRoute('index')">
             <Logo />
         </CvHeaderName>
     </CvHeader>
