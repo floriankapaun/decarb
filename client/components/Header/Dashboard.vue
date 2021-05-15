@@ -1,10 +1,12 @@
 <template>
-    <CvHeader aria-label="Eco Web Dashboard header">
+    <CvHeader :aria-label="$t('c.header.dashboard.ariaLabel')">
         <CvHeaderMenuButton
-            aria-label="Header navigation"
+            :aria-label="$t('c.header.dashboard.menuButtonAriaLabel')"
             aria-controls="side-nav-left"
         />
-        <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
+        <CvSkipToContent href="#main-content">
+            {{ $t('c.header.dashboard.skipToContent') }}
+        </CvSkipToContent>
         <CvHeaderName :to="localeRoute('/dashboard')"><Logo /></CvHeaderName>
         <template slot="header-global">
             <NavigationDashboardActions />
