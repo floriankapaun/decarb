@@ -43,6 +43,7 @@ export const PLATFORM_EMAIL_USER = process.env.PLATFORM_EMAIL_USER;
 export const PORT = process.env.PORT;
 export const REFRESH_TOKEN_EXPIRES = process.env.REFRESH_TOKEN_EXPIRES || (60*24*365); // expire after 365 days
 export const STRIPE_CANCEL_URL = process.env.STRIPE_CANCEL_URL;
+export const STRIPE_PORTAL_RETURN_URL = process.env.STRIPE_PORTAL_RETURN_URL;
 export const STRIPE_PRICE_ID = {
     [ENUMS.paymentInterval[0]]: process.env.STRIPE_PRICE_ID_MONTHLY,
     [ENUMS.paymentInterval[1]]: process.env.STRIPE_PRICE_ID_YEARLY,

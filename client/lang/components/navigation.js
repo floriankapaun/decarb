@@ -14,7 +14,7 @@ export const en = {
         gdpr: 'GDPR Info',
         trackingCode: 'Tracking Code',
         subscription: 'Subscription',
-        payment: 'Payment & Bills',
+        payments: 'Payments & Bills',
         accountSettings: 'Account Settings',
     },
     public: {

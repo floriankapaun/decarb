@@ -6,6 +6,7 @@ import { en as imprint } from './pages/legal/imprint'
 import { en as index } from './pages/index'
 import { en as login } from './pages/login'
 import { en as pageviewEstimation } from './pages/dashboard/pageviewEstimation'
+import { en as payments } from './pages/dashboard/payments'
 import { en as register } from './pages/register'
 import { en as registerDomain } from './pages/dashboard/registerDomain'
 import { en as setPassword } from './pages/users/id/setPassword'
@@ -24,6 +25,7 @@ export default {
         index: dashboardIndex,
         firstEstimation,
         pageviewEstimation,
+        payments,
         registerDomain,
         setupSubscription,
         subscriptionSuccess,

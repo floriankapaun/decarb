@@ -9,7 +9,7 @@ import AppError from '../utils/AppError.js';
  */
 export default (minimumRoleIndex) => async (req, res, next) => {
     try {
-        const domainId = req.params.id;
+        const domainId = req.params.id || req.body.domainId;
         const domainUser = req.currentUser.domains.find((domain) => domain.domainId === domainId);
         if (!domainUser) {
             const message = `User has no access to this domain.`;

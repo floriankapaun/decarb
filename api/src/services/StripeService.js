@@ -1,6 +1,13 @@
 import stripe from 'stripe';
 
-import { STRIPE_PRICE_ID, STRIPE_SECRET_KEY, STRIPE_SUCCESS_URL, STRIPE_CANCEL_URL, STRIPE_WEBHOOK_SECRET, ENUMS } from '../config';
+import { 
+    STRIPE_PORTAL_RETURN_URL,
+    STRIPE_SECRET_KEY,
+    STRIPE_SUCCESS_URL,
+    STRIPE_CANCEL_URL,
+    STRIPE_WEBHOOK_SECRET,
+    ENUMS,
+} from '../config';
 import AppError from '../utils/AppError';
 import PrismaService from './PrismaService';
 
@@ -24,6 +31,33 @@ class StripeService {
             cancel_url: STRIPE_CANCEL_URL,
         });
         return session.id;
+    }
+
+    async getCurrentSubscription(domainId) {
+        const options = {
+            orderBy: { createdAt: 'desc' },
+            where: { deletedAt: null },
+        };
+        const subscription = await PrismaService.findFirst('subscription', { domainId }, options);
+        if (!subscription) {
+            throw new AppError(`No active Subscription found for Domain: ${req.body.domainId}`, 500);
+        }
+        return subscription;
+    }
+
+    async createPortalSession(req) {
+        if (!req.body.domainId) {
+            throw new AppError('Missing domainId', 401);
+        }
+        const subscription = await this.getCurrentSubscription(req.body.domainId);
+        if (!subscription.stripeCustomerId) {
+            throw new AppError(`No Stripe Customer for Subscription: ${subscription.id}`, 500);
+        }
+        const session = await this.stripe.billingPortal.sessions.create({
+            customer: subscription.stripeCustomerId,
+            return_url: STRIPE_PORTAL_RETURN_URL,
+        })
+        return session.url;
     }
 
     constructEvent(req) {
@@ -67,6 +101,9 @@ class StripeService {
                 const updatedSubscription = await PrismaService.update('subscription', subscriptionId, updatedSubscriptionData);
                 response = updatedSubscription;
                 break;
+            case 'invoice.upcoming':
+                // Is sent 3 days prior to renewal
+                break;
             case 'invoice.paid':
                 // Continue to provision the subscription as payments continue to be made.
                 // Store the status in your database and check when a user accesses your service.
@@ -76,6 +113,7 @@ class StripeService {
                 // The payment failed or the customer does not have a valid payment method.
                 // The subscription becomes past_due. Notify your customer and send them to the
                 // customer portal to update their payment information.
+                // TODO: Send Mail to Admin
                 break;
             default:
                 // Unhandled event type

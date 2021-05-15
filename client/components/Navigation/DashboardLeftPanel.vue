@@ -84,9 +84,9 @@
             {{ $t('c.navigation.dashboardLeftPanel.subscription') }}
         </CvSideNavLink>
 
-        <CvSideNavLink :to="localeRoute('/dashboard/payment-and-bills')">
+        <CvSideNavLink :to="localeRoute('/dashboard/payments')">
             <template slot="nav-icon"><Receipt16 /></template>
-            {{ $t('c.navigation.dashboardLeftPanel.payment') }}
+            {{ $t('c.navigation.dashboardLeftPanel.payments') }}
         </CvSideNavLink>
 
         <CvSideNavLink :to="localeRoute('/dashboard/account-settings')">
