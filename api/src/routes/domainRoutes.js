@@ -69,12 +69,28 @@ export default (app) => {
      */
 
     // Get a domain and all of its pages
-    router.get('/:id/pages', asyncHandler(async (req, res) => {
-        const { id } = req.params;
-        const options = { include: { pages: true } };
-        const uniqueDomain = await PrismaService.findUnique('domain', { id }, options);
-        return sendResponse(res, uniqueDomain);
-    }));
+    router.get(
+        '/:id/pages',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            // Include pages, but only their 'url' and 'createdAt'
+            const options = {
+                include: {
+                    pages: {
+                        select: {
+                            url: true,
+                            createdAt: true,
+                        }
+                    }
+                }
+            };
+            const uniqueDomain = await PrismaService.findUnique('domain', { id }, options);
+            return sendResponse(res, uniqueDomain);
+        })
+    );
 
     /**
      * Domain -> PageView Routes

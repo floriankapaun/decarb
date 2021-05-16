@@ -33,6 +33,8 @@ export default {
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: ['~/plugins/persistedState.js', '~/plugins/carbonComponents.js'],
+    // TODO: Implement Postcss Import or change css @import statements to @use
+    // See: https://github.com/postcss/postcss/issues/1247
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
@@ -88,6 +90,17 @@ export default {
         parsePages: true,
         seo: false, // Recommended to do on layout-level: https://i18n.nuxtjs.org/seo/#improving-performance
         strategy: 'prefix_and_default',
+        vueI18n: {
+            dateTimeFormats: {
+                en: {
+                    short: {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                    },
+                },
+            },
+        },
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build

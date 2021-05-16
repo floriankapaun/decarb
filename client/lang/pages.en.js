@@ -5,6 +5,7 @@ import { en as firstEstimation } from './pages/dashboard/firstEstimation'
 import { en as imprint } from './pages/legal/imprint'
 import { en as index } from './pages/index'
 import { en as login } from './pages/login'
+import { en as pageIndex } from './pages/dashboard/pageIndex'
 import { en as pageviewEstimation } from './pages/dashboard/pageviewEstimation'
 import { en as payments } from './pages/dashboard/payments'
 import { en as register } from './pages/register'
@@ -24,6 +25,7 @@ export default {
     dashboard: {
         index: dashboardIndex,
         firstEstimation,
+        pageIndex,
         pageviewEstimation,
         payments,
         registerDomain,

@@ -3,4 +3,5 @@ export default () => ({
     domains: undefined,
     userDomains: undefined,
     selectedDomain: undefined,
+    domainPages: undefined,
 })

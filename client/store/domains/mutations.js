@@ -11,4 +11,5 @@ export default {
         }
         return state.selectedDomain
     },
+    setDomainPages: (state, domainPages) => (state.domainPages = domainPages),
 }

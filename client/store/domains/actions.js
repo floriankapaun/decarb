@@ -43,4 +43,17 @@ export default {
         )
         commit('setIsLoading', false)
     },
+    fetchDomainPages: async (context, domainId) => {
+        const { commit } = context
+        commit('setIsLoading', true)
+        const data = await saveFetch(
+            context,
+            'GET',
+            `/domains/${domainId}/pages`
+        )
+        if (data && data.data) {
+            commit('setDomainPages', data.data)
+        }
+        commit('setIsLoading', false)
+    },
 }

@@ -7,6 +7,8 @@ Vue.use(CarbonComponentsVue, [
     'CvCodeSnippet',
     'CvCodeSnippetSkeleton',
     'CvContent',
+    'CvDataTable',
+    'CvDataTableSkeleton',
     'CvForm',
     'CvHeader',
     'CvHeaderGlobalAction',

@@ -9,4 +9,5 @@ export default {
         }
         return undefined
     },
+    getDomainPages: (state) => state.domainPages,
 }
