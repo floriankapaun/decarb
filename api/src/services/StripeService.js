@@ -8,23 +8,54 @@ import {
     STRIPE_WEBHOOK_SECRET,
     ENUMS,
     EVENTS,
+    STRIPE_PRICE_ID,
+    STRIPE_CHECKOUT_SESSION_MODE,
+    STRIPE_PAYMENT_METHODS,
 } from '../config';
 import AppError from '../utils/AppError';
 import EventEmitter from '../utils/eventEmitter';
 import PrismaService from './PrismaService';
 
+/**
+ * Handles Stripe
+ */
 class StripeService {
     constructor() {
         this.stripe = stripe(STRIPE_SECRET_KEY);
     }
 
+    /**
+     * Creates a Checkout Session for the user and returns a checkout ID
+     * which the client can then use to redirect the user to the created
+     * session.
+     * 
+     * @param {Object} data 
+     * @param {String} [data.subscriptionId] - Local Subscription ID
+     * @param {String} [data.email] - Customer E-Mail
+     * @param {String} [data.priceId] - 'price_...'
+     * @returns {String} - Stripe Checkout Session ID
+     */
     async createCheckoutSession(data) {
+        if (!data.subscriptionId) {
+            throw new AppError('"subscriptionId" required', 400);
+        }
+        if (!data.email) {
+            throw new AppError('"email" required', 400);
+        }
+        if (!data.priceId) {
+            throw new AppError('"priceId" required', 400);
+        }
+        if (
+            data.priceId !== STRIPE_PRICE_ID[ENUMS.paymentInterval[0]] &&
+            data.priceId !== STRIPE_PRICE_ID[ENUMS.paymentInterval[1]]
+        ) {
+            throw new AppError(`priceId "${priceId}" is not supported.`, 400);
+        }
         const session = await this.stripe.checkout.sessions.create({
             client_reference_id: data.subscriptionId,
             customer_email: data.email,
-            mode: 'subscription',
-            // https://stripe.com/docs/api/checkout/sessions/create#create_checkout_session-payment_method_types
-            payment_method_types: ['card'],
+            mode: STRIPE_CHECKOUT_SESSION_MODE,
+            payment_method_types: STRIPE_PAYMENT_METHODS,
             line_items: [ { price: data.priceId } ],
             // {CHECKOUT_SESSION_ID} is a string literal; do not change it!
             // the actual Session ID is returned in the query parameter when your customer

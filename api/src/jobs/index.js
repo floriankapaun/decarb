@@ -2,7 +2,7 @@ const jobs = [
     {
         name: 'purchaseOffsets',
         path: './src/jobs/purchaseOffsets.js',
-        interval: '15 03 * * *', // Every day at 03:15
+        cron: '15 03 * * *', // Every day at 03:15
     },
     {
         name: 'recordEmissionAmout',
