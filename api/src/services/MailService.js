@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 
 import {
+    ADMIN_EMAIL,
     PLATFORM_EMAIL_HOST,
     PLATFORM_EMAIL_PASSWORD,
     PLATFORM_EMAIL_PORT,
@@ -28,7 +29,7 @@ class MailService {
      * @param {String} subject - mail subject line
      * @param {String} html - mail body
      */
-    async send(to, subject, html) {
+    async send(subject, html, to = ADMIN_EMAIL) {
         const mailOptions = {
             from: PLATFORM_EMAIL_SENDER,
             to: to,

@@ -56,7 +56,7 @@ class UserService {
             <!-- Thank you very much! -->
         `;
         // TODO: Handle not existing user.mail
-        return await MailService.send(user.email, mailSubject, mailBody);
+        return await MailService.send(mailSubject, mailBody, user.email);
     }
 
     async resendVerificationCode(userId) {
