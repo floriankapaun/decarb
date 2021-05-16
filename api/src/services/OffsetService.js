@@ -14,6 +14,9 @@ import MailService from './MailService.js';
 import PrismaService from './PrismaService.js';
 import SubscriptionService from './SubscriptionService.js';
 
+/**
+ * Controls the 'Offset' Entity
+ */
 class OffsetService {
 
     /**
@@ -22,7 +25,7 @@ class OffsetService {
      * given timestamp falls between its 'from' and 'until' values.
      * 
      * @param {String} subscriptionId - Local Subscription this Offset is linked to
-     * @param {DateTime} timestamp - Time at which the Offset should be the active one
+     * @param {DateTime} [timestamp=new Date()] - Time at which the Offset should be the active one
      * @returns {Object} - Current Offset
      */
     async getCurrent(subscriptionId, timestamp = new Date()) {
@@ -43,6 +46,14 @@ class OffsetService {
         return currentOffset;
     }
 
+    /**
+     * Returns all currently active Offset Entries.
+     * Active means, that the returned Offset is always the one created
+     * last for each Subscription and there was no effort to purchase those
+     * Offsets yet.
+     * 
+     * @returns {Array} - All currently active Offsets
+     */
     async getAllCurrent() {
         const currentOffsets = await PrismaService.findMany('offset', {
             where: {
@@ -60,6 +71,8 @@ class OffsetService {
         return currentOffsets;
     }
 
+    // TODO: Move somewhere else and have a look inside DomainService.aggregateDomainEmissions
+    // which could potentially be moved as well.
     async getEmissionKilograms(domainId, from, until) {
         let sqlFrom;
         let sqlUntil;
@@ -76,7 +89,14 @@ class OffsetService {
         return Math.ceil(domainEmissionMilligrams / 1000000);
     }
 
-    getFrom(until, paymentInterval) {
+    /**
+     * Calculates the start time of an Offsets Time Range.
+     * 
+     * @param {DateTime} until - End of an Offsets Time Range
+     * @param {String} paymentInterval - ENUMS.paymentInterval: 'MONTHLY' or 'YEARLY'
+     * @returns {DateTime} - Start of an Offsets Time Range
+     */
+    calculateStartTime(until, paymentInterval) {
         const end = copyDate(until);
         const numberOfDays = paymentInterval === ENUMS.paymentInterval[0] ? -30 : -365;
         return addDaysToDate(end, numberOfDays);
@@ -88,12 +108,12 @@ class OffsetService {
      * @param {String} subscriptionId - Id of linked Subscription
      * @returns {Object} - Offset
      */
-    async createFirst(subscriptionId) {
+    async createInitial(subscriptionId) {
         // Get subscription
         const subscription = await SubscriptionService.get(subscriptionId);
         // Get time range
         const until = copyDate(subscription.validTo);
-        const from = this.getFrom(until, subscription.paymentInterval);
+        const from = this.calculateStartTime(until, subscription.paymentInterval);
         // Create Offset
         const offsetData = {
             domainId: subscription.domainId,
@@ -105,6 +125,15 @@ class OffsetService {
         return await PrismaService.create('offset', offsetData);
     }
 
+    /**
+     * Add Number of Kilograms to Offsets 'offsetKilograms' and
+     * update 'recordedUntil' value.
+     * 
+     * @param {String} offsetId - Local Offset ID
+     * @param {Number} kg - Kilograms of CO2 to record
+     * @param {DateTime} [timestamp=new Date()] - Time of record
+     * @returns {Object} - Updated Offset
+     */
     async recordOffsetKilograms(offsetId, kg, timestamp = new Date()) {
         return await PrismaService.update('offset', offsetId, {
             offsetKilograms: {
@@ -121,8 +150,8 @@ class OffsetService {
      * 
      * @param {UUID} offsetId - from database used as Idempotency-Key
      * @param {Number} number - the number of units to purchase
-     * @param {ENUM} units - 'KG' or 'Tonnes'
-     * @param {Boolean} test - whether this is a test or not
+     * @param {Boolean} [test=false] - whether this is a test or not
+     * @param {ENUM} [units=ECOLOGI_DEFAULT_UNIT] - 'KG' or 'Tonnes'
      * @return {Object} - ecologi api response
      */
      async purchaseCarbonOffsets(offsetId, number, test = false, units = ECOLOGI_DEFAULT_UNIT) {
