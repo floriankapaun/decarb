@@ -32,6 +32,9 @@ export const EVENTS = {
     delete: {
         domain: 'deleteDomain',
     },
+    start: {
+        subscription: 'startSubscription',
+    },
 };
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 export const MODE = process.env.MODE || 'development';

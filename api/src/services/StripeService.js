@@ -7,8 +7,10 @@ import {
     STRIPE_CANCEL_URL,
     STRIPE_WEBHOOK_SECRET,
     ENUMS,
+    EVENTS,
 } from '../config';
 import AppError from '../utils/AppError';
+import EventEmitter from '../utils/eventEmitter';
 import PrismaService from './PrismaService';
 
 class StripeService {
@@ -34,11 +36,14 @@ class StripeService {
     }
 
     async getCurrentSubscription(domainId) {
+        const params = {
+            domainId,
+            deletedAt: null,
+        };
         const options = {
             orderBy: { createdAt: 'desc' },
-            where: { deletedAt: null },
         };
-        const subscription = await PrismaService.findFirst('subscription', { domainId }, options);
+        const subscription = await PrismaService.findFirst('subscription', params, options);
         if (!subscription) {
             throw new AppError(`No active Subscription found for Domain: ${req.body.domainId}`, 500);
         }
@@ -58,6 +63,32 @@ class StripeService {
             return_url: STRIPE_PORTAL_RETURN_URL,
         })
         return session.url;
+    }
+
+    /**
+     * Records usage to a Stripe Subscription. At the end of each subscriptions billing
+     * cycle, the user gets billed by the accumulated recorded usage.
+     * 
+     * @param {String} stripeSubscriptionId - sc_...
+     * @param {Integer} offsetKilograms - Amount of CO2 to Offset in Kilograms
+     * @returns 
+     */
+    async recordUsage(stripeSubscriptionId, offsetKilograms) {
+        const usage = await this.stripe.subscriptionItems.createUsageRecord(
+            stripeSubscriptionId,
+            {
+              quantity: offsetKilograms,
+              timestamp: new Date(),
+              action: 'increment',
+            },
+        );
+        if (!usage) {
+            throw new AppError('Failed to record usage', 500);
+        }
+        if (!usage.statusCode.toString().startsWith('2')) {
+            throw new AppError(`${usage.code}: ${usage.raw.message}`, usage.statusCode);
+        }
+        return usage;
     }
 
     constructEvent(req) {
@@ -99,6 +130,7 @@ class StripeService {
                     console.error(`Unknown currency ${currency}`);
                 }
                 const updatedSubscription = await PrismaService.update('subscription', subscriptionId, updatedSubscriptionData);
+                EventEmitter.emit(EVENTS.start.subscription, updatedSubscription);
                 response = updatedSubscription;
                 break;
             case 'invoice.upcoming':

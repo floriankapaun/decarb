@@ -88,9 +88,9 @@ export default (app) => {
         requireDomainRole(),
         asyncHandler(async (req, res) => {
             const { id } = req.params;
-            const { dateStart, dateEnd, itemLimit, itemOffset } = req.body;
+            const { timeStart, timeEnd, itemLimit, itemOffset } = req.body;
             const pageViews = await DomainService.aggregatePageViews(
-                id, dateStart, dateEnd, itemLimit, itemOffset
+                id, timeStart, timeEnd, itemLimit, itemOffset
             );
             return sendResponse(res, pageViews);
         })
@@ -104,9 +104,9 @@ export default (app) => {
         requireDomainRole(),
         asyncHandler(async (req, res) => {
             const { id } = req.params;
-            const { dateStart, dateEnd, itemLimit, itemOffset } = req.body;
+            const { timeStart, timeEnd, itemLimit, itemOffset } = req.body;
             const pageViews = await DomainService.aggregatePageViewsPerDay(
-                id, dateStart, dateEnd, itemLimit, itemOffset
+                id, timeStart, timeEnd, itemLimit, itemOffset
             );
             return sendResponse(res, pageViews);
         })
@@ -119,7 +119,7 @@ export default (app) => {
     // Get a domains aggregated pageViewEmissions
     router.get('/:id/emissions', asyncHandler(async (req, res) => {
         const { id } = req.params;
-        const domainEmissions = await DomainService.aggregateDomainEmissions(id, '2021-04-01', '2021-04-30');
+        const domainEmissions = await DomainService.aggregateDomainEmissions(id, '2021-04-01 22:01:12', '2021-05-30 05:30:00');
         return sendResponse(res, domainEmissions);
     }));
 };

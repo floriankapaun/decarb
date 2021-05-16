@@ -95,7 +95,7 @@ class DomainService {
         return verifiedDomain;
     }
 
-    async aggregatePageViews(domainId, dateStart, dateEnd, itemLimit, itemOffset) {
+    async aggregatePageViews(domainId, timeStart, timeEnd, itemLimit, itemOffset) {
         const query = `
             SELECT
                 pages.url AS "pageUrl",
@@ -106,8 +106,8 @@ class DomainService {
                 JOIN page_views ON page_views.page_id = pages.id
             WHERE
                 domains.id = '${domainId}'
-                AND page_views.created_at >= TO_DATE('${dateStart}', 'YYYY-MM-DD')
-                AND page_views.created_at <= TO_DATE('${dateEnd}', 'YYYY-MM-DD')
+                AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')
+                AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')
             GROUP BY "pageUrl"
             ORDER BY "pageViews" DESC
             LIMIT ${itemLimit}
@@ -117,7 +117,7 @@ class DomainService {
         return pageViews;
     }
 
-    async aggregatePageViewsPerDay(domainId, dateStart, dateEnd, itemLimit, itemOffset) {
+    async aggregatePageViewsPerDay(domainId, timeStart, timeEnd, itemLimit, itemOffset) {
         const query = `
             SELECT
                 pages.url AS "pageUrl",
@@ -129,8 +129,8 @@ class DomainService {
                 JOIN page_views ON page_views.page_id = pages.id
             WHERE
                 domains.id = '${domainId}'
-                AND page_views.created_at >= TO_DATE('${dateStart}', 'YYYY-MM-DD')
-                AND page_views.created_at <= TO_DATE('${dateEnd}', 'YYYY-MM-DD')
+                AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')
+                AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')
             GROUP BY "pageUrl", "day"
             ORDER BY "pageUrl"
             LIMIT ${itemLimit}
@@ -140,8 +140,8 @@ class DomainService {
         return pageViewsPerDay;
     }
 
-    async aggregateDomainEmissions(domainId, start, end) {
-        const query = `
+    async aggregateDomainEmissions(domainId, timeStart, timeEnd) {
+        let query = `
             SELECT
                 SUM(page_view_emissions.emission_milligrams) AS "domain_emissions"
             FROM
@@ -151,9 +151,13 @@ class DomainService {
                 JOIN page_view_emissions ON page_view_emissions.id = page_views.page_view_emission_id
             WHERE
                 domains.id = '${domainId}'
-                AND page_views.created_at >= TO_DATE('${start}', 'YYYY-MM-DD')
-                AND page_views.created_at <= TO_DATE('${end}', 'YYYY-MM-DD')
         `;
+        if (timeStart) {
+            query += `AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')`;
+        }
+        if (timeEnd) {
+            query += `AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')`;
+        }
         const domainEmissions = await PrismaService.queryRaw(query);
         return domainEmissions[0].domain_emissions;
     }

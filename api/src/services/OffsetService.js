@@ -1,23 +1,37 @@
 import fetch from 'node-fetch';
 
 import { ECOLOGI_API_ENTRYPOINT, ECOLOGI_API_KEY, ENUMS, MODE } from '../config/index.js';
-import { addDaysToDate, copyDate, getDateString } from '../utils/date.js';
+import { addDaysToDate, copyDate, getTimestampString } from '../utils/date.js';
 import DomainService from './DomainService.js';
 import PrismaService from './PrismaService.js';
 
 class OffsetService {
-    async getCurrentSubscription(domainId) {
+    async getCurrent(subscriptionId, timestamp = new Date()) {
+        const params = {
+            subscriptionId,
+            from: { lte: timestamp },
+            until: { gte: timestamp },
+        };
         const options = {
             orderBy: { createdAt: 'desc' },
-            where: { deletedAt: null },
         };
-        return await PrismaService.findFirst('subscription', { domainId }, options);
+        const currentOffset = await PrismaService.findFirst('offset', params, options);
+        return currentOffset;
     }
 
     async getEmissionKilograms(domainId, from, until) {
-        const sqlFrom = getDateString(from);
-        const sqlUntil = getDateString(until);
-        const domainEmissionMilligrams = await DomainService.aggregateDomainEmissions(domainId, sqlFrom, sqlUntil);
+        let sqlFrom;
+        let sqlUntil;
+
+        if (from) sqlFrom = getTimestampString(from);
+        if (until) sqlUntil = getTimestampString(until);
+
+        const domainEmissionMilligrams = await DomainService.aggregateDomainEmissions(
+            domainId,
+            sqlFrom,
+            sqlUntil
+        );
+        if (!domainEmissionMilligrams) return 0;
         return Math.ceil(domainEmissionMilligrams / 1000000);
     }
 
@@ -27,32 +41,36 @@ class OffsetService {
         return addDaysToDate(end, numberOfDays);
     }
 
-    async create(domainId) {
-        // Get current subscription
-        const currentSubscription = await this.getCurrentSubscription(domainId);
+    /**
+     * Creates the first Offset linked to a Subscription
+     * 
+     * @param {String} subscriptionId - Id of linked Subscription
+     * @returns {Object} - Offset
+     */
+    async createFirst(subscriptionId) {
+        // Get subscription
+        const subscription = await SubscriptionService.get(subscriptionId);
         // Get time range
-        const until = copyDate(currentSubscription.validTo);
-        const from = this.getFrom(until, currentSubscription.paymentInterval);
-        // Get domain offsets in time range in kilograms
-        const offsetKilograms = await this.getEmissionKilograms(domainId, from, until);
+        const until = copyDate(subscription.validTo);
+        const from = this.getFrom(until, subscription.paymentInterval);
         // Create Offset
         const offsetData = {
             domainId,
-            subscriptionId: currentSubscription.id,
-            offsetType: currentSubscription.offsetType,
+            subscriptionId: subscription.id,
+            offsetType: subscription.offsetType,
             from,
             until,
-            offsetKilograms,
         };
-        const newOffset = await PrismaService.create('offset', offsetData);
-        return newOffset;
-        // 1. Decide on offsetType
-        // 2. Create Offset (in DB)
-        // 3. Get data needed
-        // 4. Purchase offset
-        // 5. Update Offset (in DB)
-        // 6. Increase subscription validTo and therefore verlänger kündigungsfrist
-        // 7. Return
+        return await PrismaService.create('offset', offsetData);
+    }
+
+    async recordOffsetKilograms(offsetId, kg, timestamp = new Date()) {
+        return await PrismaService.update('offset', offsetId, {
+            offsetKilograms: {
+                increment: kg,
+            },
+            recordedUntil: timestamp,
+        });
     }
 
     async handleFailedPurchase(offsetId, response) {

@@ -13,7 +13,8 @@ export default (app) => {
     // TODO: Transform into agenda.js job routine
     router.post('/:id', asyncHandler(async (req, res) => {
         const { id } = req.params;
-        const newOffset = await OffsetService.create(id);
+        // Deprectead...
+        // const newOffset = await OffsetService.create(id);
         return sendResponse(res, newOffset);
     }));
 }
