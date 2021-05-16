@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const ACCESS_TOKEN_EXPIRES = process.env.ACCESS_TOKEN_EXPIRES || 15; // expire after 15 m
+export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const API_PREFIX = process.env.API_PREFIX;
 export const ECOLOGI_API_ENTRYPOINT = process.env.ECOLOGI_API_ENTRYPOINT;
 export const ECOLOGI_API_KEY = process.env.ECOLOGI_API_KEY;
+export const ECOLOGI_DEFAULT_UNIT = 'KG';
 export const ENUMS = {
     badgeType: ['HORIZONTAL', 'VERTICAL'],
     badgeColorscheme: ['COLOR', 'COLOR_INVERTED', 'SW', 'SW_INVERTED'],

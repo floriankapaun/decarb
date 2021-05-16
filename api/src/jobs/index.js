@@ -1,18 +1,18 @@
 const jobs = [
     {
-        name: 'offset',
-        path: './src/jobs/offset.js',
-        interval: '3600s',
+        name: 'purchaseOffsets',
+        path: './src/jobs/purchaseOffsets.js',
+        interval: '15 03 * * *', // Every day at 03:15
     },
     {
         name: 'recordEmissionAmout',
         path: './src/jobs/recordEmissionAmount.js',
-        interval: '3s',
+        cron: '45 02 * * *', // Every day at 02:45
     },
     {
         name: 'removeUnverifiedUsers',
         path: './src/jobs/removeUnverifiedUsers.js',
-        cron: '00 03 * * *', // Every day at 03:00
+        cron: '30 02 * * *', // Every day at 02:30
     },
 ];
 
