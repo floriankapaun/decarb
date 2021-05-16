@@ -1,5 +1,5 @@
 export const en = {
-    trackingCode: 'Content copied!',
+    copyFeedback: 'Content copied!',
     showLess: 'Show less',
     showMore: 'Show more',
 }
