@@ -193,6 +193,7 @@ enum PaymentInterval {
 
 enum PurchaseStatus {
   PENDING
+  PROCESSING
   SUCCESSFULL
   FAILED
 }

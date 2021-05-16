@@ -77,7 +77,7 @@ class OffsetService {
     async handleFailedPurchase(offsetId, response) {
         // TODO: Send E-Mail to admin to handle the problem
         console.error(`⚠️ Failed to buy offset for id: ${offsetId}. Response: `, response);
-        const updatedOffsetData = { purchaseStatus: ENUMS.purchaseStatus[2] }; // 'FAILED'
+        const updatedOffsetData = { purchaseStatus: ENUMS.purchaseStatus[3] }; // 'FAILED'
         const updatedOffset = await PrismaService.update('offset', offsetId, updatedOffsetData);
         return updatedOffset;
     }
@@ -86,7 +86,7 @@ class OffsetService {
         const updatedOffsetData = {
             price: amount,
             currency: currency,
-            purchaseStatus: ENUMS.purchaseStatus[1], // 'SUCCESSFULL'
+            purchaseStatus: ENUMS.purchaseStatus[2], // 'SUCCESSFULL'
         };
         const updatedOffset = await PrismaService.update('offset', offsetId, updatedOffsetData);
         return updatedOffset;

@@ -12,7 +12,7 @@ export const ENUMS = {
     currency: ['EUR', 'USD', 'GBP', 'AUD', 'CAD'],
     offsetType: ['CARBON_OFFSET'],
     paymentInterval: ['MONTHLY', 'YEARLY'],
-    purchaseStatus: ['PENDING', 'SUCCESSFULL', 'FAILED'],
+    purchaseStatus: ['PENDING', 'PROCESSING', 'SUCCESSFULL', 'FAILED'],
     role: ['OWNER', 'MANAGER'],
 };
 export const EVENTS = {
