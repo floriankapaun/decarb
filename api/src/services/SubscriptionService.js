@@ -1,4 +1,4 @@
-import { ENUMS } from '../config/index.js';
+import { DAYS_IN_MONTH, DAYS_IN_YEAR, ENUMS } from '../config/index.js';
 import AppError from '../utils/AppError.js';
 import { addDaysToDate } from '../utils/date.js';
 import PrismaService from './PrismaService';
@@ -6,7 +6,9 @@ import PrismaService from './PrismaService';
 class SubscriptionService {
     getValidTo(paymentInterval) {
         const now = new Date();
-        const numberOfDays = paymentInterval === ENUMS.paymentInterval[0] ? 30 : 365;
+        const numberOfDays = paymentInterval === ENUMS.paymentInterval[0]
+            ? DAYS_IN_MONTH
+            : DAYS_IN_YEAR;
         return addDaysToDate(now, numberOfDays);
     }
 

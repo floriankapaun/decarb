@@ -1,6 +1,8 @@
 import fetch from 'node-fetch';
 
 import {
+    DAYS_IN_MONTH,
+    DAYS_IN_YEAR,
     ECOLOGI_API_ENTRYPOINT,
     ECOLOGI_API_KEY,
     ECOLOGI_DEFAULT_UNIT,
@@ -98,15 +100,32 @@ class OffsetService {
      */
     calculateStartTime(until, paymentInterval) {
         const end = copyDate(until);
-        const numberOfDays = paymentInterval === ENUMS.paymentInterval[0] ? -30 : -365;
+        const numberOfDays = (paymentInterval === ENUMS.paymentInterval[0])
+            ? -DAYS_IN_MONTH
+            : -DAYS_IN_YEAR;
         return addDaysToDate(end, numberOfDays);
     }
 
     /**
-     * Creates the first Offset linked to a Subscription
+     * Calculates the end time of an Offsets Time Range.
+     * 
+     * @param {DateTime} from - Start of an Offsets Time Range
+     * @param {String} paymentInterval - ENUMS.paymentInterval: 'MONTHLY' or 'YEARLY'
+     * @returns {DateTime} - End of an Offsets Time Range
+     */
+     calculateStartTime(from, paymentInterval) {
+        const start = copyDate(from);
+        const numberOfDays = (paymentInterval === ENUMS.paymentInterval[0])
+            ? DAYS_IN_MONTH
+            : DAYS_IN_YEAR;
+        return addDaysToDate(start, numberOfDays);
+    }
+
+    /**
+     * Creates the initial Offset linked to a Subscription
      * 
      * @param {String} subscriptionId - Id of linked Subscription
-     * @returns {Object} - Offset
+     * @returns {Object} - Initial Offset
      */
     async createInitial(subscriptionId) {
         // Get subscription
@@ -122,6 +141,31 @@ class OffsetService {
             from,
             until,
         };
+        return await PrismaService.create('offset', offsetData);
+    }
+    
+    /**
+     * Creates a new Offset for a subscription based on the
+     * last – now paid and therefore archived – Offset.
+     * 
+     * @param {Object} previousOffset - The previous Offset
+     * @returns {Object} - New Offset
+     */
+    async createNext(previousOffset) {
+        // Get subscription
+        const subscription = await SubscriptionService.get(previousOffset.subscriptionId);
+        // Calculate Time Range
+        const from = previousOffset.until;
+        const until = this.calculateEndTime(from, subscription.paymentInterval);
+        // Create Offset
+        const offsetData = {
+            domainId: previousOffset.domainId,
+            subscriptionId: previousOffset.subscriptionId,
+            offsetType: previousOffset.offsetType,
+            recordedUntil: previousOffset.recordedUntil, // to ensure seamless recording
+            from,
+            until,
+        }
         return await PrismaService.create('offset', offsetData);
     }
 
