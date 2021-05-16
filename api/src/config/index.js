@@ -7,6 +7,7 @@ export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const API_PREFIX = process.env.API_PREFIX;
 export const DAYS_IN_MONTH = 30;
 export const DAYS_IN_YEAR = 365;
+export const DOMAIN_PAGES_RESPONSE_LIMIT = 500;
 export const ECOLOGI_API_ENTRYPOINT = process.env.ECOLOGI_API_ENTRYPOINT;
 export const ECOLOGI_API_KEY = process.env.ECOLOGI_API_KEY;
 export const ECOLOGI_DEFAULT_UNIT = 'KG';

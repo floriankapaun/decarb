@@ -7,6 +7,7 @@ import PrismaService from '../services/PrismaService.js';
 import DomainService from '../services/DomainService.js';
 import asyncHandler from '../utils/asyncHandler';
 import sendResponse from '../utils/sendResponse';
+import { DOMAIN_PAGES_RESPONSE_LIMIT } from '../config';
 
 const router = Router();
 
@@ -83,7 +84,8 @@ export default (app) => {
                         select: {
                             url: true,
                             createdAt: true,
-                        }
+                        },
+                        take: DOMAIN_PAGES_RESPONSE_LIMIT,
                     }
                 }
             };
