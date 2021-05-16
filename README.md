@@ -53,6 +53,12 @@ $ cd api
 $ yarn migrate "MIGRATION_NAME"
 ```
 
+## Test Stripe Webhooks in local setup
+
+```bash
+$ stripe listen --forward-to localhost:4000/api/v1/stripe/webhooks
+```
+
 ## About
 
 ### API

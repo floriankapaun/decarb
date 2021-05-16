@@ -25,6 +25,7 @@ class SubscriptionService {
                 domainId: true,
                 recordedUntil: true,
                 stripeSubscriptionId: true,
+                stripeSubscriptionItemId: true,
             },
             where: {
                 deletedAt: null,
@@ -38,11 +39,11 @@ class SubscriptionService {
         return allActiveSubscriptions;
     }
 
-    async get(subscriptionId) {
-        if (!subscriptionId) {
-            throw new AppError(`Can't get a subscription without subscriptionId`, 400);
+    async get(id) {
+        if (!id) {
+            throw new AppError(`Can't get a subscription without "id"`, 400);
         }
-        const subscription = await PrismaService.findUnique('subscription', { subscriptionId });
+        const subscription = await PrismaService.findUnique('subscription', { id });
         return subscription;
     }
 };

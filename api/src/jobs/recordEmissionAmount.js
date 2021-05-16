@@ -11,12 +11,14 @@ import SubscriptionService from '../services/SubscriptionService.js';
     const activeSubscriptions = await SubscriptionService.getAllActive();
     // For each Subscription
     for (let subscription of activeSubscriptions) {
-        const { domainId, recordedUntil, stripeSubscriptionId } = subscription;
+        const { domainId, recordedUntil, stripeSubscriptionItemId } = subscription;
         // Get amount of Emissions created since last record
         const emissionKilograms = await OffsetService.getEmissionKilograms(domainId, recordedUntil, now);
         // Record Emissions to Stripe as 'usage'
-        await StripeService.recordUsage(stripeSubscriptionId, emissionKilograms);
-        console.log(`📝 Job "recordEmissionAmount" recorded ${emissionKilograms} additional kilograms to Stripe for Subscription "${subscription.id}"`);
+        if (emissionKilograms > 0) {
+            await StripeService.recordUsage(stripeSubscriptionItemId, emissionKilograms);
+            console.log(`📝 Job "recordEmissionAmount" recorded ${emissionKilograms} additional kilograms to Stripe for Subscription "${subscription.id}"`);
+        }
         // Get the current Offset Entry from Database
         const currentOffset = await OffsetService.getCurrent(subscription.id, now);
         // Add the recorded usage (emissionKilograms) to the current offset

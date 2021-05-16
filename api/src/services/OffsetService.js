@@ -4,6 +4,7 @@ import { ECOLOGI_API_ENTRYPOINT, ECOLOGI_API_KEY, ENUMS, MODE } from '../config/
 import { addDaysToDate, copyDate, getTimestampString } from '../utils/date.js';
 import DomainService from './DomainService.js';
 import PrismaService from './PrismaService.js';
+import SubscriptionService from './SubscriptionService.js';
 
 class OffsetService {
     async getCurrent(subscriptionId, timestamp = new Date()) {
@@ -55,7 +56,7 @@ class OffsetService {
         const from = this.getFrom(until, subscription.paymentInterval);
         // Create Offset
         const offsetData = {
-            domainId,
+            domainId: subscription.domainId,
             subscriptionId: subscription.id,
             offsetType: subscription.offsetType,
             from,

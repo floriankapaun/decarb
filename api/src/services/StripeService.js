@@ -35,6 +35,17 @@ class StripeService {
         return session.id;
     }
 
+    /**
+     * Retrieves a subscription from Stripe
+     * 
+     * @param {String} id - 'sub_...'
+     * @returns 
+     */
+    async getSubscription(id) {
+        return await this.stripe.subscriptions.retrieve(id);
+    }
+
+    // TODO: Remove from here... should be in SubscriptionService. I think it's already there as well...
     async getCurrentSubscription(domainId) {
         const params = {
             domainId,
@@ -69,13 +80,13 @@ class StripeService {
      * Records usage to a Stripe Subscription. At the end of each subscriptions billing
      * cycle, the user gets billed by the accumulated recorded usage.
      * 
-     * @param {String} stripeSubscriptionId - sc_...
+     * @param {String} stripeSubscriptionItemId - 'si_...'
      * @param {Integer} offsetKilograms - Amount of CO2 to Offset in Kilograms
      * @returns 
      */
-    async recordUsage(stripeSubscriptionId, offsetKilograms) {
+    async recordUsage(stripeSubscriptionItemId, offsetKilograms) {
         const usage = await this.stripe.subscriptionItems.createUsageRecord(
-            stripeSubscriptionId,
+            stripeSubscriptionItemId,
             {
               quantity: offsetKilograms,
               timestamp: new Date(),
@@ -85,7 +96,7 @@ class StripeService {
         if (!usage) {
             throw new AppError('Failed to record usage', 500);
         }
-        if (!usage.statusCode.toString().startsWith('2')) {
+        if (usage.statusCode && !usage.statusCode.toString().startsWith('2')) {
             throw new AppError(`${usage.code}: ${usage.raw.message}`, usage.statusCode);
         }
         return usage;
@@ -119,9 +130,11 @@ class StripeService {
                 if (!subscription) {
                     throw new AppError(`Subscription with ID ${subscriptionId} not found`, 401);
                 }
+                const stripeSubscription = await this.getSubscription(data.object.subscription);
                 const updatedSubscriptionData = {
                     stripeCustomerId: data.object.customer,
                     stripeSubscriptionId: data.object.subscription,
+                    stripeSubscriptionItemId: stripeSubscription.items.data[0].id,
                 };
                 const currency = data.object.currency.toUpperCase();
                 if (ENUMS.currency.includes(currency)) {
