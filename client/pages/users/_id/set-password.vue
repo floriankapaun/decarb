@@ -32,6 +32,11 @@ import { newPassword, confirmNewPassword } from '@/config/public/inputs'
 
 export default {
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/users/:id/set-password',
+        },
+    },
     asyncData({ params }) {
         return {
             id: params.id,
@@ -73,7 +78,7 @@ export default {
             // Change to next route. If this is not working, the user will be
             // redirected to '/login' because of this pages middleware.
             return this.$router.push(
-                this.localeRoute('/dashboard/register-domain')
+                this.localeRoute('dashboard-register-domain')
             )
         },
     },

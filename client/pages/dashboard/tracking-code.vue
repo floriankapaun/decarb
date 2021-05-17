@@ -25,6 +25,11 @@
 <script>
 export default {
     layout: 'dashboard',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/tracking-code',
+        },
+    },
 }
 </script>
 

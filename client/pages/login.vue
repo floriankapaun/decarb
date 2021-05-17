@@ -20,7 +20,7 @@
             >
                 <i18n path="p.login.helperText" tag="p" class="helper-text">
                     <template #link>
-                        <CvLink :to="localeRoute('/register')" size="sm">
+                        <CvLink :to="localeRoute('register')" size="sm">
                             {{ $t('p.login.helperTextLink') }}
                         </CvLink>
                     </template>
@@ -39,6 +39,11 @@ import Form from '@/components/Form'
 export default {
     components: { Form },
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/login',
+        },
+    },
     middleware: ['guest'],
     data() {
         return {
@@ -71,7 +76,7 @@ export default {
             await this.login({ email, password })
             await this.fetchUser(this.getAccessToken)
             if (this.getIsLoggedIn) {
-                return this.$router.push(this.localeRoute('/dashboard'))
+                return this.$router.push(this.localeRoute('dashboard'))
             }
             // OPTIMIZE: Maybe apply some error styling
         },

@@ -1,20 +1,20 @@
 <template>
     <section class="bx--row">
         <div class="bx--col-lg-16">
-            <h1>{{ $t('p.dashboard.pageIndex.h1') }}</h1>
+            <h1>{{ $t('p.dashboard.knownPages.h1') }}</h1>
             <!-- TODO: Sort Table -->
             <!-- TODO: Search in Table -->
             <CvDataTableSkeleton
                 v-if="getIsLoading"
-                :title="$t('p.dashboard.pageIndex.title')"
-                :helper-text="$t('p.dashboard.pageIndex.helperText')"
+                :title="$t('p.dashboard.knownPages.title')"
+                :helper-text="$t('p.dashboard.knownPages.helperText')"
                 :columns="columns"
                 :rows="3"
             ></CvDataTableSkeleton>
             <CvDataTable
                 v-else
-                :title="$t('p.dashboard.pageIndex.title')"
-                :helper-text="$t('p.dashboard.pageIndex.helperText')"
+                :title="$t('p.dashboard.knownPages.title')"
+                :helper-text="$t('p.dashboard.knownPages.helperText')"
                 :auto-width="false"
                 :columns="columns"
                 :data="computedPages"
@@ -34,11 +34,16 @@ import { mapGetters } from 'vuex'
 
 export default {
     layout: 'dashboard',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/page-index',
+        },
+    },
     data() {
         return {
             columns: [
-                this.$t('p.dashboard.pageIndex.columns.url'),
-                this.$t('p.dashboard.pageIndex.columns.createdAt'),
+                this.$t('p.dashboard.knownPages.columns.url'),
+                this.$t('p.dashboard.knownPages.columns.createdAt'),
             ],
             pageSizes: [10, 15, 20, 25],
             state: {

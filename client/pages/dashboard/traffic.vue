@@ -11,6 +11,11 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
     layout: 'dashboard',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/traffic',
+        },
+    },
     computed: {
         ...mapGetters({
             getUser: 'auth/getUser',

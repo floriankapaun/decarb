@@ -11,5 +11,10 @@
 <script>
 export default {
     layout: 'default',
+    nuxtI18n: {
+        paths: {
+            en: '/legal/terms-and-conditions',
+        },
+    },
 }
 </script>

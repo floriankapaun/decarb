@@ -23,7 +23,7 @@
                     class="register__login-paragraph"
                 >
                     <template #link>
-                        <CvLink :to="localeRoute('/login')" size="sm">
+                        <CvLink :to="localeRoute('login')" size="sm">
                             {{ $t('p.register.helperTextLink') }}
                         </CvLink>
                     </template>
@@ -40,6 +40,11 @@ import { email } from '@/config/public/inputs'
 
 export default {
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/register',
+        },
+    },
     middleware: ['guest'],
     data() {
         return {

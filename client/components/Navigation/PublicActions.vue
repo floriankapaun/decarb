@@ -1,10 +1,10 @@
 <template>
     <div>
         <CvHeaderNav v-if="!getIsLoggedIn" class="action-header">
-            <CvHeaderMenuItem :to="localeRoute('/login')">
+            <CvHeaderMenuItem :to="localeRoute('login')">
                 {{ $t('c.navigation.publicActions.login') }}
             </CvHeaderMenuItem>
-            <CvHeaderMenuItem :to="localeRoute('/register')">
+            <CvHeaderMenuItem :to="localeRoute('register')">
                 <CvTag
                     class="pointer"
                     :label="$t('c.navigation.publicActions.register')"

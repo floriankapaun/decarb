@@ -7,22 +7,22 @@
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
             <p>
-                <CvLink :to="localeRoute('/legal/imprint')">
+                <CvLink :to="localeRoute('legal-imprint')">
                     {{ $t('c.footer.public.imprint') }}
                 </CvLink>
             </p>
             <p>
-                <CvLink :to="localeRoute('/legal/data-privacy')">
+                <CvLink :to="localeRoute('legal-data-privacy')">
                     {{ $t('c.footer.public.dataPrivacy') }}
                 </CvLink>
             </p>
             <p>
-                <CvLink :to="localeRoute('/legal/terms-and-conditions')">
+                <CvLink :to="localeRoute('legal-terms-and-conditions')">
                     {{ $t('c.footer.public.termsAndConditions') }}
                 </CvLink>
             </p>
             <p>
-                <CvLink :to="localeRoute('/legal/terms-and-conditions')">
+                <CvLink :to="localeRoute('legal-terms-and-conditions')">
                     <!-- TODO: Change link to "open cookie modal" -->
                     {{ $t('c.footer.public.cookieSettings') }}
                 </CvLink>
@@ -30,17 +30,17 @@
         </div>
         <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
             <p>
-                <CvLink :to="localeRoute('/about')">{{
+                <CvLink :to="localeRoute('about')">{{
                     $t('c.footer.public.about')
                 }}</CvLink>
             </p>
             <p>
-                <CvLink :to="localeRoute('/why')">{{
+                <CvLink :to="localeRoute('why')">{{
                     $t('c.footer.public.why')
                 }}</CvLink>
             </p>
             <p>
-                <CvLink :to="localeRoute('/how-it-works')">{{
+                <CvLink :to="localeRoute('how-it-works')">{{
                     $t('c.footer.public.howItWorks')
                 }}</CvLink>
             </p>

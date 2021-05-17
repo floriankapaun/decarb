@@ -30,6 +30,11 @@
 <script>
 export default {
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/verify-domain-ownership',
+        },
+    },
     middleware: ['auth'],
     methods: {
         handleVerified() {

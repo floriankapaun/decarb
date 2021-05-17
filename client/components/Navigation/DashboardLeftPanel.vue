@@ -27,7 +27,7 @@
                 {{ domain.url }}
             </CvSideNavMenuItem>
             <CvSideNavMenuItem
-                :to="localeRoute('/dashboard/register-domain')"
+                :to="localeRoute('dashboard-register-domain')"
                 class="icon-positioning--add"
             >
                 <Add16 /> {{ $t('c.navigation.dashboardLeftPanel.addDomain') }}
@@ -36,60 +36,60 @@
 
         <Divider />
 
-        <CvSideNavLink :to="localeRoute('/dashboard/achievements-offsettings')">
+        <CvSideNavLink :to="localeRoute('dashboard-achievements-offsettings')">
             <template slot="nav-icon"><Sprout16 /></template>
             {{ $t('c.navigation.dashboardLeftPanel.achievements') }}
         </CvSideNavLink>
 
-        <CvSideNavLink :to="localeRoute('/dashboard/traffic')">
+        <CvSideNavLink :to="localeRoute('dashboard-traffic')">
             <template slot="nav-icon"><Analytics16 /></template>
             {{ $t('c.navigation.dashboardLeftPanel.traffic') }}
         </CvSideNavLink>
 
-        <CvSideNavLink :to="localeRoute('/dashboard/emissions')">
+        <CvSideNavLink :to="localeRoute('dashboard-emissions')">
             <template slot="nav-icon"><Activity16 /></template>
             <!-- ChartBubblePacked, ChartBubble, ChartCandlestick, Meter -->
             {{ $t('c.navigation.dashboardLeftPanel.emissions') }}
         </CvSideNavLink>
 
-        <CvSideNavLink :to="localeRoute('/dashboard/page-index')">
+        <CvSideNavLink :to="localeRoute('dashboard-known-pages')">
             <template slot="nav-icon"><ListBulleted16 /></template>
             {{ $t('c.navigation.dashboardLeftPanel.index') }}
         </CvSideNavLink>
 
         <Divider />
 
-        <CvSideNavLink :to="localeRoute('/dashboard/badge')">
+        <CvSideNavLink :to="localeRoute('dashboard-badge')">
             <template slot="nav-icon"><Badge16 /></template>
             <!-- Certificate -->
             {{ $t('c.navigation.dashboardLeftPanel.badge') }}
         </CvSideNavLink>
 
-        <CvSideNavLink :to="localeRoute('/dashboard/gdpr-info')">
+        <CvSideNavLink :to="localeRoute('dashboard-gdpr-info')">
             <template slot="nav-icon"><Information16 /></template>
             <!-- Rule, Security -->
             {{ $t('c.navigation.dashboardLeftPanel.gdpr') }}
         </CvSideNavLink>
 
         <!-- TODO: If verification wasn't successfull yet, highlight this tab with a pill or something -->
-        <CvSideNavLink :to="localeRoute('/dashboard/tracking-code')">
+        <CvSideNavLink :to="localeRoute('dashboard-tracking-code')">
             <template slot="nav-icon"><Code16 /></template>
             {{ $t('c.navigation.dashboardLeftPanel.trackingCode') }}
         </CvSideNavLink>
 
         <Divider />
 
-        <CvSideNavLink :to="localeRoute('/dashboard/subscription')">
+        <CvSideNavLink :to="localeRoute('dashboard-subscription')">
             <template slot="nav-icon"><Repeat16 /></template>
             {{ $t('c.navigation.dashboardLeftPanel.subscription') }}
         </CvSideNavLink>
 
-        <CvSideNavLink :to="localeRoute('/dashboard/payments')">
+        <CvSideNavLink :to="localeRoute('dashboard-payments')">
             <template slot="nav-icon"><Receipt16 /></template>
             {{ $t('c.navigation.dashboardLeftPanel.payments') }}
         </CvSideNavLink>
 
-        <CvSideNavLink :to="localeRoute('/dashboard/account-settings')">
+        <CvSideNavLink :to="localeRoute('dashboard-account-settings')">
             <template slot="nav-icon"><Settings16 /></template>
             {{ $t('c.navigation.dashboardLeftPanel.accountSettings') }}
         </CvSideNavLink>

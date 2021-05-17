@@ -6,7 +6,7 @@
             <h1>{{ $t('p.dashboard.subscriptionSuccess.h1') }}</h1>
             <p class="mb-06">
                 From now on you can proudly display the
-                <CvLink :to="localeRoute('/dashboard/badge')" size="lg"
+                <CvLink :to="localeRoute('dashboard-badge')" size="lg"
                     >Eco Web Badge</CvLink
                 >
                 on {{ getUrl ? getUrl : 'your website' }}.
@@ -23,7 +23,7 @@
             </p> -->
             <p>
                 <NuxtLink
-                    :to="localeRoute('/dashboard')"
+                    :to="localeRoute('dashboard')"
                     class="bx--btn bx--btn--primary"
                 >
                     View the Dashboard
@@ -38,6 +38,11 @@ import { mapGetters } from 'vuex'
 
 export default {
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/subscription-success',
+        },
+    },
     middleware: ['auth'],
     computed: {
         ...mapGetters({

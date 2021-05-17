@@ -28,6 +28,11 @@ import Notification from '@/utils/Notification'
 
 export default {
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/pageview-estimation',
+        },
+    },
     middleware: ['auth'],
     data() {
         return {

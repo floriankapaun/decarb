@@ -39,7 +39,7 @@
             <CvButton @click="handleSubmit">Create Subscription</CvButton>
             <p>
                 When clicking on this button you accept our
-                <CvLink :to="localeRoute('/terms-and-conditions')" size="lg">
+                <CvLink :to="localeRoute('terms-and-conditions')" size="lg">
                     terms and conditions</CvLink
                 >.
             </p>
@@ -52,6 +52,11 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/setup-subscription',
+        },
+    },
     middleware: ['auth'],
     data() {
         return {

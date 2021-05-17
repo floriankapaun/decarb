@@ -18,6 +18,11 @@ import { mapGetters } from 'vuex'
 
 export default {
     layout: 'default',
+    nuxtI18n: {
+        paths: {
+            en: '/',
+        },
+    },
     computed: {
         ...mapGetters({
             getIsLoggedIn: 'auth/getIsLoggedIn',

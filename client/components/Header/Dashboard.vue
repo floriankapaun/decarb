@@ -7,7 +7,7 @@
         <CvSkipToContent href="#main-content">
             {{ $t('c.header.dashboard.skipToContent') }}
         </CvSkipToContent>
-        <CvHeaderName :to="localeRoute('/dashboard')"><Logo /></CvHeaderName>
+        <CvHeaderName :to="localeRoute('dashboard')"><Logo /></CvHeaderName>
         <template slot="header-global">
             <NavigationDashboardActions />
         </template>

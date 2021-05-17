@@ -33,6 +33,11 @@ import { siteUrl, estimatedMonthlyPageViews } from '@/config/public/inputs'
 
 export default {
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/register-domain',
+        },
+    },
     middleware: ['auth'],
     data() {
         return {

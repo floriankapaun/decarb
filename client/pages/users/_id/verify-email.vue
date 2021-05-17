@@ -26,7 +26,7 @@
                 <i18n path="p.users.id.verifyEmail.tos" tag="p">
                     <template #link>
                         <CvLink
-                            :to="localeRoute('/legal/terms-and-conditions')"
+                            :to="localeRoute('legal-terms-and-conditions')"
                             size="lg"
                             >{{ $t('p.users.id.verifyEmail.tosLink') }}</CvLink
                         >
@@ -44,7 +44,7 @@
                     class="helper-text"
                 >
                     <template #link>
-                        <CvLink :to="localeRoute('/register')" size="sm">
+                        <CvLink :to="localeRoute('register')" size="sm">
                             {{ $t('p.users.id.verifyEmail.helperTextLink') }}
                         </CvLink>
                     </template>
@@ -61,6 +61,11 @@ import { verificationCode } from '@/config/public/inputs'
 
 export default {
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/users/:id/verify-email',
+        },
+    },
     asyncData({ params }) {
         // TODO: Check if User with params.id exists and isn't validated yet
         return {
@@ -93,7 +98,7 @@ export default {
             })
             if (this.getUser) {
                 return this.$router.push(
-                    this.localRoute(`/users/${this.getUser.id}/set-password`)
+                    this.localeRoute(`/users/${this.getUser.id}/set-password`)
                 )
             }
         },

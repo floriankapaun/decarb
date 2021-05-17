@@ -14,6 +14,11 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
     layout: 'dashboard',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/register-domain',
+        },
+    },
     computed: {
         ...mapGetters({
             getAccessToken: 'auth/getAccessToken',
