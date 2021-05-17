@@ -1,4 +1,5 @@
 import { cleanUrl } from '../utils/url.js';
+import PageViewEmissionService from './PageViewEmissionService.js';
 import PrismaService from './PrismaService.js';
 
 class PageViewService {
@@ -39,6 +40,8 @@ class PageViewService {
         if (!pageViewEmission) {
             // TODO: Fix that problem:
             // pageview emissions probably are created asynchronously (currently they are, but don't knwo about the future). So wait a little bit and then try to run the same function again??? Probabaly no good idea.
+            // Create a PageViewEmission for that page
+            PageViewEmissionService.calculate(page);
             return `The pageViewEmission wasn't created yet, give it another try in a few seconds.`;
         }
         // Register the new pageView
