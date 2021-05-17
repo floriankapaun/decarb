@@ -181,9 +181,4 @@ export default {
 .bx--form-item {
     margin-bottom: $spacing-07;
 }
-
-// TODO: Add PR to Carbon Desing Repository
-// https://github.com/carbon-design-system/carbon-components-vue/blob/main/packages/core/src/components/cv-text-input/cv-text-input.vue
-// Input: bx--password-input
-// Button: bx--btn bx--btn--icon-only
 </style>
