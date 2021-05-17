@@ -25,7 +25,7 @@ jobs:
           git checkout stage
           git fetch
           git reset --hard HEAD
-          git merge '@{u}'
+          git pull
 
           # Install dependencies and build client
           yarn --cwd client install
