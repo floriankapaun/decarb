@@ -24,7 +24,7 @@ jobs:
           # Enforce most-recent repository version
           git checkout stage
           git fetch
-          git reset --hard HEAD
+          git reset --hard origin/stage
           git pull
 
           # Install dependencies and build client

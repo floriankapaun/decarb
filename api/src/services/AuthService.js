@@ -75,13 +75,7 @@ class AuthService {
 
     async refreshToken(email, givenRefreshToken) {
         // Validate givenRefreshToken
-        const options = {
-            select: {
-                refreshToken: true,
-                refreshTokenExpiry: true,
-            }
-        };
-        const user = await PrismaService.findUnique('user', { email }, options);
+        const user = await PrismaService.findUnique('user', { email });
         if (!user.refreshToken || user.refreshToken !== givenRefreshToken) {
             return `Provided refresh token invalid.`;
         }

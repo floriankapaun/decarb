@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { REFRESH_TOKEN_EXPIRES } from '../config';
+import cookieParser from 'cookie-parser';
 
+import { REFRESH_TOKEN_EXPIRES } from '../config';
 import attachCurrentUser from '../middlewares/attachCurrentUser';
 import isAuth from '../middlewares/isAuth';
 import AuthService from '../services/AuthService';
@@ -45,8 +46,9 @@ export default (app) => {
     }));
 
     // Refresh a users access token
-    router.post('/refresh-token', asyncHandler(async (req, res) => {
-        const { refreshToken } = req.cookies;
+    router.post('/refresh-token', cookieParser(), asyncHandler(async (req, res) => {
+        // Nuxt SSR Requests send the 'refreshToken' cookie received from the client in the 'req.body'
+        const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
         const { email } = req.body;
         const refreshedToken = await AuthService.refreshToken(email, refreshToken);
         return sendResponse(res, refreshedToken);

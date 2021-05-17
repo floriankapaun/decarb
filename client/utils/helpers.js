@@ -1,4 +1,3 @@
-import { actions } from '@/store/index'
 import Notification from './Notification'
 
 const handleError = async (error) => {
@@ -27,7 +26,7 @@ export const saveFetch = async (
 ) => {
     const { rootGetters } = context
     const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
-    const accessToken = rootGetters['auth/getAccessToken']
+    let accessToken = rootGetters['auth/getAccessToken']
     const accessTokenExpiry = rootGetters['auth/getAccessTokenExpiry']
     // If access Token is expired, refresh it first
     if (
@@ -37,8 +36,13 @@ export const saveFetch = async (
         path !== '/auth/refresh-token' &&
         path !== '/auth/logout'
     ) {
-        await actions.refreshToken(context)
-        // await context.dispatch('auth/refreshToken')
+        if (process.client) {
+            await window.$nuxt.$store.dispatch('auth/refreshToken')
+        } else {
+            // Third parameter enables dispatching on root level
+            await context.dispatch('auth/refreshToken', null, { root: true })
+        }
+        accessToken = rootGetters['auth/getAccessToken']
     }
     const requestOptions = {
         method: requestMethod,
