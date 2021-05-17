@@ -16,7 +16,8 @@ jobs:
         key: ${{ secrets.ECO_WEB_STAGING_SECRET }}
         port: 22
         script: |
-          shopt -s extglob
+          shopt -s extglob # enable extended globbing (to filter for node_modules and .env files)
+          shopt -s dotglob # enable considering dot files (to make sure .nuxt folder is found as well)
 
           cd /var/www/virtual/kapaun/ew-stage.kapaun.uber.space/_repository/eco-web/
 
@@ -28,6 +29,9 @@ jobs:
 
           # Install dependencies and build client
           yarn --cwd client install
+          # This might be needed
+          # npm --prefix client rebuild node-sass 
+          # Ref: https://github.com/sass/node-sass/issues/1579
           yarn --cwd client build
 
           # Delete old client files and copy new files into production directory
