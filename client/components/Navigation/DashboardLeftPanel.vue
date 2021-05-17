@@ -71,10 +71,17 @@
             {{ $t('c.navigation.dashboardLeftPanel.gdpr') }}
         </CvSideNavLink>
 
-        <!-- TODO: If verification wasn't successfull yet, highlight this tab with a pill or something -->
         <CvSideNavLink :to="localeRoute('dashboard-tracking-code')">
-            <template slot="nav-icon"><Code16 /></template>
-            {{ $t('c.navigation.dashboardLeftPanel.trackingCode') }}
+            <template slot="nav-icon">
+                <WarningFilled16 v-if="domainNotVerified" class="warn-icon" />
+                <Code16 v-else />
+            </template>
+            <span v-if="domainNotVerified" class="warn-label">{{
+                $t('c.navigation.dashboardLeftPanel.verifyDomainOwnership')
+            }}</span>
+            <span v-else>{{
+                $t('c.navigation.dashboardLeftPanel.trackingCode')
+            }}</span>
         </CvSideNavLink>
 
         <Divider />
@@ -141,6 +148,7 @@ import Receipt16 from '@carbon/icons-vue/lib/receipt/16'
 import Repeat16 from '@carbon/icons-vue/lib/repeat/16'
 import Settings16 from '@carbon/icons-vue/lib/settings/16'
 import Sprout16 from '@carbon/icons-vue/lib/sprout/16'
+import WarningFilled16 from '@carbon/icons-vue/lib/warning--filled/16'
 
 import { mapGetters, mapActions } from 'vuex'
 
@@ -158,6 +166,7 @@ export default {
         Repeat16,
         Settings16,
         Sprout16,
+        WarningFilled16,
     },
     data() {
         return {
@@ -177,12 +186,21 @@ export default {
                 return domain.id !== this.getSelectedDomain.id
             })
         },
+        domainNotVerified() {
+            if (this.getSelectedDomain && !this.getSelectedDomain.verifiedAt) {
+                return true
+            }
+            return false
+        },
+    },
+    mounted() {
+        console.log(this.getSelectedDomain, this.domainNotVerified)
     },
     methods: {
         ...mapActions({
             setSelectedDomain: 'domains/setSelectedDomain',
         }),
-        onFaviconLoad(e) {
+        onFaviconLoad() {
             this.faviconLoaded = true
         },
         handleSelectDomain(domain) {
@@ -242,5 +260,13 @@ export default {
 
 .pt-05 {
     padding-top: $spacing-05;
+}
+
+.warn-icon {
+    fill: $support-error;
+}
+
+.warn-label {
+    color: $support-error;
 }
 </style>

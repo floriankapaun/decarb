@@ -13,6 +13,7 @@ export const en = {
         badge: 'Badge',
         gdpr: 'GDPR Info',
         trackingCode: 'Tracking Code',
+        verifyDomainOwnership: 'Verify Domain',
         subscription: 'Subscription',
         payments: 'Payments & Bills',
         accountSettings: 'Account Settings',
