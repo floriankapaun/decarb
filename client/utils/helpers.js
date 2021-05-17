@@ -46,6 +46,7 @@ export const saveFetch = async (
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
         },
+        credentials: 'same-origin',
         body: JSON.stringify(bodyData),
     }
     return fetch(`${apiBaseUrl}${path}`, requestOptions)
