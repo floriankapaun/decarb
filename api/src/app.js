@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 
 import { PORT, API_PREFIX } from './config/index.js';
 import routes from './routes/index.js';
@@ -13,7 +12,6 @@ export default () => {
     const app = express();
 
     app.use(express.json({ verify: verifyRequest }))
-        .use(cors())
         // Routes must be defined last, to make sure the error handler (defined inside)
         // is included in the last use() call.
         .use(API_PREFIX, routes());
