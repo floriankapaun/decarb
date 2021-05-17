@@ -193,9 +193,6 @@ export default {
             return false
         },
     },
-    mounted() {
-        console.log(this.getSelectedDomain, this.domainNotVerified)
-    },
     methods: {
         ...mapActions({
             setSelectedDomain: 'domains/setSelectedDomain',
