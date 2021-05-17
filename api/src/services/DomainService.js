@@ -12,18 +12,44 @@ class DomainService {
         this.sitemapper = new Sitemapper();
     }
 
-    async create(domainData, owner) {
-        domainData.url = cleanUrl(domainData.url);
-        // Create domainUser relation as well
-        domainData.users = {
-            create: [
-                {
-                    userId: owner.id,
-                    role: ENUMS.role[0],
-                },
-            ],
-        };
+    /**
+     * Creates a new Domain including DomainUser Role
+     * 
+     * @param {Object} clientDomainData - provided by client
+     * @param {String} [clientDomainData.url]
+     * @param {Number} [clientDomainData.estimatedMonthlyPageViews]
+     * @param {Object} owner - provided by attachCurrentUser middleware
+     * @returns {Object} - New Domain
+     */
+    async create(clientDomainData, owner) {
+        // Validate 'clientDomainData'
+        if (!clientDomainData.url) {
+            throw new AppError('Required parameter "url" missing.', 400);
+        }
+        if (typeof clientDomainData.url !== 'string') {
+            throw new AppError('Parameter "url" has to be string.', 400);
+        }
+        if (!clientDomainData.estimatedMonthlyPageViews) {
+            throw new AppError('Required parameter "estimatedMonthlyPageViews" missing.', 400);
+        }
+        if (typeof clientDomainData.estimatedMonthlyPageViews !== 'number') {
+            throw new AppError('Parameter "estimatedMonthlyPageViews" has to be number.', 400);
+        }
+        const domainData = {
+            estimatedMonthlyPageViews: clientDomainData.estimatedMonthlyPageViews,
+            url: cleanUrl(clientDomainData.url),
+            // Create domainUser relation as well
+            users: {
+                create: [
+                    {
+                        userId: owner.id,
+                        role: ENUMS.role[0], // 'OWNER'
+                    },
+                ],
+            }
+        }
         const newDomain = await PrismaService.create('domain', domainData);
+        EventEmitter.emit(EVENTS.create.domain, newDomain);
         return newDomain;
     }
 
