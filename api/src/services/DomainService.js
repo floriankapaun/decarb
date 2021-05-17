@@ -49,7 +49,6 @@ class DomainService {
             }
         }
         const newDomain = await PrismaService.create('domain', domainData);
-        EventEmitter.emit(EVENTS.create.domain, newDomain);
         return newDomain;
     }
 
