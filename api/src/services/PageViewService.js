@@ -48,8 +48,8 @@ class PageViewService {
         const pageViewData = {
             pageId: page.id,
             pageViewEmissionId: pageViewEmission.id,
-            screenWidth: data.w,
-            screenHeight: data.h,
+            windowWidth: data.w,
+            windowHeight: data.h,
             connectionType: data.c,
         };
         const newPageView = await PrismaService.create('pageView', pageViewData);
