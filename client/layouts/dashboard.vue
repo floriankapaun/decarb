@@ -2,7 +2,10 @@
     <div>
         <HeaderDashboard />
         <CvContent id="#main-content" class="bx--grid dashboard">
-            <NotificationsDashboard />
+            <NotificationsInline
+                class="notifications"
+                classes="bx--col-lg-16"
+            />
             <Nuxt keep-alive />
             <FooterMinimal />
         </CvContent>
@@ -25,6 +28,10 @@ export default {
 
 .dashboard {
     margin-left: 0;
+}
+
+.notifications {
+    margin-bottom: $spacing-06;
 }
 
 // Add padding to body if left-panel is expanded
