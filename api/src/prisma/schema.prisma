@@ -103,6 +103,7 @@ model PageView {
   windowWidth        Int              @map("window_width")
   windowHeight       Int              @map("window_height")
   connectionType     String           @map("connection_type") @db.VarChar(20)
+  uncachedVisit      Boolean?         @map("uncached_visit")
   createdAt          DateTime         @default(now()) @map("created_at")
 
   @@map("page_views")
