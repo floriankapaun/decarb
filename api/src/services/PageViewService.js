@@ -12,10 +12,20 @@ class PageViewService {
      * Validates data of a PageView
      * 
      * @param {Object} data - data about a PageView
+     * @param {String} [data.p] - page url
+     * @param {(String|Number)} [data.w] - window width
+     * @param {(String|Number)} [data.h] - window height
+     * @param {String} [data.c] - connection type
+     * @param {(String|Boolean)} [data.f] - uncached visit?
+     * @returns {Object} - validated data object
      */
     validatePageViewData(data) {
         if (!data.p) throw new AppError(`No pageUrl ('p') provided`, 400);
-        return true;
+        if (typeof data.p === 'string') data.p = cleanUrl(data.p);
+        if (typeof data.w === 'string') data.w = parseInt(data.w);
+        if (typeof data.h === 'string') data.h = parseInt(data.h);
+        if (typeof data.f === 'string') data.f = data.f === 'true';
+        return data;
     }
 
     /**
@@ -47,9 +57,9 @@ class PageViewService {
      * @returns 
      */
     async register(data, origin) {
-        const pageUrl = cleanUrl(data.p);
         // Validate inputs
-        this.validatePageViewData(data);
+        const validData = this.validatePageViewData(data);
+        const pageUrl = cleanUrl(validData.p);
         this.validateOrigin(pageUrl, origin);
         // Get Page data
         const page = await PageService.findOrCreate(pageUrl);
