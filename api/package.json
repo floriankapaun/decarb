@@ -8,8 +8,10 @@
     "dev": "nodemon -r esm src/index.js",
     "prod": "node -r esm src/index.js",
     "migrate": "yarn prisma migrate dev --schema src/prisma/schema.prisma --name",
+    "migrate_prod": "prisma migrate deploy --schema src/prisma/schema.prisma",
+    "generate": "yarn prisma generate --schema src/prisma/schema.prisma",
     "seed": "yarn prisma db seed --schema src/prisma/schema.prisma --preview-feature",
-    "prisma_deploy": "prisma migrate deploy --schema src/prisma/schema.prisma"
+    "prisma_deploy": "yarn migrate_prod && yarn generate"
   },
   "dependencies": {
     "@prisma/client": "^2.21.0",
