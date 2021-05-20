@@ -10,8 +10,6 @@ const router = express.Router();
 export default (app) => {
     app.use('/pageviews', router);
 
-    router.options('/', cors()) // enable pre-flight request
-
     // Register a PageView
     router.post('/', cors(), express.urlencoded({ extended: false }), asyncHandler(async (req, res) => {
         const origin = req.get('Origin');
