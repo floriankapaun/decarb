@@ -25,15 +25,28 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ### API
 
 ```bash
-cd api
+# 1. Switch to directory
+$ cd api
 
-# install dependencies
+# 2. Create .env
+$ touch .env
+
+# 3. Fill .env with variables like in '.env.example'
+
+# 4. Install dependencies
 $ yarn install
 
-# serve with hot reload at localhost:4000
+# 5. Generate Prisma Client
+$ yarn generate
+
+# 6. Apply Prisma Migrations to Database
+$ yarn migrate_prod
+
+# 7. Serve API in development mode
+# (with hot reload, at localhost:4000)
 $ yarn dev
 
-# build for production and launch server
+# 7.Alt: Launch API in production mode
 $ yarn build
 ```
 
