@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import authRoutes from './authRoutes.js';
+import badgeRoutes from './badgeRoutes.js';
 import domainRoutes from './domainRoutes.js';
 import pageViewRoutes from './pageViewRoutes.js';
 import sandboxRoutes from './sandboxRoutes.js';
@@ -14,6 +15,7 @@ export default () => {
     const app = Router();
 
     authRoutes(app);
+    badgeRoutes(app);
     domainRoutes(app);
     pageViewRoutes(app);
     sandboxRoutes(app);

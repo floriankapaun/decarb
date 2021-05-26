@@ -49,6 +49,7 @@ export const PLATFORM_EMAIL_PORT = process.env.PLATFORM_EMAIL_PORT;
 export const PLATFORM_EMAIL_SENDER = process.env.PLATFORM_EMAIL_SENDER;
 export const PLATFORM_EMAIL_USER = process.env.PLATFORM_EMAIL_USER;
 export const PORT = process.env.PORT;
+export const PROJECT_SLUG = 'eco-web';
 export const REFRESH_TOKEN_EXPIRES = process.env.REFRESH_TOKEN_EXPIRES || (60*24*365); // expire after 365 days
 export const STRIPE_CANCEL_URL = process.env.STRIPE_CANCEL_URL;
 export const STRIPE_CHECKOUT_SESSION_MODE = 'subscription';
