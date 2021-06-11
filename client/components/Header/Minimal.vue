@@ -12,7 +12,7 @@
 <style lang="scss" scoped>
 .bx--header {
     // background-color: transparent;
-    background-color: #004335;
+    background-color: #0c6343;
     // border-bottom: 1px solid transparent;
     border-bottom: 1px solid #016752;
     justify-content: center;
@@ -22,7 +22,7 @@
         padding-right: $spacing-05;
 
         svg {
-            // fill: #004335;
+            // fill: #0c6343;
             fill: white;
             max-height: $spacing-07;
         }

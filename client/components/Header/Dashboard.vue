@@ -21,7 +21,7 @@
 
 <style lang="scss" scoped>
 .bx--header {
-    background-color: #004335;
+    background-color: #0c6343;
     border-bottom: 1px solid #016752;
 
     &__name {
