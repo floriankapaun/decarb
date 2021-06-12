@@ -1,4 +1,5 @@
 import { en as about } from './pages/about'
+import { en as badge } from './pages/dashboard/badge'
 import { en as dashboardIndex } from './pages/dashboard/index'
 import { en as dataPrivacy } from './pages/legal/dataPrivacy'
 import { en as firstEstimation } from './pages/dashboard/firstEstimation'
@@ -23,6 +24,7 @@ export default {
     index,
     about,
     dashboard: {
+        badge,
         index: dashboardIndex,
         firstEstimation,
         knownPages,

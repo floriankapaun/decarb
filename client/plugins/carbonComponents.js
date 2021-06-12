@@ -21,6 +21,8 @@ Vue.use(CarbonComponentsVue, [
     'CvNumberInput',
     'CvRadioButton',
     'CvRadioGroup',
+    'CvSelect',
+    'CvSelectOption',
     'CvSkipToContent',
     'CvSideNav',
     'CvSideNavItems',

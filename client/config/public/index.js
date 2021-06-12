@@ -1,7 +1,10 @@
 import * as enums from './enums.js'
 import * as inputs from './inputs.js'
 
-export const API_ENTRYPOINT = process.env.API_ENTRYPOINT || 'xyz'
+export const API_ENTRYPOINT =
+    process.env.API_ENTRYPOINT || 'http://localhost:4000/api/v1'
+export const CLIENT_ENTRYPOINT =
+    process.env.CLIENT_ENTRYPOINT || 'http://localhost:3000'
 export const ENUMS = enums
 export const INPUT = inputs
 export const PROJECT_NAME = 'Eco Web'
