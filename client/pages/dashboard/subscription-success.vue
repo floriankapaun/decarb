@@ -7,18 +7,18 @@
             <p class="mb-06">
                 From now on you can proudly display the
                 <CvLink :to="localeRoute('dashboard-badge')" size="lg"
-                    >Eco Web Badge</CvLink
+                    >{{ $config.PROJECT_NAME }} Badge</CvLink
                 >
                 on {{ getUrl ? getUrl : 'your website' }}.
             </p>
             <!-- <p class="mb-06">
-                Visit and share your public Eco-Web profile where everyone can
+                Visit and share your public {{ $config.PROJECT_NAME }} profile where everyone can
                 see your personal achievements: Public profile
             </p> -->
             <!-- <p class="mb-06">
                 If you need some inspiration on how other participants are
                 putting their eco-friendliness to work for them, check out Adams
-                Blogpost about his Eco-Web membership or Staceys Newsletter
+                Blogpost about his {{ $config.PROJECT_NAME }} membership or Staceys Newsletter
                 Campagin about her new green website.
             </p> -->
             <p>

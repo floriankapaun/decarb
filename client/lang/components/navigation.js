@@ -1,3 +1,5 @@
+import { PROJECT_NAME } from '~/config/public'
+
 export const en = {
     dashboardActions: {
         ariaLabelHomeAction: 'Go to Homepage',
@@ -19,7 +21,7 @@ export const en = {
         accountSettings: 'Account Settings',
     },
     public: {
-        ariaLabel: 'Eco Web navigation',
+        ariaLabel: `${PROJECT_NAME} navigation`,
         about: 'About',
     },
     publicActions: {

@@ -1,12 +1,14 @@
+import { PROJECT_NAME } from '~/config/public'
+
 export const en = {
     minimal: {
-        copyright: '© {year} Eco Web',
+        copyright: `© {year} ${PROJECT_NAME}`,
         imprint: 'Imprint',
         dataPrivacy: 'Data Privacy',
         cookieSettings: 'Cookie Settings',
     },
     public: {
-        copyright: '© {year} Eco Web',
+        copyright: `© {year} ${PROJECT_NAME}`,
         imprint: 'Imprint',
         dataPrivacy: 'Data Privacy',
         termsAndConditions: 'Terms and Conditions',

@@ -1,5 +1,5 @@
 {
-  "name": "eco-web-api",
+  "name": "decarb-api",
   "version": "1.0.0",
   "author": "Florian Kapaun <hello@florian-kapaun.de>",
   "main": "src/index.js",

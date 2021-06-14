@@ -3,7 +3,7 @@ import AppError from '../utils/AppError';
 
 export default async (req, res, next) => {
     try {
-        const userId = req.authData['x-eco-web-user-id'];
+        const userId = req.authData['x-decarb-user-id'];
         const parameters = { id: userId };
         const options = { include: { domains: true } };
         const user = await PrismaService.findUnique('user', parameters, options);

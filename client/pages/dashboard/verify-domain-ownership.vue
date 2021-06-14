@@ -5,7 +5,7 @@
         >
             <h1>{{ $t('p.dashboard.verifyDomainOwnership.h1') }}</h1>
             <p>
-                Copy the eco web tag and paste it into the
+                Copy the {{ $config.PROJECT_NAME }} tag and paste it into the
                 <code>&lt;head&gt;</code> section of the HTML code. If you are
                 using a website builder like Wordpress or Shopify, copy the tag
                 and paste it into the appropriate custom HTML code field.

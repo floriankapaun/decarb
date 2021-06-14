@@ -1,4 +1,4 @@
-# Eco-Web
+# Decarb
 
 My bachelors thesis project
 

@@ -4,7 +4,7 @@ import * as privateConfig from './config/private'
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
-        title: 'eco-web-client',
+        title: `${publicConfig.PROJECT_NAME} | Decarbonized Websites`,
         meta: [
             { charset: 'utf-8' },
             {

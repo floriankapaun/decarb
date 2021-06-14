@@ -10,9 +10,9 @@ class AuthService {
     createJwtToken(user, expiresIn) {
         // TODO: Add role stuff...
         const payload = {
-            'x-eco-web-user-id': user.id,
-            'x-eco-web-user-email': user.email,
-            'x-eco-web-allowed-role': user.role, 
+            'x-decarb-user-id': user.id,
+            'x-decarb-user-email': user.email,
+            'x-decarb-allowed-role': user.role, 
         };
         const options = { expiresIn: `${expiresIn}m` };
         return jwt.sign(payload, JWT_SECRET_KEY, options);

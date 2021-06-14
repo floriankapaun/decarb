@@ -14,9 +14,10 @@
             <p class="mb-06">
                 Enter a valid URL or IP address. You can add more sites later.
             </p>
+            <!-- TODO: REFACTOR STRING LITERALS TO LANG SPECIFIC MODULE -->
             <Form
                 :button-label="
-                    getIsLoading ? 'Loading...' : 'Start using Eco Web'
+                    getIsLoading ? 'Loading...' : 'Start using DECARB'
                 "
                 :button-disbaled="getIsLoading"
                 :inputs="inputs"

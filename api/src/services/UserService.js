@@ -43,16 +43,16 @@ class UserService {
     }
 
     async sendVerificationMail(user) {
-        const mailSubject = 'Setup your Eco Web Account';
+        const mailSubject = 'Setup your Decarb Account';
         const mailBody = `
             <h1>Welcome!</h1>
-            <!-- Verify your new Eco Web Account -->
+            <!-- Verify your new Decarb Account -->
             <p>To get started, please enter this code to confirm it’s you.</p>
             <!-- Please enter the following code: -->
             <pre style="font-size: 2rem"><code>${user.verificationCode}</code></pre>
-            <p>The code expires in 24 hours. Didn’t try to sign up for Eco Web? You can safely ignore this email.</p>
-            <!-- Do not give this code to third parties, as it can be used to access your Eco Web account. -->
-            <p>Best Regards, <br>The Eco Web Team</p>
+            <p>The code expires in 24 hours. Didn’t try to sign up for Decarb? You can safely ignore this email.</p>
+            <!-- Do not give this code to third parties, as it can be used to access your Decarb account. -->
+            <p>Best Regards, <br>The Decarb Team</p>
             <!-- Thank you very much! -->
         `;
         // TODO: Handle not existing user.mail
