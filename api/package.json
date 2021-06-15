@@ -1,41 +1,41 @@
 {
-  "name": "decarb-api",
-  "version": "1.0.0",
-  "author": "Florian Kapaun <hello@florian-kapaun.de>",
-  "main": "src/index.js",
-  "license": "MIT",
-  "scripts": {
-    "dev": "nodemon -r esm src/index.js",
-    "prod": "node -r esm src/index.js",
-    "migrate": "yarn prisma migrate dev --schema src/prisma/schema.prisma --name",
-    "migrate_prod": "prisma migrate deploy --schema src/prisma/schema.prisma",
-    "generate": "yarn prisma generate --schema src/prisma/schema.prisma",
-    "seed": "yarn prisma db seed --schema src/prisma/schema.prisma --preview-feature",
-    "prisma_deploy": "yarn migrate_prod && yarn generate"
-  },
-  "dependencies": {
-    "@prisma/client": "^2.21.0",
-    "argon2": "^0.27.2",
-    "bree": "^6.2.0",
-    "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "esm": "^3.2.25",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "node": "^15.12.0",
-    "node-fetch": "^2.6.1",
-    "nodemailer": "^6.5.0",
-    "sitemapper": "^3.1.12",
-    "stripe": "^8.148.0",
-    "uuid": "^8.3.2"
-  },
-  "devDependencies": {
-    "faker": "^5.5.3",
-    "nodemon": "^2.0.7",
-    "prisma": "^2.21.0"
-  },
-  "engines": {
-    "node": "12.22.1"
-  }
+    "name": "decarb-api",
+    "version": "1.0.0",
+    "author": "Florian Kapaun <hello@florian-kapaun.de>",
+    "main": "src/index.js",
+    "license": "MIT",
+    "scripts": {
+        "dev": "nodemon -r esm src/index.js",
+        "prod": "node -r esm src/index.js",
+        "migrate": "yarn prisma migrate dev --schema src/prisma/schema.prisma --name",
+        "migrate_prod": "prisma migrate deploy --schema src/prisma/schema.prisma",
+        "generate": "yarn prisma generate --schema src/prisma/schema.prisma",
+        "seed": "yarn prisma db seed --schema src/prisma/schema.prisma --preview-feature",
+        "prisma_deploy": "yarn migrate_prod && yarn generate"
+    },
+    "dependencies": {
+        "@prisma/client": "^2.24.1",
+        "argon2": "^0.28.2",
+        "bree": "^6.2.0",
+        "cookie-parser": "^1.4.5",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "esm": "^3.2.25",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "node": "^16.3.0",
+        "node-fetch": "^2.6.1",
+        "nodemailer": "^6.6.1",
+        "sitemapper": "^3.1.12",
+        "stripe": "^8.154.0",
+        "uuid": "^8.3.2"
+    },
+    "devDependencies": {
+        "faker": "^5.5.3",
+        "nodemon": "^2.0.7",
+        "prisma": "^2.24.1"
+    },
+    "engines": {
+        "node": "16.3.0"
+    }
 }
