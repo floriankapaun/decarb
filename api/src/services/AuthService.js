@@ -47,6 +47,7 @@ class AuthService {
         // Create accessToken
         const { accessToken, accessTokenExpiry } = this.createAccessToken(user);
         // Create refreshToken and store in db
+        // TODO: Dont do this if already existing to enable double client sessions ???
         const { refreshToken, refreshTokenExpiry } = await this.createRefreshToken(user);
         // Return tokens
         return {
