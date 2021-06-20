@@ -34,17 +34,19 @@
                 </div>
             </div>
         </section>
-        <section class="bx--grid benefits">
-            <h2>{{ $t('p.index.benefits.h') }}</h2>
-            <p>{{ $t('p.index.benefits.p') }}</p>
-            <p>
-                <NuxtLink
-                    :to="localeRoute(registerDomainLink)"
-                    class="bx--btn bx--btn--primary"
-                >
-                    {{ $t('p.index.benefits.ctaButton') }}
-                </NuxtLink>
-            </p>
+        <section class="benefits">
+            <div class="bx--grid">
+                <h2>{{ $t('p.index.benefits.h') }}</h2>
+                <p>{{ $t('p.index.benefits.p') }}</p>
+                <p>
+                    <NuxtLink
+                        :to="localeRoute(registerDomainLink)"
+                        class="bx--btn bx--btn--primary"
+                    >
+                        {{ $t('p.index.benefits.ctaButton') }}
+                    </NuxtLink>
+                </p>
+            </div>
         </section>
         <section class="how-it-works">
             <div class="bx--grid">

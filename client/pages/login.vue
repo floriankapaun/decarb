@@ -2,7 +2,15 @@
     <div>
         <section class="bx--row">
             <div
-                class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 login__wrapper"
+                class="
+                    bx--col-sm-4
+                    bx--offset-md-2
+                    bx--col-md-4
+                    bx--col-lg-8
+                    bx--offset-xlg-6
+                    bx--col-xlg-4
+                    login__wrapper
+                "
             >
                 <h1 class="login__heading">{{ $t('p.login.h1') }}</h1>
                 <Form
@@ -16,7 +24,14 @@
         </section>
         <section class="bx--row">
             <div
-                class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4"
+                class="
+                    bx--col-sm-4
+                    bx--offset-md-2
+                    bx--col-md-4
+                    bx--col-lg-8
+                    bx--offset-xlg-6
+                    bx--col-xlg-4
+                "
             >
                 <i18n path="p.login.helperText" tag="p" class="helper-text">
                     <template #link>

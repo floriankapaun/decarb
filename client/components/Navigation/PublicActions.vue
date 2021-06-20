@@ -6,7 +6,7 @@
             </CvHeaderMenuItem>
             <CvHeaderMenuItem :to="localeRoute('register')">
                 <CvTag
-                    class="pointer"
+                    class="tag"
                     :label="$t('c.navigation.publicActions.register')"
                     kind="green"
                 ></CvTag>
@@ -68,7 +68,13 @@ export default {
 .action-header::before {
     content: unset;
 }
-.pointer {
+.tag {
+    font-size: 0.8rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0.375rem 0.75rem;
+    background-color: $paper;
+    color: $green;
     cursor: pointer;
 }
 </style>

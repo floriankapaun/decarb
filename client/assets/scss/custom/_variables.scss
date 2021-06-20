@@ -1,7 +1,16 @@
-$green: #0C6444;
-$lightGreen: #DEEEDE;
 $white: #fff;
 $black: #000;
+$green: #0C6444;
+$green-800: #084e34;
+$green-500: $green;
+$green-400: #387b63;
+$green-100: #e6efe6;
+$lightGreen: #DEEEDE;
+$lightGreen-600: #b4cfb4;
+$darkBlue: #323454;
+$orange: #FF330F;
+$turquoise: #8CD4B9;
+$lightGrey: #F5F4F4;
 
 $primary: $green;
 $paper: $white;
@@ -9,3 +18,5 @@ $ink: $black;
 
 $fontWeightNormal: 400;
 $fontWeightBold: 700;
+
+$borderRadiusSm: 0.45rem;

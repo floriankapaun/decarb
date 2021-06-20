@@ -13,18 +13,11 @@
 
 <style lang="scss" scoped>
 .bx--header {
-    background-color: #0c6343;
-    border-bottom: 1px solid #016752;
-
-    &__name {
-        svg {
-            fill: white;
-            max-height: $spacing-07;
-        }
-    }
+    background-color: $green;
+    border-bottom: 1px solid $green;
 }
 
 .bx--header__nav::before {
-    background-color: #016752;
+    background-color: $green-400;
 }
 </style>

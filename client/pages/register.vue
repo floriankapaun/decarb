@@ -2,7 +2,16 @@
     <div>
         <section class="bx--row">
             <div
-                class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07 register__wrapper"
+                class="
+                    bx--col-sm-4
+                    bx--offset-md-2
+                    bx--col-md-4
+                    bx--col-lg-8
+                    bx--offset-xlg-5
+                    bx--col-xlg-6
+                    mb-07
+                    register__wrapper
+                "
             >
                 <h1>{{ $t('p.register.h1') }}</h1>
                 <Form
@@ -15,7 +24,14 @@
         </section>
         <section class="bx--row">
             <div
-                class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4"
+                class="
+                    bx--col-sm-4
+                    bx--offset-md-2
+                    bx--col-md-4
+                    bx--col-lg-8
+                    bx--offset-xlg-6
+                    bx--col-xlg-4
+                "
             >
                 <i18n
                     path="p.register.helperText"
