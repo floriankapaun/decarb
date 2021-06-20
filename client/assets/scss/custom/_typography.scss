@@ -2,31 +2,31 @@
  * Minor adaptions to @carbon/type styles
  */
 $decarb-display-04: (
-  font-size: carbon--type-scale(9),
-  font-weight: $fontWeightBold,
-  line-height: 1.07,
-  letter-spacing: 0,
-  breakpoints: (
-    md: (
-      font-size: carbon--type-scale(11),
-      line-height: 1.07,
+    font-size: carbon--type-scale(9),
+    font-weight: $fontWeightBold,
+    line-height: 1.07,
+    letter-spacing: 0,
+    breakpoints: (
+        md: (
+            font-size: carbon--type-scale(11),
+            line-height: 1.07,
+        ),
+        lg: (
+            font-size: carbon--type-scale(14),
+            line-height: 1.11,
+            letter-spacing: -0.64px,
+        ),
+        xlg: (
+            font-size: carbon--type-scale(17),
+            line-height: 1.07,
+            letter-spacing: -0.64px,
+        ),
+        max: (
+            font-size: carbon--type-scale(20),
+            line-height: 1.05,
+            letter-spacing: -0.96px,
+        ),
     ),
-    lg: (
-      font-size: carbon--type-scale(14),
-      line-height: 1.11,
-      letter-spacing: -0.64px,
-    ),
-    xlg: (
-      font-size: carbon--type-scale(17),
-      line-height: 1.07,
-      letter-spacing: -0.64px,
-    ),
-    max: (
-      font-size: carbon--type-scale(20),
-      line-height: 1.05,
-      letter-spacing: -0.96px,
-    ),
-  ),
 ) !default;
 
 $decarbTypeStyles: (
