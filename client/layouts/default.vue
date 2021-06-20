@@ -18,7 +18,9 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/index';
+</style>
 
+<style lang="scss" scoped>
 .bx--content {
     background-color: $ui-02;
     padding: 0;

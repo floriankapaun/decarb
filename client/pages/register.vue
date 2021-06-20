@@ -7,8 +7,8 @@
                     bx--offset-md-2
                     bx--col-md-4
                     bx--col-lg-8
-                    bx--offset-xlg-5
-                    bx--col-xlg-6
+                    bx--offset-xlg-6
+                    bx--col-xlg-4
                     mb-07
                     register__wrapper
                 "

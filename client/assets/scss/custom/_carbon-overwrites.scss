@@ -11,6 +11,16 @@ body,
     font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 }
 
+// Header
+.bx--skip-to-content {
+    border-radius: $borderRadiusSm;
+
+    &:focus {
+        background-color: $green;
+        border-color: $paper;
+    }
+}
+
 a.bx--header__name {
     border-radius: $borderRadiusSm;
 }
@@ -25,6 +35,19 @@ a.bx--header__menu-item{
     }
 }
 
+// CvButton Component
 .bx--btn {
     border-radius: $borderRadiusSm;
+}
+
+// CvTextInput Component
+.bx--text-input {
+    border-radius: $borderRadiusSm;
+
+    &:focus,
+    &:active {
+        outline: none;
+        box-shadow: 0 0 0 2px $green;
+        border-bottom: 1px solid $ui-01;
+    }
 }
