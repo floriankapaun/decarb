@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <section class="bx--row">
         <h1>{{ $t('p.index.h1') }}</h1>
-        <p class="mb-06">{{ $t('p.index.p1') }}</p>
+        <p class="sub mb-06">{{ $t('p.index.p1') }}</p>
         <p>
             <NuxtLink
                 :to="localeRoute(registerDomainLink)"
@@ -10,7 +10,7 @@
                 {{ $t('p.index.ctaButton') }}
             </NuxtLink>
         </p>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -38,5 +38,9 @@ export default {
 <style lang="scss" scoped>
 h1 {
     @include decarb--type-style('display-04');
+}
+
+.sub {
+    // @include decarb--type-style('expressive-paragraph-01');
 }
 </style>

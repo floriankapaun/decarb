@@ -1,7 +1,7 @@
 <template>
     <div>
         <HeaderPublic />
-        <CvContent id="#main-content">
+        <CvContent id="#main-content" class="bx--grid">
             <Nuxt keep-alive />
             <FooterPublic />
         </CvContent>
@@ -18,4 +18,8 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/index';
+
+.bx--content {
+    background-color: $ui-02;
+}
 </style>
