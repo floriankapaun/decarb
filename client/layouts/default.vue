@@ -1,7 +1,7 @@
 <template>
     <div>
         <HeaderPublic />
-        <CvContent id="#main-content" class="bx--grid">
+        <CvContent id="#main-content">
             <Nuxt keep-alive />
             <FooterPublic />
         </CvContent>
@@ -21,5 +21,6 @@ export default {
 
 .bx--content {
     background-color: $ui-02;
+    padding: 0;
 }
 </style>

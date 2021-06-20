@@ -14,6 +14,10 @@ body,
     font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 }
 
+h1, h2, h3 {
+    font-weight: $fontWeightBold;
+}
+
 h1 {
     margin-bottom: $spacing-06;
     @include carbon--type-style('expressive-heading-06');
