@@ -1,8 +1,19 @@
+@import './font-faces';
+
 /**
  * Global Carbon Style Overwrite
  */
 
- h1 {
+// IBM Plex Font Overwrite
+// NOTE: As of now Carbon Design System does not provide a way to do this "cleaner"
+body,
+.bx--btn--copy__feedback,
+.bx--snippet .bx--copy-btn,
+.bx--snippet-btn--expand {
+    font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+}
+
+h1 {
     margin-bottom: $spacing-06;
     @include carbon--type-style('expressive-heading-06');
 }
