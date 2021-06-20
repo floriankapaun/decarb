@@ -1,0 +1,8 @@
+// Make Carbon Design Variables accessible in every Vue Component
+@import '~/node_modules/carbon-components/scss/globals/scss/_vars.scss';
+// TODO: Remove Carbon Design Typography from project
+@import '~/node_modules/carbon-components/scss/globals/scss/_typography.scss';
+
+@import './custom/variables';
+@import './custom/typography';
+@import './custom/mixins';

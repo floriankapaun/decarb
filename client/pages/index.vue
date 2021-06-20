@@ -34,3 +34,9 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+h1 {
+    @include decarb--type-style('display-04');
+}
+</style>

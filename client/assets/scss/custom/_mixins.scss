@@ -1,0 +1,28 @@
+/**
+ * Adapted from @carbon/type to my own needs
+ */
+
+/// Helper mixin to include the styles for a given token in any selector in your
+/// project. Also includes an optional fluid option that will enable fluid
+/// styles for the token if they are defined. Fluid styles will cause the
+/// token's font-size to be computed based on the viewport size. As a result, use
+/// with caution in fixed contexts.
+/// @param {String} $name - The name of the token to get the styles for
+/// @param {Boolean} $fluid [false] - Specify whether to include fluid styles for the
+/// @param {Map} $breakpoints [$carbon--grid-breakpoints] - Provide a custom breakpoint map to use
+/// @access public
+/// @group @carbon/type
+@mixin decarb--type-style(
+    $name,
+    $fluid: false,
+    $breakpoints: $carbon--grid-breakpoints
+) {
+    @if not map-has-key($decarbTypeStyles, $name) {
+        @error 'Unable to find a typeStyle with the name: `#{$name}`';
+    }
+
+    $token: map-get($decarbTypeStyles, $name);
+
+    // Delegate to the fluid-type helper for the given token
+    @include fluid-type($token, $breakpoints);
+}

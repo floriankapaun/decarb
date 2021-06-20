@@ -68,11 +68,7 @@ export default {
 
     // Global accessible Style Ressources – enabled by module @nuxtjs/style-resources
     styleResources: {
-        // Make Carbon Design Variables accessible in every Vue Component
-        scss: [
-            './node_modules/carbon-components/scss/globals/scss/_vars.scss',
-            './node_modules/carbon-components/scss/globals/scss/_typography.scss',
-        ],
+        scss: [ '~/assets/scss/global.scss' ],
     },
 
     // Multi-Language Settings
