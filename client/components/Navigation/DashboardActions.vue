@@ -5,6 +5,9 @@
             :aria-label="
                 $t('c.navigation.dashboardActions.ariaLabelHomeAction')
             "
+            :label="$t('c.navigation.dashboardActions.ariaLabelHomeAction')"
+            tip-position="bottom"
+            tip-alignment="end"
             @click="handleHomeAction"
         >
             <Home20 />
@@ -14,6 +17,9 @@
             :aria-label="
                 $t('c.navigation.dashboardActions.ariaLabelLogoutAction')
             "
+            :label="$t('c.navigation.dashboardActions.ariaLabelLogoutAction')"
+            tip-position="bottom"
+            tip-alignment="end"
             @click="handleLogoutAction"
         >
             <Logout20 />

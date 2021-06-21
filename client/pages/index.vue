@@ -7,7 +7,7 @@
                 <p>
                     <NuxtLink
                         :to="localeRoute(registerDomainLink)"
-                        class="bx--btn bx--btn--primary"
+                        class="bx--btn bx--btn--secondary"
                     >
                         {{ $t('p.index.hero.ctaButton') }}
                     </NuxtLink>
@@ -54,7 +54,7 @@
                 <p>
                     <NuxtLink
                         :to="localeRoute('about')"
-                        class="bx--btn bx--btn--primary"
+                        class="bx--btn bx--btn--secondary"
                     >
                         {{ $t('p.index.howItWorks.ctaButton') }}
                     </NuxtLink>
@@ -100,7 +100,8 @@ export default {
 <style lang="scss" scoped>
 .hero,
 .how-it-works {
-    background-color: $lightGreen;
+    background-color: $primary;
+    color: $white;
     padding: $spacing-09 0 $spacing-10;
     @include carbon--breakpoint(md) {
         padding: $spacing-11 0 $spacing-12;
@@ -139,7 +140,6 @@ export default {
 }
 
 .benefits {
-    background-color: $ui-01;
     p {
         max-width: 50ch;
     }

@@ -18,6 +18,6 @@
 }
 
 .bx--header__nav::before {
-    background-color: $green-400;
+    background-color: $green-500;
 }
 </style>

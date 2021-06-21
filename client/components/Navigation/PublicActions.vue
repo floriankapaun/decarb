@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="public-actions">
         <CvHeaderNav v-if="!getIsLoggedIn" class="action-header">
             <CvHeaderMenuItem :to="localeRoute('login')">
                 {{ $t('c.navigation.publicActions.login') }}
@@ -18,6 +18,9 @@
             :aria-label="
                 $t('c.navigation.publicActions.ariaLabelDashboardAction')
             "
+            :label="$t('c.navigation.publicActions.ariaLabelDashboardAction')"
+            tip-position="bottom"
+            tip-alignment="end"
             @click="handleDashboardAction"
         >
             <DashboardReference20 />
@@ -25,6 +28,9 @@
         <CvHeaderGlobalAction
             v-if="getIsLoggedIn"
             :aria-label="$t('c.navigation.publicActions.ariaLabelLogoutAction')"
+            :label="$t('c.navigation.publicActions.ariaLabelLogoutAction')"
+            tip-position="bottom"
+            tip-alignment="end"
             @click="handleLogoutAction"
         >
             <Logout20 />

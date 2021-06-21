@@ -30,14 +30,68 @@ a.bx--header__menu-item{
     border-radius: $borderRadiusSm;
 
     &:hover {
-        background-color: $green-800;
+        background-color: $green-700;
         color: $paper;
+    }
+}
+
+.bx--header__action:hover {
+    background-color: $green-700;
+}
+
+.bx--tooltip__trigger.bx--header__action:hover .bx--assistive-text {
+    overflow: auto;
+    clip: auto;
+    margin: 0;
+}
+
+.bx--tooltip__trigger.bx--tooltip--bottom.bx--tooltip--align-end {
+    .bx--assistive-text {
+        overflow: hidden;
+        margin: -1px;
+        clip: rect(0, 0, 0, 0);
+    }
+
+    .bx--assistive-text,
+    &::after {
+        bottom: -.8125rem;
+        right: 0;
+        left: auto;
+        transform: translateY(100%);
+    }
+
+    &::before {
+        bottom: -.5rem;
+        border-color: transparent transparent $green-700;
+        border-bottom-color: $green-700;
+        border-right-color: transparent;
+        border-top-color: transparent;
+        border-width: 0 .25rem .3125rem;
+        transform: translate(-50%,100%);
     }
 }
 
 // CvButton Component
 .bx--btn {
     border-radius: $borderRadiusSm;
+
+    &--secondary {
+        color: $ink;
+
+        &:hover,
+        &:focus {
+            color: $ink;
+        }
+
+        &:focus {
+            border-color: $paper;
+            box-shadow: inset 0 0 0 2px $green, inset 0 0 0 3px $paper;
+        }
+
+        &:focus:active {
+            box-shadow: inset 0 0 0 2px $green, inset 0 0 0 3px $gray-300;
+        }
+    }
 }
 
 // CvTextInput Component
