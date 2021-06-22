@@ -114,7 +114,7 @@ model Badge {
   domain      Domain           @relation(fields: [domainId], references: [id])
   domainId    String           @map("domain_id") @db.Uuid
   colorscheme BadgeColorscheme @default(COLOR)
-  type        BadgeType        @default(HORIZONTAL)
+  type        BadgeType        @default(DEFAULT)
 
   @@map("badges")
 }
@@ -168,8 +168,7 @@ enum OffsetType {
 }
 
 enum BadgeType {
-  HORIZONTAL
-  VERTICAL
+  DEFAULT
 }
 
 enum BadgeColorscheme {

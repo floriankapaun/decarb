@@ -52,7 +52,7 @@ class BadgeService {
         // Validate inputs
         const validType = this.validateType(type).toLowerCase();
         const validColorscheme = this.validateColorscheme(colorscheme).toLowerCase();
-        // TODO: Implement domain specific badges
+        // TODO: Implement dynamic badges with domain specific information
         // const validDomainId = ...
 
         // Return absolute file path

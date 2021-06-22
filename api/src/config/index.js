@@ -13,7 +13,7 @@ export const ECOLOGI_API_ENTRYPOINT = process.env.ECOLOGI_API_ENTRYPOINT;
 export const ECOLOGI_API_KEY = process.env.ECOLOGI_API_KEY;
 export const ECOLOGI_DEFAULT_UNIT = 'KG';
 export const ENUMS = {
-    badgeType: ['HORIZONTAL', 'VERTICAL'],
+    badgeType: ['DEFAULT'],
     badgeColorscheme: ['COLOR', 'COLOR_INVERTED', 'SW', 'SW_INVERTED'],
     currency: ['EUR', 'USD', 'GBP', 'AUD', 'CAD'],
     offsetType: ['CARBON_OFFSET'],

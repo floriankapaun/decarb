@@ -5,19 +5,6 @@
             <p>{{ $t('p.dashboard.badge.p') }}</p>
 
             <CvSelect
-                v-model="selectedBadgeType"
-                :label="$t('p.dashboard.badge.colorschemeLabel')"
-            >
-                <CvSelectOption
-                    v-for="type in $config.ENUMS.badgeType"
-                    :key="type"
-                    :value="type"
-                >
-                    {{ $t(`m.enums.badgeType.${type}`) }}
-                </CvSelectOption>
-            </CvSelect>
-
-            <CvSelect
                 v-model="selectedBadgeColorscheme"
                 :label="$t('p.dashboard.badge.colorschemeLabel')"
             >
