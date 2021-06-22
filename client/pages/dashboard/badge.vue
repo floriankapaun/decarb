@@ -1,32 +1,51 @@
 <template>
-    <section class="bx--row">
-        <div class="bx--col-md-4 bx--col-lg-8 bx--col-max-6 mb-07">
-            <h1>{{ $t('p.dashboard.badge.h1') }}</h1>
-            <p>{{ $t('p.dashboard.badge.p') }}</p>
-
-            <CvSelect
-                v-model="selectedBadgeColorscheme"
-                :label="$t('p.dashboard.badge.colorschemeLabel')"
-            >
-                <CvSelectOption
-                    v-for="colorscheme in $config.ENUMS.badgeColorscheme"
-                    :key="colorscheme"
-                    :value="colorscheme"
-                >
-                    {{ $t(`m.enums.badgeColorscheme.${colorscheme}`) }}
-                </CvSelectOption>
-            </CvSelect>
+    <section>
+        <div class="bx--row">
+            <div class="bx--col-sm-4 p-mb">
+                <h1>{{ $t('p.dashboard.badge.h1') }}</h1>
+                <p>{{ $t('p.dashboard.badge.p') }}</p>
+            </div>
         </div>
-        <div class="bx--col-lg-16 mb-07" v-html="codeSnippet"></div>
-        <div class="bx--col-lg-16 mb-07">
-            <CvCodeSnippet
-                kind="multiline"
-                :copy-feedback="$t('p.dashboard.badge.code.copyFeedback')"
-                :less-text="$t('p.dashboard.badge.code.showLess')"
-                :more-text="$t('p.dashboard.badge.code.showMore')"
-                :wrap-text="true"
-                >{{ codeSnippet }}</CvCodeSnippet
+        <div class="bx--row">
+            <div
+                class="bx--col-sm-4 bx--col-md-4 bx--col-lg-6 bx--col-xlg-4 mb"
             >
+                <CvSelect
+                    v-model="selectedBadgeColorscheme"
+                    :label="$t('p.dashboard.badge.colorschemeLabel')"
+                    class="select"
+                >
+                    <CvSelectOption
+                        v-for="colorscheme in $config.ENUMS.badgeColorscheme"
+                        :key="colorscheme"
+                        :value="colorscheme"
+                    >
+                        {{ $t(`m.enums.badgeColorscheme.${colorscheme}`) }}
+                    </CvSelectOption>
+                </CvSelect>
+            </div>
+        </div>
+
+        <div class="bx--row">
+            <div
+                class="bx--col-sm-4 bx--col-md-6 bx--col-lg-12 bx--col-xlg-8 mb"
+            >
+                <CvTile kind="standard" :light="false" class="badge-wrapper">
+                    <div v-html="codeSnippet"></div>
+                </CvTile>
+            </div>
+        </div>
+        <div class="bx--row">
+            <div class="bx--col-sm-4 bx--col-md-6 bx--col-lg-12 bx--col-xlg-8">
+                <CvCodeSnippet
+                    kind="multiline"
+                    :copy-feedback="$t('p.dashboard.badge.code.copyFeedback')"
+                    :less-text="$t('p.dashboard.badge.code.showLess')"
+                    :more-text="$t('p.dashboard.badge.code.showMore')"
+                    :wrap-text="true"
+                    >{{ codeSnippet }}</CvCodeSnippet
+                >
+            </div>
         </div>
     </section>
 </template>
@@ -81,11 +100,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mb-05 {
-    margin-bottom: $spacing-05;
+.p-mb {
+    margin-bottom: $spacing-06;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-09;
+    }
 }
 
-.mb-07 {
+.mb {
     margin-bottom: $spacing-07;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-10;
+    }
+}
+
+.badge-wrapper {
+    text-align: center;
+    padding-top: $spacing-07;
+    padding-bottom: $spacing-07;
+    @include carbon--breakpoint(md) {
+        padding-top: $spacing-09;
+        padding-bottom: $spacing-09;
+    }
 }
 </style>

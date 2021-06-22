@@ -32,5 +32,6 @@ Vue.use(CarbonComponentsVue, [
     'CvSkeletonText',
     'CvTag',
     'CvTextInput',
+    'CvTile',
     'CvToastNotification',
 ])

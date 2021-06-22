@@ -105,3 +105,46 @@ a.bx--header__menu-item{
         border-bottom: 1px solid $ui-01;
     }
 }
+
+// CvSelect Component
+.bx--select-input {
+    border-radius: $borderRadiusSm;
+
+    &:focus,
+    &:active {
+        outline: none;
+        box-shadow: 0 0 0 2px $green;
+        border-bottom: 1px solid $ui-01;
+    }
+}
+
+// CvTile Component
+.bx--tile {
+    border-radius: $borderRadiusSm;
+}
+
+// CvCodeSnippet Component
+.bx--snippet {
+    border-radius: $borderRadiusSm;
+
+    /* stylelint-disable no-descending-specificity */
+    .bx--copy-btn {
+        z-index: 15;
+        .bx--assistive-text {
+            position: absolute;
+            overflow: hidden;
+            white-space: nowrap;
+            visibility: inherit;
+        }
+    }
+    /* stylelint-enable no-descending-specificity */
+
+    .bx--copy-btn,
+    &--multi .bx--snippet-btn--expand {
+        border-radius: $borderRadiusXs;
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px $green;
+        }
+    }
+}

@@ -7,6 +7,11 @@ h1 {
     @include carbon--type-style('expressive-heading-06');
 }
 
+p {
+    // @include carbon--type-style('body-long-02'); // Applied by default
+    max-width: 45ch;
+}
+
 .helper-text {
     @include carbon--type-style('helper-text-01');
 }
