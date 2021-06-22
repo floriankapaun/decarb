@@ -6,6 +6,7 @@ import { en as firstEstimation } from './pages/dashboard/firstEstimation'
 import { en as imprint } from './pages/legal/imprint'
 import { en as index } from './pages/index'
 import { en as login } from './pages/login'
+import { en as member } from './pages/member'
 import { en as members } from './pages/members'
 import { en as knownPages } from './pages/dashboard/knownPages'
 import { en as pageviewEstimation } from './pages/dashboard/pageviewEstimation'
@@ -40,6 +41,7 @@ export default {
     },
     legal: { dataPrivacy, imprint, termsAndConditions },
     login,
+    member,
     members,
     register,
     users: { id: { setPassword, verifyEmail } },

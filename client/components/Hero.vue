@@ -1,9 +1,11 @@
 <template>
-    <section class="wrapper">
+    <section class="hero--wrapper" :class="[`hero--wrapper--${type}`]">
         <div class="bx--grid">
-            <Component :is="`h${level}`" class="title">{{ title }}</Component>
-            <p class="subtitle">{{ subtitle }}</p>
-            <p v-if="button && to" class="button">
+            <Component :is="`h${level}`" class="hero--title">{{
+                title
+            }}</Component>
+            <p v-if="subtitle" class="hero--subtitle">{{ subtitle }}</p>
+            <p v-if="button && to" class="hero--button--wrapper">
                 <NuxtLink
                     :to="localeRoute(to)"
                     class="bx--btn bx--btn--secondary"
@@ -38,32 +40,61 @@ export default {
             type: String,
             default: undefined,
         },
+        type: {
+            type: String,
+            default: 'primary',
+            validator: (val) => {
+                const options = ['primary', 'secondary', 'tertiary']
+                const result = options.includes(val)
+                if (!result) {
+                    console.warn(
+                        `Invalid option supplied to "Hero.type": "${val}".`
+                    )
+                }
+                return result
+            },
+        },
     },
 }
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-    padding: $spacing-09 0 $spacing-10;
-    background-color: $primary;
-    color: $white;
+.hero {
+    &--wrapper {
+        padding: $spacing-09 0 $spacing-10;
 
-    @include carbon--breakpoint(md) {
-        padding: $spacing-11 0 $spacing-12;
+        &--primary {
+            background-color: $primary;
+            color: $paper;
+        }
+
+        &--secondary {
+            background-color: $secondary;
+            color: $paper;
+        }
+
+        &--tertiary {
+            background-color: $paper;
+            color: $ink;
+        }
+
+        @include carbon--breakpoint(md) {
+            padding: $spacing-11 0 $spacing-12;
+        }
     }
-}
 
-.title {
-    margin-bottom: 0;
-    @include decarb--type-style('display-04');
-}
+    &--title {
+        margin-bottom: 0;
+        @include decarb--type-style('display-04');
+    }
 
-.subtitle {
-    margin-top: $spacing-06;
-    @include decarb--type-style('expressive-heading-03');
-}
+    &--subtitle {
+        margin-top: $spacing-06;
+        @include decarb--type-style('expressive-heading-03');
+    }
 
-.button {
-    margin-top: $spacing-07;
+    &--button--wrapper {
+        margin-top: $spacing-07;
+    }
 }
 </style>
