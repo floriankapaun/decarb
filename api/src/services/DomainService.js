@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 import PrismaService from './PrismaService.js';
 import EventEmitter from '../utils/eventEmitter.js';
-import { PING_SCRIPT_URL, ENUMS, EVENTS } from '../config/index.js';
+import { PING_SCRIPT_URL, ENUMS, EVENTS, CLIENT_ENTRYPOINT } from '../config/index.js';
 import { cleanUrl } from '../utils/url.js';
 import AppError from '../utils/AppError.js';
 
@@ -238,6 +238,9 @@ class DomainService {
     async getDomainProfile(url) {
         // Get Domain Data
         const domain = await PrismaService.findUnique('domain', { url });
+        if (!domain) {
+            throw new AppError(`There is no Domain with URL "${url}". Register at ${CLIENT_ENTRYPOINT}/register`, 404);
+        }
         // Get aggregated Offset amount for Domain
         const aggregation = await PrismaService.aggregate('offset', {
             _sum: {

@@ -5,6 +5,7 @@
         - Add Comparisons for Offset Amount
         - Add Project Details
         - Add Achievements
+        OPTIMIZE: Display AppError on v-if !getDomainProfile insted of Re-Routing
     -->
     <div>
         <section class="wrapper">
