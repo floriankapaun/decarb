@@ -56,4 +56,17 @@ export default {
         }
         commit('setIsLoading', false)
     },
+    fetchDomainPublicProfile: async (context, domainUrl) => {
+        const { commit } = context
+        commit('setIsLoading', true)
+        const data = await saveFetch(
+            context,
+            'GET',
+            `/domains/${domainUrl}/profile`
+        )
+        if (data && data.data) {
+            commit('setDomainPublicProfile', data.data)
+        }
+        commit('setIsLoading', false)
+    },
 }

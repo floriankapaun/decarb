@@ -1,18 +1,30 @@
 <template>
+    <!--
+        TODO:
+        - Add Certificate Download
+        - Add Comparisons for Offset Amount
+        - Add Project Details
+        - Add Achievements
+    -->
     <div>
         <section class="wrapper">
             <div class="bx--grid">
                 <h1 class="title">{{ $t('p.member.hero.h') }}</h1>
                 <div class="subtitle-wrapper">
-                    <p class="subtitle">florian-kapaun.de</p>
-                    <p class="subtitle">Firma GmbH</p>
+                    <p class="subtitle">{{ getDomainProfile.url }}</p>
+                    <p class="subtitle">{{ getDomainProfile.companyName }}</p>
                 </div>
             </div>
         </section>
 
         <Hero :title="getTitle" level="2" type="tertiary" />
 
-        <Hero :title="getAmount" level="2" type="secondary" />
+        <Hero
+            v-if="getDomainProfile.offsetKilograms"
+            :title="getAmount"
+            level="2"
+            type="secondary"
+        />
 
         <section class="bx--grid explanation">
             <div class="bx--row">
@@ -30,16 +42,12 @@
             :button="$t('p.member.cta.button')"
             to="register"
         />
-        <!--
-        TODO:
-        - Add Certificate Download
-        - Add Comparisons for Offset Amount
-        - Add Project Details
-        - Add Achievements
-    --></div>
+    </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
     name: 'MemberPage',
     layout: 'default',
@@ -48,13 +56,36 @@ export default {
             en: '/members/:url',
         },
     },
+    async fetch({ redirect, route, store }) {
+        if (!route?.params?.url) redirect('/members')
+        if (
+            store.getters['domains/getDomainPublicProfile']?.url ===
+            route.params.url
+        )
+            return
+        // Get the public profile
+        await store.dispatch(
+            'domains/fetchDomainPublicProfile',
+            route.params.url
+        )
+        // If it couldn't be fetched, redirect to members overview
+        if (!store.getters['domains/getDomainPublicProfile'])
+            redirect('/members')
+    },
     computed: {
+        ...mapGetters({
+            getDomainProfile: 'domains/getDomainPublicProfile',
+        }),
         getTitle() {
-            const date = '19.10.2019' // this.$d(this.domain.createdAt, 'short')
+            const date = this.$d(
+                new Date(this.getDomainProfile.createdAt),
+                'short'
+            )
             return this.$t('p.member.since', { date })
         },
         getAmount() {
-            const amount = 1900
+            // TODO: Improve formatting
+            const amount = this.getDomainProfile.offsetKilograms ?? 0
             const unit = 'KG'
             return this.$t('p.member.amount', { amount, unit })
         },

@@ -66,7 +66,7 @@ export default (app) => {
     );
 
     // Get a domain profile by url
-    router.get('/profile/:url', asyncHandler(async (req, res) => {
+    router.get('/:url/profile', asyncHandler(async (req, res) => {
         const { url } = req.params;
         const domainProfile = await DomainService.getDomainProfile(url);
         return sendResponse(res, domainProfile);

@@ -12,4 +12,7 @@ export default {
         return state.selectedDomain
     },
     setDomainPages: (state, domainPages) => (state.domainPages = domainPages),
+    setDomainPublicProfile: (state, domainPublicProfile) => {
+        return (state.domainPublicProfile = domainPublicProfile)
+    },
 }
