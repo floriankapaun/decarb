@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 import PrismaService from './PrismaService.js';
 import EventEmitter from '../utils/eventEmitter.js';
-import { ENUMS, EVENTS } from '../config/index.js';
+import { CLIENT_SCRIPT_URL, ENUMS, EVENTS } from '../config/index.js';
 import { cleanUrl } from '../utils/url.js';
 import AppError from '../utils/AppError.js';
 
@@ -50,6 +50,16 @@ class DomainService {
         }
         const newDomain = await PrismaService.create('domain', domainData);
         return newDomain;
+    }
+
+    /**
+     * Get Domain by ID
+     * 
+     * @param {String} id - ID of Domain
+     * @returns {Promise} - Domain Object
+     */
+    getById(id) {
+        return PrismaService.findUnique('domain', { id });
     }
 
     async createDomainHostingEmission(domain) {
@@ -109,9 +119,41 @@ class DomainService {
         return result;
     }
 
+    /**
+     * Validate a Domains Tracking-Script implementation
+     * 
+     * NOTE: Current Implementation does not Support dynamic Script emebeddings like they could
+     * seldomly appear in SPAs
+     * 
+     * OPTIMIZE: i.e. check multiple random pages, see if pageviews are registered, ...
+     * 
+     * @param {Object} domain - Domain Object
+     * @returns {Boolean}
+     */
+    async validateImplementation(domain) {
+        const body = await fetch(`https://${domain.url}`)
+            .then((res) => {
+                if (res.ok) { // res.status >= 200 && res.status < 300
+                    return res.text();
+                }
+                throw new AppError(res.statusText);
+            })
+            .catch((err) => {
+                throw new AppError(err)
+            });
+        if (typeof body !== 'string') return false
+        return body.includes(CLIENT_SCRIPT_URL);
+    }
+
+    /**
+     * Verifies Domain Ownership
+     * 
+     * @param {String} domainId - Domain ID
+     * @returns {Object} - Verified Domain
+     */
     async verifyOwnership(domainId) {
-        // TODO: Implement Script implementation validation via Puppeteer
-        const validImplementation = true;
+        const domain = await this.getById(domainId);
+        const validImplementation = await this.validateImplementation(domain);
         if (!validImplementation) {
             throw new AppError('Invalid Script Implementation', 401);
         }
