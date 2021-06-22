@@ -10,6 +10,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+    name: 'DashboardTraffic',
     layout: 'dashboard',
     nuxtI18n: {
         paths: {

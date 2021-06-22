@@ -52,6 +52,7 @@
 
 <script>
 export default {
+    name: 'DashboardVerifyDomainOwnership',
     layout: 'minimal',
     nuxtI18n: {
         paths: {

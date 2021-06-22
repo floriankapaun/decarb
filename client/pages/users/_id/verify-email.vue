@@ -76,6 +76,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { verificationCode } from '@/config/public/inputs'
 
 export default {
+    name: 'UsersVerifyEmail',
     layout: 'minimal',
     nuxtI18n: {
         paths: {

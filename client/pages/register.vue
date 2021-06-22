@@ -55,6 +55,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { email } from '@/config/public/inputs'
 
 export default {
+    name: 'Register',
     layout: 'minimal',
     nuxtI18n: {
         paths: {

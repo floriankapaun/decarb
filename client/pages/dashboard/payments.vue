@@ -13,6 +13,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+    name: 'DashboardPayments',
     layout: 'dashboard',
     nuxtI18n: {
         paths: {

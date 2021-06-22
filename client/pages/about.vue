@@ -4,6 +4,7 @@
 
 <script>
 export default {
+    name: 'About',
     nuxtI18n: {
         paths: {
             en: '/about-us',

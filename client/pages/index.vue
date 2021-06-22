@@ -73,6 +73,7 @@ import Analytics32 from '@carbon/icons-vue/lib/analytics/32'
 import { mapGetters } from 'vuex'
 
 export default {
+    name: 'Index',
     components: {
         Report32,
         Carbon32,

@@ -24,6 +24,7 @@
 
 <script>
 export default {
+    name: 'DashboardTrackingCode',
     layout: 'dashboard',
     nuxtI18n: {
         paths: {

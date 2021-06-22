@@ -35,6 +35,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
+    name: 'DashboardBadge',
     layout: 'dashboard',
     nuxtI18n: {
         paths: {

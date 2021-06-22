@@ -52,6 +52,7 @@ import { email, password } from '@/config/public/inputs'
 import Form from '@/components/Form'
 
 export default {
+    name: 'Login',
     components: { Form },
     layout: 'minimal',
     nuxtI18n: {

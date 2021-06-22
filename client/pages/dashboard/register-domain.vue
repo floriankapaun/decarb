@@ -1,7 +1,16 @@
 <template>
     <section class="bx--row">
         <div
-            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-5 bx--col-xlg-6 mb-07 verification__wrapper"
+            class="
+                bx--col-sm-4
+                bx--offset-md-2
+                bx--col-md-4
+                bx--col-lg-8
+                bx--offset-xlg-5
+                bx--col-xlg-6
+                mb-07
+                verification__wrapper
+            "
         >
             <h1>
                 {{
@@ -33,6 +42,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { siteUrl, estimatedMonthlyPageViews } from '@/config/public/inputs'
 
 export default {
+    name: 'DashboardRegisterDomain',
     layout: 'minimal',
     nuxtI18n: {
         paths: {

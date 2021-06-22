@@ -25,6 +25,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+    name: 'Dashboard',
     layout: 'dashboard',
     nuxtI18n: {
         paths: {
