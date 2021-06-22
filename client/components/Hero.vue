@@ -3,8 +3,11 @@
         <div class="bx--grid">
             <Component :is="`h${level}`" class="title">{{ title }}</Component>
             <p class="subtitle">{{ subtitle }}</p>
-            <p v-if="button && to">
-                <NuxtLink :to="to" class="bx--btn bx--btn--secondary">
+            <p v-if="button && to" class="button">
+                <NuxtLink
+                    :to="localeRoute(to)"
+                    class="bx--btn bx--btn--secondary"
+                >
                     {{ button }}
                 </NuxtLink>
             </p>
@@ -16,8 +19,8 @@
 export default {
     props: {
         level: {
-            type: Number,
-            default: 2,
+            type: String,
+            default: '2',
         },
         title: {
             type: String,
@@ -51,12 +54,16 @@ export default {
 }
 
 .title {
-    margin-bottom: $spacing-06;
+    margin-bottom: 0;
     @include decarb--type-style('display-04');
 }
 
 .subtitle {
-    margin-bottom: $spacing-07;
+    margin-top: $spacing-06;
     @include decarb--type-style('expressive-heading-03');
+}
+
+.button {
+    margin-top: $spacing-07;
 }
 </style>

@@ -5,7 +5,7 @@
             :title="$t('p.index.hero.h')"
             :subtitle="$t('p.index.hero.p')"
             :button="$t('p.index.hero.ctaButton')"
-            :to="localeRoute(registerDomainLink)"
+            :to="registerDomainLink"
         />
         <section class="bx--grid how-to">
             <div class="bx--row">
@@ -45,7 +45,7 @@
             level="2"
             :title="$t('p.index.howItWorks.h')"
             :button="$t('p.index.howItWorks.ctaButton')"
-            :to="localeRoute('about')"
+            to="about"
         />
     </div>
 </template>
