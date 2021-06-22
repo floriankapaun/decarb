@@ -4,7 +4,7 @@ export const en = {
         p: 'Find out who has already decarbonized their website',
     },
     list: {
-        h: 'Members making Impact',
+        h: 'Our Members',
     },
     cta: {
         h: 'Join now and make a difference',

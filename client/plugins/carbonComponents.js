@@ -8,6 +8,8 @@ Vue.use(CarbonComponentsVue, [
     'CvCodeSnippetSkeleton',
     'CvContent',
     'CvDataTable',
+    'CvDataTableCell',
+    'CvDataTableRow',
     'CvDataTableSkeleton',
     'CvForm',
     'CvHeader',
