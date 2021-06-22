@@ -228,6 +228,33 @@ class DomainService {
         const domainEmissions = await PrismaService.queryRaw(query);
         return domainEmissions[0].domain_emissions;
     }
+
+    /**
+     * Get a Domains public profile Data by URL
+     * 
+     * @param {String} url - Domain URL
+     * @returns {Object} - Profile data
+     */
+    async getDomainProfile(url) {
+        // Get Domain Data
+        const domain = await PrismaService.findUnique('domain', { url });
+        // Get aggregated Offset amount for Domain
+        const aggregation = await PrismaService.aggregate('offset', {
+            _sum: {
+                offsetKilograms: true,
+            },
+            where: {
+                domainId: { equals: domain.id },
+            },
+        });
+        // Return profile data
+        return {
+            url: domain.url,
+            companyName: domain.companyName,
+            createdAt: domain.createdAt,
+            offsetKilograms: aggregation._sum.offsetKilograms,
+        };
+    }
 };
 
 export default new DomainService();

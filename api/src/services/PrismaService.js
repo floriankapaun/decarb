@@ -75,6 +75,22 @@ class PrismaService {
         return firstModel;
     }
 
+    /**
+     * Count records, aggregate number fields or select distinct field values.
+     * 
+     * API Reference: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference/#aggregate
+     * 
+     * @param {String} modelName - name of prisma model (lowercase, singular)
+     * @param {Object} parameters - query params
+     * @returns {Object} - query result
+     */
+    async aggregate(modelName, parameters) {
+        const aggregation = await prisma[modelName].aggregate({
+            ...parameters
+        });
+        return aggregation;
+    }
+
     async queryRaw(rawQuery) {
         return await prisma.$queryRaw(rawQuery);
     }
