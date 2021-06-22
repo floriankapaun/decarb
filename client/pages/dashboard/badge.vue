@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
     layout: 'dashboard',
     nuxtI18n: {
@@ -45,15 +47,33 @@ export default {
             selectedBadgeColorscheme: this.$config.ENUMS.badgeColorscheme[0],
         }
     },
+    async fetch({ store }) {
+        if (store.getters['domains/getSelectedDomain']) return
+        if (!store.getters['auth/getUser']) {
+            await store.dispatch('auth/fetchUser')
+        }
+        await store.dispatch(
+            'domains/fetchUserDomains',
+            store.getters['auth/getUser'].id
+        )
+    },
     computed: {
-        codeSnippet() {
+        ...mapGetters({
+            getSelectedDomain: 'domains/getSelectedDomain',
+        }),
+        publicMemberUrl() {
+            const domainUrl = this.getSelectedDomain?.url ?? ''
+            return `${this.$config.CLIENT_ENTRYPOINT}/members/${domainUrl}`
+        },
+        badgeSrc() {
             const domainId = '_'
             const type = this.selectedBadgeType
             const colorscheme = this.selectedBadgeColorscheme
-            // TODO: Refactor... API_ENTRYPOINT WON'T WORK IN PROD
-            const src = `${this.$config.API_ENTRYPOINT}/badges/${domainId}/${type}/${colorscheme}`
+            return `${this.$config.API_ENTRYPOINT}/badges/${domainId}/${type}/${colorscheme}`
+        },
+        codeSnippet() {
             const alt = this.$t('p.dashboard.badge.imgAlt')
-            return `<img src="${src}" alt="${alt}" width="200">`
+            return `<a href="${this.publicMemberUrl}" target="_blank" rel="noopener"><img src="${this.badgeSrc}" alt="${alt}" width="220"></a>`
         },
     },
 }
