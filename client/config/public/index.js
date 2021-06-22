@@ -2,11 +2,12 @@ import * as enums from './enums.js'
 import * as inputs from './inputs.js'
 
 export const API_ENTRYPOINT =
-    process.env.API_ENTRYPOINT || 'http://localhost:4000/api/v1'
+    process.env.API_ENTRYPOINT ?? 'http://localhost:4000/api/v1'
 export const CLIENT_ENTRYPOINT =
-    process.env.CLIENT_ENTRYPOINT || 'http://localhost:3000'
+    process.env.CLIENT_ENTRYPOINT ?? 'http://localhost:3000'
 export const ENUMS = enums
 export const INPUT = inputs
+export const PING_SCRIPT_URL = process.env.PING_SCRIPT_URL ?? 'https://ping.decarb.website.com/ping.min.js'
 export const PROJECT_NAME = 'DECARB'
 export const PROJECT_PREFIX = 'dcrb'
 export const STRIPE_PRICE_ID = {

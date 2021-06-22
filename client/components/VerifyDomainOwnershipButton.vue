@@ -11,6 +11,16 @@ import { mapGetters, mapActions } from 'vuex'
 import Notification from '@/utils/Notification'
 
 export default {
+    async fetch({ store }) {
+        if (store.getters['domains/getSelectedDomain']) return
+        if (!store.getters['auth/getUser']) {
+            await store.dispatch('auth/fetchUser')
+        }
+        await store.dispatch(
+            'domains/fetchUserDomains',
+            store.getters['auth/getUser'].id
+        )
+    },
     computed: {
         ...mapGetters({
             getIsLoading: 'domains/getIsLoading',
@@ -41,23 +51,29 @@ export default {
             verifyDomainOwnership: 'domains/verifyDomainOwnership',
             addNotification: 'notifications/addNotification',
         }),
-        async handleVerifyImplementation() {
-            if (!this.getSelectedDomain || !this.getSelectedDomain.id) {
-                return false
-            }
-            await this.verifyDomainOwnership(this.getSelectedDomain.id)
+        async resetUserDomains() {
             await this.fetchUserDomains(this.getUser.id)
             const verifiedDomain = this.getUserDomains.find((x) => {
                 return x.id === this.getSelectedDomain.id
             })
             await this.setSelectedDomain(verifiedDomain)
-            const notification = new Notification({
-                type: 'success',
-                title: this.$t('c.verifyDomainOwnershipButton.success'),
-                subTitle: this.getSelectedDomain.url,
-            })
-            this.addNotification(notification)
-            this.$emit('verified')
+        },
+        async handleVerifyImplementation() {
+            if (!this.getSelectedDomain?.id) return false
+            // Verify implementation
+            await this.verifyDomainOwnership(this.getSelectedDomain.id)
+            // Re-Fetch UserDomains
+            await this.resetUserDomains()
+            // Handle verification success (failures will create Notification automatically)
+            if (this.getSelectedDomain.verifiedAt) {
+                const notification = new Notification({
+                    type: 'success',
+                    title: this.$t('c.verifyDomainOwnershipButton.success'),
+                    subTitle: this.getSelectedDomain.url,
+                })
+                this.addNotification(notification)
+                this.$emit('verified')
+            }
         },
     },
 }

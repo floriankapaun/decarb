@@ -6,7 +6,6 @@ export const ACCESS_TOKEN_EXPIRES = parseInt(process.env.ACCESS_TOKEN_EXPIRES) |
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const API_PREFIX = process.env.API_PREFIX;
 export const CLIENT_ENTRYPOINT = process.env.CLIENT_ENTRYPOINT;
-export const CLIENT_SCRIPT_URL = process.env.CLIENT_SCRIPT_URL;
 export const DAYS_IN_MONTH = 30;
 export const DAYS_IN_YEAR = 365;
 export const DOMAIN_PAGES_RESPONSE_LIMIT = 500;
@@ -45,6 +44,7 @@ export const EVENTS = {
 };
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 export const MODE = process.env.MODE || 'development';
+export const PING_SCRIPT_URL = process.env.PING_SCRIPT_URL;
 export const PLATFORM_EMAIL_HOST = process.env.PLATFORM_EMAIL_HOST;
 export const PLATFORM_EMAIL_PASSWORD = process.env.PLATFORM_EMAIL_PASSWORD;
 export const PLATFORM_EMAIL_PORT = process.env.PLATFORM_EMAIL_PORT;

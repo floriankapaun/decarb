@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 import PrismaService from './PrismaService.js';
 import EventEmitter from '../utils/eventEmitter.js';
-import { CLIENT_SCRIPT_URL, ENUMS, EVENTS } from '../config/index.js';
+import { PING_SCRIPT_URL, ENUMS, EVENTS } from '../config/index.js';
 import { cleanUrl } from '../utils/url.js';
 import AppError from '../utils/AppError.js';
 
@@ -142,7 +142,7 @@ class DomainService {
                 throw new AppError(err)
             });
         if (typeof body !== 'string') return false
-        return body.includes(CLIENT_SCRIPT_URL);
+        return body.includes(PING_SCRIPT_URL);
     }
 
     /**

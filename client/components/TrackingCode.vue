@@ -21,8 +21,8 @@ export default {
     data() {
         return {
             isLoading: false,
-            code: `<!-- ${this.$config.PROJECT_NAME} -->
-<script src="https://eco-website.comco-website.comco-website.com/script.js"><\/script>`,
+            code: `<!-- ${this.$config.PROJECT_NAME} Ping Script -->
+<script src="${this.$config.PING_SCRIPT_URL}"><\/script>`,
         }
     },
 }
