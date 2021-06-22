@@ -50,7 +50,7 @@
         </section>
         <section class="how-it-works">
             <div class="bx--grid">
-                <h1>{{ $t('p.index.howItWorks.h') }}</h1>
+                <h2>{{ $t('p.index.howItWorks.h') }}</h2>
                 <p>
                     <NuxtLink
                         :to="localeRoute('about')"
@@ -108,7 +108,8 @@ export default {
         padding: $spacing-11 0 $spacing-12;
     }
 
-    h1 {
+    h1,
+    h2 {
         @include decarb--type-style('display-04');
     }
 }
