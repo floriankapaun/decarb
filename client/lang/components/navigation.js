@@ -23,6 +23,7 @@ export const en = {
     public: {
         ariaLabel: `${PROJECT_NAME} navigation`,
         about: 'About',
+        members: 'Members',
     },
     publicActions: {
         login: 'Login',

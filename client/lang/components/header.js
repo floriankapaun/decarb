@@ -12,6 +12,7 @@ export const en = {
     },
     public: {
         ariaLabel: `${PROJECT_NAME} Dashboard header`,
+        menuButtonAriaLabel: 'Header navigation',
         skipToContent: 'Skip to content',
     },
 }
