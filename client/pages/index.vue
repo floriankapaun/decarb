@@ -1,19 +1,12 @@
 <template>
     <div>
-        <section class="hero">
-            <div class="bx--grid">
-                <h1>{{ $t('p.index.hero.h') }}</h1>
-                <p class="sub">{{ $t('p.index.hero.p') }}</p>
-                <p>
-                    <NuxtLink
-                        :to="localeRoute(registerDomainLink)"
-                        class="bx--btn bx--btn--secondary"
-                    >
-                        {{ $t('p.index.hero.ctaButton') }}
-                    </NuxtLink>
-                </p>
-            </div>
-        </section>
+        <Hero
+            level="1"
+            :title="$t('p.index.hero.h')"
+            :subtitle="$t('p.index.hero.p')"
+            :button="$t('p.index.hero.ctaButton')"
+            :to="localeRoute(registerDomainLink)"
+        />
         <section class="bx--grid how-to">
             <div class="bx--row">
                 <div class="bx--col-sm-2 bx--col-md-2 step">
@@ -48,19 +41,12 @@
                 </p>
             </div>
         </section>
-        <section class="how-it-works">
-            <div class="bx--grid">
-                <h2>{{ $t('p.index.howItWorks.h') }}</h2>
-                <p>
-                    <NuxtLink
-                        :to="localeRoute('about')"
-                        class="bx--btn bx--btn--secondary"
-                    >
-                        {{ $t('p.index.howItWorks.ctaButton') }}
-                    </NuxtLink>
-                </p>
-            </div>
-        </section>
+        <Hero
+            level="2"
+            :title="$t('p.index.howItWorks.h')"
+            :button="$t('p.index.howItWorks.ctaButton')"
+            :to="localeRoute('about')"
+        />
     </div>
 </template>
 
@@ -99,26 +85,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.hero,
-.how-it-works {
-    background-color: $primary;
-    color: $white;
-    padding: $spacing-09 0 $spacing-10;
-    @include carbon--breakpoint(md) {
-        padding: $spacing-11 0 $spacing-12;
-    }
-
-    h1,
-    h2 {
-        @include decarb--type-style('display-04');
-    }
-}
-
-.sub {
-    margin-bottom: $spacing-07;
-    @include decarb--type-style('expressive-heading-03');
-}
-
 .how-to,
 .benefits {
     padding-top: $spacing-10;
@@ -145,9 +111,5 @@ export default {
     p {
         max-width: 50ch;
     }
-}
-
-.how-it-works p {
-    margin-top: $spacing-08;
 }
 </style>
