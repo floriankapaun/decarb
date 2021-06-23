@@ -16,6 +16,7 @@ export default () => {
         // Allow global CORS for Client
         .use(cors({
             origin: CLIENT_ENTRYPOINT,
+            credentials: true,
         }))
         // Routes must be defined last, to make sure the error handler (defined inside)
         // is included in the last use() call.

@@ -1,4 +1,5 @@
 import Notification from './Notification'
+import { API_ENTRYPOINT } from '~/config/public'
 
 const handleError = async (error) => {
     if (error.json && typeof error.json === 'function') {
@@ -49,10 +50,12 @@ export const saveFetch = async (
         headers: {
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': API_ENTRYPOINT,
         },
         credentials: 'same-origin',
         body: JSON.stringify(bodyData),
     }
+
     return fetch(`${apiBaseUrl}${path}`, requestOptions)
         .then((response) => {
             if (!response.ok) throw response

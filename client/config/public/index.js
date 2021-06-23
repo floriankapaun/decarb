@@ -1,8 +1,9 @@
 import * as enums from './enums.js'
 import * as inputs from './inputs.js'
 
-export const API_ENTRYPOINT =
-    process.env.API_ENTRYPOINT ?? 'http://localhost:4000/api/v1'
+export const API_BASE_URL = process.env.API_BASE_URL ?? 'http://localhost:4000'
+export const API_PREFIX = process.env.API_PREFIX ?? '/api/v1'
+export const API_ENTRYPOINT = API_BASE_URL + API_PREFIX
 export const CLIENT_ENTRYPOINT =
     process.env.CLIENT_ENTRYPOINT ?? 'http://localhost:3000'
 export const ENUMS = enums

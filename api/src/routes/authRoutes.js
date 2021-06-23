@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import cookieParser from 'cookie-parser';
 
-import { REFRESH_TOKEN_EXPIRES } from '../config';
+import { CLIENT_ENTRYPOINT, MODE, REFRESH_TOKEN_EXPIRES } from '../config';
 import attachCurrentUser from '../middlewares/attachCurrentUser';
 import isAuth from '../middlewares/isAuth';
 import AuthService from '../services/AuthService';
@@ -18,11 +18,13 @@ export default (app) => {
     router.post('/login', asyncHandler(async (req, res) => {
         const { email, password } = req.body;
         const auth = await AuthService.login(email, password);
-        if (auth.error) throw new AppError(auth.error, 401);
         // Add refreshToken cookie to response
         res.cookie('refreshToken', auth.refreshToken, {
-            maxAge: REFRESH_TOKEN_EXPIRES * 60 * 1000, // convert from min to ms
+            expires: auth.accessTokenExpiry,
             httpOnly: true,
+            secure: MODE === 'development' ? false : true,
+            sameSite: 'Strict',
+            domain: CLIENT_ENTRYPOINT,
         });
         // Return accessToken in JSON Object
         return sendResponse(res, {
