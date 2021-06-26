@@ -46,7 +46,8 @@ export default {
         // https://go.nuxtjs.dev/stylelint
         '@nuxtjs/stylelint-module',
         // https://github.com/Developmint/nuxt-purgecss
-        'nuxt-purgecss',
+        // TODO: Find working configuration, its currently destroying styles
+        // 'nuxt-purgecss',
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
