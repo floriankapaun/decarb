@@ -83,7 +83,7 @@ export default {
         }),
         publicMemberUrl() {
             const domainUrl = this.getSelectedDomain?.url ?? ''
-            return `${this.$config.CLIENT_ENTRYPOINT}/members/${domainUrl}`
+            return `${this.$config.PUBLIC_CLIENT_ENTRYPOINT}/members/${domainUrl}`
         },
         badgeSrc() {
             const domainId = '_'

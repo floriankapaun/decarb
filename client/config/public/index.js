@@ -4,8 +4,8 @@ import * as inputs from './inputs.js'
 export const API_BASE_URL = process.env.API_BASE_URL ?? 'http://localhost:4000'
 export const API_PREFIX = process.env.API_PREFIX ?? '/api/v1'
 export const API_ENTRYPOINT = API_BASE_URL + API_PREFIX
-export const CLIENT_ENTRYPOINT =
-    process.env.CLIENT_ENTRYPOINT ?? 'http://localhost:3000'
+export const PUBLIC_CLIENT_ENTRYPOINT =
+    process.env.PUBLIC_CLIENT_ENTRYPOINT ?? 'http://localhost:3000'
 export const ENUMS = enums
 export const INPUT = inputs
 export const PING_SCRIPT_URL = process.env.PING_SCRIPT_URL ?? 'https://ping.decarb.website.com/ping.min.js'

@@ -43,6 +43,7 @@ export const EVENTS = {
     },
 };
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+export const MAX_NUMBER_OF_WORKERS = process.env.MAX_NUMBER_OF_WORKERS || 4;
 export const MODE = process.env.MODE || 'development';
 export const PING_SCRIPT_URL = process.env.PING_SCRIPT_URL;
 export const PLATFORM_EMAIL_HOST = process.env.PLATFORM_EMAIL_HOST;

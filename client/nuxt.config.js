@@ -18,7 +18,7 @@ export default {
 
     // Server configuration
     server: {
-        host: 'localhost',
+        host: privateConfig.INTERFACE,
         port: privateConfig.PORT,
     },
 
