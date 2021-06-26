@@ -8,7 +8,8 @@ export const PUBLIC_CLIENT_ENTRYPOINT =
     process.env.PUBLIC_CLIENT_ENTRYPOINT ?? 'http://localhost:3000'
 export const ENUMS = enums
 export const INPUT = inputs
-export const PING_SCRIPT_URL = process.env.PING_SCRIPT_URL ?? 'https://ping.decarb.website.com/ping.min.js'
+export const PING_SCRIPT_URL =
+    process.env.PING_SCRIPT_URL ?? 'https://ping.decarb.website.com/ping.min.js'
 export const PROJECT_NAME = 'DECARB'
 export const PROJECT_PREFIX = 'dcrb'
 export const STRIPE_PRICE_ID = {
