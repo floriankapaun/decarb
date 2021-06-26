@@ -3,6 +3,7 @@ import { en as badge } from './pages/dashboard/badge'
 import { en as dashboardIndex } from './pages/dashboard/index'
 import { en as dataPrivacy } from './pages/legal/dataPrivacy'
 import { en as firstEstimation } from './pages/dashboard/firstEstimation'
+import { en as howItWorks } from './pages/howItWorks'
 import { en as imprint } from './pages/legal/imprint'
 import { en as index } from './pages/index'
 import { en as login } from './pages/login'
@@ -39,6 +40,7 @@ export default {
         traffic,
         verifyDomainOwnership,
     },
+    howItWorks,
     legal: { dataPrivacy, imprint, termsAndConditions },
     login,
     member,

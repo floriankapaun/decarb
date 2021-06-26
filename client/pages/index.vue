@@ -45,7 +45,7 @@
             level="2"
             :title="$t('p.index.howItWorks.h')"
             :button="$t('p.index.howItWorks.ctaButton')"
-            to="about"
+            to="how-it-works"
         />
     </div>
 </template>
