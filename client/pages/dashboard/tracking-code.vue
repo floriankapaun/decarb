@@ -1,23 +1,29 @@
 <template>
-    <section class="bx--row">
-        <div class="bx--col-md-4 bx--col-lg-8 bx--col-max-6 mb-07">
-            <h1>{{ $t('p.dashboard.trackingCode.h1') }}</h1>
-            <p>
-                Copy the {{ $config.PROJECT_NAME }} tag and paste it into the
-                <code>&lt;head&gt;</code> section of the HTML code. If you are
-                using a website builder like Wordpress or Shopify, copy the tag
-                and paste it into the appropriate custom HTML code field. This
-                code must be present on every page.
-            </p>
+    <section>
+        <div class="bx--row">
+            <div class="bx--col-sm-4 p-mb">
+                <h1>{{ $t('p.dashboard.trackingCode.h1') }}</h1>
+                <p class="mb-05">{{ $t('p.dashboard.trackingCode.p1') }}</p>
+                <p v-html="$t('p.dashboard.trackingCode.p2')"></p>
+            </div>
         </div>
-        <div class="bx--col-lg-16 mb-07">
-            <TrackingCode />
+        <div class="bx--row">
+            <div
+                class="
+                    bx--col-sm-4 bx--col-md-6 bx--col-lg-12 bx--col-xlg-8
+                    p-mb
+                "
+            >
+                <TrackingCode />
+            </div>
         </div>
-        <div class="bx--col-md-4 bx--col-lg-8 bx--col-max-6">
-            <p class="mb-05">
-                Make sure to verify if your implementation was successfull.
-            </p>
-            <VerifyDomainOwnershipButton />
+        <div class="bx--row">
+            <div class="bx--col-sm-4">
+                <p class="mb-06">
+                    {{ $t('p.dashboard.trackingCode.p3') }}
+                </p>
+                <VerifyDomainOwnershipButton />
+            </div>
         </div>
     </section>
 </template>
@@ -39,7 +45,14 @@ export default {
     margin-bottom: $spacing-05;
 }
 
-.mb-07 {
-    margin-bottom: $spacing-07;
+.mb-06 {
+    margin-bottom: $spacing-06;
+}
+
+.p-mb {
+    margin-bottom: $spacing-06;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-09;
+    }
 }
 </style>

@@ -22,7 +22,7 @@ export default {
         return {
             isLoading: false,
             code: `<!-- ${this.$config.PROJECT_NAME} Ping Script -->
-<script src="${this.$config.PING_SCRIPT_URL}"><\/script>`,
+<script src="${this.$config.PING_SCRIPT_URL}" async><\/script>`,
         }
     },
 }

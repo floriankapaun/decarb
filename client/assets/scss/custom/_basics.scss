@@ -12,6 +12,13 @@ p {
     max-width: 45ch;
 }
 
+p > code {
+    font-size: carbon--type-scale(2);
+    background-color: $field;
+    padding: $spacing-01 $spacing-02;
+    border-radius: $borderRadiusXs;
+}
+
 .helper-text {
     @include carbon--type-style('helper-text-01');
 }
