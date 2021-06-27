@@ -11,7 +11,8 @@ import { mapGetters, mapActions } from 'vuex'
 import Notification from '@/utils/Notification'
 
 export default {
-    async fetch({ store }) {
+    async fetch() {
+        const store = this.$store
         if (store.getters['domains/getSelectedDomain']) return
         if (!store.getters['auth/getUser']) {
             await store.dispatch('auth/fetchUser')
