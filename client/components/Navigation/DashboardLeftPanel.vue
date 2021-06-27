@@ -36,7 +36,7 @@
 
         <Divider />
 
-        <CvSideNavLink :to="localeRoute('dashboard-achievements-offsettings')">
+        <CvSideNavLink :to="localeRoute('dashboard-offsettings')">
             <template slot="nav-icon"><Sprout16 /></template>
             {{ $t('c.navigation.dashboardLeftPanel.achievements') }}
         </CvSideNavLink>

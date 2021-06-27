@@ -21,11 +21,6 @@ export default {
             en: '/dashboard/traffic',
         },
     },
-    data() {
-        return {
-            rangeNumberOfDays: 30,
-        }
-    },
     async fetch({ store }) {
         if (
             store.getters['traffic/getViewsPerPage'] &&

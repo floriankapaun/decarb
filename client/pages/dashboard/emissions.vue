@@ -21,11 +21,6 @@ export default {
             en: '/dashboard/emissions',
         },
     },
-    data() {
-        return {
-            rangeNumberOfDays: 30,
-        }
-    },
     async fetch({ store }) {
         if (
             store.getters['emissions/getHostingEmissions'] &&

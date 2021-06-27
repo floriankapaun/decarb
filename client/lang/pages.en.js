@@ -10,6 +10,7 @@ import { en as index } from './pages/index'
 import { en as login } from './pages/login'
 import { en as member } from './pages/member'
 import { en as members } from './pages/members'
+import { en as offsettings } from './pages/dashboard/offsettings'
 import { en as knownPages } from './pages/dashboard/knownPages'
 import { en as pageviewEstimation } from './pages/dashboard/pageviewEstimation'
 import { en as payments } from './pages/dashboard/payments'
@@ -33,6 +34,7 @@ export default {
         emissions,
         firstEstimation,
         knownPages,
+        offsettings,
         pageviewEstimation,
         payments,
         registerDomain,
