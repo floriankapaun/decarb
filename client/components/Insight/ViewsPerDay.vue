@@ -1,57 +1,47 @@
 <template>
-    <section>ViewsPerDay {{ viewsPerDay }}</section>
+    <div class="bar-chart">
+        <client-only>
+            <BarChart
+                :data="barChartData"
+                :options="{ maintainAspectRatio: false }"
+            />
+        </client-only>
+    </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
+import BarChart from '~/components/bar-chart'
 export default {
-    async fetch() {
-        const store = this.$store
-        if (store.getters['traffic/getViewsPerDay']) return
-
-        // Make sure that selectedDomain exists
-        if (!store.getters['domains/getSelectedDomain']) {
-            if (!store.getters['auth/getUser']) {
-                await store.dispatch('auth/fetchUser')
-            }
-            await store.dispatch(
-                'domains/fetchUserDomains',
-                store.getters['auth/getUser'].id
-            )
-        }
-
-        // Create start and end date for statistics
-        const d = new Date()
-        const year = d.getFullYear().toString().padStart(4, '0')
-        const month = (d.getMonth() + 1).toString().padStart(2, '0')
-        const previousMonth = month - 1
-        const day = d.getDate().toString().padStart(2, '0')
-        const hour = d.getHours().toString().padStart(2, '0')
-        const minute = d.getMinutes().toString().padStart(2, '0')
-        const second = d.getSeconds().toString().padStart(2, '0')
-
-        const now = `${year}-${month}-${day} ${hour}:${minute}:${second}`
-        const monthAgo = `${year}-${previousMonth}-${day} ${hour}:${minute}:${second}`
-
-        // Fetch statistical data
-        if (!store.getters['traffic/getViewsPerDay']) {
-            await store.dispatch('traffic/fetchViewsPerDay', {
-                domainId: store.getters['domains/getSelectedDomain'].id,
-                options: {
-                    timeStart: monthAgo,
-                    timeEnd: now,
-                },
-            })
-        }
+    components: {
+        BarChart,
     },
-    computed: {
-        ...mapGetters({
-            getViewsPerDay: 'traffic/getViewsPerDay',
-        }),
-        viewsPerDay() {
-            return this.getViewsPerDay
-        },
+    data() {
+        return {
+            barChartData: {
+                labels: [100, 50],
+                datasets: [
+                    {
+                        label: 'Data One',
+                        backgroundColor: '#f87979',
+                        data: [10, 11],
+                    },
+                    {
+                        label: 'Data One',
+                        backgroundColor: '#f87979',
+                        data: [15, 20],
+                    },
+                ],
+            },
+        }
     },
 }
 </script>
+
+<style scoped>
+.bar-chart {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    margin-top: 30px;
+}
+</style>
