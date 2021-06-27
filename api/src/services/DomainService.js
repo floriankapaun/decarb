@@ -162,10 +162,64 @@ class DomainService {
         return verifiedDomain;
     }
 
-    async aggregatePageViews(domainId, timeStart, timeEnd, itemLimit, itemOffset) {
+    /**
+     * Get a Domains current DomainHostingEmissions
+     * 
+     * @param {String} domainId - ID of Domain
+     * @returns {Object} - Domains current DomainHostingEmissions
+     */
+    async getCurrentHostingEmission(domainId) {
+        const options = { orderBy: { createdAt: 'desc' } };
+        const hostingEmissions = await PrismaService.findFirst('domainHostingEmission', { domainId }, options)
+        return hostingEmissions;
+    }
+
+    /**
+     * Get the current emissionMilligrams for each Page of a Domain
+     * 
+     * @param {String} domainId - ID of Domain
+     * @param {Number} [itemLimit=10] - Max number of Pages to return
+     * @param {Number} [itemOffset=0] - Offset in list of return
+     * @returns {Object} - Page URLs of Domain with current emission milligrams
+     */
+    async getCurrentPageViewEmissions(domainId, itemLimit = 10, itemOffset = 0) {
+        const query = `
+        SELECT
+                pages.url as "url",
+                page_view_emissions.emission_milligrams as "emissionMilligrams"
+            FROM
+                domains
+                JOIN pages ON pages.domain_id = domains.id
+                JOIN page_view_emissions ON page_view_emissions.page_id = pages.id
+            WHERE
+                domains.id = '${domainId}'
+                AND page_view_emissions.created_at = (
+                    SELECT MAX(pve.created_at)
+                    FROM page_view_emissions pve
+                    WHERE pve.page_id = page_view_emissions.page_id
+                )
+            ORDER BY "emissionMilligrams" DESC
+            LIMIT ${itemLimit}
+            OFFSET ${itemOffset}
+        `;
+        const pageViewEmissions = await PrismaService.queryRaw(query);
+        return pageViewEmissions;
+    }
+
+    /**
+     * Get PageViews for each Page of a Domain (in time range)
+     * 
+     * @param {String} domainId - ID of Domain
+     * @param {String} timeStart - Start Timestamp
+     * @param {String} timeEnd - End Timestamp
+     * @param {Number} [itemLimit=10] - Max number of Pages to return
+     * @param {Number} [itemOffset=0] - Offset in list of return
+     * @returns {Object} - Pages and their cummulated PageViews
+     */
+    async getPageViews(domainId, timeStart, timeEnd, itemLimit = 10, itemOffset = 0) {
         const query = `
             SELECT
-                pages.url AS "pageUrl",
+                pages.url,
                 COUNT(pages.id) AS "pageViews"
             FROM
                 domains
@@ -173,9 +227,15 @@ class DomainService {
                 JOIN page_views ON page_views.page_id = pages.id
             WHERE
                 domains.id = '${domainId}'
-                AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')
-                AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')
-            GROUP BY "pageUrl"
+                ${timeStart
+                    ? `AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')`
+                    : null
+                }
+                ${timeEnd
+                    ? `AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')`
+                    : null
+                }
+            GROUP BY pages.url
             ORDER BY "pageViews" DESC
             LIMIT ${itemLimit}
             OFFSET ${itemOffset}
@@ -184,11 +244,9 @@ class DomainService {
         return pageViews;
     }
 
-    async aggregatePageViewsPerDay(domainId, timeStart, timeEnd, itemLimit, itemOffset) {
+    async getAggregatedPageViews(domainId, timeStart, timeEnd) {
         const query = `
             SELECT
-                pages.url AS "pageUrl",
-                DATE_TRUNC('day', page_views.created_at) AS "day",
                 COUNT(pages.id) AS "pageViews"
             FROM
                 domains
@@ -196,18 +254,46 @@ class DomainService {
                 JOIN page_views ON page_views.page_id = pages.id
             WHERE
                 domains.id = '${domainId}'
-                AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')
-                AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')
-            GROUP BY "pageUrl", "day"
-            ORDER BY "pageUrl"
-            LIMIT ${itemLimit}
-            OFFSET ${itemOffset}
+                ${timeStart
+                    ? `AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')`
+                    : null
+                }
+                ${timeEnd
+                    ? `AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')`
+                    : null
+                }
+        `;
+        const aggregatedPageViews = await PrismaService.queryRaw(query);
+        return aggregatedPageViews;
+    }
+
+    async getAggregatedDailyPageViews(domainId, timeStart, timeEnd) {
+        const query = `
+            SELECT
+                DATE_TRUNC('day', page_views.created_at) AS "day",
+                COUNT(page_views.id) AS "pageViews"
+            FROM
+                domains
+                JOIN pages ON pages.domain_id = domains.id
+                JOIN page_views ON page_views.page_id = pages.id
+            WHERE
+                domains.id = '${domainId}'
+                ${timeStart
+                    ? `AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')`
+                    : null
+                }
+                ${timeEnd
+                    ? `AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')`
+                    : null
+                }
+            GROUP BY "day"
+            ORDER BY "day" ASC
         `;
         const pageViewsPerDay = await PrismaService.queryRaw(query);
         return pageViewsPerDay;
     }
 
-    async aggregateDomainEmissions(domainId, timeStart, timeEnd) {
+    async getAggregatedEmissions(domainId, timeStart, timeEnd) {
         let query = `
             SELECT
                 SUM(page_view_emissions.emission_milligrams) AS "domain_emissions"
@@ -218,13 +304,15 @@ class DomainService {
                 JOIN page_view_emissions ON page_view_emissions.id = page_views.page_view_emission_id
             WHERE
                 domains.id = '${domainId}'
+                ${timeStart
+                    ? `AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')`
+                    : null
+                }
+                ${timeEnd
+                    ? `AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')`
+                    : null
+                }
         `;
-        if (timeStart) {
-            query += `AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')`;
-        }
-        if (timeEnd) {
-            query += `AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')`;
-        }
         const domainEmissions = await PrismaService.queryRaw(query);
         return domainEmissions[0].domain_emissions;
     }
@@ -257,6 +345,28 @@ class DomainService {
             createdAt: domain.createdAt,
             offsetKilograms: aggregation._sum.offsetKilograms,
         };
+    }
+
+    /**
+     * Get cummulated data of all purchased Offsets of a Domain
+     * 
+     * @param {String} domainId - ID of Domain
+     * @returns {Object} - cummulated purchased Offsets
+     */
+    async getAggregatedOffsets(domainId) {
+        const aggregatedOffsets = await PrismaService.aggregate('offset', {
+            _min: { from: true },
+            _max: { until: true },
+            _sum: {
+                price: true,
+                offsetKilograms: true,
+            },
+            where: {
+                domainId,
+                purchaseStatus: { equals: 'SUCCESSFULL' },
+            },
+        });
+        return aggregatedOffsets;
     }
 };
 

@@ -18,6 +18,7 @@ for (let page of pages) {
             windowHeight: device.height,
             connectionType: faker.random.arrayElement(config.connectionTypes),
             pageViewEmissionId: pageViewEmission.id,
+            createdAt: faker.date.between(config.minDatetime, config.maxDatetime),
         }
         pageViews.push(fakePageView)
     }

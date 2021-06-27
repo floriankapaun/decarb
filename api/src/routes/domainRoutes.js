@@ -73,6 +73,24 @@ export default (app) => {
     }));
 
     /**
+     * Domain -> DomainHostingEmission Routes
+     */
+
+    // Get a domains current DomainHostingEmissions
+    router.get(
+        '/:id/hosting-emissions',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            const domainHostingEmission = await DomainService.getCurrentHostingEmission(id);
+            return sendResponse(res, domainHostingEmission);
+        })
+    );
+
+
+    /**
      * Domain -> Page Routes
      */
 
@@ -101,11 +119,27 @@ export default (app) => {
         })
     );
 
+    // Get a domains pages current pageViewEmissions sorted by emissionAmount
+    router.get(
+        '/:id/pages/emissions',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            const { itemLimit, itemOffset } = req.body;
+            const pageViewEmissions = await DomainService.getCurrentPageViewEmissions(
+                id, itemLimit, itemOffset
+            );
+            return sendResponse(res, pageViewEmissions);
+        })
+    );
+
     /**
      * Domain -> PageView Routes
      */
 
-    // Get a domains page views in time range
+    // Get PageViews for each Page of a Domain (in time range)
     router.get(
         '/:id/pageviews',
         isAuth,
@@ -113,15 +147,32 @@ export default (app) => {
         requireDomainRole(),
         asyncHandler(async (req, res) => {
             const { id } = req.params;
+            // TODO: Validate Data Inputs (for whole document). Check out Prismas built-in escaping: https://www.prisma.io/docs/concepts/components/prisma-client/raw-database-access#sql-injection
             const { timeStart, timeEnd, itemLimit, itemOffset } = req.body;
-            const pageViews = await DomainService.aggregatePageViews(
+            const pageViews = await DomainService.getPageViews(
                 id, timeStart, timeEnd, itemLimit, itemOffset
             );
             return sendResponse(res, pageViews);
         })
     );
 
-    // Get a domains page views per day in time range
+    // Get a domains cummulated pageviews (in time range)
+    router.get(
+        '/:id/aggregated-pageviews',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            const { timeStart, timeEnd } = req.body;
+            const pageViews = await DomainService.getAggregatedPageViews(
+                id, timeStart, timeEnd
+            );
+            return sendResponse(res, pageViews);
+        })
+    );
+
+    // Get a domains cummulated pageviews per day (in time range)
     router.get(
         '/:id/pageviews/day',
         isAuth,
@@ -129,9 +180,9 @@ export default (app) => {
         requireDomainRole(),
         asyncHandler(async (req, res) => {
             const { id } = req.params;
-            const { timeStart, timeEnd, itemLimit, itemOffset } = req.body;
-            const pageViews = await DomainService.aggregatePageViewsPerDay(
-                id, timeStart, timeEnd, itemLimit, itemOffset
+            const { timeStart, timeEnd } = req.body;
+            const pageViews = await DomainService.getAggregatedDailyPageViews(
+                id, timeStart, timeEnd
             );
             return sendResponse(res, pageViews);
         })
@@ -141,10 +192,34 @@ export default (app) => {
      * Domain -> Emission Routes
      */
 
-    // Get a domains aggregated pageViewEmissions
-    router.get('/:id/emissions', asyncHandler(async (req, res) => {
-        const { id } = req.params;
-        const domainEmissions = await DomainService.aggregateDomainEmissions(id, '2021-04-01 22:01:12', '2021-05-30 05:30:00');
-        return sendResponse(res, domainEmissions);
-    }));
+    // Get a domains aggregated pageViewEmissions (in time range)
+    router.get('/:id/emissions',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            const { timeStart, timeEnd } = req.body;
+            const domainEmissions = await DomainService.getAggregatedEmissions(id, timeStart, timeEnd);
+            return sendResponse(res, domainEmissions);
+        })
+    );
+
+
+    /**
+     * Domain -> Offset Routes
+     */
+
+    // Get cummulated data of Domains purchased Offsets
+    router.get(
+        '/:id/offsets/purchased',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            const purchasedOffsets = await DomainService.getAggregatedOffsets(id);
+            return sendResponse(res, purchasedOffsets);
+        })
+    );
 };

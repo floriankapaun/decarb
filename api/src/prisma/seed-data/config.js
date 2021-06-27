@@ -4,7 +4,7 @@ module.exports = {
     chanceOfDomainUserCreation: 0.2, // = 20 % chance to create a domainUser Relation
     roles: ['OWNER', 'MANAGER'],
     numberOfDomains: 3,
-    maxPagesPerDomain: 3,
+    maxPagesPerDomain: 50,
     maxSlugDepth: 3,
     minFileSize: 10000, // bytes
     maxFileSize: 10000000, // bytes
@@ -14,7 +14,9 @@ module.exports = {
     maxExternalRequests: 120,
     minEmissionMilligrams: 10,
     maxEmissionMilligrams: 6000,
-    maxNumberOfPageViews: 10,
+    maxNumberOfPageViews: 1000,
+    minDatetime: '2021-05-01',
+    maxDatetime: '2021-07-26',
     devices: [
         { width: 320, height: 480 },
         { width: 360, height: 640 },
