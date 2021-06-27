@@ -1,34 +1,30 @@
 <template>
     <div class="bar-chart">
-        <client-only>
-            <BarChart
-                :data="barChartData"
-                :options="{ maintainAspectRatio: false }"
-            />
-        </client-only>
+        <Doughnut :data="testData" />
     </div>
 </template>
 
 <script>
-import BarChart from '~/components/bar-chart'
+import { Doughnut } from 'vue-chart-3'
+
 export default {
     components: {
-        BarChart,
+        Doughnut,
     },
     data() {
         return {
-            barChartData: {
-                labels: [100, 50],
+            testData: {
+                labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
                 datasets: [
                     {
-                        label: 'Data One',
-                        backgroundColor: '#f87979',
-                        data: [10, 11],
-                    },
-                    {
-                        label: 'Data One',
-                        backgroundColor: '#f87979',
-                        data: [15, 20],
+                        data: [30, 40, 60, 70, 5],
+                        backgroundColor: [
+                            '#77CEFF',
+                            '#0079AF',
+                            '#123E6B',
+                            '#97B0C4',
+                            '#A5C8ED',
+                        ],
                     },
                 ],
             },
