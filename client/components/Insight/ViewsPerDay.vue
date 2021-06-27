@@ -1,5 +1,7 @@
 <template>
-    <section>ViewsPerDay {{ viewsPerDay }}</section>
+    <section>
+        <LineChart :data="data" />
+    </section>
 </template>
 
 <script>
@@ -49,8 +51,23 @@ export default {
         ...mapGetters({
             getViewsPerDay: 'traffic/getViewsPerDay',
         }),
-        viewsPerDay() {
-            return this.getViewsPerDay
+        data() {
+            const viewsPerDay = this.getViewsPerDay
+            if (!viewsPerDay) return {}
+            return {
+                labels: viewsPerDay.map((x) => x.day.substr(0, 10)),
+                datasets: [
+                    {
+                        label: 'Pageviews',
+                        data: viewsPerDay.map((x) => x.pageViews),
+                        fill: false,
+                        borderColor: '#0C6444',
+                        pointRadius: 0, // don't render points
+                        pointHoverRadius: 0,
+                        tension: 0.1,
+                    },
+                ],
+            }
         },
     },
 }

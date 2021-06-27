@@ -3,8 +3,8 @@
         <div class="bx--row">
             <div class="bx--col-sm-4 p-mb">
                 <h1>{{ $t('p.dashboard.traffic.h1') }}</h1>
-                <InsightViewsPerDay />
                 <InsightViewsPerPage />
+                <InsightViewsPerDay />
             </div>
         </div>
     </section>
