@@ -3,6 +3,7 @@
         <div class="bx--row">
             <div class="bx--col-sm-4 p-mb">
                 <h1>{{ $t('p.dashboard.offsettings.h1') }}</h1>
+                <InsightOffsetAggregation />
             </div>
         </div>
     </section>
