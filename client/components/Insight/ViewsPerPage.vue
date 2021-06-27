@@ -1,5 +1,14 @@
 <template>
-    <section>ViewsPerPage {{ viewsPerPage }}</section>
+    <section>
+        <CvDataTable
+            :auto-width="false"
+            :columns="columns"
+            :data="computedRows"
+            :pagination="false"
+            :sortable="false"
+            :zebra="false"
+        ></CvDataTable>
+    </section>
 </template>
 
 <script>
@@ -45,12 +54,20 @@ export default {
             })
         }
     },
+    data() {
+        return {
+            columns: [
+                this.$t('c.viewsPerPage.columns.url'),
+                this.$t('c.viewsPerPage.columns.pageViews'),
+            ],
+        }
+    },
     computed: {
         ...mapGetters({
             getViewsPerPage: 'traffic/getViewsPerPage',
         }),
-        viewsPerPage() {
-            return this.getViewsPerPage
+        computedRows() {
+            return this.getViewsPerPage?.map((x) => [x.url, x.pageViews])
         },
     },
 }

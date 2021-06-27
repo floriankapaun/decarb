@@ -6,6 +6,7 @@ import { en as logo } from './components/logo'
 import { en as navigation } from './components/navigation'
 import { en as trackingCode } from './components/trackingCode'
 import { en as verifyDomainOwnershipButton } from './components/verifyDomainOwnershipButton'
+import { en as viewsPerPage } from './components/viewsPerPage'
 
 export default {
     card,
@@ -16,4 +17,5 @@ export default {
     navigation,
     trackingCode,
     verifyDomainOwnershipButton,
+    viewsPerPage,
 }
