@@ -5,6 +5,7 @@
                 <h1>{{ $t('p.dashboard.emissions.h1') }}</h1>
                 <InsightEmissionsAggregation />
                 <InsightHostingEmissions />
+                <InsightPageviewEmissions />
             </div>
         </div>
     </section>

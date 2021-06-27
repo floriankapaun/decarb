@@ -1,5 +1,6 @@
 export default () => ({
     isLoading: false,
-    hostingEmissions: undefined,
     aggregation: undefined,
+    hostingEmissions: undefined,
+    pageviewEmissions: undefined,
 })

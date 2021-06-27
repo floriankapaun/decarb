@@ -1,5 +1,6 @@
 export default {
     getIsLoading: (state) => state.isLoading,
-    getHostingEmissions: (state) => state.hostingEmissions,
     getAggregation: (state) => state.aggregation,
+    getHostingEmissions: (state) => state.hostingEmissions,
+    getPageviewEmissions: (state) => state.pageviewEmissions,
 }
