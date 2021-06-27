@@ -14,6 +14,7 @@
 
 <script>
 export default {
+    name: 'LayoutDashboard',
     middleware: ['auth'],
     head() {
         return this.$nuxtI18nHead({ addSeoAttributes: true })

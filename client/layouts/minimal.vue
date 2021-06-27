@@ -20,6 +20,7 @@
 
 <script>
 export default {
+    name: 'LayoutMinimal',
     head() {
         return this.$nuxtI18nHead({ addSeoAttributes: true })
     },

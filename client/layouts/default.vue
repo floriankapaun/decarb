@@ -10,6 +10,7 @@
 
 <script>
 export default {
+    name: 'LayoutDefault',
     head() {
         return this.$nuxtI18nHead({ addSeoAttributes: true })
     },
