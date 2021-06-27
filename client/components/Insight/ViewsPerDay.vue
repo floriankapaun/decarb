@@ -1,17 +1,13 @@
 <template>
     <section>
-        <Bar :data="data" aspectRatio="3" />
+        <LineChart :data="data" />
     </section>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { Bar } from 'vue-chart-3'
 
 export default {
-    components: {
-        Bar,
-    },
     async fetch() {
         const store = this.$store
         if (store.getters['traffic/getViewsPerDay']) return
@@ -57,13 +53,18 @@ export default {
         }),
         data() {
             const viewsPerDay = this.getViewsPerDay
+            if (!viewsPerDay) return {}
             return {
-                labels: viewsPerDay.map((x) => x.day),
+                labels: viewsPerDay.map((x) => x.day.substr(0, 10)),
                 datasets: [
                     {
                         label: 'Pageviews',
                         data: viewsPerDay.map((x) => x.pageViews),
-                        backgroundColor: '#0C6444',
+                        fill: false,
+                        borderColor: '#0C6444',
+                        pointRadius: 0, // don't render points
+                        pointHoverRadius: 0,
+                        tension: 0.1,
                     },
                 ],
             }
