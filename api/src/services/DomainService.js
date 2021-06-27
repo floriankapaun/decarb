@@ -211,12 +211,12 @@ class DomainService {
      * 
      * @param {String} domainId - ID of Domain
      * @param {String} timeStart - Start Timestamp
-     * @param {String} timeEnd - End Timestamp
+     * @param {String} [timeEnd=now] - End Timestamp
      * @param {Number} [itemLimit=10] - Max number of Pages to return
      * @param {Number} [itemOffset=0] - Offset in list of return
      * @returns {Object} - Pages and their cummulated PageViews
      */
-    async getPageViews(domainId, timeStart, timeEnd, itemLimit = 10, itemOffset = 0) {
+    async getPageViews(domainId, timeStart, timeEnd = new Date(), itemLimit = 10, itemOffset = 0) {
         const query = `
             SELECT
                 pages.url,
@@ -244,7 +244,15 @@ class DomainService {
         return pageViews;
     }
 
-    async getAggregatedPageViews(domainId, timeStart, timeEnd) {
+    /**
+     * Get a domains cummulated pageviews (in time range)
+     * 
+     * @param {String} domainId - ID of Domain
+     * @param {Datetime} timeStart - Start of time range
+     * @param {Datetime} [timeEnd=now] - End of time range
+     * @returns {Object} - aggregated PageViews
+     */
+    async getAggregatedPageViews(domainId, timeStart, timeEnd = new Date()) {
         const query = `
             SELECT
                 COUNT(pages.id) AS "pageViews"

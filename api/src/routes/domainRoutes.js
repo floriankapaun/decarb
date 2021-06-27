@@ -120,7 +120,7 @@ export default (app) => {
     );
 
     // Get a domains pages current pageViewEmissions sorted by emissionAmount
-    router.get(
+    router.post(
         '/:id/pages/emissions',
         isAuth,
         attachCurrentUser,
@@ -140,8 +140,8 @@ export default (app) => {
      */
 
     // Get PageViews for each Page of a Domain (in time range)
-    router.get(
-        '/:id/pageviews',
+    router.post(
+        '/:id/views',
         isAuth,
         attachCurrentUser,
         requireDomainRole(),
@@ -157,8 +157,8 @@ export default (app) => {
     );
 
     // Get a domains cummulated pageviews (in time range)
-    router.get(
-        '/:id/aggregated-pageviews',
+    router.post(
+        '/:id/aggregated-views',
         isAuth,
         attachCurrentUser,
         requireDomainRole(),
@@ -173,8 +173,8 @@ export default (app) => {
     );
 
     // Get a domains cummulated pageviews per day (in time range)
-    router.get(
-        '/:id/pageviews/day',
+    router.post(
+        '/:id/views/day',
         isAuth,
         attachCurrentUser,
         requireDomainRole(),
@@ -193,7 +193,7 @@ export default (app) => {
      */
 
     // Get a domains aggregated pageViewEmissions (in time range)
-    router.get('/:id/emissions',
+    router.post('/:id/emissions',
         isAuth,
         attachCurrentUser,
         requireDomainRole(),

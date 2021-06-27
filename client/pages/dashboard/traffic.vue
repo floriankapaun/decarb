@@ -1,13 +1,17 @@
 <template>
-    <section class="bx--row">
-        <div class="bx--col-lg-16">
-            <h1>{{ $t('p.dashboard.traffic.h1') }}</h1>
+    <section>
+        <div class="bx--row">
+            <div class="bx--col-sm-4 p-mb">
+                <h1>{{ $t('p.dashboard.traffic.h1') }}</h1>
+                {{ viewsPerDay }}
+            </div>
         </div>
+        {{ viewsPerPage }}
     </section>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'DashboardTraffic',
@@ -17,17 +21,79 @@ export default {
             en: '/dashboard/traffic',
         },
     },
+    data() {
+        return {
+            rangeNumberOfDays: 30,
+        }
+    },
+    async fetch({ store }) {
+        if (
+            store.getters['traffic/getViewsPerPage'] &&
+            store.getters['traffic/getViewsPerDay']
+        ) {
+            return
+        }
+
+        // Make sure that selectedDomain exists
+        if (!store.getters['domains/getSelectedDomain']) {
+            if (!store.getters['auth/getUser']) {
+                await store.dispatch('auth/fetchUser')
+            }
+            await store.dispatch(
+                'domains/fetchUserDomains',
+                store.getters['auth/getUser'].id
+            )
+        }
+
+        // Create start and end date for statistics
+        const d = new Date()
+        const year = d.getFullYear().toString().padStart(4, '0')
+        const month = (d.getMonth() + 1).toString().padStart(2, '0')
+        const previousMonth = month - 1
+        const day = d.getDate().toString().padStart(2, '0')
+        const hour = d.getHours().toString().padStart(2, '0')
+        const minute = d.getMinutes().toString().padStart(2, '0')
+        const second = d.getSeconds().toString().padStart(2, '0')
+
+        const now = `${year}-${month}-${day} ${hour}:${minute}:${second}`
+        const monthAgo = `${year}-${previousMonth}-${day} ${hour}:${minute}:${second}`
+
+        const params = {
+            domainId: store.getters['domains/getSelectedDomain'].id,
+            options: {
+                timeStart: monthAgo,
+                timeEnd: now,
+            },
+        }
+
+        // Fetch statistical data
+        if (!store.getters['traffic/getViewsPerPage']) {
+            await store.dispatch('traffic/fetchViewsPerPage', params)
+        }
+        if (!store.getters['traffic/getViewsPerDay']) {
+            await store.dispatch('traffic/fetchViewsPerDay', params)
+        }
+    },
     computed: {
         ...mapGetters({
-            getUser: 'auth/getUser',
-            getSelectedDomain: 'domains/getSelectedDomain',
+            getViewsPerDay: 'traffic/getViewsPerDay',
+            getViewsPerPage: 'traffic/getViewsPerPage',
         }),
-    },
-    async mounted() {
-        await this.fetchUserDomains(this.getUser.id)
-    },
-    methods: {
-        ...mapActions({}),
+        viewsPerDay() {
+            return this.getViewsPerDay
+        },
+        viewsPerPage() {
+            return this.getViewsPerPage
+        },
     },
 }
 </script>
+
+<style lang="scss" scoped>
+.p-mb {
+    margin-bottom: $spacing-06;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-09;
+    }
+}
+</style>
