@@ -41,6 +41,7 @@ export default {
                                 display: false,
                             },
                             ticks: {
+                                color: '#000000',
                                 // For a category axis, the val is the index so the lookup via getLabelForValue is needed
                                 callback: (val, index) => {
                                     // Show only every 5th label
@@ -48,6 +49,11 @@ export default {
                                         ? this.getLabelForValue(val)
                                         : null
                                 },
+                            },
+                        },
+                        y: {
+                            ticks: {
+                                color: '#000000',
                             },
                         },
                     },

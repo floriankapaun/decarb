@@ -1,6 +1,7 @@
 <template>
     <section>
         <CvDataTable
+            :title="$t('c.viewsPerPage.title')"
             :auto-width="false"
             :columns="columns"
             :data="computedRows"
