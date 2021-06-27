@@ -25,9 +25,6 @@ export default {
         if (!store.getters['emissions/getPageviewEmissions']) {
             await store.dispatch('emissions/fetchPageviewEmissions', {
                 domainId: store.getters['domains/getSelectedDomain'].id,
-                options: {
-                    itemLimit: 20,
-                },
             })
         }
     },
