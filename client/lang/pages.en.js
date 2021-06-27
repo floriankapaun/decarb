@@ -2,6 +2,7 @@ import { en as about } from './pages/about'
 import { en as badge } from './pages/dashboard/badge'
 import { en as dashboardIndex } from './pages/dashboard/index'
 import { en as dataPrivacy } from './pages/legal/dataPrivacy'
+import { en as emissions } from './pages/dashboard/emissions'
 import { en as firstEstimation } from './pages/dashboard/firstEstimation'
 import { en as howItWorks } from './pages/howItWorks'
 import { en as imprint } from './pages/legal/imprint'
@@ -29,6 +30,7 @@ export default {
     dashboard: {
         badge,
         index: dashboardIndex,
+        emissions,
         firstEstimation,
         knownPages,
         pageviewEstimation,

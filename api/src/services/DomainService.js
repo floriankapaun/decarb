@@ -170,7 +170,13 @@ class DomainService {
      */
     async getCurrentHostingEmission(domainId) {
         const options = { orderBy: { createdAt: 'desc' } };
-        const hostingEmissions = await PrismaService.findFirst('domainHostingEmission', { domainId }, options)
+        const hostingEmissions = await PrismaService.findFirst(
+            'domainHostingEmission',
+            { domainId },
+            options
+        );
+        delete hostingEmissions.id;
+        delete hostingEmissions.createdAt;
         return hostingEmissions;
     }
 
