@@ -29,7 +29,7 @@ model User {
 model Domain {
   id                        String                  @id @default(uuid()) @db.Uuid
   url                       String                  @unique @db.VarChar(50)
-  companyName               String?                 @unique @map("company_name") @db.VarChar(100)
+  companyName               String?                 @map("company_name") @db.VarChar(100)
   estimatedMonthlyPageViews Int                     @default(10000) @map("estimated_monthly_page_views")
   createdAt                 DateTime                @default(now()) @map("created_at")
   verifiedAt                DateTime?               @map("verified_at")
@@ -80,16 +80,12 @@ model Page {
 }
 
 model PageViewEmission {
-  id                 String     @id @default(uuid()) @db.Uuid
-  Page               Page       @relation(fields: [pageId], references: [id])
-  pageId             String     @map("page_id") @db.Uuid
-  // FIXME: The following 4 lines are bullshit... refactor and check out ecoping therefore
-  emissionMilligrams Int        @map("emission_milligrams")
-  fileSize           Int        @map("file_size")
-  internalRequests   Int        @map("internal_requests")
-  externalRequests   Int        @map("external_requests")
-  createdAt          DateTime   @default(now()) @map("created_at")
-  pageViews          PageView[]
+  id        String     @id @default(uuid()) @db.Uuid
+  Page      Page       @relation(fields: [pageId], references: [id])
+  pageId    String     @map("page_id") @db.Uuid
+  byte      Int        @map("byte")
+  createdAt DateTime   @default(now()) @map("created_at")
+  pageViews PageView[]
 
   @@map("page_view_emissions")
 }
@@ -100,10 +96,12 @@ model PageView {
   pageId             String           @map("page_id") @db.Uuid
   pageViewEmission   PageViewEmission @relation(fields: [pageViewEmissionId], references: [id])
   pageViewEmissionId String           @map("page_view_emission_id") @db.Uuid
-  windowWidth        Int              @map("window_width")
-  windowHeight       Int              @map("window_height")
-  connectionType     String           @map("connection_type") @db.VarChar(20)
+  windowWidth        Int?             @map("window_width")
+  windowHeight       Int?             @map("window_height")
+  connectionType     String?          @map("connection_type") @db.VarChar(20)
   uncachedVisit      Boolean?         @map("uncached_visit")
+  byte               Int
+  kwh                Int
   createdAt          DateTime         @default(now()) @map("created_at")
 
   @@map("page_views")

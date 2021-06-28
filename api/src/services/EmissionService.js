@@ -29,21 +29,21 @@ class EmissionService {
 
     getEnergyByBytes(bytes, connectionType, windowWidth, windowHeight) {
         // TODO: Refactor. Var from Website Carbon Calculator
-        const KWG_PER_GB = 1.805;
-        const energy = bytes * (KWG_PER_GB / 1073741274); // GB to Byte (https://www.flightpedia.org/convert/1073741274-bytes-to-gigabytes.html)
+        const KWH_PER_GB = 1.805; // Article suggests its 0.015 (https://www.datacenterknowledge.com/energy/how-much-netflix-really-contributing-climate-change)
+        const energy = bytes * (KWH_PER_GB / 1073741274); // GB to Byte (https://www.flightpedia.org/convert/1073741274-bytes-to-gigabytes.html)
         // TODO: Multiply by connectionType and windowWidth
         return energy;
     }
 
     getCo2e(energy, renewable) {
         // TODO: Refactor. Var from Website Carbon Calculator
-        const CARBON_PER_KWG_GRID = 475;
-        if (!renewable) return energy * CARBON_PER_KWG_GRID
+        const CARBON_PER_KWH_GRID = 475;
+        if (!renewable) return energy * CARBON_PER_KWH_GRID
 
-        const CARBON_PER_KWG_RENEWABLE = 33.4;
+        const CARBON_PER_KWH_RENEWABLE = 33.4;
         const PERCENTAGE_OF_ENERGY_IN_DATACENTER = 0.1008;
         const PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER = 0.8992;
-        return (($energy * PERCENTAGE_OF_ENERGY_IN_DATACENTER) * CARBON_PER_KWG_RENEWABLE) + (($energy * PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER) * CARBON_PER_KWG_GRID);
+        return (($energy * PERCENTAGE_OF_ENERGY_IN_DATACENTER) * CARBON_PER_KWH_RENEWABLE) + (($energy * PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER) * CARBON_PER_KWH_GRID);
     }
 
     async getAggregatedEmissions(domainId, timeStart, timeEnd) {
@@ -58,8 +58,7 @@ class EmissionService {
                 uncachedVisit: true,
                 pageViewEmission: {
                     select: {
-                        emissionMilligrams: true,
-                        fileSize: true,
+                        byte: true,
                     },
                 },
             },
@@ -83,9 +82,9 @@ class EmissionService {
                 connectionType,
                 pageViewEmission,
             } = pageView;
-            const { fileSize } = pageViewEmission;
+            const { byte } = pageViewEmission;
             // TODO: Sollte mit abgespeichert werden im PageView, weil sich die Konfig Werte vielleicht mit der Zeit und mit neuen Erkenntnisen verändern könnten und das dann rückwirkend alle daten zerstören würde...
-            const transferredBytes = this.getTransferredBytes(fileSize, uncachedVisit);
+            const transferredBytes = this.getTransferredBytes(byte, uncachedVisit);
             const energyByBytes = this.getEnergyByBytes(transferredBytes, connectionType, windowWidth, windowHeight);
             aggregatedEnergy += energyByBytes;
         }

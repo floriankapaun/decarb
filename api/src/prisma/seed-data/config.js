@@ -6,14 +6,12 @@ module.exports = {
     numberOfDomains: 3,
     maxPagesPerDomain: 50,
     maxSlugDepth: 3,
-    minFileSize: 10000, // bytes
-    maxFileSize: 10000000, // bytes
+    minByte: 10000, // bytes
+    maxByte: 10000000, // bytes
     minInternalRequests: 0,
     maxInternalRequests: 40,
     minExternalRequests: 0,
     maxExternalRequests: 120,
-    minEmissionMilligrams: 10,
-    maxEmissionMilligrams: 6000,
     maxNumberOfPageViews: 1000,
     minDatetime: '2021-05-01',
     maxDatetime: '2021-07-26',

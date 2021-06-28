@@ -154,6 +154,8 @@ class DomainService {
     /**
      * Get the current emissionMilligrams for each Page of a Domain
      * 
+     * TODO: Refactor emissionMilligrams to byte and adapt client side as well
+     * 
      * @param {String} domainId - ID of Domain
      * @param {Number} [itemLimit=10] - Max number of Pages to return
      * @param {Number} [itemOffset=0] - Offset in list of return
@@ -163,7 +165,7 @@ class DomainService {
         const query = `
         SELECT
                 pages.url as "url",
-                page_view_emissions.emission_milligrams as "emissionMilligrams"
+                page_view_emissions.byte as "emissionMilligrams"
             FROM
                 domains
                 JOIN pages ON pages.domain_id = domains.id

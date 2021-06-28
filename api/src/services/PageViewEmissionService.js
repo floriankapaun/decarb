@@ -10,12 +10,9 @@ class PageViewEmissionService {
         const emissions = await fetch(`https://api.websitecarbon.com/site?url=${page.url}`)
             .then(res => res.json())
         console.log('Websitecarbon Emission Calculation: ', emissions);
-        const grams = emissions.green ? emissions.statistics.co2.renewable.grams : emissions.statistics.co2.grid.grams;
-        const milligramsRounded = Math.round(grams * 1000);
         const pageViewEmissionData = {
             pageId: page.id,
-            emissionMilligrams: milligramsRounded,
-            fileSize: emissions.bytes,
+            byte: emissions.bytes,
             internalRequests: 0,
             externalRequests: 0,
         };
