@@ -1,5 +1,6 @@
 import AppError from '../utils/AppError.js';
 import { cleanUrl } from '../utils/url.js';
+import EmissionService from './EmissionService.js';
 import PageService from './PageService.js';
 import PageViewEmissionService from './PageViewEmissionService.js';
 import PrismaService from './PrismaService.js';
@@ -65,6 +66,9 @@ class PageViewService {
         const page = await PageService.findOrCreate(pageUrl);
         // Get Pages PageViewEmission
         const pageViewEmission = await PageViewEmissionService.findOrCreate(page);
+        // Calculate amount of transferred bytes and used energy (watthours)
+        const byte = EmissionService.getDownloadedBytes(pageViewEmission.byte, data.f);
+        const wh = EmissionService.getWh(byte, data.c, data.w, data.h);
         // Register the new PageView
         const pageViewData = {
             pageId: page.id,
@@ -73,6 +77,8 @@ class PageViewService {
             windowHeight: data.h,
             connectionType: data.c,
             uncachedVisit: data.f,
+            byte,
+            wh,
         };
         const newPageView = await PrismaService.create('pageView', pageViewData);
         if (newPageView) return newPageView;

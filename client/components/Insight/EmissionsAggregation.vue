@@ -56,9 +56,13 @@ export default {
             getAggregation: 'emissions/getAggregation',
         }),
         amount() {
-            if (!this.getAggregation) return 0
-            // Convert milligrams to kilograms
-            return Math.round(this.getAggregation / 1000000)
+            if (
+                !this.getAggregation ||
+                !this.getAggregation.emissionKilograms
+            ) {
+                return 0
+            }
+            return Math.round(this.getAggregation?.emissionKilograms)
         },
     },
 }

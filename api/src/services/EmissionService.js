@@ -1,3 +1,12 @@
+import {
+    BYTE_IN_GB,
+    CO2E_PER_WH_GREEN,
+    CO2E_PER_WH_GREY,
+    PERCENTAGE_OF_DATA_LOADED_CACHED,
+    PERCENTAGE_OF_ENERGY_IN_DATACENTER,
+    PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER,
+    WH_PER_GB,
+} from '../config';
 import DomainHostingEmissionService from './DomainHostingEmissionService';
 import PrismaService from './PrismaService';
 
@@ -20,78 +29,87 @@ class EmissionService {
         return Math.ceil(domainEmissionMilligrams / 1000000);
     }
 
-    getTransferredBytes(bytes, uncached = true) {
-        // TODO: Refactor. Var from Website Carbon Calculator
-        const PERCENTAGE_OF_DATA_LOADED_ON_SUBSEQUENT_LOAD = 0.02;
-        if (!uncached) return bytes * PERCENTAGE_OF_DATA_LOADED_ON_SUBSEQUENT_LOAD
+
+    /**
+     * Calculates the downloaded amount of Bytes
+     * 
+     * @param {Number} bytes - The uncached amount of Bytes
+     * @param {Boolean} uncached - If the PageView was uncached or not
+     * @returns {Number} - Downloaded amount of Bytes
+     */
+    getDownloadedBytes(bytes, uncached = true) {
+        if (!uncached) {
+            return bytes * PERCENTAGE_OF_DATA_LOADED_CACHED
+        }
         return bytes;
     }
 
-    getEnergyByBytes(bytes, connectionType, windowWidth, windowHeight) {
-        // TODO: Refactor. Var from Website Carbon Calculator
-        const KWH_PER_GB = 1.805; // Article suggests its 0.015 (https://www.datacenterknowledge.com/energy/how-much-netflix-really-contributing-climate-change)
-        const energy = bytes * (KWH_PER_GB / 1073741274); // GB to Byte (https://www.flightpedia.org/convert/1073741274-bytes-to-gigabytes.html)
-        // TODO: Multiply by connectionType and windowWidth
-        return energy;
+
+    /**
+     * Returns the energy consumed by a PageView in watt-hours
+     * 
+     * @param {Number} byte - Downloaded amount of bytes
+     * @param {String} connectionType - Used type of internet connection
+     * @param {Number} windowWidth 
+     * @param {Number} windowHeight 
+     * @returns {Number} - Watt-hours used
+     */
+    getWh(bytes, connectionType, windowWidth, windowHeight) {
+        const downloadWh = bytes * (WH_PER_GB / BYTE_IN_GB)
+        // TODO: Multiply by connectionType
+        // TODO: Add Device Energy Consumption
+        return downloadWh;
     }
 
-    getCo2e(energy, renewable) {
-        // TODO: Refactor. Var from Website Carbon Calculator
-        const CARBON_PER_KWH_GRID = 475;
-        if (!renewable) return energy * CARBON_PER_KWH_GRID
 
-        const CARBON_PER_KWH_RENEWABLE = 33.4;
-        const PERCENTAGE_OF_ENERGY_IN_DATACENTER = 0.1008;
-        const PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER = 0.8992;
-        return (($energy * PERCENTAGE_OF_ENERGY_IN_DATACENTER) * CARBON_PER_KWH_RENEWABLE) + (($energy * PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER) * CARBON_PER_KWH_GRID);
+    /**
+     * Calculate Emissions in kilograms by watt-hours and energy type
+     * 
+     * @param {Number} wh - Watt-hours
+     * @param {Boolean} renewable - green energy or not
+     * @returns {Object} - Emissions in kilograms
+     */
+    getEmissionKilograms(wh, renewable) {
+        // TODO: Refactor. Var from Website Carbon Calculator
+        if (!renewable) {
+            return ((wh * CO2E_PER_WH_GREY) / 1000);
+        }
+        const whDatacenter = wh * PERCENTAGE_OF_ENERGY_IN_DATACENTER;
+        const whElse = wh * PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER;
+        return (((whDatacenter * CO2E_PER_WH_GREEN) + (whElse * CO2E_PER_WH_GREY)) / 1000);
     }
 
-    async getAggregatedEmissions(domainId, timeStart, timeEnd) {
 
-        const hostingEmissions = await DomainHostingEmissionService.getCurrent(domainId);
-
+    /**
+     * Returns aggregated emissions in kilograms of a Domain in time range
+     * 
+     * @param {String} domainId - ID of Domain
+     * @param {DateTime} timeStart - Start of time range
+     * @param {DateTime} [timeEnd=now] - End of time range
+     * @returns {Object} - Domains Emissions in time range in kilograms
+     */
+    async getAggregatedEmissions(domainId, timeStart, timeEnd = new Date()) {
+        // Get all pageViews for Domain in time range
         const pageViews = await PrismaService.findMany('pageView', {
-            select: {
-                windowWidth: true,
-                windowHeight: true,
-                connectionType: true,
-                uncachedVisit: true,
-                pageViewEmission: {
-                    select: {
-                        byte: true,
-                    },
-                },
-            },
+            select: { wh: true }, // only fetch needed information
             where: {
                 page: {
                     domainId: { equals: domainId },
                 },
                 createdAt: {
-                    gte: new Date(timeStart),
+                    gte: timeStart ? new Date(timeStart) : undefined,
                     lt: new Date(timeEnd),
                 },
             },
         });
-
-        let aggregatedEnergy = 0;
-        for (const pageView of pageViews) {
-            const {
-                uncachedVisit,
-                windowWidth,
-                windowHeight,
-                connectionType,
-                pageViewEmission,
-            } = pageView;
-            const { byte } = pageViewEmission;
-            // TODO: Sollte mit abgespeichert werden im PageView, weil sich die Konfig Werte vielleicht mit der Zeit und mit neuen Erkenntnisen verändern könnten und das dann rückwirkend alle daten zerstören würde...
-            const transferredBytes = this.getTransferredBytes(byte, uncachedVisit);
-            const energyByBytes = this.getEnergyByBytes(transferredBytes, connectionType, windowWidth, windowHeight);
-            aggregatedEnergy += energyByBytes;
-        }
-        const co2eGrams = this.getCo2e(aggregatedEnergy, hostingEmissions.renewableEnergy)
-
-        // TODO: Fix unit and adapt Client side (currently mg)
-        return co2eGrams
+        if (!pageViews || !pageViews.length) return { emissionKilograms: 0 };
+        // Aggregate watt-hours
+        const wattHours = pageViews.map((x) => x.wh).reduce((acc, val) => acc + val);
+        // Get hostingEmissions
+        const hostingEmissions = await DomainHostingEmissionService.getCurrent(domainId);
+        // Translate to kilograms of CO2e
+        const emissionKilograms = this.getEmissionKilograms(wattHours, hostingEmissions.renewableEnergy);
+        return { emissionKilograms };
     }
 
     // For PageViewEmissions
