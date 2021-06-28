@@ -73,24 +73,6 @@ class OffsetService {
         return currentOffsets;
     }
 
-    // TODO: Move somewhere else and have a look inside DomainService.aggregateDomainEmissions
-    // which could potentially be moved as well.
-    async getEmissionKilograms(domainId, from, until) {
-        let sqlFrom;
-        let sqlUntil;
-
-        if (from) sqlFrom = getTimestampString(from);
-        if (until) sqlUntil = getTimestampString(until);
-
-        const domainEmissionMilligrams = await DomainService.aggregateDomainEmissions(
-            domainId,
-            sqlFrom,
-            sqlUntil
-        );
-        if (!domainEmissionMilligrams) return 0;
-        return Math.ceil(domainEmissionMilligrams / 1000000);
-    }
-
     /**
      * Calculates the start time of an Offsets Time Range.
      * 

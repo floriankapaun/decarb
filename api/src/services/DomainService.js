@@ -62,17 +62,6 @@ class DomainService {
         return PrismaService.findUnique('domain', { id });
     }
 
-    async createDomainHostingEmission(domain) {
-        const prettyDomainUrl = domain.url.replace(/^(https?:|)\/\//, '');
-        const tgwfResponse = await fetch(`http://api.thegreenwebfoundation.org/greencheck/${prettyDomainUrl}`)
-            .then((response) => response.json());
-        const domainHostingEmissionData = {
-            domainId: domain.id,
-            renewableEnergy: tgwfResponse.green,
-        };
-        return await PrismaService.create('domainHostingEmission', domainHostingEmissionData);
-    }
-
     async fetchPages(url) {
         return this.sitemapper.fetch(`https://${url}/sitemap.xml`)
             .then(({ sites }) => sites)
@@ -160,24 +149,6 @@ class DomainService {
         const data = { verifiedAt: new Date() };
         const verifiedDomain = await PrismaService.update('domain', domainId, data);
         return verifiedDomain;
-    }
-
-    /**
-     * Get a Domains current DomainHostingEmissions
-     * 
-     * @param {String} domainId - ID of Domain
-     * @returns {Object} - Domains current DomainHostingEmissions
-     */
-    async getCurrentHostingEmission(domainId) {
-        const options = { orderBy: { createdAt: 'desc' } };
-        const hostingEmissions = await PrismaService.findFirst(
-            'domainHostingEmission',
-            { domainId },
-            options
-        );
-        delete hostingEmissions.id;
-        delete hostingEmissions.createdAt;
-        return hostingEmissions;
     }
 
     /**
@@ -305,30 +276,6 @@ class DomainService {
         `;
         const pageViewsPerDay = await PrismaService.queryRaw(query);
         return pageViewsPerDay;
-    }
-
-    async getAggregatedEmissions(domainId, timeStart, timeEnd) {
-        let query = `
-            SELECT
-                SUM(page_view_emissions.emission_milligrams) AS "domain_emissions"
-            FROM
-                domains
-                JOIN pages ON domains.id = pages.domain_id
-                JOIN page_views ON pages.id = page_views.page_id
-                JOIN page_view_emissions ON page_view_emissions.id = page_views.page_view_emission_id
-            WHERE
-                domains.id = '${domainId}'
-                ${timeStart
-                    ? `AND page_views.created_at >= TO_TIMESTAMP('${timeStart}', 'YYYY-MM-DD HH24:MI:SS')`
-                    : null
-                }
-                ${timeEnd
-                    ? `AND page_views.created_at <= TO_TIMESTAMP('${timeEnd}', 'YYYY-MM-DD HH24:MI:SS')`
-                    : null
-                }
-        `;
-        const domainEmissions = await PrismaService.queryRaw(query);
-        return domainEmissions[0].domain_emissions;
     }
 
     /**

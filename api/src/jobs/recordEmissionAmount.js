@@ -1,5 +1,6 @@
 import { parentPort } from 'worker_threads';
 
+import EmissionService from '../services/EmissionService.js';
 import OffsetService from '../services/OffsetService.js';
 import PrismaService from '../services/PrismaService.js';
 import StripeService from '../services/StripeService.js';
@@ -13,7 +14,7 @@ import SubscriptionService from '../services/SubscriptionService.js';
     for (let subscription of activeSubscriptions) {
         const { domainId, recordedUntil, stripeSubscriptionItemId } = subscription;
         // Get amount of Emissions created since last record
-        const emissionKilograms = await OffsetService.getEmissionKilograms(domainId, recordedUntil, now);
+        const emissionKilograms = await EmissionService.getEmissionKilograms(domainId, recordedUntil, now);
         // Record Emissions to Stripe as 'usage'
         if (emissionKilograms > 0) {
             await StripeService.recordUsage(stripeSubscriptionItemId, emissionKilograms);

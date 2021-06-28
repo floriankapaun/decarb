@@ -4,7 +4,9 @@ import attachCurrentUser from '../middlewares/attachCurrentUser';
 import isAuth from '../middlewares/isAuth';
 import requireDomainRole from '../middlewares/requireDomainRole.js';
 import PrismaService from '../services/PrismaService.js';
+import DomainHostingEmissionService from '../services/DomainHostingEmissionService';
 import DomainService from '../services/DomainService.js';
+import EmissionService from '../services/EmissionService';
 import asyncHandler from '../utils/asyncHandler';
 import sendResponse from '../utils/sendResponse';
 import { DOMAIN_PAGES_RESPONSE_LIMIT } from '../config';
@@ -84,7 +86,7 @@ export default (app) => {
         requireDomainRole(),
         asyncHandler(async (req, res) => {
             const { id } = req.params;
-            const domainHostingEmission = await DomainService.getCurrentHostingEmission(id);
+            const domainHostingEmission = await DomainHostingEmissionService.getCurrent(id);
             return sendResponse(res, domainHostingEmission);
         })
     );
@@ -194,13 +196,13 @@ export default (app) => {
 
     // Get a domains aggregated pageViewEmissions (in time range)
     router.post('/:id/emissions',
-        isAuth,
-        attachCurrentUser,
-        requireDomainRole(),
+        // isAuth,
+        // attachCurrentUser,
+        // requireDomainRole(),
         asyncHandler(async (req, res) => {
             const { id } = req.params;
             const { timeStart, timeEnd } = req.body;
-            const domainEmissions = await DomainService.getAggregatedEmissions(id, timeStart, timeEnd);
+            const domainEmissions = await EmissionService.getAggregatedEmissions(id, timeStart, timeEnd);
             return sendResponse(res, domainEmissions);
         })
     );
