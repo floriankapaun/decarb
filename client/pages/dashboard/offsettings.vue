@@ -3,7 +3,15 @@
         <div class="bx--row">
             <div class="bx--col-sm-4 p-mb">
                 <h1>{{ $t('p.dashboard.offsettings.h1') }}</h1>
-                <InsightOffsetAggregation />
+            </div>
+        </div>
+        <div class="bx--row p-mb">
+            <div
+                class="bx--col-sm-4 bx--col-md-4 bx--col-lg-8 bx--col-xlg-8 mb"
+            >
+                <CvTile>
+                    <InsightOffsetAggregation />
+                </CvTile>
             </div>
         </div>
     </section>

@@ -4,6 +4,7 @@ import { en as form } from './components/form'
 import { en as header } from './components/header'
 import { en as logo } from './components/logo'
 import { en as navigation } from './components/navigation'
+import { en as offsetAggregation } from './components/offsetAggregation'
 import { en as trackingCode } from './components/trackingCode'
 import { en as verifyDomainOwnershipButton } from './components/verifyDomainOwnershipButton'
 import { en as viewsPerPage } from './components/viewsPerPage'
@@ -15,6 +16,7 @@ export default {
     header,
     logo,
     navigation,
+    offsetAggregation,
     trackingCode,
     verifyDomainOwnershipButton,
     viewsPerPage,
