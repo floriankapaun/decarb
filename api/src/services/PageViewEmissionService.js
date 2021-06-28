@@ -7,6 +7,11 @@ class PageViewEmissionService {
 
     async calculate(page) {
         // TODO: Provide own calculations
+        // 1. Hit Pagespeed API
+        // 2. Calculate transferred bytes
+        // For loop on $results['pagespeedapi']->lighthouseResult->audits->{'network-requests'}->details->items   
+        // $item->transferSize
+        // 3. Calculate Stats by transferred bytes
         const emissions = await fetch(`https://api.websitecarbon.com/site?url=${page.url}`)
             .then(res => res.json())
         console.log('Websitecarbon Emission Calculation: ', emissions);

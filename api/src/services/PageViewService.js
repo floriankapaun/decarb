@@ -9,6 +9,8 @@ import PrismaService from './PrismaService.js';
  * Controls the 'PageView' Entity
  */
 class PageViewService {
+
+    
     /**
      * Validates data of a PageView
      * 
@@ -28,6 +30,7 @@ class PageViewService {
         if (typeof data.f === 'string') data.f = data.f === 'true';
         return data;
     }
+
 
     /**
      * Validates the origin of a PageView registration

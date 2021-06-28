@@ -13,21 +13,22 @@ import PrismaService from './PrismaService';
 class EmissionService {
     // TODO: Move somewhere else and have a look inside DomainService.aggregateDomainEmissions
     // which could potentially be moved as well.
-    async getEmissionKilograms(domainId, from, until) {
-        let sqlFrom;
-        let sqlUntil;
+    // FIXME: Get Job to work again
+    // async getEmissionKilograms(domainId, from, until) {
+    //     let sqlFrom;
+    //     let sqlUntil;
 
-        if (from) sqlFrom = getTimestampString(from);
-        if (until) sqlUntil = getTimestampString(until);
+    //     if (from) sqlFrom = getTimestampString(from);
+    //     if (until) sqlUntil = getTimestampString(until);
 
-        const domainEmissionMilligrams = await DomainService.aggregateDomainEmissions(
-            domainId,
-            sqlFrom,
-            sqlUntil
-        );
-        if (!domainEmissionMilligrams) return 0;
-        return Math.ceil(domainEmissionMilligrams / 1000000);
-    }
+    //     const domainEmissionMilligrams = await DomainService.aggregateDomainEmissions(
+    //         domainId,
+    //         sqlFrom,
+    //         sqlUntil
+    //     );
+    //     if (!domainEmissionMilligrams) return 0;
+    //     return Math.ceil(domainEmissionMilligrams / 1000000);
+    // }
 
 
     /**
@@ -111,14 +112,6 @@ class EmissionService {
         const emissionKilograms = this.getEmissionKilograms(wattHours, hostingEmissions.renewableEnergy);
         return { emissionKilograms };
     }
-
-    // For PageViewEmissions
-    // 1. Hit Pagespeed API
-    // 2. Calculate transferred bytes
-    // For loop on $results['pagespeedapi']->lighthouseResult->audits->{'network-requests'}->details->items   
-    // $item->transferSize
-    // 3. Calculate Stats by transferred bytes
-
 }
 
 export default new EmissionService();
