@@ -13,14 +13,6 @@ for (let page of pages) {
             min: config.minByte,
             max: config.maxByte,
         }),
-        internalRequests: faker.datatype.number({
-            min: config.minInternalRequests,
-            max: config.maxInternalRequests,
-        }),
-        externalRequests: faker.datatype.number({
-            min: config.minExternalRequests,
-            max: config.maxExternalRequests,
-        }),
     }
     pageViewEmissions.push(fakePageViewEmissions)
 }
