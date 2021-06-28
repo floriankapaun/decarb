@@ -5,7 +5,15 @@
 </template>
 
 <script>
-import Chart from 'chart.js'
+import {
+    Chart,
+    LineElement,
+    PointElement,
+    LineController,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+} from 'chart.js'
 
 export default {
     props: {
@@ -73,6 +81,14 @@ export default {
     mounted() {
         // Have to wait for next tick until DOM is available
         this.$nextTick(() => {
+            Chart.register(
+                LineElement,
+                PointElement,
+                LineController,
+                CategoryScale,
+                LinearScale,
+                Tooltip
+            )
             this.lineChart = new Chart(this.$refs.lineChart, this.chartConfig)
         })
     },
