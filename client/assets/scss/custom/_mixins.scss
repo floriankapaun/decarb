@@ -23,6 +23,13 @@
 
     $token: map-get($decarbTypeStyles, $name);
 
-    // Delegate to the fluid-type helper for the given token
-    @include fluid-type($token, $breakpoints);
+    // If the token has breakpoints defined for fluid styles, delegate to
+    // the fluid-type helper for the given token
+    @if map-has-key($token, 'breakpoints') {
+        @include fluid-type($token, $breakpoints);
+    } @else {
+        // Otherwise, just include all the property declarations directly
+        // on the selector
+        @include properties(map-remove($token, 'breakpoints'));
+    }
 }

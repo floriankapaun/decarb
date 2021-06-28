@@ -62,7 +62,7 @@ export default {
 
 .h2 {
     margin-bottom: $spacing-06;
-    @include decarb--type-style('expressive-heading-03'); // Von CvDataTable
+    @include decarb--type-style('productive-heading-03');
 }
 
 .extra-padding {
