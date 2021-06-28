@@ -1,6 +1,6 @@
 export const en = {
     title: 'Purchased offsets',
-    since: 'since {date}',
-    fallbackSince: 'so far',
+    since: 'Since {date}',
+    fallbackSince: 'So far',
     unit: 'kilograms',
 }

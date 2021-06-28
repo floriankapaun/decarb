@@ -3,6 +3,6 @@ export const en = {
     subtitle: 'Your website is hosted',
     green: 'GREEN',
     grey: 'GREY',
-    source: 'Source: {0}',
+    source: 'Source: {link}',
     url: 'The Green Web Foundation',
 }

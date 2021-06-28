@@ -1,29 +1,20 @@
 <template>
-    <section class="wrapper">
-        <div class="title">
-            <h2>{{ $t('c.hostingEmissions.title') }}</h2>
-            <p>{{ $t('c.hostingEmissions.subtitle') }}</p>
-        </div>
-        <div class="content">
-            <p class="big" :class="renewableEnergy ? 'text-green' : null">
-                {{
-                    renewableEnergy
-                        ? $t('c.hostingEmissions.green')
-                        : $t('c.hostingEmissions.grey')
-                }}
-            </p>
-            <i18n path="c.hostingEmissions.source" tag="p">
-                <CvLink
-                    href="https://www.thegreenwebfoundation.org/"
-                    target="_blank"
-                    rel="noopener"
-                    size="lg"
-                >
-                    {{ $t('c.hostingEmissions.url') }}
-                </CvLink>
-            </i18n>
-        </div>
-    </section>
+    <InsightTile
+        level="2"
+        :title="$t('c.hostingEmissions.title')"
+        :subtitle="$t('c.hostingEmissions.subtitle')"
+        :info="
+            renewableEnergy
+                ? $t('c.hostingEmissions.green')
+                : $t('c.hostingEmissions.grey')
+        "
+        :info-color="renewableEnergy ? 'primary' : null"
+        :note="{
+            href: 'https://www.thegreenwebfoundation.org/',
+            i18nPath: 'c.hostingEmissions.source',
+            linkText: $t('c.hostingEmissions.url'),
+        }"
+    />
 </template>
 
 <script>
@@ -65,33 +56,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.title {
-    align-self: flex-start;
-    margin-bottom: $spacing-06;
-    @include carbon--breakpoint(md) {
-        margin-bottom: $spacing-09;
-    }
-}
-
-.content {
-    text-align: center;
-    margin-bottom: $spacing-06;
-    @include carbon--breakpoint(md) {
-        margin-bottom: $spacing-09;
-    }
-}
-
-.big {
-    @include decarb--type-style(display-04);
-}
-
 .text-green {
     color: $primary;
 }

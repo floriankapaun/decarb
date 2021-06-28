@@ -1,13 +1,11 @@
 <template>
-    <section class="wrapper">
-        <div class="title">
-            <h2>{{ $t('c.emissionAggregation.title') }}</h2>
-        </div>
-        <div class="content">
-            <p class="amount">{{ amount }}</p>
-            <p>{{ $t('c.emissionAggregation.unit') }}</p>
-        </div>
-    </section>
+    <InsightTile
+        level="2"
+        :title="$t('c.emissionAggregation.title')"
+        :subtitle="$t('c.emissionAggregation.subtitle')"
+        :info="'' + amount"
+        :note="$t('c.emissionAggregation.unit')"
+    />
 </template>
 
 <script>
@@ -65,32 +63,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.title {
-    align-self: flex-start;
-    margin-bottom: $spacing-06;
-    @include carbon--breakpoint(md) {
-        margin-bottom: $spacing-09;
-    }
-}
-
-.content {
-    text-align: center;
-    margin-bottom: $spacing-06;
-    @include carbon--breakpoint(md) {
-        margin-bottom: $spacing-09;
-    }
-}
-
-.amount {
-    @include decarb--type-style(display-04);
-}
-</style>

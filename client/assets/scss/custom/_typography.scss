@@ -1,6 +1,13 @@
 /**
  * Minor adaptions to @carbon/type styles
  */
+$decarb-body-short-01: (
+    font-size: 0.875rem,
+    font-weight: 400,
+    line-height: 1.29,
+    letter-spacing: 0.16px,
+) !default;
+
 $decarb-productive-heading-03: (
     font-size: 1.25rem,
     font-weight: 400,
@@ -55,6 +62,7 @@ $decarb-display-04: (
 ) !default;
 
 $decarbTypeStyles: (
+    body-short-01: $decarb-body-short-01,
     productive-heading-03: $decarb-productive-heading-03,
     expressive-heading-03: $decarb-expressive-heading-03,
     display-04: $decarb-display-04,
