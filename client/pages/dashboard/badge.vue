@@ -1,14 +1,17 @@
 <template>
     <section>
         <div class="bx--row">
-            <div class="bx--col-sm-4 p-mb">
+            <div class="bx--col-sm-4 mb-md">
                 <h1>{{ $t('p.dashboard.badge.h1') }}</h1>
                 <p>{{ $t('p.dashboard.badge.p') }}</p>
             </div>
         </div>
         <div class="bx--row">
             <div
-                class="bx--col-sm-4 bx--col-md-4 bx--col-lg-6 bx--col-xlg-4 mb"
+                class="
+                    bx--col-sm-4 bx--col-md-4 bx--col-lg-6 bx--col-xlg-4
+                    mb-lg
+                "
             >
                 <CvSelect
                     v-model="selectedBadgeColorscheme"
@@ -28,7 +31,10 @@
 
         <div class="bx--row">
             <div
-                class="bx--col-sm-4 bx--col-md-6 bx--col-lg-12 bx--col-xlg-8 mb"
+                class="
+                    bx--col-sm-4 bx--col-md-6 bx--col-lg-12 bx--col-xlg-8
+                    mb-lg
+                "
             >
                 <CvTile kind="standard" :light="false" class="badge-wrapper">
                     <div v-html="codeSnippet"></div>
@@ -100,20 +106,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.p-mb {
-    margin-bottom: $spacing-06;
-    @include carbon--breakpoint(md) {
-        margin-bottom: $spacing-09;
-    }
-}
-
-.mb {
-    margin-bottom: $spacing-07;
-    @include carbon--breakpoint(md) {
-        margin-bottom: $spacing-10;
-    }
-}
-
 .badge-wrapper {
     text-align: center;
     padding-top: $spacing-07;

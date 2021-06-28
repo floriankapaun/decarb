@@ -1,11 +1,11 @@
 <template>
     <section>
         <div class="bx--row">
-            <div class="bx--col-sm-4 p-mb">
-                <h1>{{ $t('p.dashboard.offsettings.h1') }}</h1>
+            <div class="bx--col-sm-4">
+                <h1 class="mb-sm">{{ $t('p.dashboard.offsettings.h1') }}</h1>
             </div>
         </div>
-        <div class="bx--row p-mb">
+        <div class="bx--row mb-md">
             <div
                 class="bx--col-sm-4 bx--col-md-4 bx--col-lg-8 bx--col-xlg-8 mb"
             >
@@ -28,12 +28,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-.p-mb {
-    margin-bottom: $spacing-06;
-    @include carbon--breakpoint(md) {
-        margin-bottom: $spacing-09;
-    }
-}
-</style>

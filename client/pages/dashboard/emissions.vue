@@ -1,7 +1,7 @@
 <template>
     <section>
         <div class="bx--row">
-            <div class="bx--col-sm-4 p-mb">
+            <div class="bx--col-sm-4 mb-md">
                 <h1>{{ $t('p.dashboard.emissions.h1') }}</h1>
                 <InsightEmissionsAggregation />
                 <InsightHostingEmissions />
@@ -22,12 +22,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-.p-mb {
-    margin-bottom: $spacing-06;
-    @include carbon--breakpoint(md) {
-        margin-bottom: $spacing-09;
-    }
-}
-</style>

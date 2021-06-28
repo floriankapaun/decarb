@@ -1,7 +1,7 @@
 <template>
     <section>
         <div class="bx--row">
-            <div class="bx--col-sm-4 p-mb">
+            <div class="bx--col-sm-4 mb-md">
                 <h1>{{ $t('p.dashboard.trackingCode.h1') }}</h1>
                 <p class="mb-05">{{ $t('p.dashboard.trackingCode.p1') }}</p>
                 <p v-html="$t('p.dashboard.trackingCode.p2')"></p>
@@ -11,7 +11,7 @@
             <div
                 class="
                     bx--col-sm-4 bx--col-md-6 bx--col-lg-12 bx--col-xlg-8
-                    p-mb
+                    mb-md
                 "
             >
                 <TrackingCode />
@@ -47,12 +47,5 @@ export default {
 
 .mb-06 {
     margin-bottom: $spacing-06;
-}
-
-.p-mb {
-    margin-bottom: $spacing-06;
-    @include carbon--breakpoint(md) {
-        margin-bottom: $spacing-09;
-    }
 }
 </style>
