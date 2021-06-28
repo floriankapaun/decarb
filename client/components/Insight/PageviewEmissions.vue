@@ -1,11 +1,29 @@
 <template>
-    <section>PageviewEmissions {{ pageviewEmissions }}</section>
+    <section>
+        <CvDataTable
+            :title="$t('c.pageviewEmissions.title')"
+            :auto-width="false"
+            :columns="columns"
+            :data="computedRows"
+            :pagination="false"
+            :sortable="false"
+            :zebra="false"
+        ></CvDataTable>
+    </section>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 
 export default {
+    data() {
+        return {
+            columns: [
+                this.$t('c.pageviewEmissions.columns.url'),
+                this.$t('c.pageviewEmissions.columns.emissionMilligrams'),
+            ],
+        }
+    },
     async fetch() {
         const store = this.$store
         if (store.getters['emissions/getPageviewEmissions']) return
@@ -32,8 +50,11 @@ export default {
         ...mapGetters({
             getPageviewEmissions: 'emissions/getPageviewEmissions',
         }),
-        pageviewEmissions() {
-            return this.getPageviewEmissions
+        computedRows() {
+            return this.getPageviewEmissions?.map((x) => [
+                x.url,
+                x.emissionMilligrams,
+            ])
         },
     },
 }

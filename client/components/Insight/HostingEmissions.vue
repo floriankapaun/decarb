@@ -1,5 +1,29 @@
 <template>
-    <section>HostingEmissions {{ hostingEmissions }}</section>
+    <section class="wrapper">
+        <div class="title">
+            <h2>{{ $t('c.hostingEmissions.title') }}</h2>
+            <p>{{ $t('c.hostingEmissions.subtitle') }}</p>
+        </div>
+        <div class="content">
+            <p class="big" :class="renewableEnergy ? 'text-green' : null">
+                {{
+                    renewableEnergy
+                        ? $t('c.hostingEmissions.green')
+                        : $t('c.hostingEmissions.grey')
+                }}
+            </p>
+            <i18n path="c.hostingEmissions.source" tag="p">
+                <CvLink
+                    href="https://www.thegreenwebfoundation.org/"
+                    target="_blank"
+                    rel="noopener"
+                    size="lg"
+                >
+                    {{ $t('c.hostingEmissions.url') }}
+                </CvLink>
+            </i18n>
+        </div>
+    </section>
 </template>
 
 <script>
@@ -33,9 +57,42 @@ export default {
         ...mapGetters({
             getHostingEmissions: 'emissions/getHostingEmissions',
         }),
-        hostingEmissions() {
-            return this.getHostingEmissions
+        renewableEnergy() {
+            return this.getHostingEmissions?.renewableEnergy ?? false
         },
     },
 }
 </script>
+
+<style lang="scss" scoped>
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    align-self: flex-start;
+    margin-bottom: $spacing-06;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-09;
+    }
+}
+
+.content {
+    text-align: center;
+    margin-bottom: $spacing-06;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-09;
+    }
+}
+
+.big {
+    @include decarb--type-style(display-04);
+}
+
+.text-green {
+    color: $primary;
+}
+</style>

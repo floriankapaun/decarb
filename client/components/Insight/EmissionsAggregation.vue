@@ -1,5 +1,13 @@
 <template>
-    <section>EmissionAggregation {{ aggregation }}</section>
+    <section class="wrapper">
+        <div class="title">
+            <h2>{{ $t('c.emissionAggregation.title') }}</h2>
+        </div>
+        <div class="content">
+            <p class="amount">{{ amount }}</p>
+            <p>{{ $t('c.emissionAggregation.unit') }}</p>
+        </div>
+    </section>
 </template>
 
 <script>
@@ -49,9 +57,40 @@ export default {
         ...mapGetters({
             getAggregation: 'emissions/getAggregation',
         }),
-        aggregation() {
-            return this.getAggregation
+        amount() {
+            if (!this.getAggregation) return 0
+            // Convert milligrams to kilograms
+            return Math.round(this.getAggregation / 1000000)
         },
     },
 }
 </script>
+
+<style lang="scss" scoped>
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    align-self: flex-start;
+    margin-bottom: $spacing-06;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-09;
+    }
+}
+
+.content {
+    text-align: center;
+    margin-bottom: $spacing-06;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-09;
+    }
+}
+
+.amount {
+    @include decarb--type-style(display-04);
+}
+</style>

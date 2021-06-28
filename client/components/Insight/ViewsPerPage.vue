@@ -16,6 +16,14 @@
 import { mapGetters } from 'vuex'
 
 export default {
+    data() {
+        return {
+            columns: [
+                this.$t('c.viewsPerPage.columns.url'),
+                this.$t('c.viewsPerPage.columns.pageViews'),
+            ],
+        }
+    },
     async fetch() {
         const store = this.$store
         if (store.getters['traffic/getViewsPerPage']) return
@@ -53,14 +61,6 @@ export default {
                     timeEnd: now,
                 },
             })
-        }
-    },
-    data() {
-        return {
-            columns: [
-                this.$t('c.viewsPerPage.columns.url'),
-                this.$t('c.viewsPerPage.columns.pageViews'),
-            ],
         }
     },
     computed: {
