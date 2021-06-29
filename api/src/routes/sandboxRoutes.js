@@ -1,20 +1,18 @@
 import { Router } from 'express';
 
-import OffsetService from '../services/OffsetService';
-import asyncHandler from '../utils/asyncHandler';
-import sendResponse from '../utils/sendResponse';
+import PageViewEmissionService from '../services/PageViewEmissionService.js';
+import asyncHandler from '../utils/asyncHandler.js';
+import sendResponse from '../utils/sendResponse.js';
 
 const router = Router();
 
 export default (app) => {
     app.use('/sandbox', router);
 
-    // Create an Offset
-    // TODO: Transform into agenda.js job routine
-    router.post('/:id', asyncHandler(async (req, res) => {
-        const { id } = req.params;
-        // Deprectead...
-        // const newOffset = await OffsetService.create(id);
-        return sendResponse(res, newOffset);
+    // Testing stuff...
+    router.post('/', asyncHandler(async (req, res) => {
+        const { url, id } = req.body;
+        const x = await PageViewEmissionService.create({url, id});
+        return sendResponse(res, x);
     }));
 }

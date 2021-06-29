@@ -50,6 +50,7 @@ export const EVENTS = {
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 export const MAX_NUMBER_OF_WORKERS = process.env.MAX_NUMBER_OF_WORKERS || 4;
 export const MODE = process.env.MODE || 'development';
+export const PAGESPEED_STRATEGY = 'mobile';
 export const PERCENTAGE_OF_DATA_LOADED_CACHED = 0.02; // Source: Website Carbon Calcuator
 export const PERCENTAGE_OF_ENERGY_IN_DATACENTER = 0.1008; // Source: Website Carbon Calcuator
 export const PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER = (1 - PERCENTAGE_OF_ENERGY_IN_DATACENTER); // Source: Website Carbon Calcuator

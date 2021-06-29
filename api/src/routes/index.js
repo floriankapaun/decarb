@@ -10,6 +10,7 @@ import subscriptionRoutes from './subscriptionRoutes.js';
 import userRoutes from './userRoutes.js';
 
 import error from '../middlewares/error.js';
+import { MODE } from '../config/index.js';
 
 export default () => {
     const app = Router();
@@ -18,11 +19,13 @@ export default () => {
     badgeRoutes(app);
     domainRoutes(app);
     pageViewRoutes(app);
-    sandboxRoutes(app);
     subscriptionRoutes(app);
     stripeRoutes(app);
     userRoutes(app);
-
+    
+    // Only enable sanbox routes in development
+    if (MODE === 'development') sandboxRoutes(app);
+    
     // Error handler must be defined last
     app.use(error)
 
