@@ -1,16 +1,12 @@
-import Sitemapper from 'sitemapper';
 import fetch from 'node-fetch';
 
 import PrismaService from './PrismaService.js';
-import EventEmitter from '../utils/eventEmitter.js';
-import { PING_SCRIPT_URL, ENUMS, EVENTS, CLIENT_ENTRYPOINT } from '../config/index.js';
+import { PING_SCRIPT_URL, ENUMS, CLIENT_ENTRYPOINT } from '../config/index.js';
 import { cleanUrl } from '../utils/url.js';
 import AppError from '../utils/AppError.js';
 
 class DomainService {
-    constructor() {
-        this.sitemapper = new Sitemapper();
-    }
+    
 
     /**
      * Creates a new Domain including DomainUser Role
@@ -62,51 +58,6 @@ class DomainService {
         return PrismaService.findUnique('domain', { id });
     }
 
-    async fetchPages(url) {
-        return this.sitemapper.fetch(`https://${url}/sitemap.xml`)
-            .then(({ sites }) => sites)
-            .catch((error) => console.error(error));
-    }
-
-    /**
-     * Searches for a domains pages and persists them to the database.
-     * Only fired on domain creation.
-     * 
-     * @param {Object} domain
-     * 
-     * @returns {Object} - number of pages added to database
-     */
-    async createInitialPageIndex(domain) {
-        // Crawl sitemap and index pages
-        const pages = await this.fetchPages(domain.url);
-
-        if (!pages.length) return console.error('⚠️ Sitemap not found, no access granted or empty');
-
-        const newPages = [];
-
-        // TODO: Remove this timestamp --> is handled by default value
-        // Milliseconds or even seconds are not important hence
-        // we create only one date outside the for loop.
-        const now = new Date();
-
-        for (const page of pages) {
-            // TODO: Look for http https www differences
-            if (!cleanUrl(page).startsWith(domain.url)) {
-                console.error(`⚠️ Page "${page}" is propably no part of "${domain.url}"`);
-                continue; // skips this iteration
-            }
-
-            newPages.push({
-                url: page,
-                domainId: domain.id,
-                createdAt: now,
-            });
-        }
-
-        const result = await PrismaService.createMany('page', newPages);
-        EventEmitter.emit(EVENTS.create.initialPageIndex, domain.id);
-        return result;
-    }
 
     /**
      * Validate a Domains Tracking-Script implementation
@@ -144,7 +95,7 @@ class DomainService {
         const domain = await this.getById(domainId);
         const validImplementation = await this.validateImplementation(domain);
         if (!validImplementation) {
-            throw new AppError('Invalid Script Implementation', 401);
+            throw new AppError('Invalid Script Implementation', 406);
         }
         const data = { verifiedAt: new Date() };
         const verifiedDomain = await PrismaService.update('domain', domainId, data);

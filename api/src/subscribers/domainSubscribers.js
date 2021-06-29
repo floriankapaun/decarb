@@ -1,10 +1,10 @@
 import DomainHostingEmissionService from '../services/DomainHostingEmissionService.js';
-import DomainService from '../services/DomainService.js';
+import PageService from '../services/PageService.js';
 
 export const createDomainSubscriber = async (domain) => {
     console.log('🗃️ Created Domain', domain);
     DomainHostingEmissionService.createDomainHostingEmission(domain);
-    DomainService.createInitialPageIndex(domain);
+    PageService.createInitialIndex(domain);
 };
 
 export const updateDomainSubscriber = (newDomain) => {
