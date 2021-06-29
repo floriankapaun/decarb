@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-import { PAGESPEED_STRATEGY, PROJECT_SLUG } from '../config/index.js';
+import { PAGESPEED_API_KEY, PAGESPEED_STRATEGY, PROJECT_SLUG } from '../config/index.js';
 import AppError from '../utils/AppError.js';
 import PrismaService from './PrismaService.js';
 
@@ -20,7 +20,7 @@ class PageViewEmissionService {
     setUpPagespeedQuery(url) {
         const api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
         const parameters = {
-            // key: 'apikey',
+            key: PAGESPEED_API_KEY,
             // To make queries identifiable in analytics tools
             utm_source: PROJECT_SLUG,
             // Run tests as a mobile user because mobile users outweigh the number of desktop users
@@ -40,10 +40,11 @@ class PageViewEmissionService {
     /**
      * Extracts the amount of transferred bytes from Google Pagespeed Analysis
      * 
+     * @param {Object} page - Analyzed Page
      * @param {Object} results - Google Pagespeed Analysis results
      * @returns {Number} - Transferred bytes
      */
-     getTransferredBytesFromPagespeedAnalysis(results) {
+     getTransferredBytesFromPagespeedAnalysis(page, results) {
         const items = results.lighthouseResult?.audits?.['network-requests']?.details?.items;
         if (!items) {
             throw new AppError(
@@ -71,7 +72,7 @@ class PageViewEmissionService {
         const query = this.setUpPagespeedQuery(page.url);
         const results = await fetch(query).then((res) => res.json());
         // Compute results
-        const transferredBytes = this.getTransferredBytesFromPagespeedAnalysis(results);
+        const transferredBytes = this.getTransferredBytesFromPagespeedAnalysis(page, results);
         // Create PageViewEmission
         const pageViewEmissionData = {
             pageId: page.id,
