@@ -1,7 +1,7 @@
 import { DAYS_IN_MONTH, DAYS_IN_YEAR, ENUMS } from '../config/index.js';
 import AppError from '../utils/AppError.js';
 import { addDaysToDate } from '../utils/date.js';
-import PrismaService from './PrismaService';
+import PrismaService from './PrismaService.js';
 
 class SubscriptionService {
     getValidTo(paymentInterval) {

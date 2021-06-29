@@ -2,9 +2,9 @@ import * as argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 
-import { ACCESS_TOKEN_EXPIRES, JWT_SECRET_KEY, REFRESH_TOKEN_EXPIRES } from '../config';
-import { addMinutesToDate } from '../utils/date';
-import PrismaService from './PrismaService';
+import { ACCESS_TOKEN_EXPIRES, JWT_SECRET_KEY, REFRESH_TOKEN_EXPIRES } from '../config/index.js';
+import { addMinutesToDate } from '../utils/date.js';
+import PrismaService from './PrismaService.js';
 
 class AuthService {
     createJwtToken(user, expiresIn) {

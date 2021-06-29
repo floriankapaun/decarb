@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 
 import { EVENTS, MODE } from '../config/index.js';
 import EventEmitter from '../utils/eventEmitter.js';

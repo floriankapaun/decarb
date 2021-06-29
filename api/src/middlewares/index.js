@@ -1,4 +1,4 @@
-import attachCurrentUser from './attachCurrentUser';
+import attachCurrentUser from './attachCurrentUser.js';
 import isAuth from './isAuth.js';
 import requireDomainRole from './requireDomainRole.js';
 

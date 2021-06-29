@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import BadgeService from '../services/BadgeService';
+import BadgeService from '../services/BadgeService.js';
 
 const router = Router();
 

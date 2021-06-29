@@ -7,7 +7,7 @@ import {
     PLATFORM_EMAIL_PORT,
     PLATFORM_EMAIL_SENDER,
     PLATFORM_EMAIL_USER,
-} from '../config';
+} from '../config/index.js';
 
 class MailService {
     constructor() {

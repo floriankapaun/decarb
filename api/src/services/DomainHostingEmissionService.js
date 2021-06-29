@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-import PrismaService from './PrismaService';
+import PrismaService from './PrismaService.js';
 
 class DomainHostingEmissionService {
     /**

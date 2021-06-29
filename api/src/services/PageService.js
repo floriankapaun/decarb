@@ -1,6 +1,6 @@
-import AppError from '../utils/AppError';
-import { cleanUrl } from '../utils/url';
-import PrismaService from './PrismaService';
+import AppError from '../utils/AppError.js';
+import { cleanUrl } from '../utils/url.js';
+import PrismaService from './PrismaService.js';
 
 /**
  * Controls the 'Page' Entity

@@ -1,4 +1,4 @@
-import PageViewEmissionService from '../services/PageViewEmissionService';
+import PageViewEmissionService from '../services/PageViewEmissionService.js';
 
 export const createManyPagesSubscriber = (pages) => {
     console.log('🗃️ Created Many Pages', pages);

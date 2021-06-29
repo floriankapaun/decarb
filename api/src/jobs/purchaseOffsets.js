@@ -1,5 +1,6 @@
 import { parentPort } from 'worker_threads';
-import OffsetService from '../services/OffsetService';
+
+import OffsetService from '../services/OffsetService.js';
 
 (async () => {
     const now = new Date();

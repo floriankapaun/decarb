@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import attachCurrentUser from '../middlewares/attachCurrentUser';
-import isAuth from '../middlewares/isAuth';
-import PrismaService from '../services/PrismaService';
 
-import UserService from '../services/UserService';
-import AppError from '../utils/AppError';
-import asyncHandler from '../utils/asyncHandler';
-import sendResponse from '../utils/sendResponse';
+import attachCurrentUser from '../middlewares/attachCurrentUser.js';
+import isAuth from '../middlewares/isAuth.js';
+import PrismaService from '../services/PrismaService.js';
+import UserService from '../services/UserService.js';
+import AppError from '../utils/AppError.js';
+import asyncHandler from '../utils/asyncHandler.js';
+import sendResponse from '../utils/sendResponse.js';
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-import { JWT_SECRET_KEY } from '../config';
-import AppError from '../utils/AppError';
+import { JWT_SECRET_KEY } from '../config/index.js';
+import AppError from '../utils/AppError.js';
 
 
 /**

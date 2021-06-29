@@ -1,4 +1,4 @@
-import { API_PREFIX } from '../config';
+import { API_PREFIX } from '../config/index.js';
 
 /**
  * Adds a raw Body to the request object if on Stripe Webhook route.

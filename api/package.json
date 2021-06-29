@@ -5,8 +5,8 @@
     "main": "src/index.js",
     "license": "MIT",
     "scripts": {
-        "dev": "nodemon -r esm src/index.js",
-        "prod": "node -r esm src/index.js",
+        "dev": "nodemon src/index.js",
+        "prod": "node src/index.js",
         "migrate": "yarn prisma migrate dev --schema src/prisma/schema.prisma --name",
         "migrate_prod": "prisma migrate deploy --schema src/prisma/schema.prisma",
         "generate": "yarn prisma generate --schema src/prisma/schema.prisma",
@@ -20,7 +20,6 @@
         "cookie-parser": "^1.4.5",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
-        "esm": "^3.2.25",
         "express": "^4.17.1",
         "jsonwebtoken": "^8.5.1",
         "node": "^16.3.0",
@@ -37,5 +36,6 @@
     },
     "engines": {
         "node": "16.3.0"
-    }
+    },
+    "type": "module"
 }

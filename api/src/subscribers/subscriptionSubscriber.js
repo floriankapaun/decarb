@@ -1,4 +1,4 @@
-import OffsetService from "../services/OffsetService";
+import OffsetService from '../services/OffsetService.js';
 
 export const startSubscriptionSubscriber = (subscription) => {
     console.log('🗃️ Started new Subscription', subscription);

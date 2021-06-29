@@ -1,15 +1,15 @@
 import { Router } from 'express';
 
-import attachCurrentUser from '../middlewares/attachCurrentUser';
-import isAuth from '../middlewares/isAuth';
+import attachCurrentUser from '../middlewares/attachCurrentUser.js';
+import isAuth from '../middlewares/isAuth.js';
 import requireDomainRole from '../middlewares/requireDomainRole.js';
 import PrismaService from '../services/PrismaService.js';
-import DomainHostingEmissionService from '../services/DomainHostingEmissionService';
+import DomainHostingEmissionService from '../services/DomainHostingEmissionService.js';
 import DomainService from '../services/DomainService.js';
-import EmissionService from '../services/EmissionService';
-import asyncHandler from '../utils/asyncHandler';
-import sendResponse from '../utils/sendResponse';
-import { DOMAIN_PAGES_RESPONSE_LIMIT } from '../config';
+import EmissionService from '../services/EmissionService.js';
+import asyncHandler from '../utils/asyncHandler.js';
+import sendResponse from '../utils/sendResponse.js';
+import { DOMAIN_PAGES_RESPONSE_LIMIT } from '../config/index.js';
 
 const router = Router();
 

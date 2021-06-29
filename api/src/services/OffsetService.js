@@ -10,8 +10,7 @@ import {
     MODE,
 } from '../config/index.js';
 import AppError from '../utils/AppError.js';
-import { addDaysToDate, copyDate, getTimestampString } from '../utils/date.js';
-import DomainService from './DomainService.js';
+import { addDaysToDate, copyDate } from '../utils/date.js';
 import MailService from './MailService.js';
 import PrismaService from './PrismaService.js';
 import SubscriptionService from './SubscriptionService.js';

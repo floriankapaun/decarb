@@ -1,4 +1,4 @@
-import UserService from '../services/UserService';
+import UserService from '../services/UserService.js';
 
 export const createUserSubscriber = (user) => {
     console.log('🗃️ Created User', user);

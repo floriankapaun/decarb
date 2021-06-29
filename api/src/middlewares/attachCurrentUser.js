@@ -1,5 +1,5 @@
-import PrismaService from '../services/PrismaService';
-import AppError from '../utils/AppError';
+import PrismaService from '../services/PrismaService.js';
+import AppError from '../utils/AppError.js';
 
 export default async (req, res, next) => {
     try {

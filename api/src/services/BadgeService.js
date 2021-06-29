@@ -1,7 +1,7 @@
 import path from 'path';
 
-import { ENUMS, PROJECT_SLUG } from '../config';
-import AppError from '../utils/AppError';
+import { ENUMS, PROJECT_SLUG } from '../config/index.js';
+import AppError from '../utils/AppError.js';
 
 /**
  * Handles Badges

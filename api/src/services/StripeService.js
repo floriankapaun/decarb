@@ -11,10 +11,10 @@ import {
     STRIPE_PRICE_ID,
     STRIPE_CHECKOUT_SESSION_MODE,
     STRIPE_PAYMENT_METHODS,
-} from '../config';
-import AppError from '../utils/AppError';
-import EventEmitter from '../utils/eventEmitter';
-import PrismaService from './PrismaService';
+} from '../config/index.js';
+import AppError from '../utils/AppError.js';
+import EventEmitter from '../utils/eventEmitter.js';
+import PrismaService from './PrismaService.js';
 
 /**
  * Handles Stripe

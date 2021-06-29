@@ -1,13 +1,12 @@
 import { Router } from 'express';
 import cookieParser from 'cookie-parser';
 
-import { CLIENT_ENTRYPOINT, MODE, REFRESH_TOKEN_EXPIRES } from '../config';
-import attachCurrentUser from '../middlewares/attachCurrentUser';
-import isAuth from '../middlewares/isAuth';
-import AuthService from '../services/AuthService';
-import AppError from '../utils/AppError';
-import asyncHandler from '../utils/asyncHandler';
-import sendResponse from '../utils/sendResponse';
+import { CLIENT_ENTRYPOINT, MODE } from '../config/index.js';
+import attachCurrentUser from '../middlewares/attachCurrentUser.js';
+import isAuth from '../middlewares/isAuth.js';
+import AuthService from '../services/AuthService.js';
+import asyncHandler from '../utils/asyncHandler.js';
+import sendResponse from '../utils/sendResponse.js';
 
 const router = Router();
 

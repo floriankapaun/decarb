@@ -1,7 +1,7 @@
 import * as argon2 from 'argon2';
 
-import MailService from './MailService';
-import PrismaService from './PrismaService';
+import MailService from './MailService.js';
+import PrismaService from './PrismaService.js';
 
 class UserService {
     constructor() {
