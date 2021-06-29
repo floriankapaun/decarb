@@ -39,13 +39,7 @@ a.bx--header__menu-item{
     background-color: $green-700;
 }
 
-.bx--tooltip__trigger.bx--header__action:hover .bx--assistive-text {
-    overflow: auto;
-    clip: auto;
-    margin: 0;
-}
-
-.bx--tooltip__trigger.bx--tooltip--bottom.bx--tooltip--align-end {
+.bx--tooltip__trigger.bx--tooltip--bottom {
     .bx--assistive-text {
         overflow: hidden;
         margin: -1px;
@@ -55,9 +49,22 @@ a.bx--header__menu-item{
     .bx--assistive-text,
     &::after {
         bottom: -.8125rem;
-        right: 0;
-        left: auto;
         transform: translateY(100%);
+    }
+
+    &.bx--tooltip--align-center {
+        .bx--assistive-text,
+        &::after {
+            left: 50%;
+        }
+    }
+
+    &.bx--tooltip--align-end {
+        .bx--assistive-text,
+        &::after {
+            right: 0;
+            left: auto;
+        }
     }
 
     &::before {
@@ -69,6 +76,12 @@ a.bx--header__menu-item{
         border-width: 0 .25rem .3125rem;
         transform: translate(-50%,100%);
     }
+}
+
+.bx--tooltip__trigger.bx--header__action:hover .bx--assistive-text {
+    overflow: auto;
+    clip: auto;
+    margin: 0;
 }
 
 // CvButton Component
