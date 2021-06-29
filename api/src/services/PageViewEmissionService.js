@@ -44,7 +44,10 @@ class PageViewEmissionService {
      * @param {Object} results - Google Pagespeed Analysis results
      * @returns {Number} - Transferred bytes
      */
-     getTransferredBytesFromPagespeedAnalysis(page, results) {
+    getTransferredBytesFromPagespeedAnalysis(page, results) {
+        if (results.error) {
+            throw new AppError(`${page.url}: ${results.error?.message}`, 500);
+        }
         const items = results.lighthouseResult?.audits?.['network-requests']?.details?.items;
         if (!items) {
             throw new AppError(
@@ -70,17 +73,21 @@ class PageViewEmissionService {
     async create(page) {
         // Run Google Pagespeed Analysis
         const query = this.setUpPagespeedQuery(page.url);
-        const results = await fetch(query).then((res) => res.json());
-        // Compute results
-        const transferredBytes = this.getTransferredBytesFromPagespeedAnalysis(page, results);
-        // Create PageViewEmission
-        const pageViewEmissionData = {
-            pageId: page.id,
-            byte: transferredBytes,
-        };
-        const newPageViewEmission = await PrismaService.create('pageViewEmission', pageViewEmissionData);
-        if (newPageViewEmission) return newPageViewEmission;
-        throw new AppError(`Failed to create PageViewEmission for Page: "${page.id}"`, 500);
+        try {
+            const results = await fetch(query).then((res) => res.json());
+            // Compute results
+            const transferredBytes = this.getTransferredBytesFromPagespeedAnalysis(page, results);
+            // Create PageViewEmission
+            const pageViewEmissionData = {
+                pageId: page.id,
+                byte: transferredBytes,
+            };
+            const newPageViewEmission = await PrismaService.create('pageViewEmission', pageViewEmissionData);
+            if (newPageViewEmission) return newPageViewEmission;
+            throw new AppError(`Failed to create PageViewEmission for Page: "${page.id}"`, 500);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 
@@ -111,6 +118,7 @@ class PageViewEmissionService {
         // TODO: Only create PageViewEmissions for max 100 random pages
         // const newPageViewEmissions = [];
         for (const page of domainPages) {
+            // OPTIMIZE: Mabye throttle creation to not overcome google api limit
             await this.create(page);
         }
 
