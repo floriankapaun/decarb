@@ -155,7 +155,7 @@ class StripeService {
      * Handle Stripe 'invoice.created' Webhook Event
      * 
      * @param {Object} object - Stripe event data
-     * @returns {String} - done 
+     * @returns {String} - status 
      */
     async handleInvoiceCreated(object) {
         // TODO: If Invoice is created at Stripe, I must know buy the offset, and tell stripe the exact amount I want to bill for. Afterwards Stripe can successfully finalize that invoice moving its status from draft to open.
@@ -164,6 +164,7 @@ class StripeService {
         console.log('SUBSCRIPTION ID', object?.subscription);
         // Get subscription item id
         const subscriptionItemId = await SubscriptionService.getSubscriptionItemId(object);
+        if (!subscriptionItemId) return 'abort';
         // Make sure current related offset is up to date
         const currentOffset = await OffsetService.getCurrent(subscriptionItemId);
         // Purchase offsets
@@ -212,6 +213,7 @@ class StripeService {
                 // Is sent 3 days prior to renewal
                 break;
             case 'invoice.created':
+                if (data?.object?.billing_reason === 'subscription_create') break;
                 response = await this.handleInvoiceCreated(data?.object);
                 break;
             case 'invoice.paid':
