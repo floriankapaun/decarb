@@ -6,9 +6,9 @@ import {
     PERCENTAGE_OF_ENERGY_IN_DATACENTER,
     PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER,
     WH_PER_GB,
-} from '../config';
-import DomainHostingEmissionService from './DomainHostingEmissionService';
-import PrismaService from './PrismaService';
+} from '../config/index.js';
+import DomainHostingEmissionService from './DomainHostingEmissionService.js';
+import PrismaService from './PrismaService.js';
 
 class EmissionService {
     // TODO: Move somewhere else and have a look inside DomainService.aggregateDomainEmissions
@@ -32,13 +32,13 @@ class EmissionService {
 
 
     /**
-     * Calculates the downloaded amount of Bytes
+     * Calculates the transferred amount of Bytes
      * 
      * @param {Number} bytes - The uncached amount of Bytes
      * @param {Boolean} uncached - If the PageView was uncached or not
-     * @returns {Number} - Downloaded amount of Bytes
+     * @returns {Number} - Transferred amount of Bytes
      */
-    getDownloadedBytes(bytes, uncached = true) {
+    getTransferredBytes(bytes, uncached = true) {
         if (!uncached) {
             return bytes * PERCENTAGE_OF_DATA_LOADED_CACHED
         }
@@ -49,7 +49,7 @@ class EmissionService {
     /**
      * Returns the energy consumed by a PageView in watt-hours
      * 
-     * @param {Number} byte - Downloaded amount of bytes
+     * @param {Number} byte - Transferred amount of bytes
      * @param {String} connectionType - Used type of internet connection
      * @param {Number} windowWidth 
      * @param {Number} windowHeight 

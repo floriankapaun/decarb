@@ -10,7 +10,7 @@ import PrismaService from './PrismaService.js';
  */
 class PageViewService {
 
-    
+
     /**
      * Validates data of a PageView
      * 
@@ -70,7 +70,7 @@ class PageViewService {
         // Get Pages PageViewEmission
         const pageViewEmission = await PageViewEmissionService.findOrCreate(page);
         // Calculate amount of transferred bytes and used energy (watthours)
-        const byte = EmissionService.getDownloadedBytes(pageViewEmission.byte, data.f);
+        const byte = EmissionService.getTransferredBytes(pageViewEmission.byte, data.f);
         const wh = EmissionService.getWh(byte, data.c, data.w, data.h);
         // Register the new PageView
         const pageViewData = {
