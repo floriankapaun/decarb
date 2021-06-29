@@ -272,7 +272,7 @@ class DomainService {
             _min: { from: true },
             _max: { until: true },
             _sum: {
-                price: true,
+                cents: true,
                 offsetKilograms: true,
             },
             where: {

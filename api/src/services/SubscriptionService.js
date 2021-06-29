@@ -25,7 +25,6 @@ class SubscriptionService {
             select: {
                 id: true,
                 domainId: true,
-                recordedUntil: true,
                 stripeSubscriptionId: true,
                 stripeSubscriptionItemId: true,
             },
@@ -47,6 +46,28 @@ class SubscriptionService {
         }
         const subscription = await PrismaService.findUnique('subscription', { id });
         return subscription;
+    }
+
+
+    /**
+     * Tries to find the subscriptionItemId related to a Stripe Event
+     * 
+     * @param {Object} object - Stripe event data
+     * @returns {String?} - subscriptionItemId or null
+     */
+    async getSubscriptionItemId(object) {
+        if (object?.lines?.data?.[0]?.subscription_item) {
+            return object?.lines?.data?.[0]?.subscription_item;
+        }
+        const subscriptionId = object?.subscription;
+        if (!subscriptionId) {
+            // Log the given data for debugging
+            console.error(object);
+            throw new AppError('Not enough information given to getSubscriptionItemId()', 406);
+        }
+        const subscription = await PrismaService.findUnique('subscription', { id: subscriptionId });
+        if (subscription?.stripeSubscriptionItemId) return subscription.stripeSubscriptionItemId;
+        return null;
     }
 };
 

@@ -11,24 +11,6 @@ import DomainHostingEmissionService from './DomainHostingEmissionService.js';
 import PrismaService from './PrismaService.js';
 
 class EmissionService {
-    // TODO: Move somewhere else and have a look inside DomainService.aggregateDomainEmissions
-    // which could potentially be moved as well.
-    // FIXME: Get Job to work again
-    // async getEmissionKilograms(domainId, from, until) {
-    //     let sqlFrom;
-    //     let sqlUntil;
-
-    //     if (from) sqlFrom = getTimestampString(from);
-    //     if (until) sqlUntil = getTimestampString(until);
-
-    //     const domainEmissionMilligrams = await DomainService.aggregateDomainEmissions(
-    //         domainId,
-    //         sqlFrom,
-    //         sqlUntil
-    //     );
-    //     if (!domainEmissionMilligrams) return 0;
-    //     return Math.ceil(domainEmissionMilligrams / 1000000);
-    // }
 
 
     /**

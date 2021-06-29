@@ -17,6 +17,7 @@ export const DOMAIN_PAGES_RESPONSE_LIMIT = 500;
 export const ECOLOGI_API_ENTRYPOINT = process.env.ECOLOGI_API_ENTRYPOINT;
 export const ECOLOGI_API_KEY = process.env.ECOLOGI_API_KEY;
 export const ECOLOGI_DEFAULT_UNIT = 'KG';
+export const ECOLOGI_CENTS_PER_KG_OFFSET = 0.44;
 export const ENUMS = {
     badgeType: ['DEFAULT'],
     badgeColorscheme: ['COLOR', 'COLOR_INVERTED', 'SW', 'SW_INVERTED'],

@@ -15,7 +15,7 @@ import { addDaysToDate } from '../utils/date.js';
             verifiedAt: null,
         }
     });
-    console.log('📝 Job "removeUnverifiedUsers" deleted:', deletedUsers);
+    console.info('📝 Job "removeUnverifiedUsers" deleted:', deletedUsers);
     if (parentPort) parentPort.postMessage('done');
     else process.exit(0);
 })();

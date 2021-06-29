@@ -14,7 +14,9 @@ import {
 } from '../config/index.js';
 import AppError from '../utils/AppError.js';
 import EventEmitter from '../utils/eventEmitter.js';
+import OffsetService from './OffsetService.js';
 import PrismaService from './PrismaService.js';
+import SubscriptionService from './SubscriptionService.js';
 
 /**
  * Handles Stripe
@@ -148,6 +150,35 @@ class StripeService {
         }
     }
 
+
+    /**
+     * Handle Stripe 'invoice.created' Webhook Event
+     * 
+     * @param {Object} object - Stripe event data
+     * @returns {String} - done 
+     */
+    async handleInvoiceCreated(object) {
+        // TODO: If Invoice is created at Stripe, I must know buy the offset, and tell stripe the exact amount I want to bill for. Afterwards Stripe can successfully finalize that invoice moving its status from draft to open.
+        console.log(object);
+        console.log('INVOICE ID', object?.id);
+        console.log('SUBSCRIPTION ID', object?.subscription);
+        // Get subscription item id
+        const subscriptionItemId = await SubscriptionService.getSubscriptionItemId(object);
+        // Make sure current related offset is up to date
+        const currentOffset = await OffsetService.getCurrent(subscriptionItemId);
+        // Purchase offsets
+        const updatedOffset = await OffsetService.makePurchase(currentOffset);
+        // Validate amount of emission kilograms to record
+        const validatedEmissionKilograms = await OffsetService.validateRecordAmount(updatedOffset);
+        // Record usage to Stripe
+        const usageReport = await this.recordUsage(stripeSubscriptionItemId, validatedEmissionKilograms);
+        console.info(
+            `💁 Recorded ${validatedEmissionKilograms} kg usage to ${subscriptionItemId}`,
+            usageReport
+        );
+        return 'done';
+    }
+
     async handleEvent(stripeEvent) {
         const { data } = stripeEvent;
         console.log('STRIPE EVENT', stripeEvent.type);
@@ -175,10 +206,13 @@ class StripeService {
                 }
                 const updatedSubscription = await PrismaService.update('subscription', subscriptionId, updatedSubscriptionData);
                 EventEmitter.emit(EVENTS.start.subscription, updatedSubscription);
-                response = updatedSubscription;
+                response = 'done';
                 break;
             case 'invoice.upcoming':
                 // Is sent 3 days prior to renewal
+                break;
+            case 'invoice.created':
+                response = await this.handleInvoiceCreated(data?.object);
                 break;
             case 'invoice.paid':
                 // Continue to provision the subscription as payments continue to be made.

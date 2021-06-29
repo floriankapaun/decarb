@@ -1,10 +1,5 @@
 const jobs = [
     {
-        name: 'purchaseOffsets',
-        path: './src/jobs/purchaseOffsets.js',
-        cron: '15 03 * * *', // Every day at 03:15
-    },
-    {
         name: 'recordEmissionAmout',
         path: './src/jobs/recordEmissionAmount.js',
         cron: '45 02 * * *', // Every day at 02:45

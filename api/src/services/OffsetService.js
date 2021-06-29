@@ -5,6 +5,7 @@ import {
     DAYS_IN_YEAR,
     ECOLOGI_API_ENTRYPOINT,
     ECOLOGI_API_KEY,
+    ECOLOGI_CENTS_PER_KG_OFFSET,
     ECOLOGI_DEFAULT_UNIT,
     ENUMS,
     MODE,
@@ -15,10 +16,12 @@ import MailService from './MailService.js';
 import PrismaService from './PrismaService.js';
 import SubscriptionService from './SubscriptionService.js';
 
+
 /**
  * Controls the 'Offset' Entity
  */
 class OffsetService {
+
 
     /**
      * Returns the currently active Offset Entry for a Subscription.
@@ -35,7 +38,7 @@ class OffsetService {
             from: { lte: timestamp },
             until: { gte: timestamp },
             purchaseStatus: { equals: ENUMS.purchaseStatus[0] }, // 'PENDING'
-            price: null,
+            cents: null,
         };
         const options = {
             orderBy: { createdAt: 'desc' },
@@ -46,6 +49,7 @@ class OffsetService {
         }
         return currentOffset;
     }
+
 
     /**
      * Returns all currently active Offset Entries.
@@ -59,7 +63,7 @@ class OffsetService {
         const currentOffsets = await PrismaService.findMany('offset', {
             where: {
                 purchaseStatus: { equals: ENUMS.purchaseStatus[0] }, // 'PENDING'
-                price: null,
+                cents: null,
             },
             distinct: ['subscriptionId'],
             orderBy: {
@@ -71,6 +75,7 @@ class OffsetService {
         }
         return currentOffsets;
     }
+
 
     /**
      * Calculates the start time of an Offsets Time Range.
@@ -84,8 +89,9 @@ class OffsetService {
         const numberOfDays = (paymentInterval === ENUMS.paymentInterval[0])
             ? -DAYS_IN_MONTH
             : -DAYS_IN_YEAR;
-        return addDaysToDate(end, numberOfDays);
+        return addDaysToDate(end, -1 * numberOfDays);
     }
+
 
     /**
      * Calculates the end time of an Offsets Time Range.
@@ -94,13 +100,14 @@ class OffsetService {
      * @param {String} paymentInterval - ENUMS.paymentInterval: 'MONTHLY' or 'YEARLY'
      * @returns {DateTime} - End of an Offsets Time Range
      */
-     calculateStartTime(from, paymentInterval) {
+    calculateEndTime(from, paymentInterval) {
         const start = copyDate(from);
         const numberOfDays = (paymentInterval === ENUMS.paymentInterval[0])
             ? DAYS_IN_MONTH
             : DAYS_IN_YEAR;
         return addDaysToDate(start, numberOfDays);
     }
+
 
     /**
      * Creates the initial Offset linked to a Subscription
@@ -124,6 +131,7 @@ class OffsetService {
         };
         return await PrismaService.create('offset', offsetData);
     }
+
     
     /**
      * Creates a new Offset for a subscription based on the
@@ -143,30 +151,26 @@ class OffsetService {
             domainId: previousOffset.domainId,
             subscriptionId: previousOffset.subscriptionId,
             offsetType: previousOffset.offsetType,
-            recordedUntil: previousOffset.recordedUntil, // to ensure seamless recording
             from,
             until,
         }
         return await PrismaService.create('offset', offsetData);
     }
 
+
     /**
-     * Add Number of Kilograms to Offsets 'offsetKilograms' and
-     * update 'recordedUntil' value.
+     * Add Number of Kilograms to Offsets 'offsetKilograms'
      * 
      * @param {String} offsetId - Local Offset ID
      * @param {Number} kg - Kilograms of CO2 to record
-     * @param {DateTime} [timestamp=new Date()] - Time of record
      * @returns {Object} - Updated Offset
      */
-    async recordOffsetKilograms(offsetId, kg, timestamp = new Date()) {
+    async recordOffsetKilograms(offsetId, kg) {
         return await PrismaService.update('offset', offsetId, {
-            offsetKilograms: {
-                increment: kg,
-            },
-            recordedUntil: timestamp,
+            offsetKilograms: kg,
         });
     }
+
 
     /**
      * Purchase Carbon Offsets from Ecologi
@@ -189,7 +193,6 @@ class OffsetService {
                 401
             );
         }
-        console.log('fetching now...');
         return await fetch(`${ECOLOGI_API_ENTRYPOINT}/impact/carbon`, {
             method: 'POST',
             headers: {
@@ -206,6 +209,7 @@ class OffsetService {
             .then((response) => response.json())
             .catch((error) => this.handleFailedPurchase(offsetId, error));
     }
+
 
     /**
      * Handles a failed Offset Purchase. Notifies Admin, updates Offset and throws Error.
@@ -230,6 +234,7 @@ class OffsetService {
         throw new AppError(`⚠️ Failed to buy offset for id: ${offsetId}.`, 500);
     }
 
+
     /**
      * Handles a successfull Offset Purchase. Updates the Offset Entry with the
      * returned data.
@@ -241,13 +246,13 @@ class OffsetService {
      */
     async handleSuccessfulPurchase(offsetId, amount, currency) {
         const updatedOffsetData = {
-            price: amount,
+            cents: amount * 100, // translate euro to cent
             currency: currency,
             purchaseStatus: ENUMS.purchaseStatus[1], // 'SUCCESSFULL'
         };
-        const updatedOffset = await PrismaService.update('offset', offsetId, updatedOffsetData);
-        return updatedOffset;
+        return await PrismaService.update('offset', offsetId, updatedOffsetData);
     }
+
 
     /**
      * Make a purchase for a given Offset.
@@ -267,7 +272,37 @@ class OffsetService {
         }
         // Update local Offset
         const updatedOffset = await this.handleSuccessfulPurchase(id, response.amount, response.currency);
-        return updatedOffset;
+        // Create new Offset Entry for the next billing period
+        const newOffset = await this.createNext(updatedOffset);
+        if (newOffset) return updatedOffset;
+        throw new AppError(`Failed creating new offset. Old offset: "${offset.id}"`, 500);
+    }
+
+
+    /**
+     * Validate the amount of (emission) kilograms to record as Stripe usage for Invoice.
+     * 
+     * Used to handle unexpected Ecologi pricing changes.
+     * 
+     * @param {Object} offset
+     * @returns {Number} - Kilograms of Stripe usage
+     */
+    async validateRecordAmount(offset) {
+        const { cents, emissionKilograms } = offset;
+        if (cents <= emissionKilograms * ECOLOGI_CENTS_PER_KG_OFFSET) {
+            return emissionKilograms;
+        }
+        // If Ecologi charges more cents than before, record a higher usage to Stripe
+        // and notify an Admin to have a look into it and apply a discount afterwards.
+        const mailSubject = '⚠️ Seems like Ecologi changed their pricing';
+        const mailBody = `
+            <h1>Seems like Ecologi changed their pricing</h1>
+            <p>Noticed when processing Offset: "${offset.id}"</p>
+            <p>Ecologi Price: ${cents} Cents</p>
+            <p>Emissions: ${emissionKilograms} kg</p>
+        `;
+        await MailService.send(mailSubject, mailBody);
+        return Math.ceil(cents / ECOLOGI_CENTS_PER_KG_OFFSET)
     }
 };
 

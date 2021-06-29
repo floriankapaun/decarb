@@ -127,8 +127,7 @@ model Offset {
   until           DateTime
   offsetType      OffsetType     @default(CARBON_OFFSET) @map("offset_type")
   offsetKilograms Int            @default(0) @map("offset_kilograms")
-  recordedUntil   DateTime?      @map("recorded_until")
-  price           Int?
+  cents           Int?
   currency        Currency       @default(EUR)
   purchaseStatus  PurchaseStatus @default(PENDING) @map("purchase_status")
   createdAt       DateTime       @default(now()) @map("created_at")
@@ -149,7 +148,6 @@ model Subscription {
   currency                 Currency        @default(EUR)
   createdAt                DateTime        @default(now()) @map("created_at")
   validTo                  DateTime        @map("valid_to") // @default(now() + month or year)
-  recordedUntil            DateTime?       @map("recorded_until")
   deletedAt                DateTime?       @map("deleted_at")
   offsets                  Offset[]
 
