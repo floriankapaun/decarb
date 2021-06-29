@@ -5,6 +5,9 @@ export default {
     user(state, userData) {
         state.user = userData
     },
+    setRegistrationState: (state, registrationState) => {
+        return (state.registrationState = registrationState)
+    },
     // add(state, text) {
     //     state.list.push({
     //         text,

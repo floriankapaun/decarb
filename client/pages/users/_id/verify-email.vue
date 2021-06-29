@@ -83,10 +83,24 @@ export default {
             en: '/users/:id/verify-email',
         },
     },
-    asyncData({ params }) {
-        // TODO: Check if User with params.id exists and isn't validated yet
+    async middleware(context) {
+        // OPTIMIZE: Add localeRoute to redirects
+        const { store, redirect, route } = context
+        if (!route?.params?.id) return redirect('/')
+        // Get Users Registration State
+        await store.dispatch('users/fetchRegistrationState', route?.params?.id)
+        const state = store.getters['users/getRegistrationState']
+        if (!state?.exists) return redirect('/')
+        if (state.isVerified && state.hasPassword) {
+            return redirect('/dashboard/register-domain')
+        }
+        if (state.isVerified) {
+            return redirect(`/users/${route.params.id}/set-password`)
+        }
+    },
+    data() {
         return {
-            id: params.id,
+            id: this.$route.params.id,
             inputs: [verificationCode],
         }
     },
@@ -113,7 +127,7 @@ export default {
                 userId: this.id,
                 verificationCode,
             })
-            if (this.getUser) {
+            if (this.getUser?.verifiedAt) {
                 return this.$router.push(
                     this.localeRoute(`/users/${this.getUser.id}/set-password`)
                 )

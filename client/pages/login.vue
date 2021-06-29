@@ -73,6 +73,7 @@ export default {
             getIsLoading: 'auth/getIsLoading',
             getIsLoggedIn: 'auth/getIsLoggedIn',
             getAccessToken: 'auth/getAccessToken',
+            getUser: 'auth/getUser',
         }),
         submitButtonLabel() {
             if (this.getIsLoading) {
@@ -91,10 +92,13 @@ export default {
             if (!email || !password) return false
             await this.login({ email, password })
             await this.fetchUser(this.getAccessToken)
-            if (this.getIsLoggedIn) {
-                return this.$router.push(this.localeRoute('dashboard'))
+            if (!this.getIsLoggedIn) return
+            if (!this.getUser.hasDomains) {
+                return this.$router.push(
+                    this.localeRoute('dashboard-register-domain')
+                )
             }
-            // OPTIMIZE: Maybe apply some error styling
+            return this.$router.push(this.localeRoute('dashboard'))
         },
     },
 }
