@@ -10,7 +10,13 @@
 export default {
     computed: {
         destination() {
-            return this.localeRoute('index')
+            if (
+                this.$route.fullPath === '/login' ||
+                this.$route.fullPath === '/register'
+            ) {
+                return this.localeRoute('index')
+            }
+            return this.localeRoute('dashboard')
         },
     },
 }
