@@ -59,12 +59,7 @@ cd db
 $ docker-compose up -d
 ```
 
-## Create a Database Migration with Prisma
-
-```bash
-$ cd api
-$ yarn migrate "MIGRATION_NAME"
-```
+For further Database related information like creating Migrations or Faker data see [`./api/src/prisma/README.md`](./api/src/prisma/README.md)
 
 ## Test Stripe Webhooks in local setup
 
