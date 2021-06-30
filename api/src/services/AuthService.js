@@ -8,11 +8,9 @@ import PrismaService from './PrismaService.js';
 
 class AuthService {
     createJwtToken(user, expiresIn) {
-        // TODO: Add role stuff...
         const payload = {
             'x-decarb-user-id': user.id,
             'x-decarb-user-email': user.email,
-            'x-decarb-allowed-role': user.role, 
         };
         const options = { expiresIn: `${expiresIn}m` };
         return jwt.sign(payload, JWT_SECRET_KEY, options);

@@ -109,6 +109,23 @@ class UserService {
         const updatedUser = await PrismaService.update('user', id, updatedUserData, this.publicReturnValues);
         return updatedUser;
     }
+
+
+    /**
+     * Get a User by ID including his/her Domains
+     * 
+     * @param {String} id - User ID
+     * @returns {Object} - User including Domains
+     */
+    async getIncludingDomains(id) {
+        const options = { include: { domains: true } };
+        const user = await PrismaService.findUnique('user', { id }, options);
+        if (user) return user;
+        throw new AppError(
+            `Can't find user with id: ${userId}`,
+            404
+        );
+    }
 }
 
 export default new UserService();

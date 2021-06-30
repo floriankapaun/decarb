@@ -1,17 +1,21 @@
-import PrismaService from '../services/PrismaService.js';
+import UserService from '../services/UserService.js';
 import AppError from '../utils/AppError.js';
 
+
+/**
+ * Attach data about the current User and his/her Domains to the
+ * req Object ('req.currentUser'). Depends on isAuth middleware.
+ */
 export default async (req, res, next) => {
     try {
-        const userId = req.authData['x-decarb-user-id'];
-        const parameters = { id: userId };
-        const options = { include: { domains: true } };
-        const user = await PrismaService.findUnique('user', parameters, options);
-        if (!user) {
-            const message = `Can't find user with id: ${userId}`;
-            throw new AppError(message, 401);
+        const userId = req.authData?.['x-decarb-user-id'];
+        if (!userId) {
+            throw new AppError(
+                'Missing isAuth middleware on Route',
+                500
+            );
         }
-        req.currentUser = user;
+        req.currentUser = await UserService.getIncludingDomains(userId);
         return next();
     } catch (err) {
         return next(err);
