@@ -1,20 +1,20 @@
 <template>
-    <section class="bx--row">
-        <div
-            class="
-                bx--col-sm-4
-                bx--offset-md-2
-                bx--col-md-4
-                bx--col-lg-8
-                bx--offset-xlg-5
-                bx--col-xlg-6
-                mb-07
-            "
-        >
-            <h1>{{ $t('p.dashboard.setupSubscription.h1') }}</h1>
-            <CvForm>
-                <legend class="bx--label">Payment Interval</legend>
-                <CvRadioGroup :vertical="false">
+    <MinimalForm :title="$t('p.dashboard.setupSubscription.h1')">
+        <template #text>
+            {{
+                $t('p.dashboard.setupSubscription.text', {
+                    price,
+                    interval: intervalNoun,
+                })
+            }}
+        </template>
+
+        <template #form>
+            <CvForm class="mb-sm">
+                <legend class="bx--label">
+                    {{ $t('p.dashboard.setupSubscription.legend') }}
+                </legend>
+                <CvRadioGroup class="mb-xs" :vertical="false">
                     <CvRadioButton
                         v-model="paymentInterval"
                         name="paymentInterval"
@@ -30,29 +30,26 @@
                         :hide-label="false"
                     />
                 </CvRadioGroup>
-                <p>
-                    The length of each billing period.
+                <p class="bx--label">
                     {{
                         paymentInterval === $config.ENUMS.paymentInterval[1]
-                            ? 'For websites with more than 10.000 pageviews per month we recommend to pay monthly.'
+                            ? $t('p.dashboard.setupSubscription.recommendation')
                             : null
                     }}
                 </p>
             </CvForm>
-            <p>This will cost ${{ price }} per month.</p>
-            <p>
-                Text about what this all means and some explanation about terms
-                of ending your subscription and such stuff.
+
+            <CvButton class="mb-md" @click="handleSubmit"
+                >Create Subscription</CvButton
+            >
+        </template>
+
+        <template #helper>
+            <p class="helper-text">
+                {{ $t('p.dashboard.setupSubscription.legal') }}
             </p>
-            <CvButton @click="handleSubmit">Create Subscription</CvButton>
-            <p>
-                When clicking on this button you accept our
-                <CvLink :to="localeRoute('terms-and-conditions')" size="lg">
-                    terms and conditions</CvLink
-                >.
-            </p>
-        </div>
-    </section>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>
@@ -101,6 +98,14 @@ export default {
         },
         priceId() {
             return this.$config.STRIPE_PRICE_ID[this.paymentInterval]
+        },
+        intervalNoun() {
+            if (
+                this.paymentInterval === this.$config.ENUMS.paymentInterval[0]
+            ) {
+                return this.$t('p.dashboard.setupSubscription.month')
+            }
+            return this.$t('p.dashboard.setupSubscription.year')
         },
     },
     methods: {

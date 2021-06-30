@@ -124,6 +124,33 @@ class PageViewEmissionService {
 
         return 'Awaiting initialCalculations to finish';
     }
+
+
+    /**
+     * Returns all current pageViewEmissions for a Domain. If there are none,
+     * an empty Array will be returned.
+     * 
+     * @param {String} domainId - ID of Domain
+     * @returns {Array}
+     */
+    async getAllCurrentForDomain(domainId) {
+        const current = await PrismaService.findMany('pageViewEmission', {
+            select: {
+                byte: true,
+            },
+            where: {
+                page: {
+                    domainId: { equals: domainId },
+                },
+            },
+            distinct: ['pageId'],
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
+        // Return current even if empty
+        return current;
+    }
 };
 
 export default new PageViewEmissionService();

@@ -1,52 +1,34 @@
 <template>
-    <div>
-        <section class="bx--row">
-            <div
-                class="
-                    bx--col-sm-4
-                    bx--offset-md-2
-                    bx--col-md-4
-                    bx--col-lg-8
-                    bx--offset-xlg-6
-                    bx--col-xlg-4
-                    mb-07
-                    register__wrapper
-                "
+    <MinimalForm :title="$t('p.register.h1')">
+        <template #text>
+            {{ $t('p.users.id.verifyEmail.explanation') }}
+        </template>
+
+        <template #form>
+            <Form
+                class="mb-md"
+                :button-label="submitButtonLabel"
+                :button-disbaled="getIsLoading"
+                :inputs="inputs"
+                :light="true"
+                @submit="handleSubmit"
+            />
+        </template>
+
+        <template #helper>
+            <i18n
+                path="p.register.helperText"
+                tag="p"
+                class="register__login-paragraph"
             >
-                <h1>{{ $t('p.register.h1') }}</h1>
-                <Form
-                    :button-label="submitButtonLabel"
-                    :button-disbaled="getIsLoading"
-                    :inputs="inputs"
-                    @submit="handleSubmit"
-                />
-            </div>
-        </section>
-        <section class="bx--row">
-            <div
-                class="
-                    bx--col-sm-4
-                    bx--offset-md-2
-                    bx--col-md-4
-                    bx--col-lg-8
-                    bx--offset-xlg-6
-                    bx--col-xlg-4
-                "
-            >
-                <i18n
-                    path="p.register.helperText"
-                    tag="p"
-                    class="register__login-paragraph"
-                >
-                    <template #link>
-                        <CvLink :to="localeRoute('login')" size="sm">
-                            {{ $t('p.register.helperTextLink') }}
-                        </CvLink>
-                    </template>
-                </i18n>
-            </div>
-        </section>
-    </div>
+                <template #link>
+                    <CvLink :to="localeRoute('login')" size="sm">
+                        {{ $t('p.register.helperTextLink') }}
+                    </CvLink>
+                </template>
+            </i18n>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>

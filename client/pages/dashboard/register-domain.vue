@@ -1,39 +1,22 @@
 <template>
-    <section class="bx--row">
-        <div
-            class="
-                bx--col-sm-4
-                bx--offset-md-2
-                bx--col-md-4
-                bx--col-lg-8
-                bx--offset-xlg-5
-                bx--col-xlg-6
-                mb-07
-                verification__wrapper
-            "
-        >
-            <h1>
-                {{
-                    $tc(
-                        'p.dashboard.registerDomain.h1',
-                        numberOfRegisteredDomains
-                    )
-                }}
-            </h1>
-            <p class="mb-06">
-                Enter a valid URL or IP address. You can add more sites later.
-            </p>
-            <!-- TODO: REFACTOR STRING LITERALS TO LANG SPECIFIC MODULE -->
+    <MinimalForm
+        :title="$tc('p.dashboard.registerDomain.h1', numberOfRegisteredDomains)"
+    >
+        <template #text>
+            {{ $t('p.dashboard.registerDomain.p') }}
+        </template>
+
+        <template #form>
             <Form
-                :button-label="
-                    getIsLoading ? 'Loading...' : 'Start using DECARB'
-                "
+                class="mb-md"
+                :button-label="submitButtonLabel"
                 :button-disbaled="getIsLoading"
                 :inputs="inputs"
+                :light="true"
                 @submit="handleSubmit"
             />
-        </div>
-    </section>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>
@@ -76,6 +59,12 @@ export default {
         numberOfRegisteredDomains() {
             if (!this.getUserDomains || this.getUserDomains.length) return 0
             return this.getUserDomains.length
+        },
+        submitButtonLabel() {
+            if (this.getIsLoading) {
+                return this.$t('p.dashboard.registerDomain.submitButtonLoading')
+            }
+            return this.$t('p.dashboard.registerDomain.submitButton')
         },
     },
     methods: {

@@ -17,7 +17,7 @@ export default (app) => {
         const { id } = req.body;
         // const offset = await PrismaService.findUnique('offset', { id })
         // const x = await OffsetService.makePurchase(offset);
-        const x = await StripeService.recordUsage('si_JlA1iusC2wo31D', 0.5);
+        const x = await StripeService.recordUsage('si_JlA1iusC2wo31D', 5);
         return sendResponse(res, x);
     }));
 }

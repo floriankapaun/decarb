@@ -7,10 +7,24 @@
  * @return {null} returns null
  */
 export default (context) => {
-    const { store } = context
+    const { redirect, route, store } = context
+    const user = store.getters['auth/getUser']
+    const path = route.fullPath.replace(/\/$/, '') // Remove trailing slash from fullPath
+
     // If user is not logged in
     // FIXME: This is not secure at all. A user could easily manipulate its store persistance cookie.
     if (!store.getters['auth/getIsLoggedIn']) {
-        return context.redirect('/login')
+        return redirect('/login')
+    }
+
+    // If user logged in, but has no Domains yet
+    if (
+        // Make sure User has a Domain before checking if he/she has one
+        path !== '/dashboard/register-domain' &&
+        path !== '/dashboard/verify-domain-ownership' &&
+        user &&
+        !user.hasDomain
+    ) {
+        return redirect('/dashboard/register-domain')
     }
 }

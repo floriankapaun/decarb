@@ -32,4 +32,15 @@ export default {
         if (data && data.data) commit('user', data.data)
         commit('isLoading', false)
     },
+    fetchRegistrationState: async (context, userId) => {
+        const { commit } = context
+        commit('isLoading', true)
+        const response = await saveFetch(
+            context,
+            'GET',
+            `/users/${userId}/registration-state`
+        )
+        if (response?.data) commit('setRegistrationState', response.data)
+        commit('isLoading', false)
+    },
 }

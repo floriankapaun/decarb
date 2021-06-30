@@ -194,11 +194,24 @@ export default (app) => {
      * Domain -> Emission Routes
      */
 
+    // Get an estimation of a Domains monthly emission
+    router.get(
+        '/:id/emission-estimation',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(0),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            const estimation = await EmissionService.getInitialEstimation(id);
+            return sendResponse(res, estimation);
+        })
+    );
+
     // Get a domains aggregated pageViewEmissions (in time range)
     router.post('/:id/emissions',
-        // isAuth,
-        // attachCurrentUser,
-        // requireDomainRole(),
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(),
         asyncHandler(async (req, res) => {
             const { id } = req.params;
             const { timeStart, timeEnd } = req.body;

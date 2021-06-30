@@ -14,6 +14,7 @@ export default (app) => {
     app.use('/auth', router);
 
     // Login a user
+    // FIXME: Provide real Errors for Frontend
     router.post('/login', asyncHandler(async (req, res) => {
         const { email, password } = req.body;
         const auth = await AuthService.login(email, password);
@@ -57,14 +58,12 @@ export default (app) => {
 
     // Get the authenticated users profile
     router.get('/user', isAuth, attachCurrentUser, asyncHandler(async (req, res) => {
-        delete req.currentUser.createdAt;
-        delete req.currentUser.deletedAt;
-        delete req.currentUser.password;
-        delete req.currentUser.refreshToken;
-        delete req.currentUser.refreshTokenExpiry;
-        delete req.currentUser.verificationCode;
-        delete req.currentUser.verifiedAt;
-        delete req.currentUser.domains;
-        return sendResponse(res, req.currentUser);
+        return sendResponse(res, {
+            id: req.currentUser.id,
+            email: req.currentUser.email,
+            isVerified: req.currentUser.verifiedAt ? true : false,
+            hasPassword: req.currentUser.password ? true : false,
+            hasDomain: req.currentUser.domains?.length ? true : false,
+        });
     }));
 }

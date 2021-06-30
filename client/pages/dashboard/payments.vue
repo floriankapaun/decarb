@@ -17,7 +17,7 @@ export default {
     layout: 'dashboard',
     nuxtI18n: {
         paths: {
-            en: '/dashboard/register-domain',
+            en: '/dashboard/payments',
         },
     },
     computed: {

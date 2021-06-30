@@ -13,7 +13,7 @@ const router = Router();
 export default (app) => {
     app.use('/users', router);
 
-    // Create a user
+    // Create a User
     router.post('/', asyncHandler(async (req, res) => {
         const newUser = await UserService.create(req.body.email, req.body.telephone);
         // Make sure neither password nor verificationCode are leaked
@@ -25,6 +25,19 @@ export default (app) => {
         delete newUser.verificationCode;
         delete newUser.verifiedAt;
         return sendResponse(res, newUser);
+    }));
+
+    // Get a Users registration state
+    // For more data check '/auth/user'
+    // TODO: Refactor into UserService
+    router.get('/:id/registration-state', asyncHandler(async (req, res) => {
+        const { id } = req.params;
+        const user = await PrismaService.findUnique('user', { id });
+        return sendResponse(res, {
+            exists: user.id ? true : false,
+            hasPassword: user.password ? true : false,
+            isVerified: user.verifiedAt? true: false,
+        });
     }));
 
     // Reset verificationCode: Create new verificationCode and send Mail with new code

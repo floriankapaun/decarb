@@ -1,4 +1,5 @@
 import * as argon2 from 'argon2';
+import AppError from '../utils/AppError.js';
 
 import MailService from './MailService.js';
 import PrismaService from './PrismaService.js';
@@ -77,10 +78,16 @@ class UserService {
         };
         const userData = await PrismaService.findUnique('user', { id }, options);
         if (userData.verifiedAt) {
-            return `User already verified at ${userData.verifiedAt}.`;
+            throw new AppError(
+                `User already verified at ${userData.verifiedAt}.`,
+                409
+            );
         }
         if (givenVerificationCode !== userData.verificationCode.toString()) {
-            return `Verification failed. Given verification code ${givenVerificationCode} is not correct.`;
+            throw new AppError(
+                `Verification failed. Verification Code ${givenVerificationCode} is wrong.`,
+                403
+            );
         }
         // Update user verifiedAt
         const updatedUserData = {

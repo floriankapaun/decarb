@@ -7,7 +7,7 @@
                 classes="bx--col-lg-16"
             />
             <Nuxt keep-alive />
-            <FooterMinimal />
+            <FooterDashboard />
         </CvContent>
     </div>
 </template>

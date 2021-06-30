@@ -12,7 +12,8 @@ p {
     max-width: 45ch;
 }
 
-p > code {
+p > code,
+span > code {
     font-size: carbon--type-scale(2);
     background-color: $field;
     padding: $spacing-01 $spacing-02;
@@ -25,6 +26,13 @@ p > code {
 
 .mb-06 {
     margin-bottom: $spacing-06;
+}
+
+.mb-xs {
+    margin-bottom: $spacing-03;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-04;
+    }
 }
 
 .mb-sm {

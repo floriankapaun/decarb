@@ -69,4 +69,20 @@ export default {
         }
         commit('setIsLoading', false)
     },
+    fetchEmissionEstimation: async (context, domainId) => {
+        const { commit } = context
+        commit('setIsLoading', true)
+        const response = await saveFetch(
+            context,
+            'GET',
+            `/domains/${domainId}/emission-estimation`
+        )
+        if (response?.data?.kilograms) {
+            commit('setEmissionEstimation', {
+                id: domainId,
+                kilograms: response.data.kilograms,
+            })
+        }
+        commit('setIsLoading', false)
+    },
 }
