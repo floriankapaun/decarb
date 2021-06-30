@@ -2,6 +2,7 @@
     <CvCodeSnippetSkeleton
         v-if="isLoading"
         kind="multiline"
+        :light="light"
     ></CvCodeSnippetSkeleton>
     <CvCodeSnippet
         v-else
@@ -10,6 +11,7 @@
         :less-text="$t('c.trackingCode.showLess')"
         :more-text="$t('c.trackingCode.showMore')"
         :wrap-text="true"
+        :light="light"
         >{{ code }}</CvCodeSnippet
     >
 </template>
@@ -18,6 +20,12 @@
 /* eslint-disable no-useless-escape */
 
 export default {
+    props: {
+        light: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
         return {
             isLoading: false,

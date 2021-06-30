@@ -1,36 +1,21 @@
 <template>
-    <section class="bx--row">
-        <div
-            class="
-                bx--col-sm-4
-                bx--offset-md-2
-                bx--col-md-4
-                bx--col-lg-8
-                bx--offset-xlg-5
-                bx--col-xlg-6
-                mb-07
-            "
-        >
-            <h1>{{ $t('p.dashboard.firstEstimation.h1') }}</h1>
+    <MinimalForm :title="$t('p.dashboard.firstEstimation.h1')">
+        <template #helper>
             <CvSkeletonText
                 v-if="!selectedDomain && !emissionAmount"
                 :heading="false"
                 :paragraph="true"
-                :line-count="2"
+                :line-count="3"
                 width="100%"
+                class="mb-sm"
             >
             </CvSkeletonText>
-            <p v-else class="mb-06">
+            <p v-else class="mb-sm">
                 According to our first estimate, your website generates ~
                 {{ emissionAmount }} of CO2 every month if it receives
                 {{ selectedDomain.estimatedMonthlyPageViews }} page views.
             </p>
-            <p class="mb-06">
-                <CvLink :to="localeRoute('dashboard-pageview-estimation')">
-                    Adjust estimated monthly pageviews
-                </CvLink>
-            </p>
-            <p>
+            <p class="mb-md">
                 <NuxtLink
                     :to="localeRoute('dashboard-setup-subscription')"
                     class="bx--btn bx--btn--primary"
@@ -38,8 +23,13 @@
                     Start Offsetting
                 </NuxtLink>
             </p>
-        </div>
-    </section>
+            <p>
+                <CvLink :to="localeRoute('dashboard-pageview-estimation')">
+                    Adjust estimated monthly pageviews
+                </CvLink>
+            </p>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
     <section>
         <h1 class="mb-xs">{{ title }}</h1>
-        <p class="mb-md">
+        <p v-if="hasTextSlot" class="mb-md">
             <slot name="text"></slot>
         </p>
         <NotificationsInline class="mb-sm" />
@@ -16,6 +16,11 @@ export default {
         title: {
             type: String,
             required: true,
+        },
+    },
+    computed: {
+        hasTextSlot() {
+            return !!this.$slots.text
         },
     },
 }

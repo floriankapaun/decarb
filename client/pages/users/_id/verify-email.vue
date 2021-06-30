@@ -19,7 +19,7 @@
             <i18n
                 path="p.users.id.verifyEmail.tos"
                 tag="p"
-                class="note helper-text mb-md"
+                class="helper-text mb-md"
             >
                 <template #link>
                     <CvLink
@@ -33,7 +33,7 @@
             <i18n
                 path="p.users.id.verifyEmail.helperText"
                 tag="p"
-                class="helper-text helper"
+                class="helper-text"
             >
                 <template #link>
                     <CvLink :to="localeRoute('register')" size="sm">

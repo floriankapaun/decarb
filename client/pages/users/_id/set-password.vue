@@ -1,37 +1,16 @@
 <template>
-    <section class="bx--row">
-        <div
-            class="
-                bx--col-sm-4
-                bx--offset-md-2
-                bx--col-md-4
-                bx--col-lg-8
-                bx--offset-xlg-5
-                bx--col-xlg-6
-                mb-07
-                verification__wrapper
-            "
-        >
-            <h1>{{ $t('p.users.id.setPassword.h1') }}</h1>
-            <i18n
-                path="p.users.id.setPassword.explanation"
-                tag="p"
-                class="mb-06"
-            >
-                <template #email>{{
-                    getUser && getUser.email
-                        ? getUser.email
-                        : $t('p.users.id.setPassword.emailDefault')
-                }}</template>
-            </i18n>
+    <MinimalForm :title="$t('p.users.id.setPassword.h1')">
+        <template #form>
             <Form
+                class="mb-md"
                 :button-label="submitButtonLabel"
                 :button-disbaled="getIsLoading"
                 :inputs="inputs"
+                :light="true"
                 @submit="handleSubmit"
             />
-        </div>
-    </section>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>
