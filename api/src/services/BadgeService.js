@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url';
 import path from 'path';
 
 import { ENUMS, PROJECT_SLUG } from '../config/index.js';
@@ -56,7 +57,9 @@ class BadgeService {
         // const validDomainId = ...
 
         // Return absolute file path
-        return path.join(
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = path.dirname(__filename);
+        return path.resolve(
             __dirname,
             `../../public/img/badge/${validType}/${PROJECT_SLUG}-badge-${validColorscheme}.svg`
         );
