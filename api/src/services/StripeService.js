@@ -154,25 +154,31 @@ class StripeService {
     /**
      * Handle Stripe 'invoice.created' Webhook Event
      * 
+     * If an Invoice is created by Stripe, update the current Offset, buy the Offsets
+     * from Ecologi and report usage to Stripe so they can move that Invoice from draft
+     * to open with the correct invoice amount.
+     * 
      * @param {Object} object - Stripe event data
      * @returns {String} - status 
      */
     async handleInvoiceCreated(object) {
-        // TODO: If Invoice is created at Stripe, I must know buy the offset, and tell stripe the exact amount I want to bill for. Afterwards Stripe can successfully finalize that invoice moving its status from draft to open.
-        console.log(object);
-        console.log('INVOICE ID', object?.id);
-        console.log('SUBSCRIPTION ID', object?.subscription);
         // Get subscription item id
-        const subscriptionItemId = await SubscriptionService.getSubscriptionItemId(object);
-        if (!subscriptionItemId) return 'abort';
-        // Make sure current related offset is up to date
-        const currentOffset = await OffsetService.getCurrent(subscriptionItemId);
+        const subscription = await SubscriptionService.getByStripeSubscriptionId(object?.subscription);
+        if (!subscription?.id) return 'abort';
+        // Get current related offset and make sure it is up to date
+        const currentOffset = await OffsetService.recalculateCurrent(
+            subscription.domainId,
+            subscription.id
+        );
         // Purchase offsets
         const updatedOffset = await OffsetService.makePurchase(currentOffset);
         // Validate amount of emission kilograms to record
         const validatedEmissionKilograms = await OffsetService.validateRecordAmount(updatedOffset);
         // Record usage to Stripe
-        const usageReport = await this.recordUsage(stripeSubscriptionItemId, validatedEmissionKilograms);
+        const usageReport = await this.recordUsage(
+            subscription.stripeSubscriptionItemId,
+            validatedEmissionKilograms
+        );
         console.info(
             `💁 Recorded ${validatedEmissionKilograms} kg usage to ${subscriptionItemId}`,
             usageReport

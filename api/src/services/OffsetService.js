@@ -12,6 +12,7 @@ import {
 } from '../config/index.js';
 import AppError from '../utils/AppError.js';
 import { addDaysToDate, copyDate } from '../utils/date.js';
+import EmissionService from './EmissionService.js';
 import MailService from './MailService.js';
 import PrismaService from './PrismaService.js';
 import SubscriptionService from './SubscriptionService.js';
@@ -183,7 +184,7 @@ class OffsetService {
      * @param {ENUM} [units=ECOLOGI_DEFAULT_UNIT] - 'KG' or 'Tonnes'
      * @return {Object} - ecologi api response
      */
-     async purchaseCarbonOffsets(offsetId, number, test = false, units = ECOLOGI_DEFAULT_UNIT) {
+    async purchaseCarbonOffsets(offsetId, number, test = false, units = ECOLOGI_DEFAULT_UNIT) {
         if (typeof number !== 'number') {
             throw new AppError(`🚫 You have to provide a number. Provided: ${number}`, 401);
         }
@@ -245,6 +246,7 @@ class OffsetService {
      * @returns {Object} - Updated Offset
      */
     async handleSuccessfulPurchase(offsetId, amount, currency) {
+        console.info(`💰 Bought ${amount} ${currency} Offsets for "${offsetId}"`);
         const updatedOffsetData = {
             cents: amount * 100, // translate euro to cent
             currency: currency,
@@ -288,21 +290,49 @@ class OffsetService {
      * @returns {Number} - Kilograms of Stripe usage
      */
     async validateRecordAmount(offset) {
-        const { cents, emissionKilograms } = offset;
-        if (cents <= emissionKilograms * ECOLOGI_CENTS_PER_KG_OFFSET) {
-            return emissionKilograms;
+        const { cents, offsetKilograms } = offset;
+        if (cents <= offsetKilograms * ECOLOGI_CENTS_PER_KG_OFFSET) {
+            return offsetKilograms;
         }
-        // If Ecologi charges more cents than before, record a higher usage to Stripe
-        // and notify an Admin to have a look into it and apply a discount afterwards.
-        const mailSubject = '⚠️ Seems like Ecologi changed their pricing';
-        const mailBody = `
-            <h1>Seems like Ecologi changed their pricing</h1>
-            <p>Noticed when processing Offset: "${offset.id}"</p>
-            <p>Ecologi Price: ${cents} Cents</p>
-            <p>Emissions: ${emissionKilograms} kg</p>
-        `;
-        await MailService.send(mailSubject, mailBody);
+        if (cents > (offsetKilograms * ECOLOGI_CENTS_PER_KG_OFFSET).toFixed(2)) {
+            // If after rounding Ecologi still charges unexpected amounts, record a higher
+            // usage to Stripe and notify an Admin to have a look into it and apply a
+            // discount afterwards.
+            const mailSubject = '⚠️ Seems like Ecologi changed their pricing';
+            const mailBody = `
+                <h1>Seems like Ecologi changed their pricing</h1>
+                <p>Noticed when processing Offset: "${offset.id}"</p>
+                <p>Ecologi Price: ${cents} Cents</p>
+                <p>Emissions: ${offsetKilograms} kg</p>
+            `;
+            await MailService.send(mailSubject, mailBody);
+        }
         return Math.ceil(cents / ECOLOGI_CENTS_PER_KG_OFFSET)
+    }
+
+
+    /**
+     * Recalculates the Emissions produced in the current Offset cycle and
+     * update the according Offset
+     * 
+     * @param {String} domainId 
+     * @param {String} subscriptionId 
+     * @returns {Object} - Updated Offset
+     */
+    async recalculateCurrent(domainId, subscriptionId) {
+        // Get current Offset
+        const currentOffset = await this.getCurrent(subscriptionId);
+        // Get amount of emissions created during Offset period
+        const { emissionKilograms } = await EmissionService.getAggregatedEmissions(
+            domainId,
+            currentOffset.from
+        );
+        // Update the current Offset
+        const updatedOffset = await this.recordOffsetKilograms(
+            currentOffset.id,
+            emissionKilograms
+        );
+        return updatedOffset;
     }
 };
 
