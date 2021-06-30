@@ -13,7 +13,6 @@ import { en as members } from './pages/members'
 import { en as offsettings } from './pages/dashboard/offsettings'
 import { en as knownPages } from './pages/dashboard/knownPages'
 import { en as pageviewEstimation } from './pages/dashboard/pageviewEstimation'
-import { en as payments } from './pages/dashboard/payments'
 import { en as register } from './pages/register'
 import { en as registerDomain } from './pages/dashboard/registerDomain'
 import { en as setPassword } from './pages/users/id/setPassword'
@@ -36,7 +35,6 @@ export default {
         knownPages,
         offsettings,
         pageviewEstimation,
-        payments,
         registerDomain,
         setupSubscription,
         subscriptionSuccess,

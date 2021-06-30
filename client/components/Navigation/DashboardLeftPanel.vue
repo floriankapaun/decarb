@@ -86,14 +86,9 @@
 
         <Divider />
 
-        <CvSideNavLink :to="localeRoute('dashboard-subscription')">
-            <template slot="nav-icon"><Repeat16 /></template>
-            {{ $t('c.navigation.dashboardLeftPanel.subscription') }}
-        </CvSideNavLink>
-
-        <CvSideNavLink :to="localeRoute('dashboard-payments')">
+        <CvSideNavLink class="function" @click="startCustomerPortalSession">
             <template slot="nav-icon"><Receipt16 /></template>
-            {{ $t('c.navigation.dashboardLeftPanel.payments') }}
+            {{ $t('c.navigation.dashboardLeftPanel.stripe') }}
         </CvSideNavLink>
 
         <CvSideNavLink :to="localeRoute('dashboard-account-settings')">
@@ -145,7 +140,6 @@ import Http16 from '@carbon/icons-vue/lib/HTTP/16'
 import Information16 from '@carbon/icons-vue/lib/information/16'
 import ListBulleted16 from '@carbon/icons-vue/lib/list--bulleted/16'
 import Receipt16 from '@carbon/icons-vue/lib/receipt/16'
-import Repeat16 from '@carbon/icons-vue/lib/repeat/16'
 import Settings16 from '@carbon/icons-vue/lib/settings/16'
 import Sprout16 from '@carbon/icons-vue/lib/sprout/16'
 import WarningFilled16 from '@carbon/icons-vue/lib/warning--filled/16'
@@ -163,7 +157,6 @@ export default {
         Information16,
         ListBulleted16,
         Receipt16,
-        Repeat16,
         Settings16,
         Sprout16,
         WarningFilled16,
@@ -173,10 +166,21 @@ export default {
             faviconLoaded: false,
         }
     },
+    async fetch({ store }) {
+        if (store.getters['domains/getSelectedDomain']) return
+        if (!store.getters['auth/getUser']) {
+            await store.dispatch('auth/fetchUser')
+        }
+        await store.dispatch(
+            'domains/fetchUserDomains',
+            store.getters['auth/getUser'].id
+        )
+    },
     computed: {
         ...mapGetters({
-            getUserDomains: 'domains/getUserDomains',
+            getPortalSessionUrl: 'subscriptions/getPortalSessionUrl',
             getSelectedDomain: 'domains/getSelectedDomain',
+            getUserDomains: 'domains/getUserDomains',
         }),
         getOtherUserDomains() {
             if (!this.getUserDomains || !this.getUserDomains.length) {
@@ -195,6 +199,7 @@ export default {
     },
     methods: {
         ...mapActions({
+            createPortalSession: 'subscriptions/createPortalSession',
             setSelectedDomain: 'domains/setSelectedDomain',
         }),
         onFaviconLoad() {
@@ -202,6 +207,16 @@ export default {
         },
         handleSelectDomain(domain) {
             this.setSelectedDomain(domain)
+        },
+        async startCustomerPortalSession() {
+            if (!this.getSelectedDomain?.id) return
+            await this.createPortalSession({
+                domainId: this.getSelectedDomain.id,
+            })
+            if (this.getPortalSessionUrl) {
+                // Redirect User to Stripe Customer Portal Session
+                window.location.href = this.getPortalSessionUrl
+            }
         },
     },
 }
@@ -265,5 +280,9 @@ export default {
 
 .warn-label {
     color: $support-error;
+}
+
+.function {
+    cursor: pointer;
 }
 </style>

@@ -16,8 +16,7 @@ export const en = {
         gdpr: 'GDPR Info',
         trackingCode: 'Tracking Code',
         verifyDomainOwnership: 'Verify Domain',
-        subscription: 'Subscription',
-        payments: 'Payments & Bills',
+        stripe: 'Subscription & Bills',
         accountSettings: 'Account Settings',
     },
     public: {
