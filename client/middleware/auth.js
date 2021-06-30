@@ -19,11 +19,12 @@ export default (context) => {
 
     // If user logged in, but has no Domains yet
     if (
+        // Make sure User has a Domain before checking if he/she has one
         path !== '/dashboard/register-domain' &&
         path !== '/dashboard/verify-domain-ownership' &&
         user &&
         !user.hasDomain
     ) {
-        // return redirect('/dashboard/register-domain')
+        return redirect('/dashboard/register-domain')
     }
 }

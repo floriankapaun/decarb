@@ -24,6 +24,10 @@ export default {
         },
     },
     middleware: ['auth'],
+    async fetch({ store }) {
+        // Make sure the current User with its newly registered Domain is fetched for auth reasons
+        await store.dispatch('auth/fetchUser')
+    },
     methods: {
         handleVerified() {
             this.$router.push({ path: `/dashboard/first-estimation` })
