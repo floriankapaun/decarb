@@ -8,7 +8,7 @@ export const en = {
     dashboardLeftPanel: {
         faviconAlt: '{url} Favicon',
         addDomain: 'Add new Domain',
-        achievements: 'Achievements/Offsettings',
+        achievements: 'Offsettings',
         traffic: 'Traffic',
         emissions: 'Emissions',
         index: 'Index',

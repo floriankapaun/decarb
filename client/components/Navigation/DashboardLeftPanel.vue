@@ -65,11 +65,11 @@
             {{ $t('c.navigation.dashboardLeftPanel.badge') }}
         </CvSideNavLink>
 
-        <CvSideNavLink :to="localeRoute('dashboard-gdpr-info')">
+        <!-- TODO: Implement GDPR Info Page -->
+        <!-- <CvSideNavLink :to="localeRoute('dashboard-gdpr-info')">
             <template slot="nav-icon"><Information16 /></template>
-            <!-- Rule, Security -->
             {{ $t('c.navigation.dashboardLeftPanel.gdpr') }}
-        </CvSideNavLink>
+        </CvSideNavLink> -->
 
         <CvSideNavLink :to="localeRoute('dashboard-tracking-code')">
             <template slot="nav-icon">
@@ -137,7 +137,7 @@ import Analytics16 from '@carbon/icons-vue/lib/analytics/16'
 import Badge16 from '@carbon/icons-vue/lib/badge/16'
 import Code16 from '@carbon/icons-vue/lib/code/16'
 import Http16 from '@carbon/icons-vue/lib/HTTP/16'
-import Information16 from '@carbon/icons-vue/lib/information/16'
+// import Information16 from '@carbon/icons-vue/lib/information/16'
 import ListBulleted16 from '@carbon/icons-vue/lib/list--bulleted/16'
 import Receipt16 from '@carbon/icons-vue/lib/receipt/16'
 import Settings16 from '@carbon/icons-vue/lib/settings/16'
@@ -154,7 +154,7 @@ export default {
         Badge16,
         Code16,
         Http16,
-        Information16,
+        // Information16,
         ListBulleted16,
         Receipt16,
         Settings16,
