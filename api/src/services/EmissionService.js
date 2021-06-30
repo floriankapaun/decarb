@@ -2,6 +2,7 @@ import {
     BYTE_IN_GB,
     CO2E_PER_WH_GREEN,
     CO2E_PER_WH_GREY,
+    DEFAULT_AVERAGE_BYTES,
     PERCENTAGE_OF_DATA_LOADED_CACHED,
     PERCENTAGE_OF_ENERGY_IN_DATACENTER,
     PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER,
@@ -107,8 +108,11 @@ class EmissionService {
     async getInitialEstimation(id) {
         // Calculate the average byte size of all current PageViewEmissions
         const pageViewEmissions = await PageViewEmissionService.getAllCurrentForDomain(id);
-        const bytes = pageViewEmissions.map((x) => x.byte);
-        const averageBytes = Math.ceil(bytes.reduce((a, b) => a + b) / bytes.length);
+        let averageBytes = DEFAULT_AVERAGE_BYTES;
+        if (pageViewEmissions?.length) {
+            const bytes = pageViewEmissions.map((x) => x.byte);
+            averageBytes = Math.ceil(bytes.reduce((a, b) => a + b) / bytes.length);
+        }
         // Extrapolate estimated amount of transferred bytes per month
         const domain = await DomainService.getById(id);
         const extrapolatedBytes = averageBytes * domain.estimatedMonthlyPageViews;

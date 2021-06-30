@@ -13,6 +13,7 @@ export const CO2E_PER_WH_GREEN = 0.0334; // Source: Website Carbon Calculator
 export const CO2E_PER_WH_GREY = 0.475; // Source: Website Carbon Calculator
 export const DAYS_IN_MONTH = 30;
 export const DAYS_IN_YEAR = 365;
+export const DEFAULT_AVERAGE_BYTES = 2000000; // Source: https://httparchive.org/reports/state-of-the-web
 export const DOMAIN_PAGES_RESPONSE_LIMIT = 500;
 export const ECOLOGI_API_ENTRYPOINT = process.env.ECOLOGI_API_ENTRYPOINT;
 export const ECOLOGI_API_KEY = process.env.ECOLOGI_API_KEY;
