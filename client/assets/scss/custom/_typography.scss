@@ -8,6 +8,13 @@ $decarb-body-short-01: (
     letter-spacing: 0.16px,
 ) !default;
 
+$decarb-body-short-02: (
+    font-size: 1rem,
+    font-weight: 400,
+    line-height: 1.375,
+    letter-spacing: 0,
+) !default;
+
 $decarb-productive-heading-03: (
     font-size: 1.25rem,
     font-weight: 400,
@@ -70,6 +77,7 @@ $decarb-display-04: (
 
 $decarbTypeStyles: (
     body-short-01: $decarb-body-short-01,
+    body-short-02: $decarb-body-short-02,
     productive-heading-03: $decarb-productive-heading-03,
     productive-heading-07: $decarb-productive-heading-07,
     expressive-heading-03: $decarb-expressive-heading-03,

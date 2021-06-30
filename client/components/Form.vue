@@ -68,14 +68,18 @@ export default {
         },
     },
     mounted() {
-        this.focusFirstInput()
+        this.$nextTick(() => {
+            this.focusFirstInput()
+        })
     },
     created() {
         this.focusFirstInput()
     },
     methods: {
         focusFirstInput() {
-            document.getElementsByTagName('input')[0].focus()
+            if (process.client) {
+                document?.getElementsByTagName('input')?.[0]?.focus()
+            }
         },
         setValid(input) {
             input.invalidMessage = ''
