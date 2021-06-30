@@ -73,14 +73,18 @@ class DomainService {
     async validateImplementation(domain) {
         const body = await fetch(`https://${domain.url}`)
             .then((res) => {
+                console.log('res...');
                 if (res.ok) { // res.status >= 200 && res.status < 300
+                    console.log('resp ok');
                     return res.text();
                 }
                 throw new AppError(res.statusText);
             })
             .catch((err) => {
+                console.log(err);
                 throw new AppError(err)
             });
+        console.log(body);
         if (typeof body !== 'string') return false
         return body.includes(PING_SCRIPT_URL);
     }
