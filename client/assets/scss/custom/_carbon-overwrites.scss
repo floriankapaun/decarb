@@ -45,43 +45,6 @@ a.bx--header__menu-item{
         margin: -1px;
         clip: rect(0, 0, 0, 0);
     }
-
-    .bx--assistive-text,
-    &::after {
-        bottom: -.8125rem;
-        transform: translateY(100%);
-    }
-
-    &.bx--tooltip--align-center {
-        .bx--assistive-text,
-        &::after {
-            left: 50%;
-        }
-    }
-
-    &.bx--tooltip--align-end {
-        .bx--assistive-text,
-        &::after {
-            right: 0;
-            left: auto;
-        }
-    }
-
-    &::before {
-        bottom: -.5rem;
-        border-color: transparent transparent $green-700;
-        border-bottom-color: $green-700;
-        border-right-color: transparent;
-        border-top-color: transparent;
-        border-width: 0 .25rem .3125rem;
-        transform: translate(-50%,100%);
-    }
-}
-
-.bx--tooltip__trigger.bx--header__action:hover .bx--assistive-text {
-    overflow: auto;
-    clip: auto;
-    margin: 0;
 }
 
 // CvButton Component
@@ -113,12 +76,20 @@ a.bx--header__menu-item{
     border-radius: $borderRadiusSm;
     @include carbon--type-style('body-short-02');
 
+    &--password__visibility__toggle {
+        width: $spacing-09;
+    }
+
     &:focus,
     &:active {
         outline: none;
         box-shadow: 0 0 0 2px $green;
         border-bottom: 1px solid $ui-01;
     }
+}
+
+.bx--password-input {
+    padding-right: $spacing-09;
 }
 
 // CvSelect Component
@@ -147,9 +118,6 @@ a.bx--header__menu-item{
         z-index: 15;
         .bx--assistive-text {
             position: absolute;
-            overflow: hidden;
-            white-space: nowrap;
-            visibility: inherit;
         }
     }
     /* stylelint-enable no-descending-specificity */
@@ -165,7 +133,6 @@ a.bx--header__menu-item{
 }
 
 // CvDataTable
-
 .bx--data-table-container {
     overflow: hidden;
     border-radius: $borderRadiusSm;

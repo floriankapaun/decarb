@@ -1,48 +1,26 @@
 <template>
-    <div>
-        <section class="bx--row">
-            <div
-                class="
-                    bx--col-sm-4
-                    bx--offset-md-2
-                    bx--col-md-4
-                    bx--col-lg-8
-                    bx--offset-xlg-6
-                    bx--col-xlg-4
-                    login__wrapper
-                "
-            >
-                <h1 class="login__heading">{{ $t('p.login.h1') }}</h1>
-                <Form
-                    class="login__form"
-                    :button-label="submitButtonLabel"
-                    :button-disbaled="getIsLoading"
-                    :inputs="inputs"
-                    @submit="handleSubmit"
-                />
-            </div>
-        </section>
-        <section class="bx--row">
-            <div
-                class="
-                    bx--col-sm-4
-                    bx--offset-md-2
-                    bx--col-md-4
-                    bx--col-lg-8
-                    bx--offset-xlg-6
-                    bx--col-xlg-4
-                "
-            >
-                <i18n path="p.login.helperText" tag="p" class="helper-text">
-                    <template #link>
-                        <CvLink :to="localeRoute('register')" size="sm">
-                            {{ $t('p.login.helperTextLink') }}
-                        </CvLink>
-                    </template>
-                </i18n>
-            </div>
-        </section>
-    </div>
+    <MinimalForm :title="$t('p.login.h1')">
+        <template #form>
+            <Form
+                class="mb-md"
+                :button-label="submitButtonLabel"
+                :button-disbaled="getIsLoading"
+                :inputs="inputs"
+                :light="true"
+                @submit="handleSubmit"
+            />
+        </template>
+
+        <template #helper>
+            <i18n path="p.login.helperText" tag="p" class="helper-text">
+                <template #link>
+                    <CvLink :to="localeRoute('register')" size="sm">
+                        {{ $t('p.login.helperTextLink') }}
+                    </CvLink>
+                </template>
+            </i18n>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>
@@ -93,7 +71,7 @@ export default {
             await this.login({ email, password })
             await this.fetchUser(this.getAccessToken)
             if (!this.getIsLoggedIn) return
-            if (!this.getUser.hasDomains) {
+            if (!this.getUser.hasDomain) {
                 return this.$router.push(
                     this.localeRoute('dashboard-register-domain')
                 )
