@@ -11,7 +11,6 @@ class UserService {
             select: {
                 id: true,
                 email: true,
-                telephone: true,
                 createdAt: true,
                 verifiedAt: true,
                 deletedAt: true,
@@ -32,11 +31,10 @@ class UserService {
         return Math.floor(100000 + Math.random() * 900000);
     }
 
-    async create(email, telephone) {
+    async create(email) {
         const verificationCode = this.createVerificationCode();
         const userData = {
             email,
-            telephone,
             verificationCode,
         };
         console.log(userData);

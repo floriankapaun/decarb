@@ -15,7 +15,6 @@ model User {
   email              String       @unique @db.VarChar(50)
   verificationCode   Int          @map("verification_code")
   password           String?      @db.VarChar(255)
-  telephone          String?      @db.VarChar(35)
   refreshToken       String?      @unique @map("refresh_token") @db.Uuid
   refreshTokenExpiry DateTime?    @map("refresh_token_expiry")
   createdAt          DateTime     @default(now()) @map("created_at")
