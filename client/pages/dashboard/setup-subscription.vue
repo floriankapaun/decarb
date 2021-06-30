@@ -1,6 +1,6 @@
 <template>
     <MinimalForm :title="$t('p.dashboard.setupSubscription.h1')">
-        <template #text>
+        <template v-if="price" #text>
             {{
                 $t('p.dashboard.setupSubscription.text', {
                     price,
@@ -70,6 +70,29 @@ export default {
             paymentInterval: this.$config.ENUMS.paymentInterval[0],
         }
     },
+    async fetch({ store }) {
+        if (
+            store.getters['domains/getSelectedDomain'] &&
+            store.getters['domains/getEmissionEstimation'] &&
+            store.getters['domains/getSelectedDomain']?.id ===
+                store.getters['domains/getEmissionEstimation']?.id
+        ) {
+            return
+        }
+        if (!store.getters['domains/getSelectedDomain']) {
+            if (!store.getters['auth/getUser']) {
+                await store.dispatch('auth/fetchUser')
+            }
+            await store.dispatch(
+                'domains/fetchUserDomains',
+                store.getters['auth/getUser'].id
+            )
+        }
+        await store.dispatch(
+            'domains/fetchEmissionEstimation',
+            store.getters['domains/getSelectedDomain'].id
+        )
+    },
     head() {
         return {
             script: [
@@ -88,13 +111,22 @@ export default {
             getUser: 'auth/getUser',
             getSelectedDomain: 'domains/getSelectedDomain',
             getSubscription: 'subscriptions/getSubscription',
+            getEmissionEstimation: 'domains/getEmissionEstimation',
         }),
         selectedDomain() {
             return this.getSelectedDomain
         },
         price() {
-            // TODO: Implement price calculation
-            return (12.4).toFixed(2)
+            const kg = this.getEmissionEstimation?.kilograms
+            if (!kg) return null
+            const monthlyCosts =
+                (kg * this.$config.STRIPE_CENTS_PER_KG_CO2E) / 100
+            if (
+                this.paymentInterval === this.$config.ENUMS.paymentInterval[0]
+            ) {
+                return monthlyCosts.toFixed(2)
+            }
+            return (monthlyCosts * 12).toFixed(2)
         },
         priceId() {
             return this.$config.STRIPE_PRICE_ID[this.paymentInterval]

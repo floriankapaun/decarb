@@ -7,6 +7,9 @@ export const API_ENTRYPOINT = API_BASE_URL + API_PREFIX
 export const PUBLIC_CLIENT_ENTRYPOINT =
     process.env.PUBLIC_CLIENT_ENTRYPOINT ?? 'http://localhost:3000'
 export const ENUMS = enums
+// Is higher than ECOLOGI_CENTS_PER_KG_CO2E on the API side because of added profit margin and vat
+export const STRIPE_CENTS_PER_KG_CO2E =
+    process.env.STRIPE_CENTS_PER_KG_CO2E ?? 6
 export const INPUT = inputs
 export const PING_SCRIPT_URL =
     process.env.PING_SCRIPT_URL ?? 'https://ping.decarb.website/ping.min.js'
