@@ -13,16 +13,28 @@ export default (app) => {
     app.use('/stripe', router);
 
     // Create Stripe Checkout Session
-    router.post('/create-checkout-session', asyncHandler(async (req, res) => {
-        const checkoutSession = await StripeService.createCheckoutSession(req.body);
-        return sendResponse(res, checkoutSession);
-    }));
+    router.post(
+        '/create-checkout-session',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(0),
+        asyncHandler(async (req, res) => {
+            const checkoutSession = await StripeService.createCheckoutSession(req.body);
+            return sendResponse(res, checkoutSession);
+        })
+    );
 
-    // Create a Customer Portal Session
-    router.post('/customer-portal', isAuth, attachCurrentUser, requireDomainRole(), asyncHandler(async (req, res) => {
-        const portalSession = await StripeService.createCustomerPortalSession(req);
-        return sendResponse(res, portalSession);
-    }));
+    // Create a Stripe Customer Portal Session
+    router.post(
+        '/customer-portal',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(0),
+        asyncHandler(async (req, res) => {
+            const portalSession = await StripeService.createCustomerPortalSession(req);
+            return sendResponse(res, portalSession);
+        })
+    );
 
     // Listen for Stripe Webhooks
     router.post('/webhooks', asyncHandler(async (req, res) => {

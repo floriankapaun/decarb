@@ -181,6 +181,7 @@ export default {
                 email: this.getUser.email,
                 priceId: this.priceId,
                 subscriptionId,
+                domainId: this.getSelectedDomain.id,
             })
             // Check if Checkout Session was created successfully
             if (!this.getCheckoutSessionId) {
