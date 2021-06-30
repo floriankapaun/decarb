@@ -21,7 +21,7 @@ export const verificationCode = {
     inputmode: 'numeric',
     autocomplete: 'off',
     label: 'Verification Code',
-    placeholder: 'e.g. N1K39L',
+    placeholder: 'e.g. 930522',
     invalid: undefined,
     invalidMessage: '',
     exactLength: 6,
