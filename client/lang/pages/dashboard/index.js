@@ -1,3 +1,3 @@
 export const en = {
-    h1: 'Overview',
+    h1: 'Hello',
 }

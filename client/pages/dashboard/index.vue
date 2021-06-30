@@ -4,19 +4,15 @@
             <h1>{{ $t('p.dashboard.index.h1') }}</h1>
         </div>
         <div class="bx--col-lg-8 col--card">
-            <Card headline="Achievements">
-                <p>Wow ey!</p>
-            </Card>
+            <CvTile><InsightOffsetAggregation /></CvTile>
         </div>
         <div class="bx--col-lg-8 col--card">
-            <Card headline="Pageviews">
-                <p>Wow ey!</p>
-            </Card>
-        </div>
-        <div class="bx--col-lg-8 col--card">
-            <Card headline="Emission Development">
-                <p>Wow ey!</p>
-            </Card>
+            <CvTile class="extra-padding">
+                <h2 class="mb-sm">
+                    {{ $t('p.dashboard.traffic.viewsPerPage') }}
+                </h2>
+                <InsightViewsPerDay />
+            </CvTile>
         </div>
     </section>
 </template>
@@ -62,11 +58,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h1 {
-    margin-bottom: $spacing-07;
-}
-
-.col--card {
-    margin-bottom: $spacing-07;
+.extra-padding {
+    @include carbon--breakpoint(md) {
+        padding: $spacing-05 $spacing-07 $spacing-06 $spacing-06;
+    }
 }
 </style>
