@@ -5,9 +5,12 @@
                 <h1>{{ $t('p.dashboard.emissions.h1') }}</h1>
             </div>
         </div>
-        <div class="bx--row mb-md">
+        <div class="bx--row">
             <div
-                class="bx--col-sm-4 bx--col-md-4 bx--col-lg-8 bx--col-xlg-8 mb"
+                class="
+                    bx--col-sm-4 bx--col-md-4 bx--col-lg-8 bx--col-xlg-8
+                    mb-md
+                "
             >
                 <CvTile>
                     <InsightEmissionsAggregation />
@@ -15,7 +18,10 @@
             </div>
 
             <div
-                class="bx--col-sm-4 bx--col-md-4 bx--col-lg-8 bx--col-xlg-8 mb"
+                class="
+                    bx--col-sm-4 bx--col-md-4 bx--col-lg-8 bx--col-xlg-8
+                    mb-md
+                "
             >
                 <CvTile>
                     <InsightHostingEmissions />
@@ -23,12 +29,7 @@
             </div>
         </div>
         <div class="bx--row">
-            <div
-                class="
-                    bx--col-sm-4 bx--col-md-8 bx--col-lg-16 bx--col-xlg-12
-                    mb
-                "
-            >
+            <div class="bx--col-sm-4 bx--col-md-8 bx--col-lg-16 bx--col-xlg-12">
                 <InsightPageviewEmissions />
             </div>
         </div>
