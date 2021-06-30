@@ -1,4 +1,4 @@
-import { saveFetch } from '@/utils/helpers'
+import saveFetch from '@/utils/saveFetch'
 
 export default {
     register: async (context, domainData) => {

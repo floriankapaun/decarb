@@ -19,7 +19,7 @@ const handleError = async (error) => {
     // TODO: Create Notifications for Server-Side Errors
 }
 
-export const saveFetch = async (
+const saveFetch = async (
     context,
     requestMethod = 'POST',
     path,
@@ -63,3 +63,5 @@ export const saveFetch = async (
         })
         .catch((error) => handleError(error))
 }
+
+export default saveFetch

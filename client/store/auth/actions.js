@@ -1,7 +1,7 @@
 import * as Cookies from 'js-cookie'
 import cookie from 'cookie'
 
-import { saveFetch } from '@/utils/helpers'
+import saveFetch from '@/utils/saveFetch'
 
 export default {
     login: async (context, loginCredentials) => {

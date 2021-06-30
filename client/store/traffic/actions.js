@@ -1,4 +1,4 @@
-import { saveFetch } from '@/utils/helpers'
+import saveFetch from '@/utils/saveFetch'
 
 export default {
     fetchViewsPerDay: async (context, { domainId, options }) => {
