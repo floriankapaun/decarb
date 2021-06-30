@@ -3,9 +3,11 @@ import AppError from '../utils/AppError.js';
 
 
 /**
- * Makes sure a user meets minimum role requirement for domain
+ * Makes sure a user meets minimum role requirement for domain.
  * 
- * Role refers to DomainUser relation
+ * The lower the index, the more permission. '0' provides the highest permission level.
+ * 
+ * Role refers to DomainUser relation.
  */
 export default (minimumRoleIndex) => async (req, res, next) => {
     try {

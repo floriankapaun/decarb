@@ -11,4 +11,5 @@ export default {
     },
     getDomainPages: (state) => state.domainPages,
     getDomainPublicProfile: (state) => state.domainPublicProfile,
+    getEmissionEstimation: (state) => state.emissionEstimation,
 }

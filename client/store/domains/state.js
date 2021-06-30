@@ -5,4 +5,5 @@ export default () => ({
     selectedDomain: undefined,
     domainPages: undefined,
     domainPublicProfile: undefined,
+    emissionEstimation: undefined,
 })

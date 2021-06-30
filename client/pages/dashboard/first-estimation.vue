@@ -2,7 +2,7 @@
     <MinimalForm :title="$t('p.dashboard.firstEstimation.h1')">
         <template #helper>
             <CvSkeletonText
-                v-if="!selectedDomain && !emissionAmount"
+                v-if="!selectedDomain || !emissionAmount"
                 :heading="false"
                 :paragraph="true"
                 :line-count="3"
@@ -11,21 +11,24 @@
             >
             </CvSkeletonText>
             <p v-else class="mb-sm">
-                According to our first estimate, your website generates ~
-                {{ emissionAmount }} of CO2 every month if it receives
-                {{ selectedDomain.estimatedMonthlyPageViews }} page views.
+                {{
+                    $t('p.dashboard.firstEstimation.text', {
+                        amount: emissionAmount,
+                        views: selectedDomain.estimatedMonthlyPageViews,
+                    })
+                }}
             </p>
             <p class="mb-md">
                 <NuxtLink
                     :to="localeRoute('dashboard-setup-subscription')"
                     class="bx--btn bx--btn--primary"
                 >
-                    Start Offsetting
+                    {{ $t('p.dashboard.firstEstimation.button') }}
                 </NuxtLink>
             </p>
             <p>
                 <CvLink :to="localeRoute('dashboard-pageview-estimation')">
-                    Adjust estimated monthly pageviews
+                    {{ $t('p.dashboard.firstEstimation.adjustLink') }}
                 </CvLink>
             </p>
         </template>
@@ -33,7 +36,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'DashboardFirstEstimation',
@@ -44,34 +47,40 @@ export default {
         },
     },
     middleware: ['auth'],
+    async fetch({ store }) {
+        if (
+            store.getters['domains/getSelectedDomain'] &&
+            store.getters['domains/getEmissionEstimation'] &&
+            store.getters['domains/getSelectedDomain']?.id ===
+                store.getters['domains/getEmissionEstimation']?.id
+        ) {
+            return
+        }
+        if (!store.getters['domains/getSelectedDomain']) {
+            if (!store.getters['auth/getUser']) {
+                await store.dispatch('auth/fetchUser')
+            }
+            await store.dispatch(
+                'domains/fetchUserDomains',
+                store.getters['auth/getUser'].id
+            )
+        }
+        await store.dispatch(
+            'domains/fetchEmissionEstimation',
+            store.getters['domains/getSelectedDomain'].id
+        )
+    },
     computed: {
         ...mapGetters({
-            getAccessToken: 'auth/getAccessToken',
-            getUser: 'auth/getUser',
+            getEmissionEstimation: 'domains/getEmissionEstimation',
             getSelectedDomain: 'domains/getSelectedDomain',
         }),
         selectedDomain() {
             return this.getSelectedDomain
         },
         emissionAmount() {
-            // TODO: Implement emission calculation
-            console.log(this.getSelectedDomain)
-            return '7 tonnes'
+            return this.getEmissionEstimation?.kilograms ?? null
         },
-    },
-    async mounted() {
-        if (!this.getUser) {
-            await this.fetchUser()
-        }
-        if (!this.getSelectedDomain) {
-            await this.fetchUserDomains(this.getUser.id)
-        }
-    },
-    methods: {
-        ...mapActions({
-            fetchUser: 'auth/fetchUser',
-            fetchUserDomains: 'domains/fetchUserDomains',
-        }),
     },
 }
 </script>

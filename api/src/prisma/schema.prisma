@@ -81,7 +81,7 @@ model Page {
 
 model PageViewEmission {
   id        String     @id @default(uuid()) @db.Uuid
-  Page      Page       @relation(fields: [pageId], references: [id])
+  page      Page       @relation(fields: [pageId], references: [id])
   pageId    String     @map("page_id") @db.Uuid
   byte      Int        @map("byte")
   createdAt DateTime   @default(now()) @map("created_at")

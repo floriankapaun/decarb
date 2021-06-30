@@ -15,4 +15,7 @@ export default {
     setDomainPublicProfile: (state, domainPublicProfile) => {
         return (state.domainPublicProfile = domainPublicProfile)
     },
+    setEmissionEstimation: (state, emissionEstimation) => {
+        return (state.emissionEstimation = emissionEstimation)
+    },
 }

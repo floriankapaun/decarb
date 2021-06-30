@@ -8,6 +8,8 @@ import {
     WH_PER_GB,
 } from '../config/index.js';
 import DomainHostingEmissionService from './DomainHostingEmissionService.js';
+import DomainService from './DomainService.js';
+import PageViewEmissionService from './PageViewEmissionService.js';
 import PrismaService from './PrismaService.js';
 
 class EmissionService {
@@ -87,12 +89,38 @@ class EmissionService {
         });
         if (!pageViews || !pageViews.length) return { emissionKilograms: 0 };
         // Aggregate watt-hours
-        const wattHours = pageViews.map((x) => x.wh).reduce((acc, val) => acc + val);
+        const wattHours = pageViews.map((x) => x.wh).reduce((a, b) => a + b);
         // Get hostingEmissions
         const hostingEmissions = await DomainHostingEmissionService.getCurrent(domainId);
         // Translate to kilograms of CO2e
         const emissionKilograms = this.getEmissionKilograms(wattHours, hostingEmissions.renewableEnergy);
         return { emissionKilograms };
+    }
+
+
+    /**
+     * Returns an estimated amount of CO2e produced by a Domain each month in kilograms
+     * 
+     * @param {String} id - ID of Domain
+     * @returns {Object} - Estimated amount of kilograms CO2e produced per Month
+     */
+    async getInitialEstimation(id) {
+        // Calculate the average byte size of all current PageViewEmissions
+        const pageViewEmissions = await PageViewEmissionService.getAllCurrentForDomain(id);
+        const bytes = pageViewEmissions.map((x) => x.byte);
+        const averageBytes = Math.ceil(bytes.reduce((a, b) => a + b) / bytes.length);
+        // Extrapolate estimated amount of transferred bytes per month
+        const domain = await DomainService.getById(id);
+        const extrapolatedBytes = averageBytes * domain.estimatedMonthlyPageViews;
+        // Convert to watt-hours while using realistic default values
+        const wattHours = this.getWh(extrapolatedBytes, '3g', 1366, 768);
+        // Convert to kilograms of emissions
+        const hostingEmissions = await DomainHostingEmissionService.getCurrent(id);
+        const emissionKilograms = this.getEmissionKilograms(
+            wattHours,
+            hostingEmissions.renewableEnergy
+        );
+        return { kilograms: Math.ceil(emissionKilograms) };
     }
 }
 
