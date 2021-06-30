@@ -1,47 +1,48 @@
 <template>
-    <section>
-        <h1 class="mb-xs">{{ $t('p.users.id.verifyEmail.h1') }}</h1>
-        <p class="mb-md">
+    <MinimalForm :title="$t('p.users.id.verifyEmail.h1')">
+        <template #text>
             {{ $t('p.users.id.verifyEmail.explanation') }}
-        </p>
+        </template>
 
-        <NotificationsInline class="mb-sm" />
+        <template #form>
+            <Form
+                class="mb-md"
+                :button-label="submitButtonLabel"
+                :button-disbaled="getIsLoading"
+                :inputs="inputs"
+                :light="true"
+                @submit="handleSubmit"
+            />
+        </template>
 
-        <Form
-            class="mb-md"
-            :button-label="submitButtonLabel"
-            :button-disbaled="getIsLoading"
-            :inputs="inputs"
-            :light="true"
-            @submit="handleSubmit"
-        />
+        <template #helper>
+            <i18n
+                path="p.users.id.verifyEmail.tos"
+                tag="p"
+                class="note helper-text mb-md"
+            >
+                <template #link>
+                    <CvLink
+                        :to="localeRoute('legal-terms-and-conditions')"
+                        size="sm"
+                        >{{ $t('p.users.id.verifyEmail.tosLink') }}</CvLink
+                    >
+                </template>
+            </i18n>
 
-        <i18n
-            path="p.users.id.verifyEmail.tos"
-            tag="p"
-            class="note helper-text mb-md"
-        >
-            <template #link>
-                <CvLink
-                    :to="localeRoute('legal-terms-and-conditions')"
-                    size="sm"
-                    >{{ $t('p.users.id.verifyEmail.tosLink') }}</CvLink
-                >
-            </template>
-        </i18n>
-
-        <i18n
-            path="p.users.id.verifyEmail.helperText"
-            tag="p"
-            class="helper-text helper"
-        >
-            <template #link>
-                <CvLink :to="localeRoute('register')" size="sm">
-                    {{ $t('p.users.id.verifyEmail.helperTextLink') }}
-                </CvLink>
-            </template>
-        </i18n>
-    </section>
+            <i18n
+                path="p.users.id.verifyEmail.helperText"
+                tag="p"
+                class="helper-text helper"
+            >
+                <template #link>
+                    <CvLink :to="localeRoute('register')" size="sm">
+                        {{ $t('p.users.id.verifyEmail.helperTextLink') }}
+                    </CvLink>
+                </template>
+            </i18n>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>
