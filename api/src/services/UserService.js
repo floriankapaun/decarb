@@ -1,6 +1,7 @@
 import * as argon2 from 'argon2';
-import AppError from '../utils/AppError.js';
 
+import { CLIENT_ENTRYPOINT, PROJECT_NAME } from '../config/index.js';
+import AppError from '../utils/AppError.js';
 import MailService from './MailService.js';
 import PrismaService from './PrismaService.js';
 
@@ -44,17 +45,14 @@ class UserService {
     }
 
     async sendVerificationMail(user) {
-        const mailSubject = 'Setup your Decarb Account';
+        const mailSubject = `Verify your E-Mail to start using ${PROJECT_NAME}`;
         const mailBody = `
             <h1>Welcome!</h1>
-            <!-- Verify your new Decarb Account -->
-            <p>To get started, please enter this code to confirm it’s you.</p>
-            <!-- Please enter the following code: -->
+            <p>To verify your E-Mail, copy and paste the following code to <a href="${CLIENT_ENTRYPOINT}/users/${user.id}/verify-email">${CLIENT_ENTRYPOINT}</a>.</p>
             <pre style="font-size: 2rem"><code>${user.verificationCode}</code></pre>
-            <p>The code expires in 24 hours. Didn’t try to sign up for Decarb? You can safely ignore this email.</p>
-            <!-- Do not give this code to third parties, as it can be used to access your Decarb account. -->
-            <p>Best Regards, <br>The Decarb Team</p>
-            <!-- Thank you very much! -->
+            <p>The code expires in 24 hours.</p>
+            <p>You didn’t try to sign up for ${PROJECT_NAME}? Just ignore this message an we'll take care of the rest.</p>
+            <p>Thanks, <br>${PROJECT_NAME}</p>
         `;
         // TODO: Handle not existing user.mail
         return await MailService.send(mailSubject, mailBody, user.email);

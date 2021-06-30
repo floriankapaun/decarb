@@ -1,7 +1,7 @@
 @import '@carbon/themes/scss/themes';
 
 // Merge the default carbon white theme with custom values
-$DECARB-web--theme: map-merge(
+$decarb-web--theme: map-merge(
     $carbon--theme--white,
     (
         interactive-01: $primary,
@@ -154,5 +154,5 @@ $DECARB-web--theme: map-merge(
 ) !default;
 
 // Apply the custom theme
-$carbon--theme: $DECARB-web--theme;
+$carbon--theme: $decarb-web--theme;
 @include carbon--theme();

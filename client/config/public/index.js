@@ -13,7 +13,7 @@ export const STRIPE_CENTS_PER_KG_CO2E =
 export const INPUT = inputs
 export const PING_SCRIPT_URL =
     process.env.PING_SCRIPT_URL ?? 'https://ping.decarb.website/ping.min.js'
-export const PROJECT_NAME = 'DECARB'
+export const PROJECT_NAME = 'decarb'
 export const PROJECT_PREFIX = 'dcrb'
 export const STRIPE_PRICE_ID = {
     [ENUMS.paymentInterval[0]]: process.env.STRIPE_PRICE_ID_MONTHLY,
