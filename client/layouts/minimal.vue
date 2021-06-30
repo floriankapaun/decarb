@@ -24,7 +24,7 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: 50vh;
+        min-height: 100vh;
         @include carbon--breakpoint(md) {
             padding: $spacing-07;
         }
