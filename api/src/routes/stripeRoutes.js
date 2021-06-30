@@ -20,14 +20,14 @@ export default (app) => {
 
     // Create a Customer Portal Session
     router.post('/customer-portal', isAuth, attachCurrentUser, requireDomainRole(), asyncHandler(async (req, res) => {
-        const portalSession = await StripeService.createPortalSession(req);
+        const portalSession = await StripeService.createCustomerPortalSession(req);
         return sendResponse(res, portalSession);
     }));
 
     // Listen for Stripe Webhooks
     router.post('/webhooks', asyncHandler(async (req, res) => {
         // Verify the Webhook Signature first
-        const stripeEvent = StripeService.constructEvent(req);
+        const stripeEvent = StripeService.createEvent(req);
         // Handle the sent Event second
         const data = await StripeService.handleEvent(stripeEvent);
         return sendResponse(res, data);

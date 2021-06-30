@@ -15,8 +15,8 @@ import {
 import AppError from '../utils/AppError.js';
 import EventEmitter from '../utils/eventEmitter.js';
 import OffsetService from './OffsetService.js';
-import PrismaService from './PrismaService.js';
 import SubscriptionService from './SubscriptionService.js';
+
 
 /**
  * Handles Stripe
@@ -51,7 +51,7 @@ class StripeService {
             data.priceId !== STRIPE_PRICE_ID[ENUMS.paymentInterval[0]] &&
             data.priceId !== STRIPE_PRICE_ID[ENUMS.paymentInterval[1]]
         ) {
-            throw new AppError(`priceId "${priceId}" is not supported.`, 400);
+            throw new AppError(`priceId "${priceId}" is invalid.`, 400);
         }
         const session = await this.stripe.checkout.sessions.create({
             client_reference_id: data.subscriptionId,
@@ -68,6 +68,55 @@ class StripeService {
         return session.id;
     }
 
+
+    /**
+     * Creates a Customer Portal Session for a user and returns a Session
+     * URL which the client can then use to redirect the user to the created
+     * session.
+     * 
+     * @param {Object} req 
+     * @returns {String} - Customer Portal Session URL
+     */
+    async createCustomerPortalSession(req) {
+        if (!req.body.domainId) {
+            throw new AppError('Missing domainId', 400);
+        }
+        const subscription = await SubscriptionService.getByDomainId(req.body.domainId);
+        if (!subscription.stripeCustomerId) {
+            throw new AppError(`No Stripe Customer for Subscription: ${subscription.id}`, 404);
+        }
+        const session = await this.stripe.billingPortal.sessions.create({
+            customer: subscription.stripeCustomerId,
+            return_url: STRIPE_PORTAL_RETURN_URL,
+        })
+        return session.url;
+    }
+
+
+    /**
+     * Creates a Stripe Webhook Event and verifies the Webhook Signature
+     * 
+     * @param {Object} req 
+     * @returns {Object} - Stripe Event
+     */
+    createEvent(req) {
+        if (!STRIPE_WEBHOOK_SECRET) {
+            throw new AppError('Missing Stripe Webhook Secret', 403);
+        }
+        const signature = req.headers['stripe-signature'];
+        try {
+            // Retrieve the event by verifying the signature using the raw body and secret.
+            const stripeEvent = this.stripe.webhooks.constructEvent(
+                req.rawBody, signature, STRIPE_WEBHOOK_SECRET
+            );
+            return stripeEvent;
+        } catch (err) {
+            // CHECK: Why not throw the Stripe Error itself? (This is from their sample code...)
+            throw new AppError('⚠️  Webhook signature verification failed.', 403);
+        }
+    }
+
+
     /**
      * Retrieves a subscription from Stripe
      * 
@@ -78,36 +127,6 @@ class StripeService {
         return await this.stripe.subscriptions.retrieve(id);
     }
 
-    // TODO: Remove from here... should be in SubscriptionService. I think it's already there as well...
-    async getCurrentSubscription(domainId) {
-        const params = {
-            domainId,
-            deletedAt: null,
-        };
-        const options = {
-            orderBy: { createdAt: 'desc' },
-        };
-        const subscription = await PrismaService.findFirst('subscription', params, options);
-        if (!subscription) {
-            throw new AppError(`No active Subscription found for Domain: ${req.body.domainId}`, 500);
-        }
-        return subscription;
-    }
-
-    async createPortalSession(req) {
-        if (!req.body.domainId) {
-            throw new AppError('Missing domainId', 401);
-        }
-        const subscription = await this.getCurrentSubscription(req.body.domainId);
-        if (!subscription.stripeCustomerId) {
-            throw new AppError(`No Stripe Customer for Subscription: ${subscription.id}`, 500);
-        }
-        const session = await this.stripe.billingPortal.sessions.create({
-            customer: subscription.stripeCustomerId,
-            return_url: STRIPE_PORTAL_RETURN_URL,
-        })
-        return session.url;
-    }
 
     /**
      * Records usage to a Stripe Subscription. At the end of each subscriptions billing
@@ -127,27 +146,51 @@ class StripeService {
             },
         );
         if (!usage) {
-            throw new AppError('Failed to record usage', 500);
+            throw new AppError(
+                `Failed to record usage (${offsetKilograms} kg) to Stripe for "${stripeSubscriptionItemId}"`,
+                500
+            );
         }
         if (usage.statusCode && !usage.statusCode.toString().startsWith('2')) {
-            throw new AppError(`${usage.code}: ${usage.raw.message}`, usage.statusCode);
+            throw new AppError(
+                `${usage.code}: ${usage.raw.message}`,
+                usage.statusCode
+            );
         }
         return usage;
     }
 
-    constructEvent(req) {
-        if (!STRIPE_WEBHOOK_SECRET) throw new AppError('Missing Stripe Webhook Secret', 500)
-        const signature = req.headers['stripe-signature'];
-        try {
-            // Retrieve the event by verifying the signature using the raw body and secret.
-            const stripeEvent = this.stripe.webhooks.constructEvent(
-                req.rawBody, signature, STRIPE_WEBHOOK_SECRET
-            );
-            return stripeEvent;
-        } catch (err) {
-            // CHECK: Why not throw the Stripe Error itself? (This is from their sample code...)
-            throw new AppError('⚠️  Webhook signature verification failed.')
+    
+    /**
+     * Handle Stripe 'checkout.session.completed' Webhook Event
+     * 
+     * @param {Object} object - Stripe event data
+     * @returns {String} - status 
+     */
+    async handleCheckoutSessionCompleted(object) {
+        // Payment is successful and the subscription is created.
+        // You should provision the subscription and save the customer ID to your database.
+        const subscriptionId = object?.client_reference_id;
+        const subscription = await SubscriptionService.get(subscriptionId);
+        const stripeSubscription = await this.getSubscription(object?.subscription);
+        const updatedSubscriptionData = {
+            stripeCustomerId: object?.customer,
+            stripeSubscriptionId: object?.subscription,
+            stripeSubscriptionItemId: stripeSubscription?.items?.data?.[0]?.id,
+        };
+        const currency = object?.currency.toUpperCase();
+        if (ENUMS.currency.includes(currency)) {
+            updatedSubscriptionData.currency = currency;
+        } else {
+            // Don't throw because its not important
+            console.error(`Unknown currency ${currency}`);
         }
+        const updatedSubscription = await SubscriptionService.update(
+            subscription.id,
+            updatedSubscriptionData
+        );
+        EventEmitter.emit(EVENTS.start.subscription, updatedSubscription);
+        return 'done';
     }
 
 
@@ -188,35 +231,11 @@ class StripeService {
 
     async handleEvent(stripeEvent) {
         const { data } = stripeEvent;
-        console.log('STRIPE EVENT', stripeEvent.type);
+        console.info('🍿 STRIPE EVENT', stripeEvent.type);
         let response;
         switch (stripeEvent.type) {
             case 'checkout.session.completed':
-                // Payment is successful and the subscription is created.
-                // You should provision the subscription and save the customer ID to your database.
-                const subscriptionId = data.object.client_reference_id;
-                const subscription = await PrismaService.findUnique('subscription', { id: subscriptionId });
-                if (!subscription) {
-                    throw new AppError(`Subscription with ID ${subscriptionId} not found`, 401);
-                }
-                const stripeSubscription = await this.getSubscription(data.object.subscription);
-                const updatedSubscriptionData = {
-                    stripeCustomerId: data.object.customer,
-                    stripeSubscriptionId: data.object.subscription,
-                    stripeSubscriptionItemId: stripeSubscription.items.data[0].id,
-                };
-                const currency = data.object.currency.toUpperCase();
-                if (ENUMS.currency.includes(currency)) {
-                    updatedSubscriptionData.currency = currency;
-                } else {
-                    console.error(`Unknown currency ${currency}`);
-                }
-                const updatedSubscription = await PrismaService.update('subscription', subscriptionId, updatedSubscriptionData);
-                EventEmitter.emit(EVENTS.start.subscription, updatedSubscription);
-                response = 'done';
-                break;
-            case 'invoice.upcoming':
-                // Is sent 3 days prior to renewal
+                response = await this.handleCheckoutSessionCompleted(data?.object);
                 break;
             case 'invoice.created':
                 if (data?.object?.billing_reason === 'subscription_create') break;
