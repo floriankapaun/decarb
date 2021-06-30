@@ -1,28 +1,31 @@
 <template>
-    <CvHeader :aria-label="$t('c.header.minimal.ariaLabel')">
-        <CvSkipToContent href="#main-content">
-            {{ $t('c.header.minimal.skipToContent') }}
-        </CvSkipToContent>
-        <CvHeaderName :to="localeRoute('index')">
-            <Logo />
-        </CvHeaderName>
-    </CvHeader>
+    <header class="minimal--header">
+        <NuxtLink :to="destination" class="minimal--logo--link">
+            <Logo class="minimal--logo" color="black" />
+        </NuxtLink>
+    </header>
 </template>
 
+<script>
+export default {
+    computed: {
+        destination() {
+            return this.localeRoute('index')
+        },
+    },
+}
+</script>
+
 <style lang="scss" scoped>
-.bx--header {
-    background-color: $green;
-    border-bottom: 1px solid $green;
-    justify-content: center;
+.minimal {
+    &--header {
+        margin-bottom: $spacing-06;
+    }
 
-    &__name {
-        padding-left: $spacing-05;
-        padding-right: $spacing-05;
-
-        svg {
-            fill: $paper;
-            max-height: $spacing-07;
-        }
+    &--logo {
+        max-width: $spacing-07;
+        height: auto !important;
+        margin-left: $spacing-01;
     }
 }
 </style>

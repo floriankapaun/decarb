@@ -1,30 +1,26 @@
 <template>
-    <footer class="bx--row">
-        <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p>{{ $t('c.footer.minimal.copyright', { year }) }}</p>
-        </div>
-        <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p>
-                <CvLink :to="localeRoute('legal-imprint')">
+    <footer>
+        <p class="footer--text">
+            <span class="footer--text-section">{{
+                $t('c.footer.minimal.copyright', { year })
+            }}</span>
+            <span class="footer--text-section"
+                ><CvLink :to="localeRoute('legal-imprint')" size="sm">
                     {{ $t('c.footer.minimal.imprint') }}
-                </CvLink>
-            </p>
-        </div>
-        <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p>
-                <CvLink :to="localeRoute('legal-data-privacy')">
+                </CvLink></span
+            >
+            <span class="footer--text-section"
+                ><CvLink :to="localeRoute('legal-data-privacy')" size="sm">
                     {{ $t('c.footer.minimal.dataPrivacy') }}
-                </CvLink>
-            </p>
-        </div>
-        <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
+                </CvLink></span
+            >
             <!-- TODO: Change link to "open cookie modal" -->
-            <p>
-                <CvLink :to="localeRoute('legal-data-privacy')">
+            <span class="footer--text-section"
+                ><CvLink :to="localeRoute('legal-data-privacy')" size="sm">
                     {{ $t('c.footer.minimal.cookieSettings') }}
-                </CvLink>
-            </p>
-        </div>
+                </CvLink></span
+            >
+        </p>
     </footer>
 </template>
 
@@ -39,21 +35,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-footer {
-    margin-top: $spacing-13;
-}
+.footer--text {
+    width: 100%;
+    max-width: unset;
+    @include carbon--type-style('helper-text-01');
 
-p {
-    @include carbon--type-style('body-short-01');
-}
+    &-section {
+        display: inline-block;
+        margin-bottom: $spacing-03;
 
-.bx--link {
-    margin-bottom: $spacing-03;
-}
-
-@media (min-width: 1056px) {
-    .bx--link {
-        margin-bottom: 0;
+        & + .footer--text-section {
+            margin-left: $spacing-03;
+            &::before {
+                content: ' · ';
+                margin-right: $spacing-03;
+            }
+        }
     }
 }
 </style>

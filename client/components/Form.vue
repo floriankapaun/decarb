@@ -18,6 +18,7 @@
                 :max="input.max"
                 :step="input.step"
                 :mobile="input.mobile"
+                :light="light"
             ></CvNumberInput>
             <CvTextInput
                 v-else
@@ -34,6 +35,7 @@
                 :password-visible="input.passwordVisible"
                 :password-hide-label="input.passwordHideLabel"
                 :password-show-label="input.passwordShowLabel"
+                :light="light"
             ></CvTextInput>
         </fieldset>
         <CvButton :disaled="buttonDisabled">
@@ -60,8 +62,21 @@ export default {
                 return this.$t('c.form.submitButtonDefault')
             },
         },
+        light: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    mounted() {
+        this.focusFirstInput()
+    },
+    created() {
+        this.focusFirstInput()
     },
     methods: {
+        focusFirstInput() {
+            document.getElementsByTagName('input')[0].focus()
+        },
         setValid(input) {
             input.invalidMessage = ''
         },

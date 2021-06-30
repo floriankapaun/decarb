@@ -27,6 +27,13 @@ p > code {
     margin-bottom: $spacing-06;
 }
 
+.mb-xs {
+    margin-bottom: $spacing-03;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-04;
+    }
+}
+
 .mb-sm {
     margin-bottom: $spacing-05;
     @include carbon--breakpoint(md) {
