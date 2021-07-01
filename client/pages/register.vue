@@ -1,9 +1,5 @@
 <template>
     <MinimalForm :title="$t('p.register.h1')">
-        <template #text>
-            {{ $t('p.users.id.verifyEmail.explanation') }}
-        </template>
-
         <template #form>
             <Form
                 class="mb-md"

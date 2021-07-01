@@ -65,7 +65,6 @@ export const siteUrl = {
     name: 'siteUrl',
     value: '',
     type: 'text',
-    inputmode: 'numeric',
     autocomplete: 'off',
     label: 'Website URL',
     placeholder: 'e.g. your-domain.com',
