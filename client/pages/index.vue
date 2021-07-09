@@ -29,8 +29,8 @@
         </section>
         <section class="benefits">
             <div class="bx--grid">
-                <h2>{{ $t('p.index.benefits.h') }}</h2>
-                <p>{{ $t('p.index.benefits.p') }}</p>
+                <h2 class="mb-sm">{{ $t('p.index.benefits.h') }}</h2>
+                <p class="mb-sm">{{ $t('p.index.benefits.p') }}</p>
                 <p>
                     <NuxtLink
                         :to="localeRoute(registerDomainLink)"

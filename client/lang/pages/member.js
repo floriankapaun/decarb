@@ -6,8 +6,8 @@ export const en = {
     since: 'Member since {date}',
     amount: '{amount} {unit} CO2e offset so far',
     explanation: {
-        h: 'What does Carbon Neutral mean?',
-        p: 'Laber laber lorem ipsum',
+        h: 'What does Carbon Neutral Website mean?',
+        p: 'Carbon neutral means that we measure how much greenhouse gas emissions your website produces and buy an equal amount of offsets. This way we can ensure that your website is CO2 neutral on balance.',
     },
     cta: {
         h: 'Join now and make a difference',
