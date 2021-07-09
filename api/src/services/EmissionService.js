@@ -1,11 +1,14 @@
 import {
+    AVERAGE_SECONDS_ON_PAGE,
     BYTE_IN_GB,
     CO2E_PER_WH_GREEN,
     CO2E_PER_WH_GREY,
     DEFAULT_AVERAGE_BYTES,
+    ENUMS,
     PERCENTAGE_OF_DATA_LOADED_CACHED,
     PERCENTAGE_OF_ENERGY_IN_DATACENTER,
     PERCENTAGE_OF_ENERGY_IN_TRANSMISSION_AND_END_USER,
+    USAGE_WH,
     WH_PER_GB,
 } from '../config/index.js';
 import DomainHostingEmissionService from './DomainHostingEmissionService.js';
@@ -13,6 +16,19 @@ import DomainService from './DomainService.js';
 import PageViewEmissionService from './PageViewEmissionService.js';
 import PrismaService from './PrismaService.js';
 
+
+/**
+ * Handles Carbon Emission Calculations
+ * 
+ * As mentioned in my bachelor thesis I tried to include additional
+ * parameters in my emission calculations to increase their accuracy. 
+ * I therefore tried to include the influence of connection type,
+ * device type, average time on page and energy type of the hoster in
+ * my calculation. However, the data for these additional parameters
+ * is sparse, outdated or otherwise unreliable which is why the
+ * implemented calculation is rather unsuitable for production use
+ * until the scientific background is clarified.
+ */
 class EmissionService {
 
 
@@ -32,6 +48,52 @@ class EmissionService {
 
 
     /**
+     * Returns connectionType ENUM for effectiveConnection String
+     * 
+     * @param {String} connection 
+     * @returns {String} - ENUMS.deviceType
+     */
+    getConnectionTypeENUM(connection) {
+        if (connection === '4g') return ENUMS.connectionType[3]; // LTE
+        if (connection === '3g') return ENUMS.connectionType[2]; // 3G
+        return ENUMS.connectionType[0]; // DEFAULT
+    }
+
+
+    /**
+     * Returns deviceType ENUM for window size
+     * 
+     * Average display sizes from Statscounter
+     * https://gs.statcounter.com/screen-resolution-stats
+     * 
+     * @param {Number} windowWidth 
+     * @param {Number} windowHeight
+     * @returns {String} - ENUMS.deviceType 
+     */
+    getDeviceTypeENUM(windowWidth, windowHeight) {
+        if (
+            (windowWidth <= 450 && windowHeight <= 900) ||
+            (windowWidth <= 900 && windowHeight <= 450)
+        ) {
+            return ENUMS.deviceType[1]; // SMARTPHONE
+        }
+        if (
+            (windowWidth <= 840 && windowHeight <= 1150) ||
+            (windowWidth <= 1150 && windowHeight <= 840)
+        ) {
+            return ENUMS.deviceType[2]; // TABLET
+        }
+        if (windowWidth <= 1440 && windowHeight <= 900) {
+            return ENUMS.deviceType[3]; // LAPTOP
+        }
+        if (windowWidth > 1440 && windowHeight > 900) {
+            return ENUMS.deviceType[4]; // DESKTOP
+        }
+        return ENUMS.deviceType[0]; // DEFAULT
+    }
+
+
+    /**
      * Returns the energy consumed by a PageView in watt-hours
      * 
      * @param {Number} byte - Transferred amount of bytes
@@ -41,10 +103,11 @@ class EmissionService {
      * @returns {Number} - Watt-hours used
      */
     getWh(bytes, connectionType, windowWidth, windowHeight) {
-        const downloadWh = bytes * (WH_PER_GB / BYTE_IN_GB)
-        // TODO: Multiply by connectionType
-        // TODO: Add Device Energy Consumption
-        return downloadWh;
+        const connection = this.getConnectionTypeENUM(connectionType);
+        const downloadWh = bytes * (WH_PER_GB[connection] / BYTE_IN_GB);
+        const deviceType = this.getDeviceTypeENUM(windowWidth, windowHeight);
+        const usageWh = USAGE_WH[deviceType] * AVERAGE_SECONDS_ON_PAGE;
+        return (downloadWh + usageWh);
     }
 
 
@@ -56,7 +119,6 @@ class EmissionService {
      * @returns {Object} - Emissions in kilograms
      */
     getEmissionKilograms(wh, renewable) {
-        // TODO: Refactor. Var from Website Carbon Calculator
         if (!renewable) {
             return ((wh * CO2E_PER_WH_GREY) / 1000);
         }
