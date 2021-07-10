@@ -92,6 +92,37 @@ a.bx--header__menu-item{
     padding-right: $spacing-09;
 }
 
+// CvNumberInput Component
+button.bx--number__control-btn {
+    max-width: $spacing-10;
+    height: auto;
+    align-self: normal;
+    background-color: $paper;
+
+    &.up-icon {
+        border-top-right-radius: $borderRadiusSm;
+        border-bottom-right-radius: $borderRadiusSm;
+    }
+}
+
+.bx--number__input-wrapper {
+    margin-top: $spacing-02;
+}
+
+.bx--number input[type='number'] {
+    height: $spacing-09;
+    border-top-left-radius: $borderRadiusSm;
+    border-bottom-left-radius: $borderRadiusSm;
+    @include carbon--type-style('body-short-02');
+
+    &:focus,
+    &:active {
+        outline: none;
+        box-shadow: 0 0 0 2px $green;
+        border-bottom: 1px solid $ui-01;
+    }
+}
+
 // CvSelect Component
 .bx--select-input {
     border-radius: $borderRadiusSm;

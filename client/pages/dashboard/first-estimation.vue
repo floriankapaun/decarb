@@ -48,14 +48,7 @@ export default {
     },
     middleware: ['auth'],
     async fetch({ store }) {
-        if (
-            store.getters['domains/getSelectedDomain'] &&
-            store.getters['domains/getEmissionEstimation'] &&
-            store.getters['domains/getSelectedDomain']?.id ===
-                store.getters['domains/getEmissionEstimation']?.id
-        ) {
-            return
-        }
+        // Always fetch the data to adjust it to changes
         if (!store.getters['domains/getSelectedDomain']) {
             if (!store.getters['auth/getUser']) {
                 await store.dispatch('auth/fetchUser')
