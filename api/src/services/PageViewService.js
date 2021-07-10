@@ -7,6 +7,8 @@ import PrismaService from './PrismaService.js';
 
 /**
  * Controls the 'PageView' Entity
+ * 
+ * TODO: Refactor 'PageView' to 'Pageview'
  */
 class PageViewService {
 
@@ -23,7 +25,9 @@ class PageViewService {
      * @returns {Object} - validated data object
      */
     validatePageViewData(data) {
-        if (!data.p) throw new AppError(`No pageUrl ('p') provided`, 400);
+        if (!data.p) {
+            throw new AppError(`Page URL ("p") required`, 400);
+        }
         if (typeof data.p === 'string') data.p = cleanUrl(data.p);
         if (typeof data.w === 'string') data.w = parseInt(data.w);
         if (typeof data.h === 'string') data.h = parseInt(data.h);
@@ -40,14 +44,17 @@ class PageViewService {
      * @returns 
      */
     validateOrigin(pageUrl, origin) {
-        if (!origin) throw new AppError('No origin provided', 400);
+        if (!origin) throw new AppError('No Origin provided', 400);
         // To prevent malicious PageView registrations a requests Origin must match 
         // the same domain which it tries to register a PageView for. To ensure this,
         // clean the given Origin URL string...
         const requestOrigin = cleanUrl(origin);
         // ...and confirm matching.
         if (!pageUrl.startsWith(requestOrigin)) {
-            throw new AppError(`Wrong origin. "${pageUrl}" is sent from "${requestOrigin}".`, 400);
+            throw new AppError(
+                `Malicious Request. Tried to register Pageview for "${pageUrl}" sent from "${requestOrigin}"`,
+                403
+            );
         }
         return true;
     }
@@ -85,7 +92,7 @@ class PageViewService {
         };
         const newPageView = await PrismaService.create('pageView', pageViewData);
         if (newPageView) return newPageView;
-        throw new AppError(`Couldn't register PageView`, 500);
+        throw new AppError(`Failed to register Pageview`, 500);
     }
 };
 
