@@ -47,6 +47,7 @@ export const EVENTS = {
     },
 };
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+export const MAX_INITIAL_CALCULATIONS = 50;
 export const MAX_NUMBER_OF_WORKERS = process.env.MAX_NUMBER_OF_WORKERS || 4;
 export const MODE = process.env.MODE || 'development';
 export const PAGESPEED_API_KEY = process.env.PAGESPEED_API_KEY;

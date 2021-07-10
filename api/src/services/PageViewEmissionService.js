@@ -1,12 +1,19 @@
 import fetch from 'node-fetch';
 
-import { PAGESPEED_API_KEY, PAGESPEED_STRATEGY, PROJECT_SLUG } from '../config/index.js';
+import {
+    MAX_INITIAL_CALCULATIONS,
+    PAGESPEED_API_KEY,
+    PAGESPEED_STRATEGY,
+    PROJECT_SLUG,
+} from '../config/index.js';
 import AppError from '../utils/AppError.js';
 import PrismaService from './PrismaService.js';
 
 
 /**
- * Handles PageViewEmissions
+ * Controls the 'PageViewEmission' Entity
+ * 
+ * TODO: Refactor 'PageViewEmission' to 'PageviewEmission'
  */
 class PageViewEmissionService {
 
@@ -46,7 +53,10 @@ class PageViewEmissionService {
      */
     getTransferredBytesFromPagespeedAnalysis(page, results) {
         if (results.error) {
-            throw new AppError(`${page.url}: ${results.error?.message}`, 500);
+            throw new AppError(
+                `Pagespeed Analysis Error: ${page.url}: ${results.error?.message}`,
+                500
+            );
         }
         const items = results.lighthouseResult?.audits?.['network-requests']?.details?.items;
         if (!items) {
@@ -108,21 +118,26 @@ class PageViewEmissionService {
         // If that PageViewEmission isn't existing in database yet, create it.
         const newPageViewEmission = await this.create(page);
         if (newPageViewEmission) return newPageViewEmission;
-        throw new AppError(`Couldn't register PageViewEmission for Page "${page.id}"`, 500);
+        throw new AppError(`Failed to register PageViewEmission for Page "${page.id}"`, 500);
     }
 
 
+    /**
+     * Creates PageviewEmissions for the initially created Pages
+     * 
+     * @param {String} domainId 
+     * @returns {String} - Status
+     */
     async initialCalculations(domainId) {
         // const options = { include: { pages: true } };
         const domainPages = await PrismaService.findMany('page', { where: { domainId } });
-        // TODO: Only create PageViewEmissions for max 100 random pages
         // const newPageViewEmissions = [];
-        for (const page of domainPages) {
+        // TODO: Randomize the pages that get analyzed if above max values
+        for (let i = 0; i < MAX_INITIAL_CALCULATIONS && i < domainPages.length; i++) {
             // OPTIMIZE: Mabye throttle creation to not overcome google api limit
             await this.create(page);
         }
-
-        return 'Awaiting initialCalculations to finish';
+        return 'Awaiting PageviewEmissionService.initialCalculations() to finish';
     }
 
 
