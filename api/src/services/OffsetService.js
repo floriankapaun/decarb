@@ -90,7 +90,7 @@ class OffsetService {
         const numberOfDays = (paymentInterval === ENUMS.paymentInterval[0])
             ? -DAYS_IN_MONTH
             : -DAYS_IN_YEAR;
-        return addDaysToDate(end, -1 * numberOfDays);
+        return addDaysToDate(end, numberOfDays);
     }
 
 
@@ -168,7 +168,7 @@ class OffsetService {
      */
     async recordOffsetKilograms(offsetId, kg) {
         return await PrismaService.update('offset', offsetId, {
-            offsetKilograms: kg,
+            offsetKilograms: Math.ceil(kg),
         });
     }
 
@@ -269,7 +269,7 @@ class OffsetService {
         // Purchase offsets from ecologi
         const response = await this.purchaseCarbonOffsets(id, offsetKilograms);
         // Handle failure
-        if (!response || !response.amount || !response.currency) {
+        if (!response || typeof response.amount !== 'number' || !response.currency) {
             return await this.handleFailedPurchase(id, response);
         }
         // Update local Offset

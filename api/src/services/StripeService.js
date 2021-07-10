@@ -202,6 +202,7 @@ class StripeService {
      * to open with the correct invoice amount.
      * 
      * @param {Object} object - Stripe event data
+     * @param {String} [object.subscription] - Stripe Subscription ID
      * @returns {String} - status 
      */
     async handleInvoiceCreated(object) {
@@ -223,7 +224,7 @@ class StripeService {
             validatedEmissionKilograms
         );
         console.info(
-            `💁 Recorded ${validatedEmissionKilograms} kg usage to ${subscriptionItemId}`,
+            `💁 Recorded ${validatedEmissionKilograms} kg usage to ${subscription.stripeSubscriptionItemId}`,
             usageReport
         );
         return 'done';
