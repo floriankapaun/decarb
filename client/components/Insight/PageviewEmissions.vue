@@ -20,7 +20,7 @@ export default {
         return {
             columns: [
                 this.$t('c.pageviewEmissions.columns.url'),
-                this.$t('c.pageviewEmissions.columns.emissionMilligrams'),
+                this.$t('c.pageviewEmissions.columns.byte'),
             ],
         }
     },
@@ -51,10 +51,7 @@ export default {
             getPageviewEmissions: 'emissions/getPageviewEmissions',
         }),
         computedRows() {
-            return this.getPageviewEmissions?.map((x) => [
-                x.url,
-                x.emissionMilligrams,
-            ])
+            return this.getPageviewEmissions?.map((x) => [x.url, x.byte])
         },
     },
 }

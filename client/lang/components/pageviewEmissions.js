@@ -2,6 +2,6 @@ export const en = {
     title: 'Emissions per pageview',
     columns: {
         url: 'URL',
-        emissionMilligrams: 'Milligrams of CO2e',
+        byte: 'Milligrams of CO2e',
     },
 }

@@ -1,10 +1,19 @@
 import fetch from 'node-fetch';
 
 import PrismaService from './PrismaService.js';
-import { PING_SCRIPT_URL, ENUMS, CLIENT_ENTRYPOINT, DOMAIN_PAGES_RESPONSE_LIMIT } from '../config/index.js';
+import {
+    PING_SCRIPT_URL,
+    ENUMS,
+    CLIENT_ENTRYPOINT,
+    DOMAIN_PAGES_RESPONSE_LIMIT,
+} from '../config/index.js';
 import { cleanUrl } from '../utils/url.js';
 import AppError from '../utils/AppError.js';
 
+
+/**
+ * Controls the 'Domain' Property
+ */
 class DomainService {
     
 
@@ -48,6 +57,7 @@ class DomainService {
         return newDomain;
     }
 
+
     /**
      * Get Domain by ID
      * 
@@ -71,7 +81,10 @@ class DomainService {
         const { id, } = req.params;
         const userId = req.currentUser.id;
         if (id !== userId) {
-            throw new AppError(`User ID "${id}" not matching Access Token User`, 400);
+            throw new AppError(
+                `User ID "${id}" not matching Access Token User`,
+                400
+            );
         }
         // Seems odd to me but this is how to do it
         // See: https://github.com/prisma/prisma/discussions/2429#discussioncomment-14132
@@ -142,12 +155,16 @@ class DomainService {
                 throw new AppError(res.statusText);
             })
             .catch((err) => {
-                console.error(err);
+                console.error(
+                    `Something went wrong while validating ping script implementation of ${domain.ur}`,
+                    err
+                );
                 throw new AppError(err)
             });
         if (typeof body !== 'string') return false
         return body.includes(PING_SCRIPT_URL);
     }
+
 
     /**
      * Verifies Domain Ownership
@@ -166,10 +183,10 @@ class DomainService {
         return verifiedDomain;
     }
 
+
     /**
-     * Get the current emissionMilligrams for each Page of a Domain
+     * Get the current byte size of each Page of a Domain
      * 
-     * TODO: Refactor emissionMilligrams to byte and adapt client side as well
      * 
      * @param {String} domainId - ID of Domain
      * @param {Number} [itemLimit=10] - Max number of Pages to return
@@ -180,7 +197,7 @@ class DomainService {
         const query = `
         SELECT
                 pages.url as "url",
-                page_view_emissions.byte as "emissionMilligrams"
+                page_view_emissions.byte as "byte"
             FROM
                 domains
                 JOIN pages ON pages.domain_id = domains.id
@@ -192,13 +209,14 @@ class DomainService {
                     FROM page_view_emissions pve
                     WHERE pve.page_id = page_view_emissions.page_id
                 )
-            ORDER BY "emissionMilligrams" DESC
+            ORDER BY "byte" DESC
             LIMIT ${itemLimit}
             OFFSET ${itemOffset}
         `;
         const pageViewEmissions = await PrismaService.queryRaw(query);
         return pageViewEmissions;
     }
+
 
     /**
      * Get PageViews for each Page of a Domain (in time range)
@@ -238,6 +256,7 @@ class DomainService {
         return pageViews;
     }
 
+
     /**
      * Get a domains cummulated pageviews (in time range)
      * 
@@ -269,6 +288,15 @@ class DomainService {
         return aggregatedPageViews;
     }
 
+
+    /**
+     * Get a domains cummulated pageviews per day (in time range)
+     * 
+     * @param {String} domainId - ID of Domain
+     * @param {DateTime} timeStart - Start of time range
+     * @param {DateTime} timeEnd - End of time range
+     * @returns {Object} - aggregated Pageviews
+     */
     async getAggregatedDailyPageViews(domainId, timeStart, timeEnd) {
         const query = `
             SELECT
@@ -295,6 +323,7 @@ class DomainService {
         return pageViewsPerDay;
     }
 
+
     /**
      * Get a Domains public profile Data by URL
      * 
@@ -305,7 +334,10 @@ class DomainService {
         // Get Domain Data
         const domain = await PrismaService.findUnique('domain', { url });
         if (!domain) {
-            throw new AppError(`There is no Domain with URL "${url}". Register at ${CLIENT_ENTRYPOINT}/register`, 404);
+            throw new AppError(
+                `Domain "${url}" isn't registerd yet. Register at ${CLIENT_ENTRYPOINT}/register`,
+                404
+            );
         }
         // Get aggregated Offset amount for Domain
         const aggregation = await PrismaService.aggregate('offset', {
@@ -325,6 +357,7 @@ class DomainService {
         };
     }
 
+
     /**
      * Get cummulated data of all purchased Offsets of a Domain
      * 
@@ -341,7 +374,7 @@ class DomainService {
             },
             where: {
                 domainId,
-                purchaseStatus: { equals: 'SUCCESSFULL' },
+                purchaseStatus: { equals: ENUMS.purchaseStatus[1] }, // 'SUCCESSFULL'
             },
         });
         return aggregatedOffsets;
