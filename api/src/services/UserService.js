@@ -5,6 +5,10 @@ import AppError from '../utils/AppError.js';
 import MailService from './MailService.js';
 import PrismaService from './PrismaService.js';
 
+
+/**
+ * Controls the 'User' Entity
+ */
 class UserService {
     constructor() {
         this.publicReturnValues = {
@@ -19,6 +23,7 @@ class UserService {
             }
         };
     }
+
 
     /**
      * Creates a random verificationCode
@@ -72,6 +77,14 @@ class UserService {
         };
     }
 
+
+    /**
+     * Send an E-Mail to a new registered User including his/her
+     * Verification Code
+     * 
+     * @param {Object} user 
+     * @returns {Object} MailService Response
+     */
     async sendVerificationMail(user) {
         const mailSubject = `Verify your E-Mail to start using ${PROJECT_NAME}`;
         const mailBody = `
@@ -86,15 +99,31 @@ class UserService {
         return await MailService.send(mailSubject, mailBody, user.email);
     }
 
+
+    /**
+     * Create a new Verification Code for a User and send an
+     * E-Mail including it.
+     * 
+     * @param {String} userId - User ID
+     * @returns {Object} - MailService Response
+     */
     async resendVerificationCode(userId) {
         const updatedUserData = {
             verificationCode: this.createVerificationCode(),
         };
         const updatedUser = await PrismaService.update('user', userId, updatedUserData);
-        // TODO: Should this really return mail sending details to the user?
+        // TODO: This probably shouldn't return mail sending details. Think of something better.
         return this.sendVerificationMail(updatedUser);
     }
 
+
+    /**
+     * Verifies a User given his/her Verification Code
+     * 
+     * @param {String} id - User ID
+     * @param {String} givenVerificationCode 
+     * @returns {Object} - Updated User
+     */
     async verify(id, givenVerificationCode) {
         const options = {
             select: {
@@ -116,26 +145,37 @@ class UserService {
             );
         }
         // Update user verifiedAt
-        const updatedUserData = {
-            verifiedAt: new Date(),
-        };
+        const updatedUserData = { verifiedAt: new Date() };
         const updatedUser = await PrismaService.update('user', id, updatedUserData, this.publicReturnValues);
-        // TODO: Send mail to let the user know the verification was successful
+        // TODO: Maybe send a mail to let the User know the verification was successful
         return updatedUser;
     }
 
+
+    /**
+     * Sets a Users Password
+     * 
+     * @param {String} id - User ID
+     * @param {String} password
+     * @returns {String} - Status
+     */
     async setUserPassword(id, password) {
+        // Make sure User exists and E-Mail is already verified
         const options = { select: { verifiedAt: true } };
         const userData = await PrismaService.findUnique('user', { id }, options);
-        // Make sure user email is already verified
+        if (!userData) {
+            throw new AppError(`Couldn't find User "${id}"`, 404);
+        }
         if (!userData.verifiedAt) {
-            return 'User email isn\'t verified yet.';
+            throw new AppError(`User "${id}" E-Mail isn't verified yet.`, 409);
         }
         // Hash password with argon2
         const updatedUserData = { password: await argon2.hash(password) };
         // Set users password
         const updatedUser = await PrismaService.update('user', id, updatedUserData, this.publicReturnValues);
-        return updatedUser;
+        // Don't return the User data but only a status message
+        if (updatedUser) return 'Successfully set User Password';
+        throw new AppError(`Unable to set Password for User ${id}`, 500);
     }
 
 
