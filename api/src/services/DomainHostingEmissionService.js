@@ -1,9 +1,15 @@
 import fetch from 'node-fetch';
-import AppError from '../utils/AppError.js';
 
+import AppError from '../utils/AppError.js';
 import PrismaService from './PrismaService.js';
 
+
+/**
+ * Controls the 'DomainHostingEmission' Property
+ */
 class DomainHostingEmissionService {
+
+
     /**
      * Get a Domains current DomainHostingEmissions
      * 
@@ -18,22 +24,39 @@ class DomainHostingEmissionService {
             options
         );
         if (!hostingEmissions) {
-            throw new AppError(`Couldn't find DomainHostingEmission for "${domainId}"`, 404);
+            throw new AppError(
+                `Failed to find DomainHostingEmission for "${domainId}"`,
+                500
+            );
         }
         delete hostingEmissions.id;
         delete hostingEmissions.createdAt;
         return hostingEmissions;
     }
 
+
+    /**
+     * Create a DomainHostingEmission for Domain
+     * 
+     * @param {Object} domain
+     * @param {String} [domain.url]
+     * @param {String} [domain.id]
+     * @returns {Object} - New DomainHostingEmission
+     */
     async createDomainHostingEmission(domain) {
         const prettyDomainUrl = domain.url.replace(/^(https?:|)\/\//, '');
         const tgwfResponse = await fetch(`http://api.thegreenwebfoundation.org/greencheck/${prettyDomainUrl}`)
             .then((response) => response.json());
-        const domainHostingEmissionData = {
+        if (!tgwfResponse?.green) {
+            throw new AppError(
+                `Failed to fetch info from The Green Web Foundation for "${domain.url}"`,
+                500
+            );
+        }
+        return await PrismaService.create('domainHostingEmission', {
             domainId: domain.id,
             renewableEnergy: tgwfResponse.green,
-        };
-        return await PrismaService.create('domainHostingEmission', domainHostingEmissionData);
+        });
     }
 }
 
