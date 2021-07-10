@@ -3,6 +3,10 @@ import AppError from '../utils/AppError.js';
 import { addDaysToDate } from '../utils/date.js';
 import PrismaService from './PrismaService.js';
 
+
+/**
+ * Controls the 'Subscription' Entity
+ */
 class SubscriptionService {
 
 
@@ -22,13 +26,19 @@ class SubscriptionService {
     }
 
 
+    /**
+     * Get a Subscription by ID
+     * 
+     * @param {String} id - Subscription ID
+     * @returns {Object} - Subscription
+     */
     async get(id) {
         if (!id) {
             throw new AppError(`Can't get a subscription without "id"`, 400);
         }
         const subscription = await PrismaService.findUnique('subscription', { id });
         if (!subscription) {
-            throw new AppError(`Subscription with ID ${id} not found`, 401);
+            throw new AppError(`Subscription with ID ${id} not found`, 404);
         }
         return subscription;
     }
@@ -52,7 +62,7 @@ class SubscriptionService {
         if (!subscription) {
             throw new AppError(
                 `No active Subscription found for Domain: ${req.body.domainId}`,
-                500
+                404
             );
         }
         return subscription;
@@ -72,8 +82,14 @@ class SubscriptionService {
     }
 
 
+    /**
+     * Get all Subscriptions that are currently active
+     * 
+     * @param {DateTime} [now=new Date] 
+     * @returns {Array} - All active Subscriptions
+     */
     async getAllActive(now = new Date()) {
-        const allActiveSubscriptions = await PrismaService.findMany('subscription', {
+        return await PrismaService.findMany('subscription', {
             select: {
                 id: true,
                 domainId: true,
@@ -89,10 +105,15 @@ class SubscriptionService {
                 createdAt: 'desc',
             },
         });
-        return allActiveSubscriptions;
     }
 
 
+    /**
+     * Creates the validTo DateTime by calculation now + paymentInterval
+     * 
+     * @param {String} paymentInterval 
+     * @returns {DateTime}
+     */
     getValidTo(paymentInterval) {
         const now = new Date();
         const numberOfDays = paymentInterval === ENUMS.paymentInterval[0]
