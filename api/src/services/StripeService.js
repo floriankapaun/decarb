@@ -19,12 +19,13 @@ import SubscriptionService from './SubscriptionService.js';
 
 
 /**
- * Handles Stripe
+ * Handles Communication with Stripe
  */
 class StripeService {
     constructor() {
         this.stripe = stripe(STRIPE_SECRET_KEY);
     }
+
 
     /**
      * Creates a Checkout Session for the user and returns a checkout ID
@@ -79,7 +80,7 @@ class StripeService {
      */
     async createCustomerPortalSession(req) {
         if (!req.body.domainId) {
-            throw new AppError('Missing domainId', 400);
+            throw new AppError('"domainId" required', 400);
         }
         const subscription = await SubscriptionService.getByDomainId(req.body.domainId);
         if (!subscription.stripeCustomerId) {
@@ -101,7 +102,7 @@ class StripeService {
      */
     createEvent(req) {
         if (!STRIPE_WEBHOOK_SECRET) {
-            throw new AppError('Missing Stripe Webhook Secret', 403);
+            throw new AppError(`Stripe Webhook Secret isn't configure locally`, 500);
         }
         const signature = req.headers['stripe-signature'];
         try {
@@ -110,7 +111,7 @@ class StripeService {
                 req.rawBody, signature, STRIPE_WEBHOOK_SECRET
             );
             return stripeEvent;
-        } catch (err) {
+        } catch (error) {
             // CHECK: Why not throw the Stripe Error itself? (This is from their sample code...)
             throw new AppError('⚠️  Webhook signature verification failed.', 403);
         }
@@ -118,10 +119,10 @@ class StripeService {
 
 
     /**
-     * Retrieves a subscription from Stripe
+     * Retrieves a Subscription from Stripe
      * 
      * @param {String} id - 'sub_...'
-     * @returns 
+     * @returns {Object} - Stripe Subscription Object
      */
     async getSubscription(id) {
         return await this.stripe.subscriptions.retrieve(id);
@@ -134,7 +135,7 @@ class StripeService {
      * 
      * @param {String} stripeSubscriptionItemId - 'si_...'
      * @param {Integer} offsetKilograms - Amount of CO2 to Offset in Kilograms
-     * @returns 
+     * @returns {Object} - Stripe usage-recording Response
      */
     async recordUsage(stripeSubscriptionItemId, offsetKilograms) {
         const usage = await this.stripe.subscriptionItems.createUsageRecord(
@@ -230,6 +231,13 @@ class StripeService {
         return 'done';
     }
 
+
+    /**
+     * Handles Stripe Webhook Events and returns a Status Message
+     * 
+     * @param {Object} stripeEvent 
+     * @returns {String} - Event Handling Status
+     */
     async handleEvent(stripeEvent) {
         const { data } = stripeEvent;
         console.info('🍿 STRIPE EVENT', stripeEvent.type);
