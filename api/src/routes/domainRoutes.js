@@ -9,7 +9,6 @@ import DomainService from '../services/DomainService.js';
 import EmissionService from '../services/EmissionService.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import sendResponse from '../utils/sendResponse.js';
-import { DOMAIN_PAGES_RESPONSE_LIMIT } from '../config/index.js';
 
 const router = Router();
 
@@ -20,41 +19,58 @@ export default (app) => {
      * Domain routes
      */
 
-    // Create a new domain
+    // Create a new Domain
     router.post('/', isAuth, attachCurrentUser, asyncHandler(async (req, res) => {
         const domainData = req.body;
         const newDomain = await DomainService.create(domainData, req.currentUser);
         return sendResponse(res, newDomain);
     }));
 
-    // Get all domains
+    // Get all Domains
     router.get('/', asyncHandler(async (req, res) => {
-        const allDomains = await PrismaService.findMany('domain');
+        const allDomains = await DomainService.getAllPublic();
         return sendResponse(res, allDomains);
     }));
 
-    // Get a domain
-    router.get('/:id', asyncHandler(async (req, res) => {
-        const { id } = req.params;
-        const uniqueDomain = await PrismaService.findUnique('domain', { id });
-        return sendResponse(res, uniqueDomain);
-    }));
+    // NOTE: This route isn't used by the client, but only in dev
+    // Get a Domain
+    // router.get('/:id', asyncHandler(async (req, res) => {
+    //     const { id } = req.params;
+    //     // TODO: Move inside DomainService
+    //     const uniqueDomain = await PrismaService.findUnique('domain', { id });
+    //     return sendResponse(res, uniqueDomain);
+    // }));
 
-    // Update a domain
-    router.put('/:id', isAuth, attachCurrentUser, requireDomainRole(0), asyncHandler(async (req, res) => {
-        const { id } = req.params;
-        const updatedDomain = await PrismaService.update('domain', id, req.body);
-        return sendResponse(res, updatedDomain);
-    }));
+    // Update a Domain
+    router.put(
+        '/:id',
+        isAuth,
+        attachCurrentUser,
+        requireDomainRole(0),
+        asyncHandler(async (req, res) => {
+            const { id } = req.params;
+            // TODO: Move inside DomainService and validate given data
+            const updatedDomain = await PrismaService.update('domain', id, req.body);
+            return sendResponse(res, updatedDomain);
+        })
+    );
 
-    // Delete a domain
-    router.delete('/:id', asyncHandler(async (req, res) => {
-        const { id } = req.params;
-        const deletedDomain = await PrismaService.delete('domain', id);
-        return sendResponse(res, deletedDomain);
-    }));
+    // NOTE: This route isn't used by the client, but only in dev
+    // Delete a Domain
+    // router.delete(
+    //     '/:id',
+    //     isAuth,
+    //     attachCurrentUser,
+    //     requireDomainRole(0),
+    //     asyncHandler(async (req, res) => {
+    //         const { id } = req.params;
+    //         // TODO: Move inside DomainService
+    //         const deletedDomain = await PrismaService.delete('domain', id);
+    //         return sendResponse(res, deletedDomain);
+    //     })
+    // );
 
-    // Verify domain ownership
+    // Verify Domain ownership
     router.post(
         '/:id/ownership-verification',
         isAuth,
@@ -67,18 +83,19 @@ export default (app) => {
         })
     );
 
-    // Get a domain profile by url
+    // Get a Domains public profile by URL
     router.get('/:url/profile', asyncHandler(async (req, res) => {
         const { url } = req.params;
         const domainProfile = await DomainService.getDomainProfile(url);
         return sendResponse(res, domainProfile);
     }));
 
+
     /**
      * Domain -> DomainHostingEmission Routes
      */
 
-    // Get a domains current DomainHostingEmissions
+    // Get a Domains current DomainHostingEmissions
     router.get(
         '/:id/hosting-emissions',
         isAuth,
@@ -96,7 +113,7 @@ export default (app) => {
      * Domain -> Page Routes
      */
 
-    // Get a domain and all of its pages
+    // Get a Domain and all of its Pages
     router.get(
         '/:id/pages',
         isAuth,
@@ -104,24 +121,12 @@ export default (app) => {
         requireDomainRole(),
         asyncHandler(async (req, res) => {
             const { id } = req.params;
-            // Include pages, but only their 'url' and 'createdAt'
-            const options = {
-                include: {
-                    pages: {
-                        select: {
-                            url: true,
-                            createdAt: true,
-                        },
-                        take: DOMAIN_PAGES_RESPONSE_LIMIT,
-                    }
-                }
-            };
-            const uniqueDomain = await PrismaService.findUnique('domain', { id }, options);
-            return sendResponse(res, uniqueDomain);
+            const domainAndPages = await DomainService.getIncludingPages(id);
+            return sendResponse(res, domainAndPages);
         })
     );
 
-    // Get a domains pages current pageViewEmissions sorted by emissionAmount
+    // Get a Domains Pages current PageViewEmissions sorted by `emissionAmount`
     router.post(
         '/:id/pages/emissions',
         isAuth,
@@ -137,6 +142,7 @@ export default (app) => {
         })
     );
 
+    
     /**
      * Domain -> PageView Routes
      */
@@ -149,7 +155,9 @@ export default (app) => {
         requireDomainRole(),
         asyncHandler(async (req, res) => {
             const { id } = req.params;
-            // TODO: Validate Data Inputs (for whole document). Check out Prismas built-in escaping: https://www.prisma.io/docs/concepts/components/prisma-client/raw-database-access#sql-injection
+            // TODO: Validate Data Inputs (for all routes in this file)
+            // Check out Prismas built-in escaping for this:
+            // https://www.prisma.io/docs/concepts/components/prisma-client/raw-database-access#sql-injection
             const { timeStart, timeEnd, itemLimit, itemOffset } = req.body;
             const pageViews = await DomainService.getPageViews(
                 id, timeStart, timeEnd, itemLimit, itemOffset
@@ -158,7 +166,7 @@ export default (app) => {
         })
     );
 
-    // Get a domains cummulated pageviews (in time range)
+    // Get a Domains cummulated PageViews (in time range)
     router.post(
         '/:id/aggregated-views',
         isAuth,
@@ -174,7 +182,7 @@ export default (app) => {
         })
     );
 
-    // Get a domains cummulated pageviews per day (in time range)
+    // Get a Domains cummulated PageViews per day (in time range)
     router.post(
         '/:id/views/day',
         isAuth,
@@ -190,11 +198,12 @@ export default (app) => {
         })
     );
 
+
     /**
      * Domain -> Emission Routes
      */
 
-    // Get an estimation of a Domains monthly emission
+    // Get an estimation of a Domains monthly emissions
     router.get(
         '/:id/emission-estimation',
         isAuth,
@@ -207,7 +216,7 @@ export default (app) => {
         })
     );
 
-    // Get a domains aggregated pageViewEmissions (in time range)
+    // Get a Domains aggregated PageViewEmissions (in time range)
     router.post('/:id/emissions',
         isAuth,
         attachCurrentUser,

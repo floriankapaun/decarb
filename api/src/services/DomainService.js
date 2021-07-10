@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 import PrismaService from './PrismaService.js';
-import { PING_SCRIPT_URL, ENUMS, CLIENT_ENTRYPOINT } from '../config/index.js';
+import { PING_SCRIPT_URL, ENUMS, CLIENT_ENTRYPOINT, DOMAIN_PAGES_RESPONSE_LIMIT } from '../config/index.js';
 import { cleanUrl } from '../utils/url.js';
 import AppError from '../utils/AppError.js';
 
@@ -56,6 +56,48 @@ class DomainService {
      */
     getById(id) {
         return PrismaService.findUnique('domain', { id });
+    }
+
+
+    /**
+     * Returns a publicly displayable Version of all Domains
+     * 
+     * @returns {Array} - Contains Domain Objects 
+     */
+    getAllPublic() {
+        return PrismaService.findMany('domain', {
+            select: {
+                url: true,
+                companyName: true,
+            },
+            where: {
+                verifiedAt: { not: null },
+                deletedAt: { equals: null },
+            }
+        });
+    }
+
+
+    /**
+     * Gets a Domain and its Pages
+     * 
+     * @param {String} id - Domain ID
+     * @returns {Object} - Domain and Pages
+     */
+    getIncludingPages(id) {
+        // Include pages, but only their 'url' and 'createdAt'
+        const options = {
+            include: {
+                pages: {
+                    select: {
+                        url: true,
+                        createdAt: true,
+                    },
+                    take: DOMAIN_PAGES_RESPONSE_LIMIT,
+                }
+            }
+        };
+        return PrismaService.findUnique('domain', { id }, options);
     }
 
 
