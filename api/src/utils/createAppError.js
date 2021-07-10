@@ -27,7 +27,7 @@ const handleJwtError = (err) => {
  */
 const handlePrismaClientKnownRequestError = (err) => {
     if (err.code === 'P2002') {
-        console.log('Request returned a unique constraint violation.');
+        // console.log('Request returned a unique constraint violation.');
     }
     return new AppError(`${err.code}: ${err.message}`, 500);
 }

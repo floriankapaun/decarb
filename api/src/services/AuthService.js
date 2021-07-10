@@ -67,7 +67,7 @@ class AuthService {
         };
         const save = await PrismaService.update('user', user.id, updatedUserData);
         if (save.refreshToken || save.refreshTokenExpiry) {
-            console.log('LOGOUT FAILED');
+            console.error('LOGOUT FAILED');
             return `Wasn't able to logout ${email}.`;
         }
         return `Logged out ${email}.`;

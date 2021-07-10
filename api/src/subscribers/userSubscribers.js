@@ -8,6 +8,6 @@ import UserService from '../services/UserService.js';
  * @param {Object} user 
  */
 export const createUserSubscriber = (user) => {
-    console.log('🗃️ Created User', user);
+    console.info('🗃️ Created User', user);
     UserService.sendVerificationMail(user);
 };

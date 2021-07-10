@@ -1,3 +1,3 @@
 export const createOffsetSubscriber = (offset) => {
-    console.log('🗃️ Created Offset', offset);
+    console.info('🗃️ Created Offset', offset);
 };

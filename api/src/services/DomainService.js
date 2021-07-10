@@ -142,7 +142,7 @@ class DomainService {
                 throw new AppError(res.statusText);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
                 throw new AppError(err)
             });
         if (typeof body !== 'string') return false
