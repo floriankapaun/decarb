@@ -34,6 +34,7 @@ class AuthService {
         return { refreshToken, refreshTokenExpiry };
     }
 
+    // FIXME: Provide real Errors for Frontend
     async login(email, password) {
         // Find user by email
         const user = await PrismaService.findUnique('user', { email });

@@ -14,7 +14,6 @@ export default (app) => {
     app.use('/auth', router);
 
     // Login a user
-    // FIXME: Provide real Errors for Frontend
     router.post('/login', asyncHandler(async (req, res) => {
         const { email, password } = req.body;
         const auth = await AuthService.login(email, password);
@@ -35,35 +34,48 @@ export default (app) => {
     
     // Logout all users sessions
     // Grips after the last accessToken expires (15 mins)
-    // TODO: Add authentication middleware to this route to prevent malicious logouts from others
-    router.post('/logout', asyncHandler(async (req, res) => {
-        const { email } = req.body;
-        const auth = await AuthService.logout(email);
-        // Delete refreshToken cookie
-        res.cookie('refreshToken', '', {
-            httpOnly: true,
-            expires: new Date(0),
-        });
-        return sendResponse(res, {message: auth});
-    }));
+    router.post(
+        '/logout', 
+        isAuth, 
+        asyncHandler(async (req, res) => {
+            const { email } = req.body;
+            const auth = await AuthService.logout(email);
+            // Delete refreshToken cookie
+            res.cookie('refreshToken', '', {
+                httpOnly: true,
+                expires: new Date(0),
+            });
+            return sendResponse(res, {message: auth});
+        })
+    );
 
     // Refresh a users access token
-    router.post('/refresh-token', cookieParser(), asyncHandler(async (req, res) => {
-        // Nuxt SSR Requests send the 'refreshToken' cookie received from the client in the 'req.body'
-        const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
-        const { email } = req.body;
-        const refreshedToken = await AuthService.refreshToken(email, refreshToken);
-        return sendResponse(res, refreshedToken);
-    }));
+    router.post(
+        '/refresh-token',
+        cookieParser(),
+        isAuth,
+        asyncHandler(async (req, res) => {
+            // Nuxt SSR Requests send the 'refreshToken' cookie received from the client in the 'req.body'
+            const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+            const { email } = req.body;
+            const refreshedToken = await AuthService.refreshToken(email, refreshToken);
+            return sendResponse(res, refreshedToken);
+        })
+    );
 
     // Get the authenticated users profile
-    router.get('/user', isAuth, attachCurrentUser, asyncHandler(async (req, res) => {
-        return sendResponse(res, {
-            id: req.currentUser.id,
-            email: req.currentUser.email,
-            isVerified: req.currentUser.verifiedAt ? true : false,
-            hasPassword: req.currentUser.password ? true : false,
-            hasDomain: req.currentUser.domains?.length ? true : false,
-        });
-    }));
+    router.get(
+        '/user', 
+        isAuth, 
+        attachCurrentUser, 
+        asyncHandler(async (req, res) => {
+            return sendResponse(res, {
+                id: req.currentUser.id,
+                email: req.currentUser.email,
+                isVerified: req.currentUser.verifiedAt ? true : false,
+                hasPassword: req.currentUser.password ? true : false,
+                hasDomain: req.currentUser.domains?.length ? true : false,
+            });
+        })
+    );
 }
