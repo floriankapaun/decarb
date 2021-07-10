@@ -6,7 +6,14 @@ import PrismaService from './PrismaService.js';
 class SubscriptionService {
 
 
+    /**
+     * Create a new Subscription
+     * 
+     * @param {Object} body - Request body
+     * @returns {Object} - Subscription
+     */
     async create(body) {
+        // FIXME: Make sure there is no active subscription for this domain
         const { domainId, offsetType, paymentInterval, stripePriceId } = body;
         const validTo = this.getValidTo(paymentInterval);
         const subscriptionData = { domainId, offsetType, paymentInterval, stripePriceId, validTo };

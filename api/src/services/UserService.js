@@ -31,15 +31,45 @@ class UserService {
         return Math.floor(100000 + Math.random() * 900000);
     }
 
+
+    /**
+     * Creates a new User by Email and returns public
+     * information about him/her
+     * 
+     * @param {String} email 
+     * @returns {Object} - Public User Info
+     */
     async create(email) {
         const verificationCode = this.createVerificationCode();
         const userData = {
             email,
             verificationCode,
         };
-        console.log(userData);
         const newUser = await PrismaService.create('user', userData);
-        return newUser;
+        // Only give back information that is intended for the public
+        return {
+            id: newUser.id,
+            email: newUser.email,
+        };
+    }
+
+
+    /**
+     * Returns some info about a Users registration state
+     * 
+     * @param {String} id - User ID
+     * @returns {Object} - Registration State Info
+     */
+    async getRegistrationState(id) {
+        const user = await PrismaService.findUnique('user', { id });
+        if (!user) {
+            throw new AppError(`Couldn't find User "${id}"`, 404);
+        }
+        return {
+            exists: user.id ? true : false,
+            hasPassword: user.password ? true : false,
+            isVerified: user.verifiedAt? true: false,
+        };
     }
 
     async sendVerificationMail(user) {

@@ -60,6 +60,27 @@ class DomainService {
 
 
     /**
+     * Returns all Domains a authenticated User has access to
+     * 
+     * @param {Object} req 
+     * @param {String} [req.params.id]
+     * @param {String} [req.currentUser.id]
+     * @returns {Object} - Users Domains
+     */
+    getByUser(req) {
+        const { id, } = req.params;
+        const userId = req.currentUser.id;
+        if (id !== userId) {
+            throw new AppError(`User ID "${id}" not matching Access Token User`, 400);
+        }
+        // Seems odd to me but this is how to do it
+        // See: https://github.com/prisma/prisma/discussions/2429#discussioncomment-14132
+        const options = { where: { users: { some: { userId: { equals: userId }}}}};
+        return PrismaService.findMany('domain', options);
+    }
+
+
+    /**
      * Returns a publicly displayable Version of all Domains
      * 
      * @returns {Array} - Contains Domain Objects 
