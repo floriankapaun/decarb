@@ -40,6 +40,7 @@ const handlePrismaClientKnownRequestError = (err) => {
  * @returns {AppError}
  */
 export default (err) => {
+    // TODO: Add more Error Types to Convert them properly
     if (err instanceof AppError) return err;
     if (typeof err === 'string') return new AppError(err);
     if (typeof err === 'object' && err.name === 'TokenExpiredError') {
@@ -48,7 +49,6 @@ export default (err) => {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
         return handlePrismaClientKnownRequestError(err);
     }
-    // FIXME: This creates potential for server killing experiences
     console.error('CAUTION: Non-Formatted Error', err);
     return err;
 }
