@@ -11,6 +11,7 @@ import { EVENTS } from '../config/index.js';
  * Controls the 'Page' Entity
  */
 class PageService {
+
     constructor() {
         this.sitemapper = new Sitemapper();
     }
@@ -33,7 +34,7 @@ class PageService {
         const domainUrl = pageUrl.split('/')[0];
         const domain = await PrismaService.findUnique('domain', { url: domainUrl });
         if (!domain) {
-            throw new AppError(`Domain "${domainUrl}" isn't registered yet.`, 400);
+            throw new AppError(`Domain "${domainUrl}" isn't registered yet.`, 409);
         }
         // Then, create the Page
         const pageData = {
@@ -42,7 +43,7 @@ class PageService {
         };
         const newPage = await PrismaService.create('page', pageData);
         if (newPage) return newPage;
-        throw new AppError(`Couldn't register page "${pageUrl}".`, 500);
+        throw new AppError(`Failed to register page "${pageUrl}".`, 500);
     }
 
 
@@ -99,6 +100,7 @@ class PageService {
             EventEmitter.emit(EVENTS.create.initialPageIndex, domain.id);
             return newPages;
         } catch (error) {
+            // No reason to throw an Error, just log it
             console.error(error);
         }
     }
