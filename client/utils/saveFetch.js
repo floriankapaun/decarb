@@ -19,12 +19,7 @@ const handleError = async (error) => {
     // TODO: Create Notifications for Server-Side Errors
 }
 
-const saveFetch = async (
-    context,
-    requestMethod = 'POST',
-    path,
-    bodyData
-) => {
+const saveFetch = async (context, requestMethod = 'POST', path, bodyData) => {
     const { rootGetters } = context
     const apiBaseUrl = rootGetters.getConfig.API_ENTRYPOINT
     let accessToken = rootGetters['auth/getAccessToken']
