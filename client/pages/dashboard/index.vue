@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
     name: 'Dashboard',
     layout: 'dashboard',
@@ -27,32 +25,6 @@ export default {
         paths: {
             en: '/dashboard',
         },
-    },
-    computed: {
-        ...mapGetters({
-            getAccessToken: 'auth/getAccessToken',
-            getUser: 'auth/getUser',
-            getSelectedDomain: 'domains/getSelectedDomain',
-        }),
-    },
-    async mounted() {
-        if (!this.getUser) {
-            if (!this.getAccessToken) {
-                // TODO: Remove that stuff...
-                console.warn('No Access Token provided')
-                return false
-            }
-            await this.fetchUser(this.getAccessToken)
-        }
-        if (!this.getSelectedDomain) {
-            await this.fetchUserDomains(this.getUser.id)
-        }
-    },
-    methods: {
-        ...mapActions({
-            fetchUser: 'auth/fetchUser',
-            fetchUserDomains: 'domains/fetchUserDomains',
-        }),
     },
 }
 </script>
