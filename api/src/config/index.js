@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // default expire after 15 minutes
-export const ACCESS_TOKEN_EXPIRES = parseInt(process.env.ACCESS_TOKEN_EXPIRES) ?? 15;
+export const ACCESS_TOKEN_EXPIRES = parseInt(process.env.ACCESS_TOKEN_EXPIRES ?? 15);
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const API_PREFIX = process.env.API_PREFIX;
 export const CLIENT_ENTRYPOINT = process.env.CLIENT_ENTRYPOINT;

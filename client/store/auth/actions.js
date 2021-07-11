@@ -63,7 +63,8 @@ export default {
         }
         commit('setIsLoading', false)
     },
-    logout: async (context) => {
+    // This Action mustn't be an arrow function because we need access to `this`
+    async logout(context) {
         const { commit } = context
         commit('setIsLoading', true)
         const user = context.rootGetters['auth/getUser']
@@ -75,16 +76,24 @@ export default {
                 commit('setIsLoggedIn', false)
                 commit('setAccessToken', null)
                 commit('setAccessTokenExpiry', null)
-                // Clear Vuex Persistance Cookie as well
-                // FIXME: Remove those logs, or finish debugging
-                console.log('VUEX CONTEXT PROCESS', context.process)
-                if (context.process.client) {
-                    console.log('THIS IS THE CLIENT SIDE')
+                // Clear Vuex
+                if (process.client) {
+                    // Remove the Vuex state persistance Cookie
                     Cookies.remove(
                         context.rootGetters.getConfig.VUEX_PERSISTANCE_KEY
                     )
+                    // Replace the Vuex State to prevent persistance plugin from
+                    // re-adding the deleted Cookie
+                    const newState = {}
+                    Object.keys(context.rootState).forEach((module) => {
+                        newState[module] = {}
+                    })
+                    this.replaceState(newState)
                 } else {
-                    console.log('THIS IS THE SERVER SIDE')
+                    // TODO: Handle server-side logouts as well if implemented
+                    console.warn(
+                        `⚠️ Serverside Logouts aren't fully implemented yet and will probably cause problems`
+                    )
                 }
             }
         }
