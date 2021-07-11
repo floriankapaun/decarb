@@ -72,7 +72,6 @@ export default {
                     this.localeRoute(`/users/${this.getUser.id}/verify-email`)
                 )
             }
-            // OPTIMIZE: Maybe apply some error styling
         },
     },
 }

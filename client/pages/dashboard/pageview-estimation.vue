@@ -76,7 +76,6 @@ export default {
             })
             // Set selectedDomain to updated domain
             await this.setSelectedDomain(updatedDomain)
-            // TODO: Implement global notification
             const notification = new Notification({
                 type: 'success',
                 title: `Successfully updated ${this.getSelectedDomain.url}`,
@@ -89,7 +88,6 @@ export default {
             ) {
                 return this.$router.push('/dashboard/first-estimation')
             }
-            // OPTIMIZE: Maybe apply some error styling
         },
     },
 }

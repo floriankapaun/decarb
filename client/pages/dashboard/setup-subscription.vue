@@ -172,10 +172,9 @@ export default {
             const subscriptionId = this.getSubscription.id
             if (!subscriptionId)
                 console.warn('No subscription ID. This should never happen.')
-            // FIXME: Doesn't make sense that way. Init should only be called once
             // Returning doesn't make sense either
-            const stripe = this.initStripe()
-            if (!stripe) return console.warn('Stripe setup failed')
+            await this.initStripe()
+            if (!this.stripe) return console.warn('Stripe setup failed')
             // Create Checkout Session
             await this.createCheckoutSession({
                 email: this.getUser.email,
@@ -190,7 +189,7 @@ export default {
                 )
             }
             // Redirect User to Stripe Checkout Session
-            // TODO: This might fail --> Add Error Handling (actually to whole file)
+            // OPTIMIZE: It never did, but this could fail --> Add Error Handling (actually to whole file)
             this.stripe.redirectToCheckout({
                 sessionId: this.getCheckoutSessionId,
             })

@@ -2,8 +2,6 @@
     <section class="bx--row">
         <div class="bx--col-lg-16">
             <h1>{{ $t('p.dashboard.knownPages.h1') }}</h1>
-            <!-- TODO: Sort Table -->
-            <!-- TODO: Search in Table -->
             <CvDataTableSkeleton
                 v-if="getIsLoading"
                 :title="$t('p.dashboard.knownPages.title')"
@@ -189,11 +187,8 @@ export default {
         transition: background 0.11s cubic-bezier(0, 0, 0.38, 0.9);
         pointer-events: all;
 
-        // FIXME: Color Variables aren't overwritten by Custom Theme because imported
-        // directly from a source package
         &:focus {
             outline: 2px solid $interactive-01;
-            outline: 2px solid var(--cds-focus, $interactive-01);
             outline-offset: -2px;
         }
     }

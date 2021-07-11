@@ -85,7 +85,7 @@ export default {
             return this.$t('p.member.since', { date })
         },
         getAmount() {
-            // TODO: Improve formatting
+            // OPTIMIZE: Improve formatting like '1.000' or '2.500.000'
             const amount = this.getDomainProfile.offsetKilograms ?? 0
             const unit = 'KG'
             return this.$t('p.member.amount', { amount, unit })

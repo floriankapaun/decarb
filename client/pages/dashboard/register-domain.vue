@@ -81,11 +81,9 @@ export default {
                 estimatedMonthlyPageViews: pageViews,
             })
             await this.fetchUserDomains(this.getUser.id)
-            if (!this.getUserDomains) {
-                // TODO: Add Error Handling
-                console.warn('Seems like domain registry failed')
-                return false
-            }
+            // If there are no user Domains, the API should've returned an
+            // Error which gets displayed as a Notification
+            if (!this.getUserDomains) return false
             // Find registered domain in userDomains by siteUrl
             const sortedDomains = this.getUserDomains
                 .map((x) => {
@@ -109,7 +107,6 @@ export default {
                     this.localeRoute(`/dashboard/verify-domain-ownership`)
                 )
             }
-            // OPTIMIZE: Maybe apply some error styling
         },
     },
 }
