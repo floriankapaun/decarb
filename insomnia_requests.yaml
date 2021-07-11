@@ -1,0 +1,1313 @@
+_type: export
+__export_format: 4
+__export_date: 2021-07-11T15:38:57.324Z
+__export_source: insomnia.desktop.app:v2021.4.0
+resources:
+  - _id: req_96cc9a1212a44d6db97c6f2b981c8bf2
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1625911088821
+    created: 1625910816993
+    url: http://localhost:4000/api/v1/badges/_/DEFAULT/SW
+    name: Get Badge
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1625910816993
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_968c322f3d47491eae1b7d36da8ea67d
+    parentId: wrk_e3f71ca7a2484e20ad351c94534cbeb3
+    modified: 1623665031215
+    created: 1618405509678
+    name: Decarb
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1618405509679
+    _type: request_group
+  - _id: wrk_e3f71ca7a2484e20ad351c94534cbeb3
+    parentId: null
+    modified: 1598546980441
+    created: 1598546980441
+    name: Insomnia
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_75ab656eeeb8436abc1b9b2f0374b556
+    parentId: fld_30db81f2917443dc83e608e8fbd4177d
+    modified: 1624991077542
+    created: 1619077867301
+    url: http://localhost:4000/api/v1/users/01f8444d-7f2c-458f-933e-e1a606471a8d
+    name: Get User
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1463fb316510404cadde8f0e175f2ed4
+    authentication: {}
+    metaSortKey: -1617540191176.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_30db81f2917443dc83e608e8fbd4177d
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1624376432676
+    created: 1624376432676
+    name: User
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1624376432676
+    _type: request_group
+  - _id: req_704af20ae61f4b67bf76d3717deda01f
+    parentId: fld_30db81f2917443dc83e608e8fbd4177d
+    modified: 1625914112667
+    created: 1625913960686
+    url: http://localhost:4000/api/v1/users/d9983dd0-d328-4375-8c13-cde311b46722/registration-state
+    name: Get User Registration State
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617540191151.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_38aac5dc8bf04bbabf557ccefbd62f54
+    parentId: fld_30db81f2917443dc83e608e8fbd4177d
+    modified: 1624376438478
+    created: 1618415914178
+    url: http://localhost:4000/api/v1/users
+    name: Create user
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "kapaun.on@gmx.de"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_8717c754bcce49dbb6768aff03f085a2
+    authentication: {}
+    metaSortKey: -1617540191126.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_60443fcfc4b2493d9035787fca0d8944
+    parentId: fld_30db81f2917443dc83e608e8fbd4177d
+    modified: 1624376463145
+    created: 1619090096540
+    url: http://localhost:4000/api/v1/auth/login
+    name: Login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "hello@florian-kapaun.de",
+        	"password": "test123123"
+        }
+    parameters: []
+    headers:
+      - name: ""
+        value: ""
+        id: pair_1463fb316510404cadde8f0e175f2ed4
+        disabled: true
+      - name: Content-Type
+        value: application/json
+        id: pair_5094d575784b459b911f3e94c02d92d9
+    authentication: {}
+    metaSortKey: -1617540191101.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_20a43aeba1af4815a2f5297686a0df6c
+    parentId: fld_30db81f2917443dc83e608e8fbd4177d
+    modified: 1624376445750
+    created: 1619082939221
+    url: http://localhost:4000/api/v1/users/cebbe4bb-504b-49bc-8b2c-b7c8ac6e2d3c/password
+    name: Set User Password
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"password": "test123"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1463fb316510404cadde8f0e175f2ed4
+    authentication: {}
+    metaSortKey: -1617540191076.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ffcee39c1e19407aad5c84e0b93efa8d
+    parentId: fld_30db81f2917443dc83e608e8fbd4177d
+    modified: 1624376452426
+    created: 1619079797435
+    url: http://localhost:4000/api/v1/users/2a5a687b-ab3a-410d-871e-f67fed6220bc/reset-verification
+    name: Reset User Mail Verification
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "hello@florian-kapaun.de"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1463fb316510404cadde8f0e175f2ed4
+    authentication: {}
+    metaSortKey: -1617540191026.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_a992fa507f574fe097551997d1261574
+    parentId: fld_30db81f2917443dc83e608e8fbd4177d
+    modified: 1624740367905
+    created: 1619091447329
+    url: http://localhost:4000/api/v1/auth/logout
+    name: Logout
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "hello@florian-kapaun.de"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1463fb316510404cadde8f0e175f2ed4
+    authentication: {}
+    metaSortKey: -1617540190976.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_b16737460aa94af2946cf3295a50059a
+    parentId: fld_30db81f2917443dc83e608e8fbd4177d
+    modified: 1624740374798
+    created: 1619080198428
+    url: http://localhost:4000/api/v1/users/cebbe4bb-504b-49bc-8b2c-b7c8ac6e2d3c/verification
+    name: Verify User Mail
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"verificationCode": "272497"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1463fb316510404cadde8f0e175f2ed4
+    authentication: {}
+    metaSortKey: -1617540190951.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ca53f4d745884d8f8fd84256aac70834
+    parentId: fld_30db81f2917443dc83e608e8fbd4177d
+    modified: 1624740371920
+    created: 1619091603359
+    url: http://localhost:4000/api/v1/auth/refresh-token
+    name: Refresh Token
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "hello@florian-kapaun.de"
+        }
+    parameters: []
+    headers:
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_f6267f32525844e38e041176f195a001
+        disabled: true
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_393a80faab7643129dcb855842ca2ecd
+        disabled: true
+      - name: Content-Type
+        value: application/json
+        id: pair_f08f4ff5af7d43218173931ee7d60bfe
+    authentication: {}
+    metaSortKey: -1617540190926.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_4dafbd62fb34415e98c810ad0967361d
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1625055921827
+    created: 1625055170045
+    url: http://localhost:4000/api/v1/domains/248e50b4-3cf4-469f-b854-50f95645abc3/emission-estimation
+    name: Get initial Emission Estimation
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1625055170045
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_c22ae2944d644cc888a2273374108c94
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1624335315818
+    created: 1624335315818
+    name: Domain
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1624335315818
+    _type: request_group
+  - _id: req_951f32d7d7f14a7c980ed9f2996c6232
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624335356422
+    created: 1618588610801
+    url: http://localhost:4000/api/v1/domains
+    name: Create Domain
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"url": "https://led-lampe-test.de",
+        	"estimatedMonthlyPageViews": 150
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1463fb316510404cadde8f0e175f2ed4
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ4LWVjby13ZWItdXNlci1pZCI6ImNlYmJlNGJiLTUwNGItNDliYy04YjJjLWI3YzhhYzZlMmQzYyIsIngtZWNvLXdlYi11c2VyLWVtYWlsIjoiaGVsbG9AZmxvcmlhbi1rYXBhdW4uZGUiLCJpYXQiOjE2MTkyNjYyNjcsImV4cCI6MTYxOTI2NzE2N30.uodaAJsJFUFM3lPBM6paMn65u7KmKKqL6PNhK7p3qSI
+    metaSortKey: -1617721802308
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_8c28db299eeb4c1b9c4e4f02aa53dc12
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624949501603
+    created: 1618567393325
+    url: http://localhost:4000/api/v1/domains
+    name: Get all Domains
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617721802295.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_cdf0e2013e2d4febb625277aab00aa47
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1625912242873
+    created: 1618588674849
+    url: http://localhost:4000/api/v1/domains/3ec273b5-da69-46d6-9130-fbbc4447cd2f
+    name: Get single Domain
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617721802289.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_7b1ce8a81bad492abae25fb6c82605c3
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1625912702011
+    created: 1618648779488
+    url: http://localhost:4000/api/v1/domains/3ec273b5-da69-46d6-9130-fbbc4447cd2f/pages
+    name: Get Domain including pages
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617721802283
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_615c4e723bf44be09ce37b3ee7547d21
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624373046947
+    created: 1624371534245
+    url: http://localhost:4000/api/v1/domains/florian-kapaun.de/profile
+    name: Get Domain Profile by URL
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617721802245.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_3aea41a9ddea491086e0c31b4a49d284
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624346681695
+    created: 1620371748354
+    url: http://localhost:4000/api/v1/domains/51044be8-6128-4c0d-abae-f1e6e8f59415/ownership-verification
+    name: Verify Domain Ownership
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_3eaf55fe7a0948f9932537fe4ed840d6
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ4LWRlY2FyYi11c2VyLWlkIjoiNTIwZDAzM2YtNTczNy00MmM5LTg4OWQtZWE2NWQ3Y2E4Nzc0IiwieC1kZWNhcmItdXNlci1lbWFpbCI6ImhlbGxvQGZsb3JpYW4ta2FwYXVuLmRlIiwiaWF0IjoxNjI0MzQ2NjcxLCJleHAiOjE2MjQzNDc1NzF9.dpa3oPMn7te1EhVsco68KsXmKrdxMqdvLVcWsKL0OtU
+    metaSortKey: -1617721802233
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_68580a20d6e0460196da85490fa1edb2
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1625922154038
+    created: 1620313848229
+    url: http://localhost:4000/api/v1/users/6dd8ca08-4ed6-4dc7-91b3-f334a3efec94/domains
+    name: Get a Users Domains
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_3eaf55fe7a0948f9932537fe4ed840d6
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ4LWRlY2FyYi11c2VyLWlkIjoiNmRkOGNhMDgtNGVkNi00ZGM3LTkxYjMtZjMzNGEzZWZlYzk0IiwieC1kZWNhcmItdXNlci1lbWFpbCI6ImhlbGxvQGZsb3JpYW4ta2FwYXVuLmRlIiwiaWF0IjoxNjI1OTIyMTM4LCJleHAiOjE2MjU5MjMwMzh9.BwG07FZQcwb-VPWVPT0rAPZPzPSS1CXNd0De0mysTYQ
+    metaSortKey: -1617721802220.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_b6f5c01d5f4244a19c17dfb2f9abacde
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624335369119
+    created: 1618639230050
+    url: http://localhost:4000/api/v1/domains/2a44311a-f944-4f85-b06d-4866011267a3
+    name: Update Domain
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"companyName": "Teest GmbH"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_0993f14470334541941f4eca35cac268
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_3eaf55fe7a0948f9932537fe4ed840d6
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ4LWVjby13ZWItdXNlci1pZCI6ImNlYmJlNGJiLTUwNGItNDliYy04YjJjLWI3YzhhYzZlMmQzYyIsIngtZWNvLXdlYi11c2VyLWVtYWlsIjoiaGVsbG9AZmxvcmlhbi1rYXBhdW4uZGUiLCJpYXQiOjE2MTkyNjM5NTksImV4cCI6MTYxOTI2NDg1OX0.PG8lUXJB4l9xlOJNSuMQdzznix44sTMT8ukeG1_OUsI
+    metaSortKey: -1617721802217.375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_97941f78e36d44feaebeefe9632169ff
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624335352642
+    created: 1618638394671
+    url: http://localhost:4000/api/v1/domains/3a00afaf-02a2-43aa-8ddf-d43de0dd917c
+    name: Delete Domain
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617721802214.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_16452d066c254463ac57c8d2b0c25fd3
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624794927683
+    created: 1620380900265
+    url: http://localhost:4000/api/v1/domains/23b85bfb-8f21-4013-b26f-7cff9cd02962/views/day
+    name: Get Domains cummulated PageViews per day
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"timeStart": "2021-04-01 22:01:12",
+        	"timeEnd": "2021-07-01 22:01:12"
+        }
+    parameters: []
+    headers:
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_3eaf55fe7a0948f9932537fe4ed840d6
+      - name: Content-Type
+        value: application/json
+        id: pair_9a0f7ed533ae482dbb3b5e33c9a44b18
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ4LWRlY2FyYi11c2VyLWlkIjoiNTIwZDAzM2YtNTczNy00MmM5LTg4OWQtZWE2NWQ3Y2E4Nzc0IiwieC1kZWNhcmItdXNlci1lbWFpbCI6ImhlbGxvQGZsb3JpYW4ta2FwYXVuLmRlIiwiaWF0IjoxNjI0NzQxNjU4LCJleHAiOjE2MjQ3NDI1NTh9.1CLthK7wvXp47XK2UEOlfHHeBGVE-AecexqjnltVhbE
+    metaSortKey: -1617721802158
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_1a14624259c44447bccd368d4177d4f8
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624794932462
+    created: 1624788706259
+    url: http://localhost:4000/api/v1/domains/23b85bfb-8f21-4013-b26f-7cff9cd02962/views
+    name: Get PageViews for each Page of a Domain
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"timeStart": "2021-06-29 22:01:12",
+        	"timeEnd": "2021-07-01 22:01:12"
+        }
+    parameters: []
+    headers:
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_3eaf55fe7a0948f9932537fe4ed840d6
+      - name: Content-Type
+        value: application/json
+        id: pair_9a0f7ed533ae482dbb3b5e33c9a44b18
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ4LWRlY2FyYi11c2VyLWlkIjoiNTIwZDAzM2YtNTczNy00MmM5LTg4OWQtZWE2NWQ3Y2E4Nzc0IiwieC1kZWNhcmItdXNlci1lbWFpbCI6ImhlbGxvQGZsb3JpYW4ta2FwYXVuLmRlIiwiaWF0IjoxNjI0NzQxNjU4LCJleHAiOjE2MjQ3NDI1NTh9.1CLthK7wvXp47XK2UEOlfHHeBGVE-AecexqjnltVhbE
+    metaSortKey: -1617721802133
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_bebb9f7c2b9e48faaef9266261ad9a53
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624909455502
+    created: 1618855707975
+    url: http://localhost:4000/api/v1/domains/617dbba2-cfa8-4118-8ccf-313705ccda4c/emissions
+    name: Get Domain Emissions
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"timeStart": "2021-01-28 00:01:12",
+        	"timeEnd": "2021-07-28 00:01:12"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_9538716a938547719b8110380b76174c
+    authentication: {}
+    metaSortKey: -1617721802108
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_32172dea53734a5c915bbe63af9369c4
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624794213074
+    created: 1624783231165
+    url: http://localhost:4000/api/v1/domains/23b85bfb-8f21-4013-b26f-7cff9cd02962/pages/emissions
+    name: Get Domains Pages current PageViewEmissions
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"itemLimit": 2,
+        	"itemOffset": 1
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_07850b5a896040db80794865503b3ab9
+    authentication: {}
+    metaSortKey: -1617679070138.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_5a3f2f516db3407cb7ab26da3bc21457
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624796872987
+    created: 1624783876879
+    url: http://localhost:4000/api/v1/domains/23b85bfb-8f21-4013-b26f-7cff9cd02962/hosting-emissions
+    name: Get Domains current DomainHostingEmissions
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617657704154.3125
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_9e9f5f8264b64bafaab442b00d1513ea
+    parentId: fld_c22ae2944d644cc888a2273374108c94
+    modified: 1624788105548
+    created: 1624787687757
+    url: http://localhost:4000/api/v1/domains/51044be8-6128-4c0d-abae-f1e6e8f59415/offsets/purchased
+    name: Get cummulated data of Domains purchased Offsets
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617647021162.0312
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_95edba3da4814166846e7bba977471a9
+    parentId: fld_9601dd0db0954b75b8d0808267f33d61
+    modified: 1620889258002
+    created: 1620889252929
+    url: https://ew-stage.kapaun.uber.space/api/v1/domains
+    name: Get all Domains
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620889252929
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_9601dd0db0954b75b8d0808267f33d61
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1620889241868
+    created: 1620889241868
+    name: Stage
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1620889241868
+    _type: request_group
+  - _id: req_1f9cd03271ad4efa9b0fee7e0ecc3989
+    parentId: fld_9601dd0db0954b75b8d0808267f33d61
+    modified: 1620889324774
+    created: 1620889307611
+    url: https://ew-stage.kapaun.uber.space/api/v1/users
+    name: Register User
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "kapaun4998@gmx.de"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_2d48948bac054098b2daffd824cc1847
+    authentication: {}
+    metaSortKey: -1619948352551
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_db9f02d58753433599f16a332696f69c
+    parentId: fld_9601dd0db0954b75b8d0808267f33d61
+    modified: 1620889362798
+    created: 1620889345784
+    url: https://ew-stage.kapaun.uber.space/api/v1/auth/login
+    name: Login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "hello@florian-kapaun.de",
+        	"password": "test123123"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_2d48948bac054098b2daffd824cc1847
+    authentication: {}
+    metaSortKey: -1619477902362
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_36d8316e0df846c48e14f162d1277702
+    parentId: fld_4e87476c620b4669a70181f6a7fcc8cc
+    modified: 1619010292146
+    created: 1619007452173
+    url: https://public.ecologi.com/impact/trees
+    name: Purchase Trees
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"number": 1,
+        	"name": null,
+        	"test": true
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_a73e7010b06f4504ae85d1c30cabffaa
+    authentication:
+      type: bearer
+      token: cd8c9c1e-5041-21bb-a1c9-3ccbe1cadcc6
+    metaSortKey: -1619007452173
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_4e87476c620b4669a70181f6a7fcc8cc
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1619007440554
+    created: 1619007440554
+    name: Ecologi
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1619007440554
+    _type: request_group
+  - _id: req_b35c5e57933547b8bc9ca19f25bd22b7
+    parentId: fld_4e87476c620b4669a70181f6a7fcc8cc
+    modified: 1619010331070
+    created: 1619010221280
+    url: https://public.ecologi.com/impact/carbon
+    name: Purchase Carbon Offsets
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"number": 3.15,
+        	"units": "KG",
+        	"test": true
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_a73e7010b06f4504ae85d1c30cabffaa
+    authentication:
+      type: bearer
+      token: cd8c9c1e-5041-21bb-a1c9-3ccbe1cadcc6
+    metaSortKey: -1618711683175.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e56855e912d744b5a7cf36663aa24029
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1618405516239
+    created: 1618405514514
+    url: http://localhost:4000/api/v1
+    name: API Status
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1618405514514
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_15116d8b1c304f15b7ac0ae0699deef6
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1625908467184
+    created: 1618754516727
+    url: http://localhost:4000/api/v1/sandbox/
+    name: Sandbox
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"subscription": "sub_JpGnX9o4gNBl4x"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_0ef6f33c951e4212ac75444d805dd543
+    authentication: {}
+    metaSortKey: -1618063658361
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_899935cf304e4514b5b6330a3677adf2
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1624968575462
+    created: 1620638231133
+    url: http://localhost:4000/api/v1/sandbox
+    name: Sandbox2
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"id": "5351ba61-cb66-4296-a3b6-53304ebb0d14"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_8acaaeecb0264aa6ab90608c5d318cc8
+    authentication: {}
+    metaSortKey: -1618020926341.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_8f5889c4ad11494085e9bd5d6e1f4d09
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1624960412734
+    created: 1624909553920
+    url: http://localhost:4000/api/v1/pageviews
+    name: Register Pageview
+    description: ""
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - name: p
+          value: florian-kapaun.de
+          description: ""
+          id: pair_920fba41a09549a2a226254f11c4ccb3
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+        id: pair_4c67b114ed5842a793d1a8ddf8012b6c
+    authentication: {}
+    metaSortKey: -1617978194322.75
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_b789334ecd4443eba421bef8728b3520
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1624949485549
+    created: 1618759401098
+    url: http://localhost:4000/api/v1/pageviews
+    name: Create PageView
+    description: ""
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - name: p
+          value: https://florian-kapaun.de/projects/intelligent-song-picker/
+          id: pair_678542df7cba45b7b575e50d9deb14c1
+        - name: w
+          value: "1000"
+          description: ""
+          id: pair_23509f867c3f4e829eb1e0dc9d0d9753
+        - name: f
+          value: "true"
+          description: ""
+          id: pair_d42f39afcb3341f49245cb851792b646
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+        id: pair_1463fb316510404cadde8f0e175f2ed4
+    authentication: {}
+    metaSortKey: -1617935462303.625
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_67225ee9fcc7427e90cd6ebc68450ec8
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1618816108300
+    created: 1618753719163
+    url: http://localhost:4000/api/v1/domains/26fe936d-9f64-4314-bbc0-8faf8884be72/pages
+    name: Get all Pages
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617636338169.75
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_228a0904413d42e0b5d2fa0f1bb798e6
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1620491850756
+    created: 1618649060893
+    url: http://localhost:4000/api/v1/domains/7320bc3e-683a-43cc-b8fb-3f8ac4feab0b/pages/re-index
+    name: Manually re-index domain pages
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617588264648.2344
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_8de4d2f85730499180091578e30b7512
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1620492022660
+    created: 1619010923231
+    url: http://localhost:4000/api/v1/subscriptions
+    name: Create Subscription
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"domainId": "cdd09059-cac3-4ade-9c89-15f2e36fe951",
+        	"paymentInterval": "MONTHLY",
+        	"offsetType": "CARBON_OFFSET"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1463fb316510404cadde8f0e175f2ed4
+    authentication: {}
+    metaSortKey: -1617337214035.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_120e5d1476bb43ae812e318930455686
+    parentId: fld_968c322f3d47491eae1b7d36da8ea67d
+    modified: 1619017091562
+    created: 1619012576159
+    url: http://localhost:4000/api/v1/subscriptions/3143054a-25e9-4cb4-800d-a4940ed36566
+    name: Delete Subscription
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1617315848026.3125
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_37cd056003d3a6e75ceec1af12d8ed5429ce45fe
+    parentId: wrk_e3f71ca7a2484e20ad351c94534cbeb3
+    modified: 1598546980487
+    created: 1598546980487
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1598546980487
+    _type: environment
+  - _id: jar_37cd056003d3a6e75ceec1af12d8ed5429ce45fe
+    parentId: wrk_e3f71ca7a2484e20ad351c94534cbeb3
+    modified: 1624428775384
+    created: 1598546980490
+    name: Default Jar
+    cookies:
+      - key: __cfduid
+        value: d1aa8691a3acbb9977eb774d5cb7c096f1600241444
+        expires: 2020-10-16T07:30:44.000Z
+        domain: papershift.com
+        path: /
+        httpOnly: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: false
+        creation: 2020-09-16T07:30:45.071Z
+        lastAccessed: 2020-09-16T07:30:45.071Z
+        id: "505011063496345"
+      - key: __cfduid
+        value: d31d2f0ab772ff7b0dc984580adfaff2a1600413397
+        expires: 2020-10-18T07:16:37.000Z
+        domain: gunviolencearchive.org
+        path: /
+        secure: true
+        httpOnly: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: false
+        creation: 2020-09-18T07:17:28.430Z
+        lastAccessed: 2020-09-18T07:17:28.430Z
+        id: "5666756932854109"
+      - key: SESS193bf903d09f76bb11992108b9bcc263
+        value: ouYSs9cR_afslwXnU71zur9XF_xj3yTGYXzeD56RbAE
+        expires: 2020-10-11T10:49:57.000Z
+        maxAge: 2000000
+        domain: gunviolencearchive.org
+        path: /
+        httpOnly: true
+        hostOnly: false
+        creation: 2020-09-18T07:17:28.433Z
+        lastAccessed: 2020-09-18T07:17:28.433Z
+        id: "27302114187740445"
+      - key: __cf_bm
+        value: d8ddd46a1cb75c1cc8237517fddb09f04160ad5a-1600413448-1800-Ac9DEidi0wc62MDjowwzBwJvdejHlKe2uLm3btFU3dqA
+        expires: 2020-09-18T07:47:28.000Z
+        domain: gunviolencearchive.org
+        path: /
+        secure: true
+        httpOnly: true
+        extensions:
+          - SameSite=None
+        hostOnly: false
+        creation: 2020-09-18T07:17:28.433Z
+        lastAccessed: 2020-09-18T07:17:28.434Z
+        id: "48404177237419144"
+      - key: __Host-device_id
+        value: AQAwp9GGVynbYSyzqrYLtcDxgSbZxDNkxsAH4vViJWYE9qsuEhdH3VcMAK0uMVudWQdJklY95gfSy0K97INYhzItK4U1ve3TULY
+        maxAge: 2147483647
+        domain: accounts.spotify.com
+        path: /
+        secure: true
+        httpOnly: true
+        extensions:
+          - Version=1
+          - SameSite=Lax
+        hostOnly: true
+        creation: 2020-11-01T12:29:24.057Z
+        lastAccessed: 2020-11-01T12:29:24.057Z
+        id: "015645173407069946"
+      - key: sf_redirect
+        value: "%7B%22token%22%3A%2261e6bb%22%2C%22route%22%3A%22api_create_order_reque\
+          sts_post_create_orders_collection%22%2C%22method%22%3A%22POST%22%2C%2\
+          2controller%22%3A%22App%5C%5CController%5C%5CCreateOrderRequestContro\
+          ller%22%2C%22status_code%22%3A201%2C%22status_text%22%3A%22Created%22\
+          %7D"
+        domain: localhost
+        path: /
+        httpOnly: true
+        extensions:
+          - samesite=lax
+        hostOnly: true
+        creation: 2020-12-10T15:03:09.230Z
+        lastAccessed: 2021-05-20T12:02:35.794Z
+        id: "14721815025281448"
+      - key: kirby_session
+        value: fe89294fbfd1e3fff3d418cb063bf6b7c4866ce6%2B1613984013.f62b9f434eea5b48d369.3e67a9057eb8c985ea89c89663668ae7fb89a2858f3288deea2b733a6c3f3350
+        expires: 2021-02-22T08:53:33.000Z
+        maxAge: 1209600
+        domain: localhost
+        path: /
+        httpOnly: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: true
+        creation: 2021-02-07T09:21:16.460Z
+        lastAccessed: 2021-02-08T08:53:33.769Z
+        id: "08896365364312309"
+      - key: refreshToken
+        value: 868ec72a-9706-4910-9421-ce7e1e598af7
+        expires: 2021-06-23T06:27:55.000Z
+        domain: localhost
+        path: /
+        extensions:
+          - SameSite=Lax
+        hostOnly: true
+        creation: 2021-04-22T11:33:45.096Z
+        lastAccessed: 2021-06-23T06:12:55.384Z
+        id: "21021807503444312"
+      - key: refreshToken
+        value: 6257b197-7a3f-436a-a332-98ac640f09de
+        expires: 2022-05-13T07:02:44.000Z
+        maxAge: 31536000
+        domain: ew-stage.kapaun.uber.space
+        path: /
+        httpOnly: true
+        hostOnly: true
+        creation: 2021-05-13T07:02:44.203Z
+        lastAccessed: 2021-05-13T07:02:44.203Z
+        id: "28690688795929864"
+      - key: type
+        value: ninja
+        domain: localhost
+        path: /api/v1/auth
+        hostOnly: true
+        pathIsDefault: true
+        creation: 2021-06-22T20:38:46.933Z
+        lastAccessed: 2021-06-22T20:38:46.933Z
+        id: "9303633657074621"
+      - key: language
+        value: javascript
+        domain: localhost
+        path: /api/v1/auth
+        hostOnly: true
+        pathIsDefault: true
+        creation: 2021-06-22T20:38:46.933Z
+        lastAccessed: 2021-06-22T20:38:46.933Z
+        id: "7543528556196197"
+    _type: cookie_jar
+  - _id: spc_2c5cae7a17c94efe90ebb6f25c07f5da
+    parentId: wrk_e3f71ca7a2484e20ad351c94534cbeb3
+    modified: 1598546980442
+    created: 1598546980442
+    fileName: Insomnia
+    contents: ""
+    contentType: yaml
+    _type: api_spec

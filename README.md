@@ -72,8 +72,12 @@ To test Stripe Webhooks in your local setup, you have to [Install the Stripe CLI
 $ stripe listen --forward-to localhost:4000/api/v1/stripe/webhooks
 ```
 
+## Example Requests
+
+You can find some pre-configured requests I exported from [Insomnia](http://insomnia.rest/) in [`./insomnia_requests.yaml`](./insomnia_requests.yaml). That file can be imported to Insomnia again but should be compatible with Postman as well, see [doc](https://support.insomnia.rest/article/172-importing-and-exporting-data).
+
 ## Staging
 
-Everytime you push a commit to branch `origin/stage` the new Version gets deployed to [stage.decarb.website](https://stage.decarb.wesbite).
+Everytime you push a commit to branch `origin/stage` the new Version gets deployed to [stage.decarb.website](https://stage.decarb.wesbite) by the [`./.github/workflows/staging-deployment.yml`](./.github/workflows/staging-deployment.yml) workflow.
 
 > For further information on how the Stage works and is setup, see [`./stage-server-setup.md`](./stage-server-setup.md)
