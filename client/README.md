@@ -39,6 +39,12 @@ I'm using [Components](https://vue.carbondesignsystem.com/?path=/story/welcome--
 
 For detailed explanation on how Nuxt things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
+### Static
+
+The [./static](./static/) directory contains static files. Each file inside this directory is mapped to `/`. Example: `/static/robots.txt` is mapped as `/robots.txt`.
+
+More information about the usage of this directory in [the Nuxt documentation](https://nuxtjs.org/guide/assets#static).
+
 ## Dev quirk
 
 When the clients development process is started you'll get an Error:
