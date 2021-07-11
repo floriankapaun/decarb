@@ -1,5 +1,9 @@
 # [Prisma](https://www.prisma.io)
 
+## Generator
+
+To use the Prisma Schema in the API you have to once run `yarn generate`.
+
 ## Schema
 
 You can find the Prisma Schema in `./schema.prisma`.
@@ -29,3 +33,7 @@ That line is obviously causing an error like that:
     require() of ./decarb/api/src/prisma/seed.js from ./decarb/api/[eval] is an ES module file as it is a .js file whose nearest parent package.json contains "type": "module" which defines all .js files in that package scope as ES modules.
 
 To prevent the enforced module type, I had to create a package.json file that explicitly defines `"type": "commonjs"` in the prisma directory.
+
+## Some more
+
+Prisma is already using a Connection Pool by default. There is a dedicated [Prisma Service](../services/PrismaService.js) to handle Prisma related things at the API.

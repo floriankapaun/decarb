@@ -33,8 +33,6 @@ export default {
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: ['~/plugins/persistedState.js', '~/plugins/carbonComponents.js'],
-    // TODO: Implement Postcss Import or change css @import statements to @use
-    // See: https://github.com/postcss/postcss/issues/1247
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
@@ -46,7 +44,7 @@ export default {
         // https://go.nuxtjs.dev/stylelint
         '@nuxtjs/stylelint-module',
         // https://github.com/Developmint/nuxt-purgecss
-        // TODO: Find working configuration, its currently destroying styles
+        // TODO: Setup a working configuration. Its currently destroying styles.
         // 'nuxt-purgecss',
     ],
 
@@ -69,7 +67,7 @@ export default {
 
     // Global accessible Style Ressources – enabled by module @nuxtjs/style-resources
     styleResources: {
-        scss: [ '~/assets/scss/global.scss' ],
+        scss: ['~/assets/scss/global.scss'],
     },
 
     // Multi-Language Settings
@@ -86,6 +84,8 @@ export default {
         ],
         parsePages: true,
         seo: false, // Recommended to do on layout-level: https://i18n.nuxtjs.org/seo/#improving-performance
+        // I must use this strategy because of a Bug I reported on GitHub already
+        // See: https://github.com/nuxt-community/i18n-module/issues/1171
         strategy: 'prefix_and_default',
         vueI18n: {
             dateTimeFormats: {
