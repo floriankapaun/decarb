@@ -76,7 +76,7 @@ export default {
             getIsLoading: 'domains/getIsLoading',
         }),
         pages() {
-            if (!this.getDomainPages || !this.getDomainPages.pages) return []
+            if (!this?.getDomainPages?.pages) return []
             return this.getDomainPages.pages.map((x) => [
                 x.url,
                 new Date(x.createdAt),
@@ -84,7 +84,7 @@ export default {
         },
         pagination() {
             return {
-                numberOfItems: this.pages.length || 0,
+                numberOfItems: this.pages.length ?? 0,
                 pageSizes: this.pageSizes,
             }
         },

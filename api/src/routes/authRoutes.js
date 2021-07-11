@@ -56,7 +56,7 @@ export default (app) => {
         isAuth,
         asyncHandler(async (req, res) => {
             // Nuxt SSR Requests send the 'refreshToken' cookie received from the client in the 'req.body'
-            const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+            const refreshToken = req.cookies.refreshToken ?? req.body.refreshToken;
             const { email } = req.body;
             const refreshedToken = await AuthService.refreshToken(email, refreshToken);
             return sendResponse(res, refreshedToken);

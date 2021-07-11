@@ -56,10 +56,7 @@ export default {
             getAggregation: 'emissions/getAggregation',
         }),
         amount() {
-            if (
-                !this.getAggregation ||
-                !this.getAggregation.emissionKilograms
-            ) {
+            if (!this?.getAggregation?.emissionKilograms) {
                 return 0
             }
             return Math.round(this.getAggregation?.emissionKilograms)

@@ -183,7 +183,7 @@ export default {
             getUserDomains: 'domains/getUserDomains',
         }),
         getOtherUserDomains() {
-            if (!this.getUserDomains || !this.getUserDomains.length) {
+            if (!this?.getUserDomains?.length) {
                 return []
             }
             return this.getUserDomains.filter((domain) => {

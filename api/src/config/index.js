@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // default expire after 15 minutes
-export const ACCESS_TOKEN_EXPIRES = parseInt(process.env.ACCESS_TOKEN_EXPIRES) || 15;
+export const ACCESS_TOKEN_EXPIRES = parseInt(process.env.ACCESS_TOKEN_EXPIRES) ?? 15;
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const API_PREFIX = process.env.API_PREFIX;
 export const CLIENT_ENTRYPOINT = process.env.CLIENT_ENTRYPOINT;
@@ -48,8 +48,8 @@ export const EVENTS = {
 };
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 export const MAX_INITIAL_CALCULATIONS = 50;
-export const MAX_NUMBER_OF_WORKERS = process.env.MAX_NUMBER_OF_WORKERS || 4;
-export const MODE = process.env.MODE || 'development';
+export const MAX_NUMBER_OF_WORKERS = process.env.MAX_NUMBER_OF_WORKERS ?? 4;
+export const MODE = process.env.MODE ?? 'development';
 export const PAGESPEED_API_KEY = process.env.PAGESPEED_API_KEY;
 export const PAGESPEED_STRATEGY = 'mobile';
 export const PING_SCRIPT_URL = process.env.PING_SCRIPT_URL;
@@ -62,7 +62,7 @@ export const PORT = process.env.PORT;
 export const PROJECT_NAME = 'decarb';
 export const PROJECT_SLUG = PROJECT_NAME;
 // default expire after 1 day
-export const REFRESH_TOKEN_EXPIRES = process.env.REFRESH_TOKEN_EXPIRES || (60*24*1);
+export const REFRESH_TOKEN_EXPIRES = process.env.REFRESH_TOKEN_EXPIRES ?? (60*24*1);
 export const STRIPE_CANCEL_URL = process.env.STRIPE_CANCEL_URL;
 export const STRIPE_CHECKOUT_SESSION_MODE = 'subscription';
 // https://stripe.com/docs/api/checkout/sessions/create#create_checkout_session-payment_method_types

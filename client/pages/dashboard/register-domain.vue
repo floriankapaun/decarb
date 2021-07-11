@@ -57,7 +57,7 @@ export default {
             getUserDomains: 'domains/getUserDomains',
         }),
         numberOfRegisteredDomains() {
-            if (!this.getUserDomains || this.getUserDomains.length) return 0
+            if (!this?.getUserDomains?.length) return 0
             return this.getUserDomains.length
         },
         submitButtonLabel() {

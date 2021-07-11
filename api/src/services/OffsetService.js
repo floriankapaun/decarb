@@ -71,7 +71,7 @@ class OffsetService {
                 createdAt: 'desc',
             },
         });
-        if (!currentOffsets || !currentOffsets.length) {
+        if (!currentOffsets?.length) {
             throw new AppError(`No active Offsets found.`, 404);
         }
         return currentOffsets;

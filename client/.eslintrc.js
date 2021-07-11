@@ -16,6 +16,5 @@ module.exports = {
     // add your custom rules here
     rules: {
         indent: ['error', 4],
-        'vue/script-setup-uses-vars': ['error'],
     },
 }

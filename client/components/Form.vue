@@ -88,7 +88,7 @@ export default {
             const i18nMessage = this.$t('c.form.invalid.default', {
                 label: input.label,
             })
-            input.invalidMessage = message || i18nMessage
+            input.invalidMessage = message ?? i18nMessage
         },
         validateRequired(input) {
             if (input.required && !input.value) {
