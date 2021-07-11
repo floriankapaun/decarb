@@ -76,9 +76,16 @@ export default {
                 commit('setAccessToken', null)
                 commit('setAccessTokenExpiry', null)
                 // Clear Vuex Persistance Cookie as well
-                Cookies.remove(
-                    context.rootGetters.getConfig.VUEX_PERSISTANCE_KEY
-                )
+                // FIXME: Remove those logs, or finish debugging
+                console.log('VUEX CONTEXT PROCESS', context.process)
+                if (context.process.client) {
+                    console.log('THIS IS THE CLIENT SIDE')
+                    Cookies.remove(
+                        context.rootGetters.getConfig.VUEX_PERSISTANCE_KEY
+                    )
+                } else {
+                    console.log('THIS IS THE SERVER SIDE')
+                }
             }
         }
         commit('setIsLoading', false)
