@@ -1,25 +1,25 @@
 version: '3.8'
 services:
     
-    ew_db:
+    decarb_db:
         image: postgres:13.2
-        container_name: ew_postgres
+        container_name: decarb_postgres
         environment:
-          - POSTGRES_DB=ew
+          - POSTGRES_DB=decarb
           - POSTGRES_USER=api
           - POSTGRES_PASSWORD=!ChangeMe!
         restart: "unless-stopped"
         volumes:
-          - postgres:/var/lib/postgresql/eco-web/data
+          - postgres:/var/lib/postgresql/decarb/data
         ports:
           - "5432:5432"
 
-    ew_db_admin:
+    decarb_db_admin:
         image: adminer:4
-        container_name: ew_adminer
+        container_name: decarb_adminer
         restart: "unless-stopped"
         depends_on:
-          - ew_db
+          - decarb_db
         ports:
           - 5080:8080
 volumes:
