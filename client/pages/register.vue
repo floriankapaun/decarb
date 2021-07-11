@@ -87,7 +87,7 @@ export default {
     }
 
     &__login-paragraph {
-        @include carbon--type-style('helper-text-01');
+        @include decarb--type-style('helper-text-01');
     }
 }
 </style>

@@ -44,7 +44,7 @@ footer {
 }
 
 p {
-    @include carbon--type-style('body-short-01');
+    @include decarb--type-style('body-short-01');
 }
 
 .bx--link {

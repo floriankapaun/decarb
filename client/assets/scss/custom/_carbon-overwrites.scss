@@ -74,7 +74,7 @@ a.bx--header__menu-item{
 .bx--text-input {
     height: $spacing-09;
     border-radius: $borderRadiusSm;
-    @include carbon--type-style('body-short-02');
+    @include decarb--type-style('body-short-02');
 
     &--password__visibility__toggle {
         width: $spacing-09;
@@ -113,7 +113,7 @@ button.bx--number__control-btn {
     height: $spacing-09;
     border-top-left-radius: $borderRadiusSm;
     border-bottom-left-radius: $borderRadiusSm;
-    @include carbon--type-style('body-short-02');
+    @include decarb--type-style('body-short-02');
 
     &:focus,
     &:active {

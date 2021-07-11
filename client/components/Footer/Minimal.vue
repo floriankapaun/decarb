@@ -38,7 +38,7 @@ export default {
 .footer--text {
     width: 100%;
     max-width: unset;
-    @include carbon--type-style('helper-text-01');
+    @include decarb--type-style('helper-text-01');
 
     &-section {
         display: inline-block;

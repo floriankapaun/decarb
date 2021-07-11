@@ -4,11 +4,10 @@ h1, h2, h3 {
 
 h1 {
     margin-bottom: $spacing-06;
-    @include carbon--type-style('expressive-heading-06');
+    @include decarb--type-style('expressive-heading-06');
 }
 
 p {
-    // @include carbon--type-style('body-long-02'); // Applied by default
     max-width: 45ch;
 }
 
@@ -21,7 +20,7 @@ span > code {
 }
 
 .helper-text {
-    @include carbon--type-style('helper-text-01');
+    @include decarb--type-style('helper-text-01');
 }
 
 .mb-06 {
