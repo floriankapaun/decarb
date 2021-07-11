@@ -2,6 +2,11 @@ import createPersistedState from 'vuex-persistedstate'
 import * as Cookies from 'js-cookie'
 import cookie from 'cookie'
 
+/**
+ * Persist the Vuex State inside a Cookie to prevent
+ * loosing it on page reloads and to make it available
+ * on the Nuxt Server as well.
+ */
 export default ({ store, req, isDev }) => {
     createPersistedState({
         key: store.$config.VUEX_PERSISTANCE_KEY,
