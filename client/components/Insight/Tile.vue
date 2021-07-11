@@ -26,7 +26,7 @@
                 tag="p"
                 class="tile--content--note"
             >
-                <template v-slot:link>
+                <template #:link>
                     <a
                         class="tile--content--note-link"
                         :href="note.href"
