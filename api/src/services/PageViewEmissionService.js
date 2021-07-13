@@ -135,7 +135,7 @@ class PageViewEmissionService {
         // TODO: Randomize the pages that get analyzed if above max values
         for (let i = 0; i < MAX_INITIAL_CALCULATIONS && i < domainPages.length; i++) {
             // OPTIMIZE: Mabye throttle creation to not overcome google api limit
-            await this.create(page);
+            await this.create(domainPages[i]);
         }
         return 'Awaiting PageviewEmissionService.initialCalculations() to finish';
     }
