@@ -41,7 +41,7 @@ class EmissionService {
      */
     getTransferredBytes(bytes, uncached = true) {
         if (!uncached) {
-            return bytes * PERCENTAGE_OF_DATA_LOADED_CACHED
+            return Math.ceil(bytes * PERCENTAGE_OF_DATA_LOADED_CACHED)
         }
         return Math.ceil(bytes);
     }

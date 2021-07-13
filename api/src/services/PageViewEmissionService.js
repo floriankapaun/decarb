@@ -87,7 +87,7 @@ class PageViewEmissionService {
         const query = this.setUpPagespeedQuery(page.url);
         try {
             const results = await fetch(query, {
-                referer: cleanUrl(API_BASE_URL), // Must remove 'https://'
+                headers: { 'Referer': cleanUrl(API_BASE_URL) },
             })
                 .then((res) => res.json());
             // Compute results
