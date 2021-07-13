@@ -1,56 +1,98 @@
+import AppError from '../utils/AppError.js';
 import { cleanUrl } from '../utils/url.js';
+import EmissionService from './EmissionService.js';
+import PageService from './PageService.js';
+import PageViewEmissionService from './PageViewEmissionService.js';
 import PrismaService from './PrismaService.js';
 
+/**
+ * Controls the 'PageView' Entity
+ * 
+ * TODO: Refactor 'PageView' to 'Pageview'
+ */
 class PageViewService {
-    isSentFromDomain(pageUrl, requestOrigin) {
-       return pageUrl.startsWith(requestOrigin) ? true : false; 
+
+
+    /**
+     * Validates data of a PageView
+     * 
+     * @param {Object} data - data about a PageView
+     * @param {String} [data.p] - page url
+     * @param {(String|Number)} [data.w] - window width
+     * @param {(String|Number)} [data.h] - window height
+     * @param {String} [data.c] - connection type
+     * @param {(String|Boolean)} [data.f] - uncached visit?
+     * @returns {Object} - validated data object
+     */
+    validatePageViewData(data) {
+        if (!data.p) {
+            throw new AppError(`Page URL ("p") required`, 400);
+        }
+        if (typeof data.p === 'string') data.p = cleanUrl(data.p);
+        if (typeof data.w === 'string') data.w = parseInt(data.w);
+        if (typeof data.h === 'string') data.h = parseInt(data.h);
+        if (typeof data.f === 'string') data.f = data.f === 'true';
+        return data;
     }
 
-    async create(data, origin) {
-        // TODO: Make that function smaller. Move parts out into own functions or other Services.
-        const pageUrl = cleanUrl(data.p);
+
+    /**
+     * Validates the origin of a PageView registration
+     * 
+     * @param {String} pageUrl - cleaned pageUrl of the PageView to register
+     * @param {String} origin - where the request to register that PageView came from
+     * @returns 
+     */
+    validateOrigin(pageUrl, origin) {
+        if (!origin) throw new AppError('No Origin provided', 400);
+        // To prevent malicious PageView registrations a requests Origin must match 
+        // the same domain which it tries to register a PageView for. To ensure this,
+        // clean the given Origin URL string...
         const requestOrigin = cleanUrl(origin);
-        // Make sure the request is sent from the same domain as it is trying
-        // to register a pageView on to prevent "external" pageView registrations
-        if (!this.isSentFromDomain(pageUrl, requestOrigin)) {
-            return `Wrong origin. "${pageUrl}" is sent from "${requestOrigin}".`;
+        // ...and confirm matching.
+        if (!pageUrl.startsWith(requestOrigin)) {
+            throw new AppError(
+                `Malicious Request. Tried to register Pageview for "${pageUrl}" sent from "${requestOrigin}"`,
+                403
+            );
         }
-        // Get page info
-        let page = await PrismaService.findUnique('page', { url: pageUrl });
-        // If that page isn't registered yet, register it
-        if (!page) {
-            const domain = await PrismaService.findUnique('domain', { url: requestOrigin });
-            if (!domain) {
-                return `Domain "${requestOrigin}" isn't registered yet.`;
-            }
-            // Create page
-            const pageData = {
-                url: pageUrl,
-                domainId: domain.id,
-            };
-            page = await PrismaService.create('page', pageData);
-            if (!page) {
-                return `Couldn't register page "${pageUrl}".`;
-            }
-        }
-        // Get pageViewEmissions
-        const options = { orderBy: { createdAt: 'desc' } };
-        const pageViewEmission = await PrismaService.findFirst('pageViewEmission', { pageId: page.id }, options);
-        if (!pageViewEmission) {
-            // TODO: Fix that problem:
-            // pageview emissions probably are created asynchronously (currently they are, but don't knwo about the future). So wait a little bit and then try to run the same function again??? Probabaly no good idea.
-            return `The pageViewEmission wasn't created yet, give it another try in a few seconds.`;
-        }
-        // Register the new pageView
+        return true;
+    }
+
+
+    /**
+     * Registers a PageView if inputs are valid
+     * 
+     * @param {Object} data - data about the PageView
+     * @param {String} origin - where the request to register that PageView came from
+     * @returns 
+     */
+    async register(data, origin) {
+        // Validate inputs
+        const validData = this.validatePageViewData(data);
+        const pageUrl = cleanUrl(validData.p);
+        this.validateOrigin(pageUrl, origin);
+        // Get Page data
+        const page = await PageService.findOrCreate(pageUrl);
+        // Get Pages PageViewEmission
+        const pageViewEmission = await PageViewEmissionService.findOrCreate(page);
+        // Calculate amount of transferred bytes and used energy (watthours)
+        const byte = EmissionService.getTransferredBytes(pageViewEmission.byte, data.f);
+        const wh = EmissionService.getWh(byte, data.c, data.w, data.h);
+        // Register the new PageView
         const pageViewData = {
             pageId: page.id,
             pageViewEmissionId: pageViewEmission.id,
-            screenWidth: data.w,
-            screenHeight: data.h,
+            windowWidth: data.w,
+            windowHeight: data.h,
             connectionType: data.c,
+            uncachedVisit: data.f,
+            byte,
+            wh,
         };
         const newPageView = await PrismaService.create('pageView', pageViewData);
-        return newPageView;
+        if (newPageView) return newPageView;
+        throw new AppError(`Failed to register Pageview`, 500);
     }
 };
 

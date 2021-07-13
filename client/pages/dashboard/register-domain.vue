@@ -1,47 +1,52 @@
 <template>
-    <div>
-        <h1>Setup your first domain</h1>
-        <form name="register-domain" @submit.prevent="handleSubmit">
-            <label for="siteUrl">Site URL</label>
-            <input
-                id="siteUrl"
-                v-model="siteUrl"
-                type="text"
-                placeholder="e.g. www.sitedomain.com"
-                required
+    <MinimalForm
+        :title="$tc('p.dashboard.registerDomain.h1', numberOfRegisteredDomains)"
+    >
+        <template #text>
+            {{ $t('p.dashboard.registerDomain.p') }}
+        </template>
+
+        <template #form>
+            <Form
+                class="mb-md"
+                :button-label="submitButtonLabel"
+                :button-disbaled="getIsLoading"
+                :inputs="inputs"
+                :light="true"
+                @submit="handleSubmit"
             />
-            <p>
-                Enter a valid URL or IP address. You can add more sites later.
-            </p>
-            <label for="averageMonthlyPageViews">
-                Average monthly Pageviews
-            </label>
-            <input
-                id="averageMonthlyPageViews"
-                v-model="averageMonthlyPageViews"
-                type="number"
-                placeholder="e.g. 13000"
-                required
-            />
-            <p>This number is used for an initial cost estimation.</p>
-            <button type="submit" :disabled="getIsLoading">
-                {{ getIsLoading ? 'Loading...' : 'Start using Eco-Web' }}
-            </button>
-        </form>
-    </div>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import { siteUrl, estimatedMonthlyPageViews } from '@/config/public/inputs'
+
 export default {
+    name: 'DashboardRegisterDomain',
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/register-domain',
+        },
+    },
     middleware: ['auth'],
     data() {
         return {
-            siteUrl: undefined,
-            averageMonthlyPageViews: undefined,
+            inputs: [siteUrl, estimatedMonthlyPageViews],
         }
+    },
+    async fetch({ store }) {
+        if (store.getters['domains/getUserDomains']) return
+        if (!store.getters['auth/getUser']) {
+            await store.dispatch('auth/fetchUser')
+        }
+        await store.dispatch(
+            'domains/fetchUserDomains',
+            store.getters['auth/getUser'].id
+        )
     },
     computed: {
         ...mapGetters({
@@ -51,6 +56,16 @@ export default {
             getUser: 'auth/getUser',
             getUserDomains: 'domains/getUserDomains',
         }),
+        numberOfRegisteredDomains() {
+            if (!this?.getUserDomains?.length) return 0
+            return this.getUserDomains.length
+        },
+        submitButtonLabel() {
+            if (this.getIsLoading) {
+                return this.$t('p.dashboard.registerDomain.submitButtonLoading')
+            }
+            return this.$t('p.dashboard.registerDomain.submitButton')
+        },
     },
     methods: {
         ...mapActions({
@@ -58,26 +73,22 @@ export default {
             registerDomain: 'domains/register',
             setSelectedDomain: 'domains/setSelectedDomain',
         }),
-        async handleSubmit() {
-            if (this.getAccessTokenExpiry <= new Date()) {
-                console.log('access token expired')
-                return false
-            }
-            const pageViews = parseInt(this.averageMonthlyPageViews)
+        async handleSubmit(eventData) {
+            const { siteUrl, estimatedMonthlyPageViews } = eventData
+            const pageViews = parseInt(estimatedMonthlyPageViews)
             await this.registerDomain({
-                url: this.siteUrl,
+                url: siteUrl,
                 estimatedMonthlyPageViews: pageViews,
             })
             await this.fetchUserDomains(this.getUser.id)
-            if (!this.getUserDomains) {
-                // TODO: Add Error Handling
-                console.warn('Seems like domain registry failed')
-                return false
-            }
+            // If there are no user Domains, the API should've returned an
+            // Error which gets displayed as a Notification
+            if (!this.getUserDomains) return false
             // Find registered domain in userDomains by siteUrl
             const sortedDomains = this.getUserDomains
                 .map((x) => {
-                    x.searchIndex = x.url.search(this.siteUrl)
+                    // Add searchIndex property to later sort by
+                    x.searchIndex = x.url.search(siteUrl)
                     return x
                 })
                 .sort((a, b) => {
@@ -89,13 +100,13 @@ export default {
             const registeredDomain = sortedDomains[0]
             // Remove the unnecessary searchIndex property before dispatching an action
             delete registeredDomain.searchIndex
+            // Set registeredDomain as selectedDomain
             await this.setSelectedDomain(registeredDomain)
             if (this.getSelectedDomain) {
-                this.$router.push({
-                    path: `/dashboard/verify-domain-ownership`,
-                })
+                this.$router.push(
+                    this.localeRoute(`/dashboard/verify-domain-ownership`)
+                )
             }
-            // OPTIMIZE: Maybe apply some error styling
         },
     },
 }

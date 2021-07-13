@@ -1,22 +1,34 @@
 <template>
-    <svg
-        class="logo"
-        xmlns="http://www.w3.org/2000/svg"
-        width="330.5"
-        height="183.3"
-        viewBox="0 0 330.5 183.3"
-        xml:space="preserve"
-    >
-        <path
-            d="M307.3,0c-45.9,44.9-91.8,30.1-128.8,110.5l-19-64.7L92,50.3l11.5,28l-13.2,37.2c-7-21.2-13.5-44-19.8-66.5L0,53.5 C15.8,90.3,40.5,146.3,55,182l46.5,1.2c7.2-21.2,13.5-41.5,20-60l24.5,58.5l42.8-0.8c9-6.4,60.5-44.9,94.5-107.9 c-27,62-71.4,100.6-80.4,107.7l28.4-0.7l0,0C312.3,178,362.3,95,307.3,0z"
-        />
-    </svg>
+    <img :src="`/logo-${color}.svg`" class="logo" :alt="$t('c.logo.alt')" />
 </template>
 
-<style scoped>
+<script>
+export default {
+    props: {
+        color: {
+            type: String,
+            default: 'white',
+            validator: (val) => {
+                const options = ['white', 'black']
+                const result = options.includes(val)
+                if (!result) {
+                    console.warn(
+                        `Invalid option supplied to "Logo.color": "${val}".`
+                    )
+                }
+                return result
+            },
+        },
+    },
+}
+</script>
+
+<style lang="scss" scoped>
 .logo {
     display: block;
     width: auto;
     height: 100%;
+    padding-top: $spacing-01;
+    padding-bottom: $spacing-01;
 }
 </style>

@@ -1,6 +1,7 @@
 import * as Cookies from 'js-cookie'
+import cookie from 'cookie'
 
-import { saveFetch } from '@/utils/helpers'
+import saveFetch from '@/utils/saveFetch'
 
 export default {
     login: async (context, loginCredentials) => {
@@ -34,25 +35,36 @@ export default {
         }
         commit('setIsLoading', false)
     },
-    refreshToken: async (context) => {
+    // This Action mustn't be an arrow function because we need access to 'this'
+    async refreshToken(context) {
         const { commit } = context
         commit('setIsLoading', true)
         const user = context.rootGetters['auth/getUser']
-        if (user && user.email) {
-            const data = await saveFetch(
-                context,
-                'POST',
-                '/auth/refresh-token',
-                { email: user.email }
+        if (!user?.email) return commit('setIsLoading', false)
+        // For a reason I didn't understand so far, on server side requests, Nuxt is not
+        // sending the 'refreshToken' cookie it receives within the 'req' Object from the
+        // Client to the API. To make refreshing tokens work on server side, I'm parsing
+        // the cookies and sending the clients 'refreshToken' in the fetchs body.
+        // See: https://stackoverflow.com/questions/67614885/nuxt-vuex-helper-not-sending-client-cookies-to-api
+        let refreshToken
+        if (process?.server && this?.app?.context?.req?.headers?.cookie) {
+            const parsedCookies = cookie.parse(
+                this.app.context.req.headers.cookie
             )
-            if (data && data.data) {
-                commit('setAccessToken', data.data.accessToken)
-                commit('setAccessTokenExpiry', data.data.accessTokenExpiry)
-            }
+            refreshToken = parsedCookies?.refreshToken
+        }
+        const data = await saveFetch(context, 'POST', '/auth/refresh-token', {
+            email: user.email,
+            refreshToken,
+        })
+        if (data?.data) {
+            commit('setAccessToken', data.data.accessToken)
+            commit('setAccessTokenExpiry', data.data.accessTokenExpiry)
         }
         commit('setIsLoading', false)
     },
-    logout: async (context) => {
+    // This Action mustn't be an arrow function because we need access to `this`
+    async logout(context) {
         const { commit } = context
         commit('setIsLoading', true)
         const user = context.rootGetters['auth/getUser']
@@ -64,10 +76,25 @@ export default {
                 commit('setIsLoggedIn', false)
                 commit('setAccessToken', null)
                 commit('setAccessTokenExpiry', null)
-                // Clear Vuex Persistance Cookie as well
-                Cookies.remove(
-                    context.rootGetters.getConfig.VUEX_PERSISTANCE_KEY
-                )
+                // Clear Vuex
+                if (process.client) {
+                    // Remove the Vuex state persistance Cookie
+                    Cookies.remove(
+                        context.rootGetters.getConfig.VUEX_PERSISTANCE_KEY
+                    )
+                    // Replace the Vuex State to prevent persistance plugin from
+                    // re-adding the deleted Cookie
+                    const newState = {}
+                    Object.keys(context.rootState).forEach((module) => {
+                        newState[module] = {}
+                    })
+                    this.replaceState(newState)
+                } else {
+                    // TODO: Handle server-side logouts as well if implemented
+                    console.warn(
+                        `⚠️ Serverside Logouts aren't fully implemented yet and will probably cause problems`
+                    )
+                }
             }
         }
         commit('setIsLoading', false)

@@ -1,22 +1,36 @@
 <template>
-    <div>
+    <div id="public-actions">
         <CvHeaderNav v-if="!getIsLoggedIn" class="action-header">
-            <CvHeaderMenuItem to="login">Login</CvHeaderMenuItem>
-            <CvHeaderMenuItem to="register">
-                <CvTag class="pointer" label="Register" kind="green"></CvTag>
+            <CvHeaderMenuItem :to="localeRoute('login')">
+                {{ $t('c.navigation.publicActions.login') }}
+            </CvHeaderMenuItem>
+            <CvHeaderMenuItem :to="localeRoute('register')">
+                <CvTag
+                    class="tag"
+                    :label="$t('c.navigation.publicActions.register')"
+                    kind="green"
+                ></CvTag>
             </CvHeaderMenuItem>
         </CvHeaderNav>
 
         <CvHeaderGlobalAction
             v-if="getIsLoggedIn"
-            aria-label="User settings"
+            :aria-label="
+                $t('c.navigation.publicActions.ariaLabelDashboardAction')
+            "
+            :label="$t('c.navigation.publicActions.ariaLabelDashboardAction')"
+            tip-position="bottom"
+            tip-alignment="end"
             @click="handleDashboardAction"
         >
             <DashboardReference20 />
         </CvHeaderGlobalAction>
         <CvHeaderGlobalAction
             v-if="getIsLoggedIn"
-            aria-label="Logout"
+            :aria-label="$t('c.navigation.publicActions.ariaLabelLogoutAction')"
+            :label="$t('c.navigation.publicActions.ariaLabelLogoutAction')"
+            tip-position="bottom"
+            tip-alignment="end"
             @click="handleLogoutAction"
         >
             <Logout20 />
@@ -45,10 +59,12 @@ export default {
             logout: 'auth/logout',
         }),
         handleDashboardAction() {
-            this.$router.push('dashboard')
+            this.$router.push(this.localeRoute('dashboard'))
         },
-        handleLogoutAction() {
-            this.logout()
+        async handleLogoutAction() {
+            await this.logout()
+            // Reload the page
+            this.$router.go()
         },
     },
 }
@@ -58,7 +74,13 @@ export default {
 .action-header::before {
     content: unset;
 }
-.pointer {
+.tag {
+    font-size: 0.8rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0.375rem 0.75rem;
+    background-color: $paper;
+    color: $green;
     cursor: pointer;
 }
 </style>

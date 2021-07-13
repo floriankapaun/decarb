@@ -5,7 +5,7 @@
         class="cv-link"
         :class="[
             `${carbonPrefix}--link`,
-            `${carbonPrefix}--link--${width}`,
+            `${carbonPrefix}--link--${size}`,
             { [`${carbonPrefix}--link--inline`]: inline },
         ]"
         v-on="$listeners"
@@ -25,7 +25,7 @@ export default {
         disabled: Boolean,
         to: { type: [String, Object] },
         href: String,
-        width: {
+        size: {
             type: String,
             default: 'md',
             validator: (val) => {

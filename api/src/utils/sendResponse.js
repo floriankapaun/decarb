@@ -1,4 +1,4 @@
-import AppError from './AppError';
+import AppError from './AppError.js';
 
 /**
  * Converts AppError to specified return format
@@ -42,7 +42,7 @@ export default (res, payload, code = 200) => {
     // Create response for AppErrors
     if (payload instanceof AppError) {
         // Overwrite param code with payload code if given
-        const statusCode = payload.code || code;
+        const statusCode = payload.code ?? code;
         return res.status(statusCode).json(formatAppError(payload))
     }
     // Response for Non-Errors

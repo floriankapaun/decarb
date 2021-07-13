@@ -1,74 +1,87 @@
-# Eco-Web
+# decarb – decarbonized websites
 
-My bachelors thesis project
+Track and offset your websites carbon footprint effortless.
 
-## Setup
+## About
 
-### Client
+This project is split into a seperate [API](./api/) and [Client](./client/). Only the [Database](./db/) is running inside a Docker Container for convenience and can easily be swaped out against any other PostgreSQL setup. I'm using yarn as my package manager but you should be good to run with npm as well.
 
-```bash
-cd client
+## Setup local dev environment
 
-# install dependencies
-$ yarn install
+1. Setup `.env` Vars
 
-# serve with hot reload at localhost:3000
-$ yarn dev
+Create `./api/.env` and `./client/.env` and add Variables.
 
-# build for production and launch server
-$ yarn build
-$ yarn start
-```
+> For a minimum Configuration see [`./api/.env.example`](./api/.env.example) and [`./client/.env.example`](./client/.env.example).
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-
-### API
+2. Start Docker Container for PostgreSQL and Adminer
 
 ```bash
-cd api
+$ cd db
 
-# install dependencies
-$ yarn install
-
-# serve with hot reload at localhost:4000
-$ yarn dev
-
-# build for production and launch server
-$ yarn build
-```
-
-### Database
-
-```bash
-cd db
+# Install docker containers
+$ docker-compose pull
 
 # Start docker containers (in background)
 $ docker-compose up -d
 ```
 
-## Create a Database Migration with Prisma
+> For further Database related information like creating Migrations or Fake-Data see [`./api/src/prisma/README.md`](./api/src/prisma/README.md)
+
+3. Start Client
+
+```bash
+$ cd client
+
+# Install dependencies
+$ yarn install
+
+# Serve with hot reload at localhost:3000 (default)
+$ yarn dev
+```
+
+> For further Client related information like creating a production build see [`./client/README.md`](./client/README.md)
+
+4. Start API
 
 ```bash
 $ cd api
-$ yarn migrate "MIGRATION_NAME"
+
+# Install dependencies
+$ yarn install
+
+# Generate Prisma Client (only on first start)
+$ yarn generate
+
+# Apply Prisma Migrations to Database (only on first start)
+$ yarn migrate_prod
+
+# 7. Serve API in development mode with hot reload, 
+# at localhost:4000 (default)
+$ yarn dev
 ```
 
-## About
+> For further API related information like starting in production mode see [`./api/README.md`](./api/README.md)
 
-### API
+5. Stripe CLI
 
-#### The folder structure
+To test Stripe Webhooks in your local setup, you have to [Install the Stripe CLI](https://stripe.com/docs/stripe-cli#install) and login with your Stripe account.
 
-```
-src
-│   main.js      # API entry point
-└───config       # Environment variables and configuration related stuff
-└───jobs         # Job definitions for agenda.js (node version of cronjobs)
-└───middlewares  # Middlewares
-└───prisma       # Prisma Schema aka database models and migrations
-└───routes       # Express route controllers for all the APIs endpoints
-└───services     # All the business logic
-└───subscribers  # Event handlers for async tasks
+```bash
+# Listen to webhook triggers and forward them to the API
+$ stripe listen --forward-to localhost:4000/api/v1/stripe/webhooks
 ```
 
-Inspired by [this blog article](https://softwareontheroad.com/ideal-nodejs-project-structure/?utm_source=github&utm_medium=readme)
+## Example Requests
+
+You can find some pre-configured requests I exported from [Insomnia](http://insomnia.rest/) in [`./insomnia_requests.yaml`](./insomnia_requests.yaml). That file can be imported to Insomnia again but should be compatible with Postman as well, see [doc](https://support.insomnia.rest/article/172-importing-and-exporting-data).
+
+## Staging
+
+Everytime you push a commit to branch `origin/stage` the new Version gets deployed to [stage.decarb.website](https://stage.decarb.wesbite) by the [`./.github/workflows/staging-deployment.yml`](./.github/workflows/staging-deployment.yml) workflow.
+
+> For further information on how the Stage works and is setup, see [`./stage-server-setup.md`](./stage-server-setup.md)
+
+## Stripe
+
+Default Credit Card Number for Testing: `4242 4242 4242 4242`. The rest can be made up.

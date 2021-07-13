@@ -1,18 +1,26 @@
 <template>
-    <footer class="bx--row">
-        <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p>© {{ year }} Eco Web</p>
-        </div>
-        <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="imprint">Imprint</CvLink></p>
-        </div>
-        <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
-            <p><CvLink to="data-privacy">Data privacy</CvLink></p>
-        </div>
-        <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-4">
+    <footer>
+        <p class="footer--text">
+            <span class="footer--text-section">{{
+                $t('c.footer.minimal.copyright', { year })
+            }}</span>
+            <span class="footer--text-section"
+                ><CvLink :to="localeRoute('legal-imprint')" size="sm">
+                    {{ $t('c.footer.minimal.imprint') }}
+                </CvLink></span
+            >
+            <span class="footer--text-section"
+                ><CvLink :to="localeRoute('legal-data-privacy')" size="sm">
+                    {{ $t('c.footer.minimal.dataPrivacy') }}
+                </CvLink></span
+            >
             <!-- TODO: Change link to "open cookie modal" -->
-            <p><CvLink to="data-privacy">Cookie Settings</CvLink></p>
-        </div>
+            <span class="footer--text-section"
+                ><CvLink :to="localeRoute('legal-data-privacy')" size="sm">
+                    {{ $t('c.footer.minimal.cookieSettings') }}
+                </CvLink></span
+            >
+        </p>
     </footer>
 </template>
 
@@ -27,23 +35,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
+.footer--text {
+    width: 100%;
+    max-width: unset;
+    @include decarb--type-style('helper-text-01');
 
-footer {
-    margin-top: $spacing-13;
-}
+    &-section {
+        display: inline-block;
+        margin-bottom: $spacing-03;
 
-p {
-    @include carbon--type-style('body-short-01');
-}
-
-.bx--link {
-    margin-bottom: $spacing-03;
-}
-
-@media (min-width: 1056px) {
-    .bx--link {
-        margin-bottom: 0;
+        & + .footer--text-section {
+            margin-left: $spacing-03;
+            &::before {
+                content: ' · ';
+                margin-right: $spacing-03;
+            }
+        }
     }
 }
 </style>

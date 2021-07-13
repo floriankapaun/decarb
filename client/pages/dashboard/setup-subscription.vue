@@ -1,12 +1,20 @@
 <template>
-    <section class="bx--row">
-        <div
-            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 mb-07"
-        >
-            <h1>Setup your offsetting subscription</h1>
-            <CvForm>
-                <legend class="bx--label">Payment Interval</legend>
-                <CvRadioGroup :vertical="false">
+    <MinimalForm :title="$t('p.dashboard.setupSubscription.h1')">
+        <template v-if="price" #text>
+            {{
+                $t('p.dashboard.setupSubscription.text', {
+                    price,
+                    interval: intervalNoun,
+                })
+            }}
+        </template>
+
+        <template #form>
+            <CvForm class="mb-sm">
+                <legend class="bx--label">
+                    {{ $t('p.dashboard.setupSubscription.legend') }}
+                </legend>
+                <CvRadioGroup class="mb-xs" :vertical="false">
                     <CvRadioButton
                         v-model="paymentInterval"
                         name="paymentInterval"
@@ -22,40 +30,68 @@
                         :hide-label="false"
                     />
                 </CvRadioGroup>
-                <p>
-                    The length of each billing period.
+                <p class="bx--label">
                     {{
                         paymentInterval === $config.ENUMS.paymentInterval[1]
-                            ? 'For websites with more than 10.000 pageviews per month we recommend to pay monthly.'
+                            ? $t('p.dashboard.setupSubscription.recommendation')
                             : null
                     }}
                 </p>
             </CvForm>
-            <p>This will cost ${{ price }} per month.</p>
-            <p>
-                Text about what this all means and some explanation about terms
-                of ending your subscription and such stuff.
+
+            <CvButton class="mb-md" @click="handleSubmit"
+                >Create Subscription</CvButton
+            >
+        </template>
+
+        <template #helper>
+            <p class="helper-text">
+                {{ $t('p.dashboard.setupSubscription.legal') }}
             </p>
-            <CvButton @click="handleSubmit">Create Subscription</CvButton>
-            <p>
-                When clicking on this button you accept our
-                <NuxtLink to="/terms">terms and conditions</NuxtLink>.
-            </p>
-        </div>
-    </section>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+    name: 'DashboardSetupSubscription',
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/setup-subscription',
+        },
+    },
     middleware: ['auth'],
     data() {
         return {
             stripe: undefined,
             paymentInterval: this.$config.ENUMS.paymentInterval[0],
         }
+    },
+    async fetch({ store }) {
+        if (
+            store.getters['domains/getSelectedDomain'] &&
+            store.getters['domains/getEmissionEstimation'] &&
+            store.getters['domains/getSelectedDomain']?.id ===
+                store.getters['domains/getEmissionEstimation']?.id
+        ) {
+            return
+        }
+        if (!store.getters['domains/getSelectedDomain']) {
+            if (!store.getters['auth/getUser']) {
+                await store.dispatch('auth/fetchUser')
+            }
+            await store.dispatch(
+                'domains/fetchUserDomains',
+                store.getters['auth/getUser'].id
+            )
+        }
+        await store.dispatch(
+            'domains/fetchEmissionEstimation',
+            store.getters['domains/getSelectedDomain'].id
+        )
     },
     head() {
         return {
@@ -75,16 +111,33 @@ export default {
             getUser: 'auth/getUser',
             getSelectedDomain: 'domains/getSelectedDomain',
             getSubscription: 'subscriptions/getSubscription',
+            getEmissionEstimation: 'domains/getEmissionEstimation',
         }),
         selectedDomain() {
             return this.getSelectedDomain
         },
         price() {
-            // TODO: Implement price calculation
-            return (12.4).toFixed(2)
+            const kg = this.getEmissionEstimation?.kilograms
+            if (!kg) return null
+            const monthlyCosts =
+                (kg * this.$config.STRIPE_CENTS_PER_KG_CO2E) / 100
+            if (
+                this.paymentInterval === this.$config.ENUMS.paymentInterval[0]
+            ) {
+                return monthlyCosts.toFixed(2)
+            }
+            return (monthlyCosts * 12).toFixed(2)
         },
         priceId() {
             return this.$config.STRIPE_PRICE_ID[this.paymentInterval]
+        },
+        intervalNoun() {
+            if (
+                this.paymentInterval === this.$config.ENUMS.paymentInterval[0]
+            ) {
+                return this.$t('p.dashboard.setupSubscription.month')
+            }
+            return this.$t('p.dashboard.setupSubscription.year')
         },
     },
     methods: {
@@ -119,15 +172,15 @@ export default {
             const subscriptionId = this.getSubscription.id
             if (!subscriptionId)
                 console.warn('No subscription ID. This should never happen.')
-            // FIXME: Doesn't make sense that way. Init should only be called once
             // Returning doesn't make sense either
-            const stripe = this.initStripe()
-            if (!stripe) return console.warn('Stripe setup failed')
+            await this.initStripe()
+            if (!this.stripe) return console.warn('Stripe setup failed')
             // Create Checkout Session
             await this.createCheckoutSession({
                 email: this.getUser.email,
                 priceId: this.priceId,
                 subscriptionId,
+                domainId: this.getSelectedDomain.id,
             })
             // Check if Checkout Session was created successfully
             if (!this.getCheckoutSessionId) {
@@ -136,7 +189,7 @@ export default {
                 )
             }
             // Redirect User to Stripe Checkout Session
-            // TODO: This might fail --> Add Error Handling (actually to whole file)
+            // OPTIMIZE: It never did, but this could fail --> Add Error Handling (actually to whole file)
             this.stripe.redirectToCheckout({
                 sessionId: this.getCheckoutSessionId,
             })

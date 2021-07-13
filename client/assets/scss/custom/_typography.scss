@@ -1,0 +1,118 @@
+/**
+ * Minor adaptions to @carbon/type styles
+ */
+
+$decarb-helper-text-01: (
+    font-size: carbon--type-scale(1),
+    line-height: 1.34,
+    letter-spacing: 0.32px,
+) !default;
+
+$decarb-body-short-01: (
+    font-size: 0.875rem,
+    font-weight: 400,
+    line-height: 1.29,
+    letter-spacing: 0.16px,
+) !default;
+
+$decarb-body-short-02: (
+    font-size: 1rem,
+    font-weight: 400,
+    line-height: 1.375,
+    letter-spacing: 0,
+) !default;
+
+$decarb-productive-heading-03: (
+    font-size: 1.25rem,
+    font-weight: 400,
+    line-height: 1.4,
+    letter-spacing: 0,
+) !default;
+
+$decarb-productive-heading-07: (
+    font-size: 3.375rem,
+    font-weight: 300,
+    line-height: 1.19,
+    letter-spacing: 0,
+) !default;
+
+$decarb-expressive-heading-03: (
+    font-size: carbon--type-scale(5),
+    font-weight: $fontWeightNormal,
+    line-height: 1.45,
+    letter-spacing: 0,
+    max-width: 44ch,
+    breakpoints: (
+        xlg: (
+            font-size: carbon--type-scale(5),
+            line-height: 1.4,
+        ),
+        max: (
+            font-size: carbon--type-scale(6),
+            line-height: 1.4,
+        ),
+    ),
+) !default;
+
+$decarb-expressive-heading-06: (
+    font-size: carbon--type-scale(8),
+    font-weight: carbon--font-weight('semibold'),
+    line-height: 1.25,
+    letter-spacing: 0,
+    breakpoints: (
+        md: (
+            font-size: carbon--type-scale(9),
+            line-height: 1.22,
+        ),
+        lg: (
+            font-size: carbon--type-scale(10),
+            line-height: 1.19,
+        ),
+        xlg: (
+            font-size: carbon--type-scale(11),
+            line-height: 1.17,
+        ),
+        max: (
+            font-size: carbon--type-scale(13),
+        ),
+    ),
+) !default;
+
+$decarb-display-04: (
+    font-size: carbon--type-scale(9),
+    font-weight: $fontWeightBold,
+    line-height: 1.12,
+    letter-spacing: 0,
+    breakpoints: (
+        md: (
+            font-size: carbon--type-scale(11),
+            line-height: 1.03,
+        ),
+        lg: (
+            font-size: carbon--type-scale(14),
+            line-height: 1.02,
+            letter-spacing: -0.64px,
+        ),
+        xlg: (
+            font-size: carbon--type-scale(17),
+            line-height: 1,
+            letter-spacing: -0.64px,
+        ),
+        max: (
+            font-size: carbon--type-scale(20),
+            line-height: 0.975,
+            letter-spacing: -0.96px,
+        ),
+    ),
+) !default;
+
+$decarbTypeStyles: (
+    helper-text-01: $decarb-helper-text-01,
+    body-short-01: $decarb-body-short-01,
+    body-short-02: $decarb-body-short-02,
+    productive-heading-03: $decarb-productive-heading-03,
+    productive-heading-07: $decarb-productive-heading-07,
+    expressive-heading-03: $decarb-expressive-heading-03,
+    expressive-heading-06: $decarb-expressive-heading-06,
+    display-04: $decarb-display-04,
+);

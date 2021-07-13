@@ -1,14 +1,17 @@
 const jobs = [
     {
-        name: 'remove-unverified-users',
-        path: './src/jobs/remove-unverified-users.js',
-        cron: '00 03 * * *', // Every day at 03:00
+        name: 'recordEmissionAmout',
+        path: './src/jobs/recordEmissionAmount.js',
+        cron: '45 02 * * *', // Every day at 02:45
     },
     {
-        name: 'offset',
-        path: './src/jobs/offset.js',
-        interval: '3600s'
+        name: 'removeUnverifiedUsers',
+        path: './src/jobs/removeUnverifiedUsers.js',
+        cron: '30 02 * * *', // Every day at 02:30
     },
+    // TODO: Implement Job to remove unverified Domains
+    // Therefore Upgrade Prisma to get access to the new Cascading logic
+    // See: https://github.com/prisma/prisma/releases/tag/2.26.0
 ];
 
 export default jobs;

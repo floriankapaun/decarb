@@ -1,4 +1,4 @@
-import { saveFetch } from '@/utils/helpers'
+import saveFetch from '@/utils/saveFetch'
 
 export default {
     register: async (context, domainData) => {
@@ -18,7 +18,10 @@ export default {
         const { commit } = context
         commit('setIsLoading', true)
         const data = await saveFetch(context, 'GET', `/users/${userId}/domains`)
-        if (data && data.data) commit('setUserDomains', data.data)
+        if (data && data.data) {
+            commit('setUserDomains', data.data)
+            commit('setSelectedDomainIfUndefined', data.data)
+        }
         commit('setIsLoading', false)
     },
     setSelectedDomain: ({ commit }, domain) => {
@@ -38,6 +41,48 @@ export default {
             'POST',
             `/domains/${domainId}/ownership-verification`
         )
+        commit('setIsLoading', false)
+    },
+    fetchDomainPages: async (context, domainId) => {
+        const { commit } = context
+        commit('setIsLoading', true)
+        const data = await saveFetch(
+            context,
+            'GET',
+            `/domains/${domainId}/pages`
+        )
+        if (data && data.data) {
+            commit('setDomainPages', data.data)
+        }
+        commit('setIsLoading', false)
+    },
+    fetchDomainPublicProfile: async (context, domainUrl) => {
+        const { commit } = context
+        commit('setIsLoading', true)
+        const data = await saveFetch(
+            context,
+            'GET',
+            `/domains/${domainUrl}/profile`
+        )
+        if (data && data.data) {
+            commit('setDomainPublicProfile', data.data)
+        }
+        commit('setIsLoading', false)
+    },
+    fetchEmissionEstimation: async (context, domainId) => {
+        const { commit } = context
+        commit('setIsLoading', true)
+        const response = await saveFetch(
+            context,
+            'GET',
+            `/domains/${domainId}/emission-estimation`
+        )
+        if (response?.data?.kilograms) {
+            commit('setEmissionEstimation', {
+                id: domainId,
+                kilograms: response.data.kilograms,
+            })
+        }
         commit('setIsLoading', false)
     },
 }

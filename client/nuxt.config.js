@@ -4,7 +4,7 @@ import * as privateConfig from './config/private'
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
-        title: 'eco-web-client',
+        title: `${publicConfig.PROJECT_NAME} | Decarbonized Websites`,
         meta: [
             { charset: 'utf-8' },
             {
@@ -18,7 +18,7 @@ export default {
 
     // Server configuration
     server: {
-        host: '0.0.0.0',
+        host: privateConfig.INTERFACE,
         port: privateConfig.PORT,
     },
 
@@ -43,12 +43,19 @@ export default {
         '@nuxtjs/eslint-module',
         // https://go.nuxtjs.dev/stylelint
         '@nuxtjs/stylelint-module',
+        // https://github.com/Developmint/nuxt-purgecss
+        // TODO: Setup a working configuration. Its currently destroying styles.
+        // 'nuxt-purgecss',
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
         // https://go.nuxtjs.dev/pwa
         '@nuxtjs/pwa',
+        // https://www.npmjs.com/package/@nuxtjs/style-resources
+        '@nuxtjs/style-resources',
+        // https://i18n.nuxtjs.org
+        'nuxt-i18n',
     ],
 
     // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -58,6 +65,43 @@ export default {
         },
     },
 
+    // Global accessible Style Ressources – enabled by module @nuxtjs/style-resources
+    styleResources: {
+        scss: ['~/assets/scss/global.scss'],
+    },
+
+    // Multi-Language Settings
+    i18n: {
+        defaultLocale: 'en',
+        langDir: 'lang/',
+        lazy: true,
+        locales: [
+            {
+                code: 'en',
+                file: 'en.js',
+                iso: 'en-US',
+            },
+        ],
+        parsePages: true,
+        seo: false, // Recommended to do on layout-level: https://i18n.nuxtjs.org/seo/#improving-performance
+        // I must use this strategy because of a Bug I reported on GitHub already
+        // See: https://github.com/nuxt-community/i18n-module/issues/1171
+        strategy: 'prefix_and_default',
+        vueI18n: {
+            dateTimeFormats: {
+                en: {
+                    short: {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                    },
+                },
+            },
+        },
+    },
+
     // Build Configuration: https://go.nuxtjs.dev/config-build
-    build: {},
+    build: {
+        extractCSS: true,
+    },
 }

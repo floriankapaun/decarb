@@ -1,18 +1,54 @@
 <template>
-    <div>
-        <HeaderMinimal />
-        <CvContent id="#main-content" class="bx--grid">
-            <NotificationsMinimal />
-            <Nuxt />
-            <FooterMinimal />
-        </CvContent>
-    </div>
+    <main class="minimal--wrapper">
+        <CvTile class="minimal--tile">
+            <HeaderMinimal />
+            <Nuxt keep-alive />
+        </CvTile>
+        <FooterMinimal class="minimal--footer" />
+    </main>
 </template>
 
-<style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
+<script>
+export default {
+    name: 'LayoutMinimal',
+    head() {
+        return this.$nuxtI18nHead({ addSeoAttributes: true })
+    },
+}
+</script>
 
-.bx--content {
-    background-color: $ui-02;
+<style lang="scss" scoped>
+.minimal {
+    &--wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        @include carbon--breakpoint(md) {
+            padding: $spacing-07;
+        }
+    }
+
+    &--tile,
+    &--footer {
+        width: 100%;
+        @include carbon--breakpoint(md) {
+            max-width: 30rem;
+            padding: $spacing-07;
+        }
+    }
+
+    &--tile {
+        padding-top: $spacing-07;
+        padding-bottom: $spacing-07;
+    }
+
+    &--footer {
+        padding: $spacing-05;
+        @include carbon--breakpoint(md) {
+            padding: $spacing-07;
+        }
+    }
 }
 </style>

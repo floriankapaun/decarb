@@ -9,21 +9,9 @@ for (let page of pages) {
     const fakePageViewEmissions = {
         id: faker.datatype.uuid(),
         pageId: page.id,
-        fileSize: faker.datatype.number({
-            min: config.minFileSize,
-            max: config.maxFileSize,
-        }),
-        internalRequests: faker.datatype.number({
-            min: config.minInternalRequests,
-            max: config.maxInternalRequests,
-        }),
-        externalRequests: faker.datatype.number({
-            min: config.minExternalRequests,
-            max: config.maxExternalRequests,
-        }),
-        emissionMilligrams: faker.datatype.number({
-            min: config.minEmissionMilligrams,
-            max: config.maxEmissionMilligrams,
+        byte: faker.datatype.number({
+            min: config.minByte,
+            max: config.maxByte,
         }),
     }
     pageViewEmissions.push(fakePageViewEmissions)

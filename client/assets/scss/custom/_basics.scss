@@ -1,0 +1,56 @@
+h1, h2, h3 {
+    font-weight: $fontWeightBold;
+}
+
+h1 {
+    margin-bottom: $spacing-06;
+    @include decarb--type-style('expressive-heading-06');
+}
+
+p {
+    max-width: 45ch;
+}
+
+p > code,
+span > code {
+    font-size: carbon--type-scale(2);
+    background-color: $field;
+    padding: $spacing-01 $spacing-02;
+    border-radius: $borderRadiusXs;
+}
+
+.helper-text {
+    @include decarb--type-style('helper-text-01');
+}
+
+.mb-06 {
+    margin-bottom: $spacing-06;
+}
+
+.mb-xs {
+    margin-bottom: $spacing-03;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-04;
+    }
+}
+
+.mb-sm {
+    margin-bottom: $spacing-05;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-07;
+    }
+}
+
+.mb-md {
+    margin-bottom: $spacing-06;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-09;
+    }
+}
+
+.mb-lg {
+    margin-bottom: $spacing-07;
+    @include carbon--breakpoint(md) {
+        margin-bottom: $spacing-10;
+    }
+}

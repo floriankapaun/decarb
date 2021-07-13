@@ -6,4 +6,7 @@ export default {
     setSubscription: (state, subscription) => {
         return (state.subscription = subscription)
     },
+    setPortalSessionUrl: (state, portalSessionUrl) => {
+        return (state.portalSessionUrl = portalSessionUrl)
+    },
 }

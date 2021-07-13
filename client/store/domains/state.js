@@ -3,4 +3,7 @@ export default () => ({
     domains: undefined,
     userDomains: undefined,
     selectedDomain: undefined,
+    domainPages: undefined,
+    domainPublicProfile: undefined,
+    emissionEstimation: undefined,
 })

@@ -1,36 +1,33 @@
 <template>
-    <section class="bx--row">
-        <div
-            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 mb-07"
-        >
-            <h1>Tracking Code</h1>
-            <p>
-                Copy the eco web tag and paste it into the
-                <code>&lt;head&gt;</code> section of the HTML code. If you are
-                using a website builder like Wordpress or Shopify, copy the tag
-                and paste it into the appropriate custom HTML code field.
-            </p>
-        </div>
-        <div
-            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4 mb-07"
-        >
-            <TrackingCode />
-        </div>
-        <div
-            class="bx--col-sm-4 bx--offset-md-2 bx--col-md-4 bx--col-lg-8 bx--offset-xlg-6 bx--col-xlg-4"
-        >
-            <p class="mb-05">
-                Make sure to verify if your implementation was successfull.
-            </p>
-            <VerifyDomainOwnershipButton @verified="handleVerified" />
-        </div>
-    </section>
+    <MinimalForm :title="$t('p.dashboard.verifyDomainOwnership.h1')">
+        <template #text>
+            <span v-html="$t('p.dashboard.verifyDomainOwnership.p1')"></span>
+        </template>
+
+        <template #form>
+            <TrackingCode :light="true" class="mb-sm" />
+            <VerifyDomainOwnershipButton
+                class="mb-md"
+                @verified="handleVerified"
+            />
+        </template>
+    </MinimalForm>
 </template>
 
 <script>
 export default {
+    name: 'DashboardVerifyDomainOwnership',
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/dashboard/verify-domain-ownership',
+        },
+    },
     middleware: ['auth'],
+    async fetch({ store }) {
+        // Make sure the current User with its newly registered Domain is fetched for auth reasons
+        await store.dispatch('auth/fetchUser')
+    },
     methods: {
         handleVerified() {
             this.$router.push({ path: `/dashboard/first-estimation` })
@@ -38,15 +35,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
-
-.mb-05 {
-    margin-bottom: $spacing-05;
-}
-
-.mb-07 {
-    margin-bottom: $spacing-07;
-}
-</style>

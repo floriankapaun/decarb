@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import { PORT, API_PREFIX } from './config/index.js';
+import { PORT, API_PREFIX, CLIENT_ENTRYPOINT, MODE } from './config/index.js';
 import routes from './routes/index.js';
 import verifyRequest from './utils/verifyRequest.js';
 // Importing the subscribers is enough to make them listen
@@ -13,12 +13,16 @@ export default () => {
     const app = express();
 
     app.use(express.json({ verify: verifyRequest }))
-        .use(cors())
+        // Allow global CORS for Client
+        .use(cors(MODE === 'development' ? {
+            origin: CLIENT_ENTRYPOINT,
+            credentials: true,
+        } : null))
         // Routes must be defined last, to make sure the error handler (defined inside)
         // is included in the last use() call.
         .use(API_PREFIX, routes());
     
     app.listen(PORT, () => {
-        console.log(`Worker ${process.pid} started listening on http://localhost:${PORT}`);
+        console.info(`Worker ${process.pid} started listening on http://localhost:${PORT}`);
     });
 };

@@ -1,31 +1,37 @@
 <template>
-    <CvHeader aria-label="Eco Web header">
-        <CvSkipToContent href="#main-content">Skip to content</CvSkipToContent>
-        <CvHeaderName to="/">
-            <Logo />
-        </CvHeaderName>
-    </CvHeader>
+    <header class="minimal--header">
+        <NuxtLink :to="destination" class="minimal--logo--link">
+            <Logo class="minimal--logo" color="black" />
+        </NuxtLink>
+    </header>
 </template>
 
+<script>
+export default {
+    computed: {
+        destination() {
+            if (
+                this.$route.fullPath === '/login' ||
+                this.$route.fullPath === '/register'
+            ) {
+                return this.localeRoute('index')
+            }
+            return this.localeRoute('dashboard')
+        },
+    },
+}
+</script>
+
 <style lang="scss" scoped>
-@import '@/assets/scss/carbon-utils';
+.minimal {
+    &--header {
+        margin-bottom: $spacing-06;
+    }
 
-.bx--header {
-    // background-color: transparent;
-    background-color: #004335;
-    // border-bottom: 1px solid transparent;
-    border-bottom: 1px solid #016752;
-    justify-content: center;
-
-    &__name {
-        padding-left: $spacing-05;
-        padding-right: $spacing-05;
-
-        svg {
-            // fill: #004335;
-            fill: white;
-            max-height: $spacing-07;
-        }
+    &--logo {
+        max-width: $spacing-07;
+        height: auto !important;
+        margin-left: $spacing-01;
     }
 }
 </style>

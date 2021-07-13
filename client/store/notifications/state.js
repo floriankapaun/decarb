@@ -1,4 +1,3 @@
 export default () => ({
-    minimalNotifications: [],
-    dashboardNotifications: [],
+    notifications: [],
 })

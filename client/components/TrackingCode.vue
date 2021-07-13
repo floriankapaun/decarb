@@ -2,14 +2,16 @@
     <CvCodeSnippetSkeleton
         v-if="isLoading"
         kind="multiline"
+        :light="light"
     ></CvCodeSnippetSkeleton>
     <CvCodeSnippet
         v-else
         kind="multiline"
-        copy-feedback="Content copied!"
-        less-text="Show less"
-        more-text="Show more"
+        :copy-feedback="$t('c.trackingCode.copyFeedback')"
+        :less-text="$t('c.trackingCode.showLess')"
+        :more-text="$t('c.trackingCode.showMore')"
         :wrap-text="true"
+        :light="light"
         >{{ code }}</CvCodeSnippet
     >
 </template>
@@ -18,11 +20,17 @@
 /* eslint-disable no-useless-escape */
 
 export default {
+    props: {
+        light: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
         return {
             isLoading: false,
-            code: `<!-- Eco Web -->
-<script src="https://eco-website.comco-website.comco-website.com/script.js"><\/script>`,
+            code: `<!-- ${this.$config.PROJECT_NAME} Ping Script -->
+<script src="${this.$config.PING_SCRIPT_URL}" async><\/script>`,
         }
     },
 }

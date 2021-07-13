@@ -2,17 +2,28 @@
     <div>
         <HeaderPublic />
         <CvContent id="#main-content">
-            <Nuxt />
+            <Nuxt keep-alive />
             <FooterPublic />
         </CvContent>
     </div>
 </template>
 
-<style lang="scss">
-@import '@/assets/scss/carbon';
-@import '@/assets/scss/carbon-utils';
+<script>
+export default {
+    name: 'LayoutDefault',
+    head() {
+        return this.$nuxtI18nHead({ addSeoAttributes: true })
+    },
+}
+</script>
 
+<style lang="scss">
+@import '@/assets/scss/index';
+</style>
+
+<style lang="scss" scoped>
 .bx--content {
     background-color: $ui-02;
+    padding: 0;
 }
 </style>

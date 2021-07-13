@@ -15,7 +15,6 @@ model User {
   email              String       @unique @db.VarChar(50)
   verificationCode   Int          @map("verification_code")
   password           String?      @db.VarChar(255)
-  telephone          String?      @db.VarChar(35)
   refreshToken       String?      @unique @map("refresh_token") @db.Uuid
   refreshTokenExpiry DateTime?    @map("refresh_token_expiry")
   createdAt          DateTime     @default(now()) @map("created_at")
@@ -29,7 +28,7 @@ model User {
 model Domain {
   id                        String                  @id @default(uuid()) @db.Uuid
   url                       String                  @unique @db.VarChar(50)
-  companyName               String?                 @unique @map("company_name") @db.VarChar(100)
+  companyName               String?                 @map("company_name") @db.VarChar(100)
   estimatedMonthlyPageViews Int                     @default(10000) @map("estimated_monthly_page_views")
   createdAt                 DateTime                @default(now()) @map("created_at")
   verifiedAt                DateTime?               @map("verified_at")
@@ -80,16 +79,12 @@ model Page {
 }
 
 model PageViewEmission {
-  id                 String     @id @default(uuid()) @db.Uuid
-  Page               Page       @relation(fields: [pageId], references: [id])
-  pageId             String     @map("page_id") @db.Uuid
-  // FIXME: The following 4 lines are bullshit... refactor and check out ecoping therefore
-  emissionMilligrams Int        @map("emission_milligrams")
-  fileSize           Int        @map("file_size")
-  internalRequests   Int        @map("internal_requests")
-  externalRequests   Int        @map("external_requests")
-  createdAt          DateTime   @default(now()) @map("created_at")
-  pageViews          PageView[]
+  id        String     @id @default(uuid()) @db.Uuid
+  page      Page       @relation(fields: [pageId], references: [id])
+  pageId    String     @map("page_id") @db.Uuid
+  byte      Int        @map("byte")
+  createdAt DateTime   @default(now()) @map("created_at")
+  pageViews PageView[]
 
   @@map("page_view_emissions")
 }
@@ -100,9 +95,12 @@ model PageView {
   pageId             String           @map("page_id") @db.Uuid
   pageViewEmission   PageViewEmission @relation(fields: [pageViewEmissionId], references: [id])
   pageViewEmissionId String           @map("page_view_emission_id") @db.Uuid
-  windowWidth        Int              @map("window_width")
-  windowHeight       Int              @map("window_height")
-  connectionType     String           @map("connection_type") @db.VarChar(20)
+  windowWidth        Int?             @map("window_width")
+  windowHeight       Int?             @map("window_height")
+  connectionType     String?          @map("connection_type") @db.VarChar(20)
+  uncachedVisit      Boolean?         @map("uncached_visit")
+  byte               Int
+  wh                 Float            @db.Real
   createdAt          DateTime         @default(now()) @map("created_at")
 
   @@map("page_views")
@@ -113,7 +111,7 @@ model Badge {
   domain      Domain           @relation(fields: [domainId], references: [id])
   domainId    String           @map("domain_id") @db.Uuid
   colorscheme BadgeColorscheme @default(COLOR)
-  type        BadgeType        @default(HORIZONTAL)
+  type        BadgeType        @default(DEFAULT)
 
   @@map("badges")
 }
@@ -127,8 +125,8 @@ model Offset {
   from            DateTime
   until           DateTime
   offsetType      OffsetType     @default(CARBON_OFFSET) @map("offset_type")
-  offsetKilograms Int            @map("offset_kilograms")
-  price           Int?
+  offsetKilograms Int            @default(0) @map("offset_kilograms")
+  cents           Int?
   currency        Currency       @default(EUR)
   purchaseStatus  PurchaseStatus @default(PENDING) @map("purchase_status")
   createdAt       DateTime       @default(now()) @map("created_at")
@@ -137,19 +135,20 @@ model Offset {
 }
 
 model Subscription {
-  id                   String          @id @default(uuid()) @db.Uuid
-  domain               Domain          @relation(fields: [domainId], references: [id])
-  domainId             String          @map("domain_id") @db.Uuid
-  paymentInterval      PaymentInterval @default(MONTHLY) @map("payment_interval")
-  offsetType           OffsetType      @map("offset_type")
-  stripeCustomerId     String?         @map("stripe_customer_id") @db.VarChar(50)
-  stripePriceId        String?         @map("stripe_price_id") @db.VarChar(50)
-  stripeSubscriptionId String?         @map("stripe_subscription_id") @db.VarChar(50)
-  currency             Currency        @default(EUR)
-  createdAt            DateTime        @default(now()) @map("created_at")
-  validTo              DateTime        @map("valid_to") // @default(now() + month or year)
-  deletedAt            DateTime?       @map("deleted_at")
-  offsets              Offset[]
+  id                       String          @id @default(uuid()) @db.Uuid
+  domain                   Domain          @relation(fields: [domainId], references: [id])
+  domainId                 String          @map("domain_id") @db.Uuid
+  paymentInterval          PaymentInterval @default(MONTHLY) @map("payment_interval")
+  offsetType               OffsetType      @map("offset_type")
+  stripeCustomerId         String?         @map("stripe_customer_id") @db.VarChar(50)
+  stripePriceId            String?         @map("stripe_price_id") @db.VarChar(50)
+  stripeSubscriptionId     String?         @unique @map("stripe_subscription_id") @db.VarChar(50)
+  stripeSubscriptionItemId String?         @unique @map("stripe_subscription_item_id") @db.VarChar(50)
+  currency                 Currency        @default(EUR)
+  createdAt                DateTime        @default(now()) @map("created_at")
+  validTo                  DateTime        @map("valid_to") // @default(now() + month or year)
+  deletedAt                DateTime?       @map("deleted_at")
+  offsets                  Offset[]
 
   @@map("subscriptions")
 }
@@ -164,8 +163,7 @@ enum OffsetType {
 }
 
 enum BadgeType {
-  HORIZONTAL
-  VERTICAL
+  DEFAULT
 }
 
 enum BadgeColorscheme {

@@ -1,4 +1,4 @@
-import { saveFetch } from '@/utils/helpers'
+import saveFetch from '@/utils/saveFetch'
 
 export default {
     register: async (context, userData) => {
@@ -23,13 +23,20 @@ export default {
     setPassword: async (context, { userId, password }) => {
         const { commit } = context
         commit('isLoading', true)
-        const data = await saveFetch(
+        await saveFetch(context, 'POST', `/users/${userId}/password`, {
+            password,
+        })
+        commit('isLoading', false)
+    },
+    fetchRegistrationState: async (context, userId) => {
+        const { commit } = context
+        commit('isLoading', true)
+        const response = await saveFetch(
             context,
-            'POST',
-            `/users/${userId}/password`,
-            { password }
+            'GET',
+            `/users/${userId}/registration-state`
         )
-        if (data && data.data) commit('user', data.data)
+        if (response?.data) commit('setRegistrationState', response.data)
         commit('isLoading', false)
     },
 }

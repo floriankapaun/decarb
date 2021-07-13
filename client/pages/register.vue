@@ -1,36 +1,49 @@
 <template>
-    <main>
-        <h1>Create your eco-Web Account</h1>
-        <form name="register" @submit.prevent="handleSubmit">
-            <label for="email">E-Mail Address</label>
-            <input
-                id="email"
-                v-model="email"
-                type="email"
-                autocomplete="email"
-                placeholder="your@email.com"
-                required
+    <MinimalForm :title="$t('p.register.h1')">
+        <template #form>
+            <Form
+                class="mb-md"
+                :button-label="submitButtonLabel"
+                :button-disbaled="getIsLoading"
+                :inputs="inputs"
+                :light="true"
+                @submit="handleSubmit"
             />
-            <button type="submit" :disabled="getIsLoading">
-                {{ getIsLoading ? 'Loading...' : 'Create Account' }}
-            </button>
-        </form>
-        <p>
-            Already have an account?
-            <NuxtLink to="login">Sign in now</NuxtLink>.
-        </p>
-    </main>
+        </template>
+
+        <template #helper>
+            <i18n
+                path="p.register.helperText"
+                tag="p"
+                class="register__login-paragraph"
+            >
+                <template #link>
+                    <CvLink :to="localeRoute('login')" size="sm">
+                        {{ $t('p.register.helperTextLink') }}
+                    </CvLink>
+                </template>
+            </i18n>
+        </template>
+    </MinimalForm>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import { email } from '@/config/public/inputs'
+
 export default {
+    name: 'Register',
     layout: 'minimal',
+    nuxtI18n: {
+        paths: {
+            en: '/register',
+        },
+    },
     middleware: ['guest'],
     data() {
         return {
-            email: '',
+            inputs: [email],
         }
     },
     computed: {
@@ -38,20 +51,42 @@ export default {
             getIsLoading: 'users/isLoading',
             getUser: 'users/user',
         }),
+        submitButtonLabel() {
+            if (this.getIsLoading) {
+                return this.$t('p.register.submitButtonLoading')
+            }
+            return this.$t('p.register.submitButton')
+        },
     },
     methods: {
         ...mapActions({
+            fetchUser: 'auth/fetchUser',
             register: 'users/register',
         }),
-        async handleSubmit() {
-            await this.register({ email: this.email })
+        async handleSubmit(eventData) {
+            const { email } = eventData
+            if (!email) return false
+            await this.register({ email })
             if (this.getUser) {
-                return this.$router.push({
-                    path: `/users/${this.getUser.id}/verify-email`,
-                })
+                return this.$router.push(
+                    this.localeRoute(`/users/${this.getUser.id}/verify-email`)
+                )
             }
-            // OPTIMIZE: Maybe apply some error styling
         },
     },
 }
 </script>
+
+<style lang="scss" scoped>
+.register {
+    &__wrapper {
+        padding-top: $spacing-05;
+        padding-bottom: $spacing-05;
+        margin-bottom: $spacing-10;
+    }
+
+    &__login-paragraph {
+        @include decarb--type-style('helper-text-01');
+    }
+}
+</style>

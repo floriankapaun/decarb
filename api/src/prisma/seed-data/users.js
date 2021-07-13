@@ -11,7 +11,6 @@ const users = async () => {
             id: faker.datatype.uuid(),
             email: faker.internet.email(),
             password: await argon2.hash(config.defaultUserPassword),
-            telephone: faker.phone.phoneNumber(),
             verificationCode: faker.datatype.number({ min: 100000, max: 999999 }),
             createdAt: new Date(),
             verifiedAt: new Date(),

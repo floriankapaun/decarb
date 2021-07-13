@@ -1,0 +1,169 @@
+/**
+ * Global Carbon Style Overwrite
+ */
+
+// IBM Plex Font Overwrite
+// NOTE: As of now Carbon Design System does not provide a way to do this "cleaner"
+body,
+.bx--btn--copy__feedback,
+.bx--snippet .bx--copy-btn,
+.bx--snippet-btn--expand {
+    font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+}
+
+// Header
+.bx--skip-to-content {
+    border-radius: $borderRadiusSm;
+
+    &:focus {
+        background-color: $green;
+        border-color: $paper;
+    }
+}
+
+a.bx--header__name {
+    border-radius: $borderRadiusSm;
+}
+
+a.bx--header__menu-item{
+    color: $paper;
+    border-radius: $borderRadiusSm;
+
+    &:hover {
+        background-color: $green-700;
+        color: $paper;
+    }
+}
+
+.bx--header__action:hover {
+    background-color: $green-700;
+}
+
+.bx--tooltip__trigger.bx--tooltip--bottom {
+    .bx--assistive-text {
+        overflow: hidden;
+        margin: -1px;
+        clip: rect(0, 0, 0, 0);
+    }
+}
+
+// CvButton Component
+.bx--btn {
+    border-radius: $borderRadiusSm;
+
+    &--secondary {
+        color: $ink;
+
+        &:hover,
+        &:focus {
+            color: $ink;
+        }
+
+        &:focus {
+            border-color: $paper;
+            box-shadow: inset 0 0 0 2px $green, inset 0 0 0 3px $paper;
+        }
+
+        &:focus:active {
+            box-shadow: inset 0 0 0 2px $green, inset 0 0 0 3px $gray-300;
+        }
+    }
+}
+
+// CvTextInput Component
+.bx--text-input {
+    height: $spacing-09;
+    border-radius: $borderRadiusSm;
+    @include decarb--type-style('body-short-02');
+
+    &--password__visibility__toggle {
+        width: $spacing-09;
+    }
+
+    &:focus,
+    &:active {
+        outline: none;
+        box-shadow: 0 0 0 2px $green;
+        border-bottom: 1px solid $ui-01;
+    }
+}
+
+.bx--password-input {
+    padding-right: $spacing-09;
+}
+
+// CvNumberInput Component
+button.bx--number__control-btn {
+    max-width: $spacing-10;
+    height: auto;
+    align-self: normal;
+    background-color: $paper;
+
+    &.up-icon {
+        border-top-right-radius: $borderRadiusSm;
+        border-bottom-right-radius: $borderRadiusSm;
+    }
+}
+
+.bx--number__input-wrapper {
+    margin-top: $spacing-02;
+}
+
+.bx--number input[type='number'] {
+    height: $spacing-09;
+    border-top-left-radius: $borderRadiusSm;
+    border-bottom-left-radius: $borderRadiusSm;
+    @include decarb--type-style('body-short-02');
+
+    &:focus,
+    &:active {
+        outline: none;
+        box-shadow: 0 0 0 2px $green;
+        border-bottom: 1px solid $ui-01;
+    }
+}
+
+// CvSelect Component
+.bx--select-input {
+    border-radius: $borderRadiusSm;
+
+    &:focus,
+    &:active {
+        outline: none;
+        box-shadow: 0 0 0 2px $green;
+        border-bottom: 1px solid $ui-01;
+    }
+}
+
+// CvTile Component
+.bx--tile {
+    border-radius: $borderRadiusSm;
+}
+
+// CvCodeSnippet Component
+.bx--snippet {
+    border-radius: $borderRadiusSm;
+
+    /* stylelint-disable no-descending-specificity */
+    .bx--copy-btn {
+        z-index: 15;
+        .bx--assistive-text {
+            position: absolute;
+        }
+    }
+    /* stylelint-enable no-descending-specificity */
+    .bx--copy-btn,
+    &--multi .bx--snippet-btn--expand {
+        border-radius: $borderRadiusXs;
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px $green;
+        }
+    }
+}
+
+// CvDataTable
+.bx--data-table-container {
+    overflow: hidden;
+    border-radius: $borderRadiusSm;
+}

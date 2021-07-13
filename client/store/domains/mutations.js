@@ -5,4 +5,17 @@ export default {
     setSelectedDomain: (state, selectedDomain) => {
         return (state.selectedDomain = selectedDomain)
     },
+    setSelectedDomainIfUndefined: (state, userDomains) => {
+        if (!state.selectedDomain) {
+            return (state.selectedDomain = userDomains[0])
+        }
+        return state.selectedDomain
+    },
+    setDomainPages: (state, domainPages) => (state.domainPages = domainPages),
+    setDomainPublicProfile: (state, domainPublicProfile) => {
+        return (state.domainPublicProfile = domainPublicProfile)
+    },
+    setEmissionEstimation: (state, emissionEstimation) => {
+        return (state.emissionEstimation = emissionEstimation)
+    },
 }
