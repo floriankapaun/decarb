@@ -6,6 +6,7 @@ dotenv.config();
 export const ACCESS_TOKEN_EXPIRES = parseInt(process.env.ACCESS_TOKEN_EXPIRES ?? 15);
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const API_PREFIX = process.env.API_PREFIX;
+export const API_BASE_URL = process.env.API_BASE_URL ?? 'http://localhost:4000';
 export const CLIENT_ENTRYPOINT = process.env.CLIENT_ENTRYPOINT;
 export const DAYS_IN_MONTH = 30;
 export const DAYS_IN_YEAR = 365;

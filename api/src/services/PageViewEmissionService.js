@@ -1,12 +1,14 @@
 import fetch from 'node-fetch';
 
 import {
+    API_BASE_URL,
     MAX_INITIAL_CALCULATIONS,
     PAGESPEED_API_KEY,
     PAGESPEED_STRATEGY,
     PROJECT_SLUG,
 } from '../config/index.js';
 import AppError from '../utils/AppError.js';
+import { cleanUrl } from '../utils/url.js';
 import PrismaService from './PrismaService.js';
 
 
@@ -70,7 +72,7 @@ class PageViewEmissionService {
             if (!item.transferSize) continue;
             aggregatedTransferSize += item.transferSize;
         }
-        return aggregatedTransferSize;
+        return Math.ceil(aggregatedTransferSize);
     }
 
 
@@ -84,7 +86,10 @@ class PageViewEmissionService {
         // Run Google Pagespeed Analysis
         const query = this.setUpPagespeedQuery(page.url);
         try {
-            const results = await fetch(query).then((res) => res.json());
+            const results = await fetch(query, {
+                referer: cleanUrl(API_BASE_URL), // Must remove 'https://'
+            })
+                .then((res) => res.json());
             // Compute results
             const transferredBytes = this.getTransferredBytesFromPagespeedAnalysis(page, results);
             // Create PageViewEmission

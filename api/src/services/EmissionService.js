@@ -43,7 +43,7 @@ class EmissionService {
         if (!uncached) {
             return bytes * PERCENTAGE_OF_DATA_LOADED_CACHED
         }
-        return bytes;
+        return Math.ceil(bytes);
     }
 
 
