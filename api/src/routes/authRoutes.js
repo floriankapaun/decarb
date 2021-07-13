@@ -7,6 +7,7 @@ import isAuth from '../middlewares/isAuth.js';
 import AuthService from '../services/AuthService.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import sendResponse from '../utils/sendResponse.js';
+import { cleanUrl } from '../utils/url.js';
 
 const router = Router();
 
@@ -23,7 +24,7 @@ export default (app) => {
             httpOnly: true,
             secure: MODE === 'development' ? false : true,
             sameSite: 'Strict',
-            domain: CLIENT_ENTRYPOINT,
+            domain: cleanUrl(CLIENT_ENTRYPOINT), // must remove 'https://'
         });
         // Return accessToken in JSON Object
         return sendResponse(res, {
