@@ -23,13 +23,9 @@ export default {
     setPassword: async (context, { userId, password }) => {
         const { commit } = context
         commit('isLoading', true)
-        const data = await saveFetch(
-            context,
-            'POST',
-            `/users/${userId}/password`,
-            { password }
-        )
-        if (data && data.data) commit('user', data.data)
+        await saveFetch(context, 'POST', `/users/${userId}/password`, {
+            password,
+        })
         commit('isLoading', false)
     },
     fetchRegistrationState: async (context, userId) => {
