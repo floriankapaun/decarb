@@ -26,7 +26,8 @@
                 tag="p"
                 class="tile--content--note"
             >
-                <template #:link>
+                <!-- is not working if used #link -->
+                <template v-slot:link>
                     <a
                         class="tile--content--note-link"
                         :href="note.href"
