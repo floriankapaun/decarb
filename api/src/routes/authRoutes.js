@@ -54,7 +54,7 @@ export default (app) => {
     router.post(
         '/refresh-token',
         cookieParser(),
-        isAuth,
+        // isAuth, // TODO: Check if there is a way to test the accessTokens validity and ignore its expiry
         asyncHandler(async (req, res) => {
             // Nuxt SSR Requests send the 'refreshToken' cookie received from the client in the 'req.body'
             const refreshToken = req.cookies.refreshToken ?? req.body.refreshToken;
