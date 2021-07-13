@@ -63,7 +63,7 @@ class AuthService {
      */
     async createRefreshToken(user) {
         const refreshToken = uuidv4();
-        const refreshTokenExpiry = addMinutesToDate(new Date(), REFRESH_TOKEN_EXPIRES);
+        const refreshTokenExpiry = addMinutesToDate(new Date(), Number(REFRESH_TOKEN_EXPIRES));
         const updatedUserData = { refreshToken, refreshTokenExpiry };
         const persist = await PrismaService.update('user', user.id, updatedUserData);
         if (!persist.refreshToken || !persist.refreshTokenExpiry) {

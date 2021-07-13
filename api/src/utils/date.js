@@ -17,7 +17,7 @@ export const addDaysToDate = (date, days) => new Date(date.setDate(date.getDate(
  * 
  * @returns {Date}
  */
- export const addMinutesToDate = (date, minutes) => new Date(date.setMinutes(date.getMinutes() + minutes));
+export const addMinutesToDate = (date, minutes) => new Date(date.setMinutes(date.getMinutes() + minutes));
 
 
 /**

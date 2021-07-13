@@ -20,7 +20,7 @@ export default (app) => {
         const auth = await AuthService.login(email, password);
         // Add refreshToken cookie to response
         res.cookie('refreshToken', auth.refreshToken, {
-            expires: auth.accessTokenExpiry,
+            expires: auth.refreshTokenExpiry,
             httpOnly: true,
             secure: MODE === 'development' ? false : true,
             sameSite: 'Strict',
