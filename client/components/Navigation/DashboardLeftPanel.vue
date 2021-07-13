@@ -167,7 +167,7 @@ export default {
         }
     },
     async fetch({ store }) {
-        if (store.getters['domains/getSelectedDomain']) return
+        if (store.getters['domains/getUserDomains']) return
         if (!store.getters['auth/getUser']) {
             await store.dispatch('auth/fetchUser')
         }
