@@ -81,3 +81,7 @@ You can find some pre-configured requests I exported from [Insomnia](http://inso
 Everytime you push a commit to branch `origin/stage` the new Version gets deployed to [stage.decarb.website](https://stage.decarb.wesbite) by the [`./.github/workflows/staging-deployment.yml`](./.github/workflows/staging-deployment.yml) workflow.
 
 > For further information on how the Stage works and is setup, see [`./stage-server-setup.md`](./stage-server-setup.md)
+
+## Stripe
+
+Default Credit Card Number for Testing: `4242 4242 4242 4242`. The rest can be made up.
